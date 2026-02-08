@@ -6,7 +6,6 @@ class AppTheme {
   static ThemeData get light {
     final base = ThemeData.light();
     return base.copyWith(
-      useMaterial3: true,
       scaffoldBackgroundColor: AppColors.background,
       colorScheme: base.colorScheme.copyWith(
         primary: AppColors.primary,
@@ -62,8 +61,8 @@ class AppTheme {
       ),
       checkboxTheme: CheckboxThemeData(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
-        fillColor: MaterialStateProperty.resolveWith<Color>(
-          (states) => states.contains(MaterialState.selected)
+        fillColor: WidgetStateProperty.resolveWith<Color>(
+          (states) => states.contains(WidgetState.selected)
               ? AppColors.primary
               : AppColors.card,
         ),

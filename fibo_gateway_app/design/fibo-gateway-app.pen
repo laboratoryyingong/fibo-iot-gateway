@@ -1,12 +1,12 @@
 {
-  "version": "2.6",
+  "version": "2.7",
   "children": [
     {
       "type": "frame",
       "id": "gTitG",
-      "x": -50,
-      "y": 3846,
-      "name": "Mobile - Dashboard",
+      "x": 0,
+      "y": 1100,
+      "name": "Dashboard / Home",
       "clip": true,
       "width": 430,
       "height": 932,
@@ -1023,8 +1023,8 @@
       "type": "frame",
       "id": "DbjPy",
       "x": 530,
-      "y": 3846,
-      "name": "Mobile - Devices",
+      "y": 1100,
+      "name": "Devices / List",
       "clip": true,
       "width": 430,
       "height": 932,
@@ -2036,9 +2036,9 @@
     {
       "type": "frame",
       "id": "bMP0s",
-      "x": 1110,
-      "y": 3846,
-      "name": "Mobile - Device Detail",
+      "x": 1060,
+      "y": 1100,
+      "name": "Devices / Detail",
       "clip": true,
       "width": 430,
       "height": 932,
@@ -2656,9 +2656,9 @@
     {
       "type": "frame",
       "id": "QBsMR",
-      "x": 1690,
-      "y": 3846,
-      "name": "Mobile - Network",
+      "x": 0,
+      "y": 2200,
+      "name": "Network / Status",
       "clip": true,
       "width": 430,
       "height": 932,
@@ -3403,9 +3403,9 @@
     {
       "type": "frame",
       "id": "bc9v8",
-      "x": 2270,
-      "y": 3846,
-      "name": "Zigbee Gateway - Mobile Settings",
+      "x": 530,
+      "y": 2200,
+      "name": "Settings / Main",
       "clip": true,
       "width": 430,
       "height": 932,
@@ -4352,9 +4352,9 @@
     {
       "type": "frame",
       "id": "2f3sf",
-      "x": 2800,
-      "y": 3846,
-      "name": "Mobile - Pair Device Start",
+      "x": 0,
+      "y": 3300,
+      "name": "Pairing / Start",
       "clip": true,
       "width": 430,
       "height": 932,
@@ -4743,9 +4743,9 @@
     {
       "type": "frame",
       "id": "Tx6Ms",
-      "x": 3330,
-      "y": 3846,
-      "name": "Mobile - Searching Devices",
+      "x": 530,
+      "y": 3300,
+      "name": "Pairing / Searching",
       "clip": true,
       "width": 430,
       "height": 932,
@@ -5086,9 +5086,9 @@
     {
       "type": "frame",
       "id": "QkQps",
-      "x": 3860,
-      "y": 3846,
-      "name": "Mobile - Device Found",
+      "x": 1060,
+      "y": 3300,
+      "name": "Pairing / Device Found",
       "clip": true,
       "width": 430,
       "height": 932,
@@ -5515,9 +5515,9 @@
     {
       "type": "frame",
       "id": "uz8tk",
-      "x": 4390,
-      "y": 3846,
-      "name": "Mobile - Pairing Success",
+      "x": 1590,
+      "y": 3300,
+      "name": "Pairing / Success",
       "clip": true,
       "width": 430,
       "height": 932,
@@ -5836,8 +5836,8 @@
       "type": "frame",
       "id": "MoKu3",
       "x": 0,
-      "y": 4950,
-      "name": "Mobile - Splash",
+      "y": 0,
+      "name": "Auth / Splash",
       "clip": true,
       "width": 430,
       "height": 932,
@@ -5946,8 +5946,8 @@
       "type": "frame",
       "id": "AJUIB",
       "x": 530,
-      "y": 4950,
-      "name": "Mobile - Login",
+      "y": 0,
+      "name": "Auth / Login",
       "clip": true,
       "width": 430,
       "height": 932,
@@ -6432,8 +6432,8 @@
       "type": "frame",
       "id": "j9T3i",
       "x": 1060,
-      "y": 4950,
-      "name": "Mobile - Sign Up",
+      "y": 0,
+      "name": "Auth / Sign Up",
       "clip": true,
       "width": 430,
       "height": 932,
@@ -7002,8 +7002,8 @@
       "type": "frame",
       "id": "jMsju",
       "x": 1590,
-      "y": 4950,
-      "name": "Mobile - Forgot Password",
+      "y": 0,
+      "name": "Auth / Forgot Password",
       "clip": true,
       "width": 430,
       "height": 932,
@@ -7352,8 +7352,8 @@
       "type": "frame",
       "id": "B3CnB",
       "x": 0,
-      "y": 6050,
-      "name": "Mobile - Scenes",
+      "y": 4400,
+      "name": "Scenes / List",
       "clip": true,
       "width": 430,
       "height": 932,
@@ -8474,8 +8474,8 @@
       "type": "frame",
       "id": "mX3k9",
       "x": 530,
-      "y": 6050,
-      "name": "Mobile - Scene Detail",
+      "y": 4400,
+      "name": "Scenes / Detail",
       "clip": true,
       "width": 430,
       "height": 932,
@@ -9370,8 +9370,8 @@
       "type": "frame",
       "id": "u3eyU",
       "x": 1060,
-      "y": 6050,
-      "name": "Mobile - Add Trigger",
+      "y": 4400,
+      "name": "Scenes / Add Trigger",
       "clip": true,
       "width": 430,
       "height": 932,
@@ -9889,8 +9889,8 @@
       "type": "frame",
       "id": "ncnUE",
       "x": 1590,
-      "y": 6050,
-      "name": "Mobile - Add Action",
+      "y": 4400,
+      "name": "Scenes / Add Action",
       "clip": true,
       "width": 430,
       "height": 932,
@@ -10408,8 +10408,8 @@
       "type": "frame",
       "id": "mTnQD",
       "x": 2120,
-      "y": 6050,
-      "name": "Mobile - Select Device",
+      "y": 4400,
+      "name": "Scenes / Select Device",
       "clip": true,
       "width": 430,
       "height": 932,
@@ -11063,6 +11063,4441 @@
                   "fontFamily": "$--font-secondary",
                   "fontSize": 16,
                   "fontWeight": "600"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "w0857",
+      "x": 0,
+      "y": -80,
+      "name": "--- AUTH MODULE ---",
+      "width": 2020,
+      "height": 60,
+      "fill": "#3B82F6",
+      "cornerRadius": 12,
+      "padding": [
+        0,
+        24
+      ],
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "text",
+          "id": "l71KS",
+          "name": "authText",
+          "fill": "#FFFFFF",
+          "content": "🔐 AUTH MODULE",
+          "fontFamily": "Inter",
+          "fontSize": 24,
+          "fontWeight": "700"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "DPNJ5",
+      "x": 0,
+      "y": 1020,
+      "name": "--- DASHBOARD MODULE ---",
+      "width": 1550,
+      "height": 60,
+      "fill": "#10B981",
+      "cornerRadius": 12,
+      "padding": [
+        0,
+        24
+      ],
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "text",
+          "id": "MT8AF",
+          "name": "dashboardText",
+          "fill": "#FFFFFF",
+          "content": "📊 DASHBOARD & DEVICES MODULE",
+          "fontFamily": "Inter",
+          "fontSize": 24,
+          "fontWeight": "700"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "FvOBI",
+      "x": 0,
+      "y": 2120,
+      "name": "--- NETWORK MODULE ---",
+      "width": 1020,
+      "height": 60,
+      "fill": "#8B5CF6",
+      "cornerRadius": 12,
+      "padding": [
+        0,
+        24
+      ],
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "text",
+          "id": "rrZJ0",
+          "name": "networkText",
+          "fill": "#FFFFFF",
+          "content": "🌐 NETWORK & SETTINGS MODULE",
+          "fontFamily": "Inter",
+          "fontSize": 24,
+          "fontWeight": "700"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "ME5uT",
+      "x": 0,
+      "y": 3220,
+      "name": "--- PAIRING MODULE ---",
+      "width": 2080,
+      "height": 60,
+      "fill": "#F59E0B",
+      "cornerRadius": 12,
+      "padding": [
+        0,
+        24
+      ],
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "text",
+          "id": "XiHbq",
+          "name": "pairingText",
+          "fill": "#FFFFFF",
+          "content": "📡 DEVICE PAIRING MODULE",
+          "fontFamily": "Inter",
+          "fontSize": 24,
+          "fontWeight": "700"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "vtgSF",
+      "x": 0,
+      "y": 4320,
+      "name": "--- SCENES MODULE ---",
+      "width": 2610,
+      "height": 60,
+      "fill": "#EF4444",
+      "cornerRadius": 12,
+      "padding": [
+        0,
+        24
+      ],
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "text",
+          "id": "Stg1N",
+          "name": "scenesText",
+          "fill": "#FFFFFF",
+          "content": "🎬 SCENES & AUTOMATION MODULE",
+          "fontFamily": "Inter",
+          "fontSize": 24,
+          "fontWeight": "700"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "x2Bwt",
+      "x": 0,
+      "y": 5420,
+      "name": "--- CAMERA MODULE ---",
+      "width": 3150,
+      "height": 60,
+      "fill": "#06B6D4",
+      "cornerRadius": 12,
+      "padding": [
+        0,
+        24
+      ],
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "text",
+          "id": "Z05fO",
+          "name": "cameraText",
+          "fill": "#FFFFFF",
+          "content": "📹 CAMERA & NVR MODULE (Hikvision)",
+          "fontFamily": "Inter",
+          "fontSize": 24,
+          "fontWeight": "700"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "1EB8T",
+      "x": 0,
+      "y": 5500,
+      "name": "Camera / List",
+      "clip": true,
+      "width": 430,
+      "height": 932,
+      "fill": "$--background",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "iWx26",
+          "name": "camStatusBar",
+          "width": "fill_container",
+          "height": 54,
+          "padding": [
+            14,
+            24
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "mH6SH",
+              "name": "camStatusTime",
+              "fill": "$--foreground",
+              "content": "9:41",
+              "fontFamily": "$--font-secondary",
+              "fontSize": 15,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "BJXzR",
+              "name": "camStatusRight",
+              "gap": 6,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "aaDQ6",
+                  "name": "camListStatusSignal",
+                  "width": 18,
+                  "height": 18,
+                  "iconFontName": "signal_cellular_alt",
+                  "iconFontFamily": "Material Symbols Rounded",
+                  "weight": 400,
+                  "fill": "$--foreground"
+                },
+                {
+                  "type": "icon_font",
+                  "id": "5BOfD",
+                  "name": "camListStatusWifi",
+                  "width": 18,
+                  "height": 18,
+                  "iconFontName": "wifi",
+                  "iconFontFamily": "Material Symbols Rounded",
+                  "weight": 400,
+                  "fill": "$--foreground"
+                },
+                {
+                  "type": "icon_font",
+                  "id": "pTVsO",
+                  "name": "camListStatusBattery",
+                  "width": 22,
+                  "height": 18,
+                  "iconFontName": "battery_full",
+                  "iconFontFamily": "Material Symbols Rounded",
+                  "weight": 400,
+                  "fill": "$--foreground"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "iezrw",
+          "name": "camHeader",
+          "width": "fill_container",
+          "padding": [
+            8,
+            20
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "aYtnA",
+              "name": "camTitle",
+              "fill": "$--foreground",
+              "content": "Cameras",
+              "fontFamily": "$--font-primary",
+              "fontSize": 28,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "2Xl3k",
+              "name": "camAddBtn",
+              "width": 40,
+              "height": 40,
+              "fill": "$--primary",
+              "cornerRadius": 20,
+              "layout": "none",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "ngLLD",
+                  "x": 8,
+                  "y": 8,
+                  "name": "camListAddIcon",
+                  "width": 24,
+                  "height": 24,
+                  "iconFontName": "add",
+                  "iconFontFamily": "Material Symbols Rounded",
+                  "weight": 400,
+                  "fill": "$--white"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "rEDIz",
+          "name": "camSearchBar",
+          "width": "fill_container",
+          "gap": 12,
+          "padding": [
+            0,
+            20
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "V1PvO",
+              "name": "camSearchInput",
+              "width": "fill_container",
+              "fill": "$--secondary",
+              "cornerRadius": "$--radius-m",
+              "gap": 10,
+              "padding": [
+                12,
+                16
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "b8Ko0",
+                  "name": "camListSearchIcon",
+                  "width": 20,
+                  "height": 20,
+                  "iconFontName": "search",
+                  "iconFontFamily": "Material Symbols Rounded",
+                  "weight": 400,
+                  "fill": "$--muted-foreground"
+                },
+                {
+                  "type": "text",
+                  "id": "77d9m",
+                  "name": "camSearchText",
+                  "fill": "$--muted-foreground",
+                  "content": "Search cameras...",
+                  "fontFamily": "$--font-secondary",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "f2tmg",
+          "name": "camFilterTabs",
+          "width": "fill_container",
+          "gap": 8,
+          "padding": [
+            12,
+            20
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "43V0t",
+              "name": "camFilterAll",
+              "fill": "$--primary",
+              "cornerRadius": "$--radius-pill",
+              "padding": [
+                8,
+                16
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "iyXvU",
+                  "name": "camFilterAllText",
+                  "fill": "$--primary-foreground",
+                  "content": "All (8)",
+                  "fontFamily": "$--font-secondary",
+                  "fontSize": 13,
+                  "fontWeight": "500"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "XycYw",
+              "name": "camFilterOnline",
+              "cornerRadius": "$--radius-pill",
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "$--border"
+              },
+              "padding": [
+                8,
+                16
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "THoIS",
+                  "name": "camFilterOnlineText",
+                  "fill": "$--foreground",
+                  "content": "Online (6)",
+                  "fontFamily": "$--font-secondary",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "rmp8f",
+              "name": "camFilterNVR",
+              "cornerRadius": "$--radius-pill",
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "$--border"
+              },
+              "padding": [
+                8,
+                16
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "7wSe9",
+                  "name": "camFilterNVRText",
+                  "fill": "$--foreground",
+                  "content": "NVR",
+                  "fontFamily": "$--font-secondary",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "IQf4N",
+          "name": "camScroll",
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "gap": 12,
+          "padding": [
+            8,
+            20
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "tkduD",
+              "name": "camNVRCard",
+              "width": "fill_container",
+              "fill": "$--card",
+              "cornerRadius": "$--radius-m",
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "$--border"
+              },
+              "layout": "vertical",
+              "gap": 12,
+              "padding": 16,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "ExYwP",
+                  "name": "camNVRHeader",
+                  "width": "fill_container",
+                  "gap": 14,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "jBrRC",
+                      "name": "camNVRIcon",
+                      "width": 50,
+                      "height": 50,
+                      "fill": "$--secondary",
+                      "cornerRadius": 12,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "FHdDZ",
+                          "x": 12,
+                          "y": 12,
+                          "name": "camNVRIconInner",
+                          "width": 26,
+                          "height": 26,
+                          "iconFontName": "developer_board",
+                          "iconFontFamily": "Material Symbols Rounded",
+                          "weight": 400,
+                          "fill": "$--primary"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "N1Kxr",
+                      "name": "camNVRInfo",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "b51o5",
+                          "name": "camNVRName",
+                          "fill": "$--foreground",
+                          "content": "Hikvision NVR-1",
+                          "fontFamily": "$--font-secondary",
+                          "fontSize": 15,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "SNxOC",
+                          "name": "camNVRSub",
+                          "gap": 8,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "PhOiO",
+                              "name": "camNVRStatus",
+                              "width": 8,
+                              "height": 8,
+                              "fill": "#10B981",
+                              "cornerRadius": 4
+                            },
+                            {
+                              "type": "text",
+                              "id": "nSCPL",
+                              "name": "camNVRStatusText",
+                              "fill": "$--muted-foreground",
+                              "content": "4 channels · 192.168.1.100",
+                              "fontFamily": "$--font-secondary",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "icon_font",
+                      "id": "tEJky",
+                      "name": "camNVRArrow",
+                      "width": 24,
+                      "height": 24,
+                      "iconFontName": "chevron_right",
+                      "iconFontFamily": "Material Symbols Rounded",
+                      "weight": 400,
+                      "fill": "$--muted-foreground"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "odX6p",
+                  "name": "camNVRChannels",
+                  "width": "fill_container",
+                  "gap": 8,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "gGD82",
+                      "name": "camCh1",
+                      "clip": true,
+                      "width": "fill_container",
+                      "height": 80,
+                      "fill": "#1A1A1A",
+                      "cornerRadius": 8,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "YmnXe",
+                          "x": 0,
+                          "y": 0,
+                          "name": "camCh1Overlay",
+                          "width": 185,
+                          "height": 80,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "23wa2",
+                              "x": 6,
+                              "y": 6,
+                              "name": "camCh1Live",
+                              "fill": "#EF4444",
+                              "cornerRadius": 4,
+                              "gap": 4,
+                              "padding": [
+                                2,
+                                6
+                              ],
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "QwFtK",
+                                  "name": "camCh1LiveDot",
+                                  "width": 6,
+                                  "height": 6,
+                                  "fill": "#FFFFFF",
+                                  "cornerRadius": 3
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "FfSpz",
+                                  "name": "camCh1LiveText",
+                                  "fill": "#FFFFFF",
+                                  "content": "LIVE",
+                                  "fontFamily": "$--font-secondary",
+                                  "fontSize": 9,
+                                  "fontWeight": "600"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "text",
+                              "id": "Zltdt",
+                              "x": 6,
+                              "y": 62,
+                              "name": "camCh1Name",
+                              "fill": "#FFFFFF",
+                              "content": "CH1 - Front Gate",
+                              "fontFamily": "$--font-secondary",
+                              "fontSize": 10,
+                              "fontWeight": "500"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "JcPbq",
+                      "name": "camCh2",
+                      "clip": true,
+                      "width": "fill_container",
+                      "height": 80,
+                      "fill": "#2A2A2A",
+                      "cornerRadius": 8,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "K47H6",
+                          "x": 0,
+                          "y": 0,
+                          "name": "camCh2Overlay",
+                          "width": 185,
+                          "height": 80,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "mseNP",
+                              "x": 6,
+                              "y": 6,
+                              "name": "camCh2Live",
+                              "fill": "#EF4444",
+                              "cornerRadius": 4,
+                              "gap": 4,
+                              "padding": [
+                                2,
+                                6
+                              ],
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "c8Fij",
+                                  "name": "camCh2LiveDot",
+                                  "width": 6,
+                                  "height": 6,
+                                  "fill": "#FFFFFF",
+                                  "cornerRadius": 3
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "bULKs",
+                                  "name": "camCh2LiveText",
+                                  "fill": "#FFFFFF",
+                                  "content": "LIVE",
+                                  "fontFamily": "$--font-secondary",
+                                  "fontSize": 9,
+                                  "fontWeight": "600"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "text",
+                              "id": "0VsWW",
+                              "x": 6,
+                              "y": 62,
+                              "name": "camCh2Name",
+                              "fill": "#FFFFFF",
+                              "content": "CH2 - Backyard",
+                              "fontFamily": "$--font-secondary",
+                              "fontSize": 10,
+                              "fontWeight": "500"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "yR5J0",
+              "name": "camCard1",
+              "width": "fill_container",
+              "fill": "$--card",
+              "cornerRadius": "$--radius-m",
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "$--border"
+              },
+              "gap": 14,
+              "padding": 16,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "1GVxJ",
+                  "name": "camCard1Icon",
+                  "width": 50,
+                  "height": 50,
+                  "fill": "$--secondary",
+                  "cornerRadius": 12,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "pCHfC",
+                      "x": 12,
+                      "y": 12,
+                      "name": "camCard1IconInner",
+                      "width": 26,
+                      "height": 26,
+                      "iconFontName": "videocam",
+                      "iconFontFamily": "Material Symbols Rounded",
+                      "weight": 400,
+                      "fill": "$--primary"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "25sNT",
+                  "name": "camCard1Info",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 4,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "EeDpo",
+                      "name": "camCard1Name",
+                      "fill": "$--foreground",
+                      "content": "Living Room Cam",
+                      "fontFamily": "$--font-secondary",
+                      "fontSize": 15,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "lCOa7",
+                      "name": "camCard1Sub",
+                      "gap": 8,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "KQIXp",
+                          "name": "camCard1Status",
+                          "width": 8,
+                          "height": 8,
+                          "fill": "#10B981",
+                          "cornerRadius": 4
+                        },
+                        {
+                          "type": "text",
+                          "id": "6vdDa",
+                          "name": "camCard1StatusText",
+                          "fill": "$--muted-foreground",
+                          "content": "Online · 1080p",
+                          "fontFamily": "$--font-secondary",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "icon_font",
+                  "id": "SDiDP",
+                  "name": "camCard1Arrow",
+                  "width": 24,
+                  "height": 24,
+                  "iconFontName": "chevron_right",
+                  "iconFontFamily": "Material Symbols Rounded",
+                  "weight": 400,
+                  "fill": "$--muted-foreground"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "MbIS3",
+              "name": "camCard2",
+              "width": "fill_container",
+              "fill": "$--card",
+              "cornerRadius": "$--radius-m",
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "$--border"
+              },
+              "gap": 14,
+              "padding": 16,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "f8wyJ",
+                  "name": "camCard2Icon",
+                  "width": 50,
+                  "height": 50,
+                  "fill": "$--secondary",
+                  "cornerRadius": 12,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "t3IFb",
+                      "x": 12,
+                      "y": 12,
+                      "name": "camCard2IconInner",
+                      "width": 26,
+                      "height": 26,
+                      "iconFontName": "videocam",
+                      "iconFontFamily": "Material Symbols Rounded",
+                      "weight": 400,
+                      "fill": "$--muted-foreground"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "w7NLq",
+                  "name": "camCard2Info",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 4,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "sEInh",
+                      "name": "camCard2Name",
+                      "fill": "$--foreground",
+                      "content": "Garage Camera",
+                      "fontFamily": "$--font-secondary",
+                      "fontSize": 15,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "bjXlH",
+                      "name": "camCard2Sub",
+                      "gap": 8,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "v01rB",
+                          "name": "camCard2Status",
+                          "width": 8,
+                          "height": 8,
+                          "fill": "#EF4444",
+                          "cornerRadius": 4
+                        },
+                        {
+                          "type": "text",
+                          "id": "Fvfyu",
+                          "name": "camCard2StatusText",
+                          "fill": "$--muted-foreground",
+                          "content": "Offline",
+                          "fontFamily": "$--font-secondary",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "icon_font",
+                  "id": "lXzUx",
+                  "name": "camCard2Arrow",
+                  "width": 24,
+                  "height": 24,
+                  "iconFontName": "chevron_right",
+                  "iconFontFamily": "Material Symbols Rounded",
+                  "weight": 400,
+                  "fill": "$--muted-foreground"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "VPh4F",
+          "name": "camNavBar",
+          "width": "fill_container",
+          "height": 84,
+          "fill": "$--card",
+          "stroke": {
+            "align": "inside",
+            "thickness": {
+              "top": 1
+            },
+            "fill": "$--border"
+          },
+          "padding": [
+            12,
+            24,
+            32,
+            24
+          ],
+          "justifyContent": "space_around",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "qlaSX",
+              "name": "camNavHome",
+              "layout": "vertical",
+              "gap": 4,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "0STeP",
+                  "name": "camNavHomeIcon",
+                  "width": 26,
+                  "height": 26,
+                  "iconFontName": "home",
+                  "iconFontFamily": "Material Symbols Rounded",
+                  "weight": 400,
+                  "fill": "$--muted-foreground"
+                },
+                {
+                  "type": "text",
+                  "id": "9fRIA",
+                  "name": "camNavHomeText",
+                  "fill": "$--muted-foreground",
+                  "content": "Home",
+                  "fontFamily": "$--font-secondary",
+                  "fontSize": 11,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "VDgVm",
+              "name": "camNavCamera",
+              "layout": "vertical",
+              "gap": 4,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "IhKEm",
+                  "name": "camNavCameraIcon",
+                  "width": 26,
+                  "height": 26,
+                  "iconFontName": "videocam",
+                  "iconFontFamily": "Material Symbols Rounded",
+                  "weight": 400,
+                  "fill": "$--primary"
+                },
+                {
+                  "type": "text",
+                  "id": "oWmsq",
+                  "name": "camNavCameraText",
+                  "fill": "$--primary",
+                  "content": "Cameras",
+                  "fontFamily": "$--font-secondary",
+                  "fontSize": 11,
+                  "fontWeight": "500"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "E9aba",
+              "name": "camNavDevices",
+              "layout": "vertical",
+              "gap": 4,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "pD0H1",
+                  "name": "camNavDevicesIcon",
+                  "width": 26,
+                  "height": 26,
+                  "iconFontName": "devices",
+                  "iconFontFamily": "Material Symbols Rounded",
+                  "weight": 400,
+                  "fill": "$--muted-foreground"
+                },
+                {
+                  "type": "text",
+                  "id": "TUkn3",
+                  "name": "camNavDevicesText",
+                  "fill": "$--muted-foreground",
+                  "content": "Devices",
+                  "fontFamily": "$--font-secondary",
+                  "fontSize": 11,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "VYJJj",
+              "name": "camNavSettings",
+              "layout": "vertical",
+              "gap": 4,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "ua3H9",
+                  "name": "camNavSettingsIcon",
+                  "width": 26,
+                  "height": 26,
+                  "iconFontName": "settings",
+                  "iconFontFamily": "Material Symbols Rounded",
+                  "weight": 400,
+                  "fill": "$--muted-foreground"
+                },
+                {
+                  "type": "text",
+                  "id": "bqpnw",
+                  "name": "camNavSettingsText",
+                  "fill": "$--muted-foreground",
+                  "content": "Settings",
+                  "fontFamily": "$--font-secondary",
+                  "fontSize": 11,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "3i38a",
+      "x": 530,
+      "y": 5500,
+      "name": "Camera / Live View",
+      "clip": true,
+      "width": 430,
+      "height": 932,
+      "fill": "#000000",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "F6gy0",
+          "name": "liveStatusBar",
+          "width": "fill_container",
+          "height": 54,
+          "padding": [
+            14,
+            24
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "lV8Vp",
+              "name": "camLiveStatusTime",
+              "fill": "#FFFFFF",
+              "content": "9:41",
+              "fontFamily": "$--font-secondary",
+              "fontSize": 15,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "A7a1n",
+              "name": "camLiveStatusRight",
+              "gap": 6,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "4oc0r",
+                  "name": "camLiveStatusSignal",
+                  "width": 18,
+                  "height": 18,
+                  "iconFontName": "signal_cellular_alt",
+                  "iconFontFamily": "Material Symbols Rounded",
+                  "weight": 400,
+                  "fill": "#FFFFFF"
+                },
+                {
+                  "type": "icon_font",
+                  "id": "xaLlZ",
+                  "name": "camLiveStatusWifi",
+                  "width": 18,
+                  "height": 18,
+                  "iconFontName": "wifi",
+                  "iconFontFamily": "Material Symbols Rounded",
+                  "weight": 400,
+                  "fill": "#FFFFFF"
+                },
+                {
+                  "type": "icon_font",
+                  "id": "187W2",
+                  "name": "camLiveStatusBattery",
+                  "width": 22,
+                  "height": 18,
+                  "iconFontName": "battery_full",
+                  "iconFontFamily": "Material Symbols Rounded",
+                  "weight": 400,
+                  "fill": "#FFFFFF"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "YQDWD",
+          "name": "liveHeader",
+          "width": "fill_container",
+          "gap": 16,
+          "padding": [
+            8,
+            20
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "0Davj",
+              "name": "liveBackBtn",
+              "width": 40,
+              "height": 40,
+              "fill": "#FFFFFF20",
+              "cornerRadius": 20,
+              "layout": "none",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "PTvST",
+                  "x": 9,
+                  "y": 9,
+                  "name": "camLiveBackIcon",
+                  "width": 22,
+                  "height": 22,
+                  "iconFontName": "arrow_back",
+                  "iconFontFamily": "Material Symbols Rounded",
+                  "weight": 400,
+                  "fill": "#FFFFFF"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "ePVSf",
+              "name": "liveHeaderInfo",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 2,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "VSicN",
+                  "name": "camLiveTitle",
+                  "fill": "#FFFFFF",
+                  "content": "Front Gate Camera",
+                  "fontFamily": "$--font-primary",
+                  "fontSize": 20,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "YKyzL",
+                  "name": "camLiveSubtitle",
+                  "fill": "#FFFFFF80",
+                  "content": "NVR-1 · Channel 1",
+                  "fontFamily": "$--font-secondary",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "qCtdU",
+              "name": "camLiveMoreBtn",
+              "width": 40,
+              "height": 40,
+              "fill": "#FFFFFF20",
+              "cornerRadius": 20,
+              "layout": "none",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "vXdOw",
+                  "x": 9,
+                  "y": 9,
+                  "name": "camLiveMoreIcon",
+                  "width": 22,
+                  "height": 22,
+                  "iconFontName": "more_vert",
+                  "iconFontFamily": "Material Symbols Rounded",
+                  "weight": 400,
+                  "fill": "#FFFFFF"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "BCMk0",
+          "name": "liveVideoArea",
+          "width": "fill_container",
+          "height": 260,
+          "fill": "#1A1A1A",
+          "layout": "none",
+          "children": [
+            {
+              "type": "frame",
+              "id": "C522W",
+              "x": 0,
+              "y": 0,
+              "name": "liveVideoOverlay",
+              "width": 430,
+              "height": 260,
+              "layout": "none",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "bJdIX",
+                  "x": 16,
+                  "y": 16,
+                  "name": "liveBadge",
+                  "fill": "#EF4444",
+                  "cornerRadius": 6,
+                  "gap": 6,
+                  "padding": [
+                    4,
+                    10
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "cb8Xe",
+                      "name": "camLiveBadgeDot",
+                      "width": 8,
+                      "height": 8,
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 4
+                    },
+                    {
+                      "type": "text",
+                      "id": "Hv6Fe",
+                      "name": "camLiveBadgeText",
+                      "fill": "#FFFFFF",
+                      "content": "LIVE",
+                      "fontFamily": "$--font-secondary",
+                      "fontSize": 12,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "MJ5mu",
+                  "x": 348,
+                  "y": 16,
+                  "name": "liveQuality",
+                  "fill": "#00000080",
+                  "cornerRadius": 4,
+                  "padding": [
+                    4,
+                    8
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "iMfFd",
+                      "name": "camLiveQualityText",
+                      "fill": "#FFFFFF",
+                      "content": "1080p",
+                      "fontFamily": "$--font-secondary",
+                      "fontSize": 11,
+                      "fontWeight": "500"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "aqNxG",
+                  "x": 16,
+                  "y": 232,
+                  "name": "camLiveTimestamp",
+                  "fill": "#FFFFFF",
+                  "content": "2024-01-15 14:32:45",
+                  "fontFamily": "$--font-secondary",
+                  "fontSize": 11,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "8VFi1",
+          "name": "liveControls",
+          "width": "fill_container",
+          "gap": 24,
+          "padding": [
+            16,
+            20
+          ],
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "GxKRQ",
+              "name": "ctrlSnapshot",
+              "layout": "vertical",
+              "gap": 8,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "s0aBB",
+                  "name": "camCtrlSnapshotBtn",
+                  "width": 56,
+                  "height": 56,
+                  "fill": "#FFFFFF20",
+                  "cornerRadius": 28,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "O7g3k",
+                      "name": "camCtrlSnapshotIcon",
+                      "width": 28,
+                      "height": 28,
+                      "iconFontName": "photo_camera",
+                      "iconFontFamily": "Material Symbols Rounded",
+                      "weight": 400,
+                      "fill": "#FFFFFF"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "UEpa5",
+                  "name": "camCtrlSnapshotText",
+                  "fill": "#FFFFFF80",
+                  "content": "Snapshot",
+                  "fontFamily": "$--font-secondary",
+                  "fontSize": 11,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "4X809",
+              "name": "ctrlRecord",
+              "layout": "vertical",
+              "gap": 8,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "JDQ77",
+                  "name": "camCtrlRecordBtn",
+                  "width": 70,
+                  "height": 70,
+                  "fill": "#EF4444",
+                  "cornerRadius": 35,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "EyDsm",
+                      "name": "camCtrlRecordIcon",
+                      "width": 32,
+                      "height": 32,
+                      "iconFontName": "fiber_manual_record",
+                      "iconFontFamily": "Material Symbols Rounded",
+                      "weight": 400,
+                      "fill": "#FFFFFF"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "DoRR1",
+                  "name": "camCtrlRecordText",
+                  "fill": "#FFFFFF80",
+                  "content": "Record",
+                  "fontFamily": "$--font-secondary",
+                  "fontSize": 11,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "nBGQt",
+              "name": "ctrlPlayback",
+              "layout": "vertical",
+              "gap": 8,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "Wv3My",
+                  "name": "camCtrlPlaybackBtn",
+                  "width": 56,
+                  "height": 56,
+                  "fill": "#FFFFFF20",
+                  "cornerRadius": 28,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "olRvG",
+                      "name": "camCtrlPlaybackIcon",
+                      "width": 28,
+                      "height": 28,
+                      "iconFontName": "history",
+                      "iconFontFamily": "Material Symbols Rounded",
+                      "weight": 400,
+                      "fill": "#FFFFFF"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "vFc3U",
+                  "name": "camCtrlPlaybackText",
+                  "fill": "#FFFFFF80",
+                  "content": "Playback",
+                  "fontFamily": "$--font-secondary",
+                  "fontSize": 11,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "MVYdW",
+          "name": "liveInfoCard",
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "gap": 16,
+          "padding": [
+            16,
+            20
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "ZbI6G",
+              "name": "infoCardBg",
+              "width": "fill_container",
+              "fill": "#1A1A1A",
+              "cornerRadius": "$--radius-m",
+              "layout": "vertical",
+              "gap": 14,
+              "padding": 20,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "dLb2k",
+                  "name": "infoHeader",
+                  "width": "fill_container",
+                  "gap": 10,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "53q5Q",
+                      "name": "camInfoIcon",
+                      "width": 22,
+                      "height": 22,
+                      "iconFontName": "info",
+                      "iconFontFamily": "Material Symbols Rounded",
+                      "weight": 400,
+                      "fill": "$--primary"
+                    },
+                    {
+                      "type": "text",
+                      "id": "W4BTL",
+                      "name": "camInfoTitle",
+                      "fill": "#FFFFFF",
+                      "content": "Camera Information",
+                      "fontFamily": "$--font-secondary",
+                      "fontSize": 15,
+                      "fontWeight": "500"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "wEhGt",
+                  "name": "infoRow1",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "dxzSt",
+                      "name": "camInfoLabel1",
+                      "fill": "#FFFFFF60",
+                      "content": "Device ID",
+                      "fontFamily": "$--font-secondary",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "Lzfpf",
+                      "name": "camInfoValue1",
+                      "fill": "#FFFFFF",
+                      "content": "DS-2CD2T47G2P...",
+                      "fontFamily": "$--font-secondary",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "3S3lF",
+                  "name": "infoRow2",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "ESmc1",
+                      "name": "camInfoLabel2",
+                      "fill": "#FFFFFF60",
+                      "content": "Resolution",
+                      "fontFamily": "$--font-secondary",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "IuWir",
+                      "name": "camInfoValue2",
+                      "fill": "#FFFFFF",
+                      "content": "1920 × 1080",
+                      "fontFamily": "$--font-secondary",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "Ta3Gd",
+                  "name": "infoRow3",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "QBwQn",
+                      "name": "camInfoLabel3",
+                      "fill": "#FFFFFF60",
+                      "content": "Bitrate",
+                      "fontFamily": "$--font-secondary",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "KD9dn",
+                      "name": "camInfoValue3",
+                      "fill": "#FFFFFF",
+                      "content": "4096 Kbps",
+                      "fontFamily": "$--font-secondary",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "sj8fu",
+      "x": 1060,
+      "y": 5500,
+      "name": "Camera / Add NVR",
+      "clip": true,
+      "width": 430,
+      "height": 932,
+      "fill": "$--background",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "ahuBH",
+          "name": "addNVRStatusBar",
+          "width": "fill_container",
+          "height": 54,
+          "padding": [
+            14,
+            24
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "N8Sty",
+              "name": "addNVRStatusTime",
+              "fill": "$--foreground",
+              "content": "9:41",
+              "fontFamily": "$--font-secondary",
+              "fontSize": 15,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "BpSJr",
+              "name": "addNVRStatusRight",
+              "gap": 6,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "abJLj",
+                  "name": "addNVRStatusSignal",
+                  "width": 18,
+                  "height": 18,
+                  "iconFontName": "signal_cellular_alt",
+                  "iconFontFamily": "Material Symbols Rounded",
+                  "weight": 400,
+                  "fill": "$--foreground"
+                },
+                {
+                  "type": "icon_font",
+                  "id": "0OC7N",
+                  "name": "addNVRStatusWifi",
+                  "width": 18,
+                  "height": 18,
+                  "iconFontName": "wifi",
+                  "iconFontFamily": "Material Symbols Rounded",
+                  "weight": 400,
+                  "fill": "$--foreground"
+                },
+                {
+                  "type": "icon_font",
+                  "id": "43luv",
+                  "name": "addNVRStatusBattery",
+                  "width": 22,
+                  "height": 18,
+                  "iconFontName": "battery_full",
+                  "iconFontFamily": "Material Symbols Rounded",
+                  "weight": 400,
+                  "fill": "$--foreground"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "Mjv8d",
+          "name": "addNVRHeader",
+          "width": "fill_container",
+          "gap": 16,
+          "padding": [
+            8,
+            20
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "e1AON",
+              "name": "addNVRBackBtn",
+              "width": 40,
+              "height": 40,
+              "fill": "$--secondary",
+              "cornerRadius": 20,
+              "layout": "none",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "IJ5Zn",
+                  "x": 9,
+                  "y": 9,
+                  "name": "addNVRBackIcon",
+                  "width": 22,
+                  "height": 22,
+                  "iconFontName": "arrow_back",
+                  "iconFontFamily": "Material Symbols Rounded",
+                  "weight": 400,
+                  "fill": "$--foreground"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "4UtPQ",
+              "name": "addNVRTitle",
+              "fill": "$--foreground",
+              "content": "Add NVR Device",
+              "fontFamily": "$--font-primary",
+              "fontSize": 20,
+              "fontWeight": "600"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "5qGPO",
+          "name": "addNVRContent",
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "gap": 24,
+          "padding": [
+            24,
+            20
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "2Gs0U",
+              "name": "addNVRIllustration",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 16,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "taWGX",
+                  "name": "addNVRIconBg",
+                  "width": 100,
+                  "height": 100,
+                  "fill": "$--secondary",
+                  "cornerRadius": 50,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "CBGJb",
+                      "name": "addNVRIconInner",
+                      "width": 48,
+                      "height": 48,
+                      "iconFontName": "developer_board",
+                      "iconFontFamily": "Material Symbols Rounded",
+                      "weight": 400,
+                      "fill": "$--primary"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "I79b8",
+                  "name": "addNVRDesc",
+                  "fill": "$--muted-foreground",
+                  "content": "Connect to Hikvision NVR",
+                  "fontFamily": "$--font-secondary",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "RbcLY",
+              "name": "addNVRForm",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 20,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "mLW5s",
+                  "name": "fieldIP",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "N8vD8",
+                      "name": "addNVRLabelIP",
+                      "fill": "$--foreground",
+                      "content": "NVR IP Address",
+                      "fontFamily": "$--font-secondary",
+                      "fontSize": 14,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "lNUli",
+                      "name": "inputIP",
+                      "width": "fill_container",
+                      "fill": "$--secondary",
+                      "cornerRadius": "$--radius-m",
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "$--border"
+                      },
+                      "padding": [
+                        14,
+                        16
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "7EPm3",
+                          "name": "addNVRInputIPText",
+                          "fill": "$--foreground",
+                          "content": "192.168.1.100",
+                          "fontFamily": "$--font-secondary",
+                          "fontSize": 15,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "ugJPr",
+                  "name": "fieldPort",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "JbOMb",
+                      "name": "addNVRLabelPort",
+                      "fill": "$--foreground",
+                      "content": "Port",
+                      "fontFamily": "$--font-secondary",
+                      "fontSize": 14,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "2oMSz",
+                      "name": "inputPort",
+                      "width": "fill_container",
+                      "fill": "$--secondary",
+                      "cornerRadius": "$--radius-m",
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "$--border"
+                      },
+                      "padding": [
+                        14,
+                        16
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "MjU8V",
+                          "name": "addNVRInputPortText",
+                          "fill": "$--foreground",
+                          "content": "8000",
+                          "fontFamily": "$--font-secondary",
+                          "fontSize": 15,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "TdnJC",
+                  "name": "fieldUser",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "Q9hgx",
+                      "name": "addNVRLabelUser",
+                      "fill": "$--foreground",
+                      "content": "Username",
+                      "fontFamily": "$--font-secondary",
+                      "fontSize": 14,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "vJigD",
+                      "name": "inputUser",
+                      "width": "fill_container",
+                      "fill": "$--secondary",
+                      "cornerRadius": "$--radius-m",
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "$--border"
+                      },
+                      "padding": [
+                        14,
+                        16
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "EoHq9",
+                          "name": "addNVRInputUserText",
+                          "fill": "$--foreground",
+                          "content": "admin",
+                          "fontFamily": "$--font-secondary",
+                          "fontSize": 15,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "X4vpF",
+                  "name": "fieldPass",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "6C5qm",
+                      "name": "addNVRLabelPass",
+                      "fill": "$--foreground",
+                      "content": "Password",
+                      "fontFamily": "$--font-secondary",
+                      "fontSize": 14,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "pBeCy",
+                      "name": "inputPass",
+                      "width": "fill_container",
+                      "fill": "$--secondary",
+                      "cornerRadius": "$--radius-m",
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "$--border"
+                      },
+                      "padding": [
+                        14,
+                        16
+                      ],
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "dI9O8",
+                          "name": "addNVRInputPassText",
+                          "fill": "$--foreground",
+                          "content": "••••••••",
+                          "fontFamily": "$--font-secondary",
+                          "fontSize": 15,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "icon_font",
+                          "id": "vw6Nn",
+                          "name": "addNVRInputPassIcon",
+                          "width": 22,
+                          "height": 22,
+                          "iconFontName": "visibility_off",
+                          "iconFontFamily": "Material Symbols Rounded",
+                          "weight": 400,
+                          "fill": "$--muted-foreground"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "s4iMz",
+              "name": "addNVRSpacer",
+              "width": "fill_container",
+              "height": "fill_container"
+            },
+            {
+              "type": "frame",
+              "id": "q3Q0l",
+              "name": "addNVRConnectBtn",
+              "width": "fill_container",
+              "height": 52,
+              "fill": "$--primary",
+              "cornerRadius": "$--radius-m",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "D3EvL",
+                  "name": "addNVRConnectText",
+                  "fill": "$--primary-foreground",
+                  "content": "Connect to NVR",
+                  "fontFamily": "$--font-secondary",
+                  "fontSize": 16,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "0ZnbH",
+              "name": "addNVRHelpRow",
+              "width": "fill_container",
+              "gap": 4,
+              "padding": [
+                0,
+                0,
+                20,
+                0
+              ],
+              "justifyContent": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "AySsh",
+                  "name": "addNVRHelpText",
+                  "fill": "$--muted-foreground",
+                  "content": "Need help?",
+                  "fontFamily": "$--font-secondary",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "W89nw",
+                  "name": "addNVRHelpLink",
+                  "fill": "$--primary",
+                  "content": "View setup guide",
+                  "fontFamily": "$--font-secondary",
+                  "fontSize": 14,
+                  "fontWeight": "500"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "fu82p",
+      "x": 1590,
+      "y": 5500,
+      "name": "Camera / NVR Channels",
+      "clip": true,
+      "width": 430,
+      "height": 932,
+      "fill": "$--background",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "No9Du",
+          "name": "chStatusBar",
+          "width": "fill_container",
+          "height": 54,
+          "padding": [
+            14,
+            24
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "VUNxD",
+              "name": "chStatusTime",
+              "fill": "$--foreground",
+              "content": "9:41",
+              "fontFamily": "$--font-secondary",
+              "fontSize": 15,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "o2033",
+              "name": "chStatusRight",
+              "gap": 6,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "d1zxd",
+                  "name": "chStatusSignal",
+                  "width": 18,
+                  "height": 18,
+                  "iconFontName": "signal_cellular_alt",
+                  "iconFontFamily": "Material Symbols Rounded",
+                  "weight": 400,
+                  "fill": "$--foreground"
+                },
+                {
+                  "type": "icon_font",
+                  "id": "B5GUv",
+                  "name": "chStatusWifi",
+                  "width": 18,
+                  "height": 18,
+                  "iconFontName": "wifi",
+                  "iconFontFamily": "Material Symbols Rounded",
+                  "weight": 400,
+                  "fill": "$--foreground"
+                },
+                {
+                  "type": "icon_font",
+                  "id": "V4gsE",
+                  "name": "chStatusBattery",
+                  "width": 22,
+                  "height": 18,
+                  "iconFontName": "battery_full",
+                  "iconFontFamily": "Material Symbols Rounded",
+                  "weight": 400,
+                  "fill": "$--foreground"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "Qlb6V",
+          "name": "chHeader",
+          "width": "fill_container",
+          "gap": 16,
+          "padding": [
+            8,
+            20
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "Ez6hA",
+              "name": "chBackBtn",
+              "width": 40,
+              "height": 40,
+              "fill": "$--secondary",
+              "cornerRadius": 20,
+              "layout": "none",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "8G3Ox",
+                  "x": 9,
+                  "y": 9,
+                  "name": "chBackIcon",
+                  "width": 22,
+                  "height": 22,
+                  "iconFontName": "arrow_back",
+                  "iconFontFamily": "Material Symbols Rounded",
+                  "weight": 400,
+                  "fill": "$--foreground"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "VN70d",
+              "name": "chHeaderInfo",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 2,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "t4Zdk",
+                  "name": "chTitle",
+                  "fill": "$--foreground",
+                  "content": "Hikvision NVR-1",
+                  "fontFamily": "$--font-primary",
+                  "fontSize": 20,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "Us4QV",
+                  "name": "chSubtitle",
+                  "fill": "$--muted-foreground",
+                  "content": "4 channels available",
+                  "fontFamily": "$--font-secondary",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "nWmDu",
+              "name": "chSettingsBtn",
+              "width": 40,
+              "height": 40,
+              "fill": "$--secondary",
+              "cornerRadius": 20,
+              "layout": "none",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "1CEXh",
+                  "x": 9,
+                  "y": 9,
+                  "name": "chSettingsIcon",
+                  "width": 22,
+                  "height": 22,
+                  "iconFontName": "settings",
+                  "iconFontFamily": "Material Symbols Rounded",
+                  "weight": 400,
+                  "fill": "$--foreground"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "1qA9S",
+          "name": "chNVRInfo",
+          "width": "fill_container",
+          "fill": "$--secondary",
+          "gap": 8,
+          "padding": [
+            12,
+            20
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "MiuqS",
+              "name": "chNVRStatusDot",
+              "width": 10,
+              "height": 10,
+              "fill": "#10B981",
+              "cornerRadius": 5
+            },
+            {
+              "type": "text",
+              "id": "Bi68m",
+              "name": "chNVRStatusText",
+              "fill": "$--muted-foreground",
+              "content": "Connected · 192.168.1.100:8000",
+              "fontFamily": "$--font-secondary",
+              "fontSize": 13,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "TNzX7",
+          "name": "chGrid",
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "gap": 12,
+          "padding": [
+            16,
+            20
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "7SCUk",
+              "name": "chRow1",
+              "width": "fill_container",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "DZYsf",
+                  "name": "ch1Card",
+                  "clip": true,
+                  "width": "fill_container",
+                  "height": 140,
+                  "fill": "#1A1A1A",
+                  "cornerRadius": "$--radius-m",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "$--border"
+                  },
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "h8GHL",
+                      "x": 0,
+                      "y": 0,
+                      "name": "ch1Overlay",
+                      "width": 185,
+                      "height": 140,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "ytxu1",
+                          "x": 8,
+                          "y": 8,
+                          "name": "ch1Live",
+                          "fill": "#EF4444",
+                          "cornerRadius": 4,
+                          "gap": 4,
+                          "padding": [
+                            3,
+                            8
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "rlQwm",
+                              "name": "ch1LiveDot",
+                              "width": 6,
+                              "height": 6,
+                              "fill": "#FFFFFF",
+                              "cornerRadius": 3
+                            },
+                            {
+                              "type": "text",
+                              "id": "9FQtj",
+                              "name": "ch1LiveText",
+                              "fill": "#FFFFFF",
+                              "content": "LIVE",
+                              "fontFamily": "$--font-secondary",
+                              "fontSize": 10,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "DJDB9",
+                          "x": 8,
+                          "y": 108,
+                          "name": "ch1Info",
+                          "width": 170,
+                          "layout": "vertical",
+                          "gap": 2,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "SkxCT",
+                              "name": "ch1Name",
+                              "fill": "#FFFFFF",
+                              "content": "CH1 - Front Gate",
+                              "fontFamily": "$--font-secondary",
+                              "fontSize": 12,
+                              "fontWeight": "500"
+                            },
+                            {
+                              "type": "text",
+                              "id": "N1AEK",
+                              "name": "ch1Status",
+                              "fill": "#FFFFFF80",
+                              "content": "1080p · 30fps",
+                              "fontFamily": "$--font-secondary",
+                              "fontSize": 10,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "OIdrJ",
+                  "name": "ch2Card",
+                  "clip": true,
+                  "width": "fill_container",
+                  "height": 140,
+                  "fill": "#2A2A2A",
+                  "cornerRadius": "$--radius-m",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "$--border"
+                  },
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "raBUq",
+                      "x": 0,
+                      "y": 0,
+                      "name": "ch2Overlay",
+                      "width": 185,
+                      "height": 140,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "Ypode",
+                          "x": 8,
+                          "y": 8,
+                          "name": "ch2Live",
+                          "fill": "#EF4444",
+                          "cornerRadius": 4,
+                          "gap": 4,
+                          "padding": [
+                            3,
+                            8
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "e7eWe",
+                              "name": "ch2LiveDot",
+                              "width": 6,
+                              "height": 6,
+                              "fill": "#FFFFFF",
+                              "cornerRadius": 3
+                            },
+                            {
+                              "type": "text",
+                              "id": "3RQml",
+                              "name": "ch2LiveText",
+                              "fill": "#FFFFFF",
+                              "content": "LIVE",
+                              "fontFamily": "$--font-secondary",
+                              "fontSize": 10,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "pIGTN",
+                          "x": 8,
+                          "y": 108,
+                          "name": "ch2Info",
+                          "width": 170,
+                          "layout": "vertical",
+                          "gap": 2,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "B23bC",
+                              "name": "ch2Name",
+                              "fill": "#FFFFFF",
+                              "content": "CH2 - Backyard",
+                              "fontFamily": "$--font-secondary",
+                              "fontSize": 12,
+                              "fontWeight": "500"
+                            },
+                            {
+                              "type": "text",
+                              "id": "adBWT",
+                              "name": "ch2Status",
+                              "fill": "#FFFFFF80",
+                              "content": "1080p · 30fps",
+                              "fontFamily": "$--font-secondary",
+                              "fontSize": 10,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "xshGa",
+              "name": "chRow2",
+              "width": "fill_container",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "MqGXr",
+                  "name": "ch3Card",
+                  "clip": true,
+                  "width": "fill_container",
+                  "height": 140,
+                  "fill": "#1F1F1F",
+                  "cornerRadius": "$--radius-m",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "$--border"
+                  },
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "vGnYn",
+                      "x": 0,
+                      "y": 0,
+                      "name": "ch3Overlay",
+                      "width": 185,
+                      "height": 140,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "iAS25",
+                          "x": 8,
+                          "y": 8,
+                          "name": "ch3Live",
+                          "fill": "#EF4444",
+                          "cornerRadius": 4,
+                          "gap": 4,
+                          "padding": [
+                            3,
+                            8
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "rXbV4",
+                              "name": "ch3LiveDot",
+                              "width": 6,
+                              "height": 6,
+                              "fill": "#FFFFFF",
+                              "cornerRadius": 3
+                            },
+                            {
+                              "type": "text",
+                              "id": "w3SFw",
+                              "name": "ch3LiveText",
+                              "fill": "#FFFFFF",
+                              "content": "LIVE",
+                              "fontFamily": "$--font-secondary",
+                              "fontSize": 10,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "z7OU5",
+                          "x": 8,
+                          "y": 108,
+                          "name": "ch3Info",
+                          "width": 170,
+                          "layout": "vertical",
+                          "gap": 2,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "rKSjI",
+                              "name": "ch3Name",
+                              "fill": "#FFFFFF",
+                              "content": "CH3 - Garage",
+                              "fontFamily": "$--font-secondary",
+                              "fontSize": 12,
+                              "fontWeight": "500"
+                            },
+                            {
+                              "type": "text",
+                              "id": "Onkml",
+                              "name": "ch3Status",
+                              "fill": "#FFFFFF80",
+                              "content": "1080p · 30fps",
+                              "fontFamily": "$--font-secondary",
+                              "fontSize": 10,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "JMRpU",
+                  "name": "ch4Card",
+                  "clip": true,
+                  "width": "fill_container",
+                  "height": 140,
+                  "fill": "$--secondary",
+                  "cornerRadius": "$--radius-m",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "$--border"
+                  },
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "6GsIh",
+                      "x": 0,
+                      "y": 0,
+                      "name": "ch4Overlay",
+                      "width": 185,
+                      "height": 140,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "4D5Ko",
+                          "x": 50,
+                          "y": 40,
+                          "name": "ch4Offline",
+                          "layout": "vertical",
+                          "gap": 8,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon_font",
+                              "id": "hlKNP",
+                              "name": "ch4OfflineIcon",
+                              "width": 32,
+                              "height": 32,
+                              "iconFontName": "videocam_off",
+                              "iconFontFamily": "Material Symbols Rounded",
+                              "weight": 400,
+                              "fill": "$--muted-foreground"
+                            },
+                            {
+                              "type": "text",
+                              "id": "m29jk",
+                              "name": "ch4OfflineText",
+                              "fill": "$--muted-foreground",
+                              "content": "Offline",
+                              "fontFamily": "$--font-secondary",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "zWcgK",
+                          "x": 8,
+                          "y": 108,
+                          "name": "ch4Info",
+                          "width": 170,
+                          "layout": "vertical",
+                          "gap": 2,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "koSCD",
+                              "name": "ch4Name",
+                              "fill": "$--foreground",
+                              "content": "CH4 - Side Door",
+                              "fontFamily": "$--font-secondary",
+                              "fontSize": 12,
+                              "fontWeight": "500"
+                            },
+                            {
+                              "type": "text",
+                              "id": "comTR",
+                              "name": "ch4Status",
+                              "fill": "$--muted-foreground",
+                              "content": "Connection lost",
+                              "fontFamily": "$--font-secondary",
+                              "fontSize": 10,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "qXFlk",
+              "name": "chRecordSection",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "padding": [
+                8,
+                0
+              ],
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "dfgGQ",
+                  "name": "chRecordHeader",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "Kdb8C",
+                      "name": "chRecordTitle",
+                      "fill": "$--foreground",
+                      "content": "Recording Status",
+                      "fontFamily": "$--font-secondary",
+                      "fontSize": 15,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "text",
+                      "id": "LiyUz",
+                      "name": "chRecordViewAll",
+                      "fill": "$--primary",
+                      "content": "View All",
+                      "fontFamily": "$--font-secondary",
+                      "fontSize": 13,
+                      "fontWeight": "500"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "c2z5e",
+                  "name": "chRecordCard",
+                  "width": "fill_container",
+                  "fill": "$--card",
+                  "cornerRadius": "$--radius-m",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "$--border"
+                  },
+                  "layout": "vertical",
+                  "gap": 12,
+                  "padding": 16,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "Ki0pM",
+                      "name": "chRecordRow1",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "vrLrZ",
+                          "name": "chRecordLabel1",
+                          "fill": "$--muted-foreground",
+                          "content": "Storage Used",
+                          "fontFamily": "$--font-secondary",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "RwNhi",
+                          "name": "chRecordValue1",
+                          "fill": "$--foreground",
+                          "content": "1.2 TB / 4 TB",
+                          "fontFamily": "$--font-secondary",
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "NQw5V",
+                      "name": "chRecordProgress",
+                      "width": "fill_container",
+                      "height": 8,
+                      "fill": "$--secondary",
+                      "cornerRadius": 4,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "QYZdl",
+                          "name": "chRecordProgressFill",
+                          "width": 117,
+                          "height": 8,
+                          "fill": "$--primary",
+                          "cornerRadius": 4
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "stRZX",
+                      "name": "chRecordRow2",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "yGZWt",
+                          "name": "chRecordLabel2",
+                          "fill": "$--muted-foreground",
+                          "content": "Recording Mode",
+                          "fontFamily": "$--font-secondary",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "vOuk9",
+                          "name": "chRecordValue2",
+                          "fill": "$--foreground",
+                          "content": "Continuous",
+                          "fontFamily": "$--font-secondary",
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "1qpdz",
+      "x": 2120,
+      "y": 5500,
+      "name": "Camera / Playback",
+      "clip": true,
+      "width": 430,
+      "height": 932,
+      "fill": "#000000",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "kFlxb",
+          "name": "pbStatusBar",
+          "width": "fill_container",
+          "height": 54,
+          "padding": [
+            14,
+            24
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "IclJz",
+              "name": "pbStatusTime",
+              "fill": "#FFFFFF",
+              "content": "9:41",
+              "fontFamily": "$--font-secondary",
+              "fontSize": 15,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "zSD00",
+              "name": "pbStatusRight",
+              "gap": 6,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "ilybr",
+                  "name": "pbStatusSignal",
+                  "width": 18,
+                  "height": 18,
+                  "iconFontName": "signal_cellular_alt",
+                  "iconFontFamily": "Material Symbols Rounded",
+                  "weight": 400,
+                  "fill": "#FFFFFF"
+                },
+                {
+                  "type": "icon_font",
+                  "id": "4FXZD",
+                  "name": "pbStatusWifi",
+                  "width": 18,
+                  "height": 18,
+                  "iconFontName": "wifi",
+                  "iconFontFamily": "Material Symbols Rounded",
+                  "weight": 400,
+                  "fill": "#FFFFFF"
+                },
+                {
+                  "type": "icon_font",
+                  "id": "rZJiO",
+                  "name": "pbStatusBattery",
+                  "width": 22,
+                  "height": 18,
+                  "iconFontName": "battery_full",
+                  "iconFontFamily": "Material Symbols Rounded",
+                  "weight": 400,
+                  "fill": "#FFFFFF"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "bdzX8",
+          "name": "pbHeader",
+          "width": "fill_container",
+          "gap": 16,
+          "padding": [
+            8,
+            20
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "7IDLs",
+              "name": "pbBackBtn",
+              "width": 40,
+              "height": 40,
+              "fill": "#FFFFFF20",
+              "cornerRadius": 20,
+              "layout": "none",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "0EA8m",
+                  "x": 9,
+                  "y": 9,
+                  "name": "pbBackIcon",
+                  "width": 22,
+                  "height": 22,
+                  "iconFontName": "arrow_back",
+                  "iconFontFamily": "Material Symbols Rounded",
+                  "weight": 400,
+                  "fill": "#FFFFFF"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "RUHX1",
+              "name": "pbHeaderInfo",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 2,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "w6jWS",
+                  "name": "pbTitle",
+                  "fill": "#FFFFFF",
+                  "content": "Playback",
+                  "fontFamily": "$--font-primary",
+                  "fontSize": 20,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "iM8mC",
+                  "name": "pbSubtitle",
+                  "fill": "#FFFFFF80",
+                  "content": "Front Gate Camera",
+                  "fontFamily": "$--font-secondary",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "8Pbiz",
+          "name": "pbVideoArea",
+          "width": "fill_container",
+          "height": 260,
+          "fill": "#1A1A1A",
+          "layout": "none",
+          "children": [
+            {
+              "type": "frame",
+              "id": "ufCIO",
+              "x": 0,
+              "y": 0,
+              "name": "pbVideoOverlay",
+              "width": 430,
+              "height": 260,
+              "layout": "none",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "vAWAy",
+                  "x": 16,
+                  "y": 16,
+                  "name": "pbRecBadge",
+                  "fill": "#3B82F6",
+                  "cornerRadius": 6,
+                  "gap": 6,
+                  "padding": [
+                    4,
+                    10
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "7sFei",
+                      "name": "pbRecIcon",
+                      "width": 14,
+                      "height": 14,
+                      "iconFontName": "history",
+                      "iconFontFamily": "Material Symbols Rounded",
+                      "weight": 400,
+                      "fill": "#FFFFFF"
+                    },
+                    {
+                      "type": "text",
+                      "id": "O8MvQ",
+                      "name": "pbRecText",
+                      "fill": "#FFFFFF",
+                      "content": "PLAYBACK",
+                      "fontFamily": "$--font-secondary",
+                      "fontSize": 11,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "PoRe1",
+                  "x": 16,
+                  "y": 228,
+                  "name": "pbTimestamp",
+                  "fill": "#FFFFFF",
+                  "content": "2024-01-15 09:30:00",
+                  "fontFamily": "$--font-secondary",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "Dtxyi",
+                  "x": 348,
+                  "y": 16,
+                  "name": "pbSpeed",
+                  "fill": "#00000080",
+                  "cornerRadius": 4,
+                  "padding": [
+                    4,
+                    8
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "LZu7I",
+                      "name": "pbSpeedText",
+                      "fill": "#FFFFFF",
+                      "content": "1x",
+                      "fontFamily": "$--font-secondary",
+                      "fontSize": 11,
+                      "fontWeight": "500"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "UkS66",
+          "name": "pbControls",
+          "width": "fill_container",
+          "gap": 20,
+          "padding": [
+            16,
+            20
+          ],
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "36VQZ",
+              "name": "pbCtrlPrev",
+              "width": 48,
+              "height": 48,
+              "fill": "#FFFFFF20",
+              "cornerRadius": 24,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "xaAa5",
+                  "name": "pbCtrlPrevIcon",
+                  "width": 24,
+                  "height": 24,
+                  "iconFontName": "fast_rewind",
+                  "iconFontFamily": "Material Symbols Rounded",
+                  "weight": 400,
+                  "fill": "#FFFFFF"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "EsDHi",
+              "name": "pbCtrlPlay",
+              "width": 64,
+              "height": 64,
+              "fill": "$--primary",
+              "cornerRadius": 32,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "IqO8V",
+                  "name": "pbCtrlPlayIcon",
+                  "width": 32,
+                  "height": 32,
+                  "iconFontName": "pause",
+                  "iconFontFamily": "Material Symbols Rounded",
+                  "weight": 400,
+                  "fill": "#FFFFFF"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "fZJoz",
+              "name": "pbCtrlNext",
+              "width": 48,
+              "height": 48,
+              "fill": "#FFFFFF20",
+              "cornerRadius": 24,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "5hW66",
+                  "name": "pbCtrlNextIcon",
+                  "width": 24,
+                  "height": 24,
+                  "iconFontName": "fast_forward",
+                  "iconFontFamily": "Material Symbols Rounded",
+                  "weight": 400,
+                  "fill": "#FFFFFF"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "KTp4k",
+          "name": "pbTimeline",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 8,
+          "padding": [
+            0,
+            20
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "ckRuR",
+              "name": "pbProgress",
+              "width": "fill_container",
+              "height": 6,
+              "fill": "#FFFFFF30",
+              "cornerRadius": 3,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "Cyl8H",
+                  "name": "pbProgressFill",
+                  "width": 156,
+                  "height": 6,
+                  "fill": "$--primary",
+                  "cornerRadius": 3
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "LQBnJ",
+              "name": "pbTimeLabels",
+              "width": "fill_container",
+              "justifyContent": "space_between",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "NbVq0",
+                  "name": "pbTimeStart",
+                  "fill": "#FFFFFF80",
+                  "content": "09:30:00",
+                  "fontFamily": "$--font-secondary",
+                  "fontSize": 11,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "PFxRo",
+                  "name": "pbTimeEnd",
+                  "fill": "#FFFFFF80",
+                  "content": "09:45:00",
+                  "fontFamily": "$--font-secondary",
+                  "fontSize": 11,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "Mbfhc",
+          "name": "pbDatePicker",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 16,
+          "padding": 20,
+          "children": [
+            {
+              "type": "frame",
+              "id": "LNjBi",
+              "name": "pbDateHeader",
+              "width": "fill_container",
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "VAYeB",
+                  "name": "pbDateTitle",
+                  "fill": "#FFFFFF",
+                  "content": "January 2024",
+                  "fontFamily": "$--font-secondary",
+                  "fontSize": 15,
+                  "fontWeight": "500"
+                },
+                {
+                  "type": "frame",
+                  "id": "rwFBj",
+                  "name": "pbDateNav",
+                  "gap": 12,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "DixnO",
+                      "name": "pbDatePrev",
+                      "width": 24,
+                      "height": 24,
+                      "iconFontName": "chevron_left",
+                      "iconFontFamily": "Material Symbols Rounded",
+                      "weight": 400,
+                      "fill": "#FFFFFF"
+                    },
+                    {
+                      "type": "icon_font",
+                      "id": "v34dr",
+                      "name": "pbDateNext",
+                      "width": 24,
+                      "height": 24,
+                      "iconFontName": "chevron_right",
+                      "iconFontFamily": "Material Symbols Rounded",
+                      "weight": 400,
+                      "fill": "#FFFFFF"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "9eqKi",
+              "name": "pbCalendar",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "ZlNJF",
+                  "name": "pbCalWeek",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "DmDWP",
+                      "name": "pbCalD1",
+                      "fill": "#FFFFFF60",
+                      "textGrowth": "fixed-width",
+                      "width": 44,
+                      "content": "Sun",
+                      "textAlign": "center",
+                      "fontFamily": "$--font-secondary",
+                      "fontSize": 11,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "dw4YG",
+                      "name": "pbCalD2",
+                      "fill": "#FFFFFF60",
+                      "textGrowth": "fixed-width",
+                      "width": 44,
+                      "content": "Mon",
+                      "textAlign": "center",
+                      "fontFamily": "$--font-secondary",
+                      "fontSize": 11,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "txlpH",
+                      "name": "pbCalD3",
+                      "fill": "#FFFFFF60",
+                      "textGrowth": "fixed-width",
+                      "width": 44,
+                      "content": "Tue",
+                      "textAlign": "center",
+                      "fontFamily": "$--font-secondary",
+                      "fontSize": 11,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "NTClb",
+                      "name": "pbCalD4",
+                      "fill": "#FFFFFF60",
+                      "textGrowth": "fixed-width",
+                      "width": 44,
+                      "content": "Wed",
+                      "textAlign": "center",
+                      "fontFamily": "$--font-secondary",
+                      "fontSize": 11,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "so4is",
+                      "name": "pbCalD5",
+                      "fill": "#FFFFFF60",
+                      "textGrowth": "fixed-width",
+                      "width": 44,
+                      "content": "Thu",
+                      "textAlign": "center",
+                      "fontFamily": "$--font-secondary",
+                      "fontSize": 11,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "3ccxL",
+                      "name": "pbCalD6",
+                      "fill": "#FFFFFF60",
+                      "textGrowth": "fixed-width",
+                      "width": 44,
+                      "content": "Fri",
+                      "textAlign": "center",
+                      "fontFamily": "$--font-secondary",
+                      "fontSize": 11,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "0ElqA",
+                      "name": "pbCalD7",
+                      "fill": "#FFFFFF60",
+                      "textGrowth": "fixed-width",
+                      "width": 44,
+                      "content": "Sat",
+                      "textAlign": "center",
+                      "fontFamily": "$--font-secondary",
+                      "fontSize": 11,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "bZXW4",
+                  "name": "pbCalRow1",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "4xvI0",
+                      "name": "pbCal14",
+                      "width": 44,
+                      "height": 44,
+                      "cornerRadius": 22,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "IzlGg",
+                          "name": "pbCal14Text",
+                          "fill": "#FFFFFF",
+                          "content": "14",
+                          "fontFamily": "$--font-secondary",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "usTTy",
+                      "name": "pbCal15",
+                      "width": 44,
+                      "height": 44,
+                      "fill": "$--primary",
+                      "cornerRadius": 22,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "SqoKa",
+                          "name": "pbCal15Text",
+                          "fill": "#111111",
+                          "content": "15",
+                          "fontFamily": "$--font-secondary",
+                          "fontSize": 14,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "PAmRh",
+                      "name": "pbCal16",
+                      "width": 44,
+                      "height": 44,
+                      "cornerRadius": 22,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "SyxsX",
+                          "name": "pbCal16Text",
+                          "fill": "#FFFFFF",
+                          "content": "16",
+                          "fontFamily": "$--font-secondary",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "T2M55",
+                      "name": "pbCal17",
+                      "width": 44,
+                      "height": 44,
+                      "cornerRadius": 22,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "pbaoO",
+                          "name": "pbCal17Text",
+                          "fill": "#FFFFFF",
+                          "content": "17",
+                          "fontFamily": "$--font-secondary",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "uzSiU",
+                      "name": "pbCal18",
+                      "width": 44,
+                      "height": 44,
+                      "cornerRadius": 22,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "K5IhT",
+                          "name": "pbCal18Text",
+                          "fill": "#FFFFFF",
+                          "content": "18",
+                          "fontFamily": "$--font-secondary",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "vrI1p",
+                      "name": "pbCal19",
+                      "width": 44,
+                      "height": 44,
+                      "cornerRadius": 22,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "N362e",
+                          "name": "pbCal19Text",
+                          "fill": "#FFFFFF",
+                          "content": "19",
+                          "fontFamily": "$--font-secondary",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "6xnrI",
+                      "name": "pbCal20",
+                      "width": 44,
+                      "height": 44,
+                      "cornerRadius": 22,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "wbiC8",
+                          "name": "pbCal20Text",
+                          "fill": "#FFFFFF",
+                          "content": "20",
+                          "fontFamily": "$--font-secondary",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "j6Y4J",
+          "name": "pbRecordings",
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "gap": 12,
+          "padding": [
+            0,
+            20
+          ],
+          "children": [
+            {
+              "type": "text",
+              "id": "I4w8Z",
+              "name": "pbRecHeader",
+              "fill": "#FFFFFF",
+              "content": "Recordings on Jan 15",
+              "fontFamily": "$--font-secondary",
+              "fontSize": 14,
+              "fontWeight": "500"
+            },
+            {
+              "type": "frame",
+              "id": "bctrS",
+              "name": "pbRecItem1",
+              "width": "fill_container",
+              "fill": "#1A1A1A",
+              "cornerRadius": 12,
+              "gap": 12,
+              "padding": 14,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "ydnQp",
+                  "name": "pbRecItem1Icon",
+                  "width": 36,
+                  "height": 36,
+                  "iconFontName": "play_circle",
+                  "iconFontFamily": "Material Symbols Rounded",
+                  "weight": 400,
+                  "fill": "$--primary"
+                },
+                {
+                  "type": "frame",
+                  "id": "88vFR",
+                  "name": "pbRecItem1Info",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 2,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "1NUmP",
+                      "name": "pbRecItem1Time",
+                      "fill": "#FFFFFF",
+                      "content": "09:30:00 - 09:45:00",
+                      "fontFamily": "$--font-secondary",
+                      "fontSize": 13,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "text",
+                      "id": "roD8w",
+                      "name": "pbRecItem1Dur",
+                      "fill": "#FFFFFF60",
+                      "content": "15 min · Motion detected",
+                      "fontFamily": "$--font-secondary",
+                      "fontSize": 11,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "ZE1nb",
+      "x": 2650,
+      "y": 5500,
+      "name": "Camera / Settings",
+      "clip": true,
+      "width": 430,
+      "height": 932,
+      "fill": "$--background",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "MTpo7",
+          "name": "csStatusBar",
+          "width": "fill_container",
+          "height": 54,
+          "padding": [
+            14,
+            24
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "u8N4S",
+              "name": "csStatusTime",
+              "fill": "$--foreground",
+              "content": "9:41",
+              "fontFamily": "$--font-secondary",
+              "fontSize": 15,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "GLp3F",
+              "name": "csStatusRight",
+              "gap": 6,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "FbkQ0",
+                  "name": "csStatusSignal",
+                  "width": 18,
+                  "height": 18,
+                  "iconFontName": "signal_cellular_alt",
+                  "iconFontFamily": "Material Symbols Rounded",
+                  "weight": 400,
+                  "fill": "$--foreground"
+                },
+                {
+                  "type": "icon_font",
+                  "id": "BstrW",
+                  "name": "csStatusWifi",
+                  "width": 18,
+                  "height": 18,
+                  "iconFontName": "wifi",
+                  "iconFontFamily": "Material Symbols Rounded",
+                  "weight": 400,
+                  "fill": "$--foreground"
+                },
+                {
+                  "type": "icon_font",
+                  "id": "DjufO",
+                  "name": "csStatusBattery",
+                  "width": 22,
+                  "height": 18,
+                  "iconFontName": "battery_full",
+                  "iconFontFamily": "Material Symbols Rounded",
+                  "weight": 400,
+                  "fill": "$--foreground"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "Gv1Eh",
+          "name": "csHeader",
+          "width": "fill_container",
+          "gap": 16,
+          "padding": [
+            8,
+            20
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "BpWed",
+              "name": "csBackBtn",
+              "width": 40,
+              "height": 40,
+              "fill": "$--secondary",
+              "cornerRadius": 20,
+              "layout": "none",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "2KgDw",
+                  "x": 9,
+                  "y": 9,
+                  "name": "csBackIcon",
+                  "width": 22,
+                  "height": 22,
+                  "iconFontName": "arrow_back",
+                  "iconFontFamily": "Material Symbols Rounded",
+                  "weight": 400,
+                  "fill": "$--foreground"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "uCWe6",
+              "name": "csTitle",
+              "fill": "$--foreground",
+              "content": "Camera Settings",
+              "fontFamily": "$--font-primary",
+              "fontSize": 20,
+              "fontWeight": "600"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "5GLE2",
+          "name": "csContent",
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "gap": 20,
+          "padding": [
+            16,
+            20
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "q5hxo",
+              "name": "csStreamSection",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "mx217",
+                  "name": "csStreamLabel",
+                  "fill": "$--muted-foreground",
+                  "content": "Stream Settings",
+                  "fontFamily": "$--font-secondary",
+                  "fontSize": 13,
+                  "fontWeight": "500"
+                },
+                {
+                  "type": "frame",
+                  "id": "y39aB",
+                  "name": "csStreamCard",
+                  "clip": true,
+                  "width": "fill_container",
+                  "fill": "$--card",
+                  "cornerRadius": "$--radius-m",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "$--border"
+                  },
+                  "layout": "vertical",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "7v4Ik",
+                      "name": "csRow1",
+                      "width": "fill_container",
+                      "padding": 16,
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "dO6B1",
+                          "name": "csRow1Left",
+                          "layout": "vertical",
+                          "gap": 2,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "oBHns",
+                              "name": "csRow1Title",
+                              "fill": "$--foreground",
+                              "content": "Resolution",
+                              "fontFamily": "$--font-secondary",
+                              "fontSize": 15,
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "text",
+                              "id": "s62ep",
+                              "name": "csRow1Value",
+                              "fill": "$--muted-foreground",
+                              "content": "1920 × 1080",
+                              "fontFamily": "$--font-secondary",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "icon_font",
+                          "id": "crdT7",
+                          "name": "csRow1Arrow",
+                          "width": 22,
+                          "height": 22,
+                          "iconFontName": "chevron_right",
+                          "iconFontFamily": "Material Symbols Rounded",
+                          "weight": 400,
+                          "fill": "$--muted-foreground"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "nz9J1",
+                      "name": "csDivider1",
+                      "width": "fill_container",
+                      "height": 1,
+                      "fill": "$--border",
+                      "padding": [
+                        0,
+                        16
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "l41h1",
+                      "name": "csRow2",
+                      "width": "fill_container",
+                      "padding": 16,
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "iW8hL",
+                          "name": "csRow2Left",
+                          "layout": "vertical",
+                          "gap": 2,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "clh1h",
+                              "name": "csRow2Title",
+                              "fill": "$--foreground",
+                              "content": "Frame Rate",
+                              "fontFamily": "$--font-secondary",
+                              "fontSize": 15,
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "text",
+                              "id": "yWAXx",
+                              "name": "csRow2Value",
+                              "fill": "$--muted-foreground",
+                              "content": "30 fps",
+                              "fontFamily": "$--font-secondary",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "icon_font",
+                          "id": "zZjnu",
+                          "name": "csRow2Arrow",
+                          "width": 22,
+                          "height": 22,
+                          "iconFontName": "chevron_right",
+                          "iconFontFamily": "Material Symbols Rounded",
+                          "weight": 400,
+                          "fill": "$--muted-foreground"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Nh76E",
+                      "name": "csDivider2",
+                      "width": "fill_container",
+                      "height": 1,
+                      "fill": "$--border"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "3ytGl",
+                      "name": "csRow3",
+                      "width": "fill_container",
+                      "padding": 16,
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "WAHoC",
+                          "name": "csRow3Left",
+                          "layout": "vertical",
+                          "gap": 2,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "7xYQy",
+                              "name": "csRow3Title",
+                              "fill": "$--foreground",
+                              "content": "Bitrate",
+                              "fontFamily": "$--font-secondary",
+                              "fontSize": 15,
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "text",
+                              "id": "uf171",
+                              "name": "csRow3Value",
+                              "fill": "$--muted-foreground",
+                              "content": "4096 Kbps",
+                              "fontFamily": "$--font-secondary",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "icon_font",
+                          "id": "yMzTv",
+                          "name": "csRow3Arrow",
+                          "width": 22,
+                          "height": 22,
+                          "iconFontName": "chevron_right",
+                          "iconFontFamily": "Material Symbols Rounded",
+                          "weight": 400,
+                          "fill": "$--muted-foreground"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "gZFp1",
+              "name": "csRecSection",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "nxnIM",
+                  "name": "csRecLabel",
+                  "fill": "$--muted-foreground",
+                  "content": "Recording",
+                  "fontFamily": "$--font-secondary",
+                  "fontSize": 13,
+                  "fontWeight": "500"
+                },
+                {
+                  "type": "frame",
+                  "id": "tCywI",
+                  "name": "csRecCard",
+                  "clip": true,
+                  "width": "fill_container",
+                  "fill": "$--card",
+                  "cornerRadius": "$--radius-m",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "$--border"
+                  },
+                  "layout": "vertical",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "UOu5f",
+                      "name": "csRecRow1",
+                      "width": "fill_container",
+                      "padding": 16,
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "4pIxQ",
+                          "name": "csRecRow1Left",
+                          "layout": "vertical",
+                          "gap": 2,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "IeFMe",
+                              "name": "csRecRow1Title",
+                              "fill": "$--foreground",
+                              "content": "Recording Mode",
+                              "fontFamily": "$--font-secondary",
+                              "fontSize": 15,
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "text",
+                              "id": "10M0b",
+                              "name": "csRecRow1Value",
+                              "fill": "$--muted-foreground",
+                              "content": "Continuous",
+                              "fontFamily": "$--font-secondary",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "icon_font",
+                          "id": "6NyaD",
+                          "name": "csRecRow1Arrow",
+                          "width": 22,
+                          "height": 22,
+                          "iconFontName": "chevron_right",
+                          "iconFontFamily": "Material Symbols Rounded",
+                          "weight": 400,
+                          "fill": "$--muted-foreground"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "1iOC2",
+                      "name": "csRecDivider",
+                      "width": "fill_container",
+                      "height": 1,
+                      "fill": "$--border"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "cs4P1",
+                      "name": "csRecRow2",
+                      "width": "fill_container",
+                      "padding": 16,
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "hMhkQ",
+                          "name": "csRecRow2Title",
+                          "fill": "$--foreground",
+                          "content": "Motion Detection",
+                          "fontFamily": "$--font-secondary",
+                          "fontSize": 15,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "0Iq4P",
+                          "name": "csToggle",
+                          "width": 52,
+                          "height": 32,
+                          "fill": "$--primary",
+                          "cornerRadius": 16,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "0iYeu",
+                              "x": 22,
+                              "y": 2,
+                              "name": "csRecRow2Knob",
+                              "width": 28,
+                              "height": 28,
+                              "fill": "$--white",
+                              "cornerRadius": 14
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "KYY3t",
+              "name": "csAlertSection",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "M1dYn",
+                  "name": "csAlertLabel",
+                  "fill": "$--muted-foreground",
+                  "content": "Alerts",
+                  "fontFamily": "$--font-secondary",
+                  "fontSize": 13,
+                  "fontWeight": "500"
+                },
+                {
+                  "type": "frame",
+                  "id": "DtCdW",
+                  "name": "csAlertCard",
+                  "clip": true,
+                  "width": "fill_container",
+                  "fill": "$--card",
+                  "cornerRadius": "$--radius-m",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "$--border"
+                  },
+                  "layout": "vertical",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "bBn37",
+                      "name": "csAlertRow1",
+                      "width": "fill_container",
+                      "padding": 16,
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "4DgSy",
+                          "name": "csAlertRow1Title",
+                          "fill": "$--foreground",
+                          "content": "Push Notifications",
+                          "fontFamily": "$--font-secondary",
+                          "fontSize": 15,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "pORlE",
+                          "name": "csToggle2",
+                          "width": 52,
+                          "height": 32,
+                          "fill": "$--primary",
+                          "cornerRadius": 16,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "dF5Uo",
+                              "x": 22,
+                              "y": 2,
+                              "name": "csAlertRow1Knob",
+                              "width": 28,
+                              "height": 28,
+                              "fill": "$--white",
+                              "cornerRadius": 14
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "QTKbs",
+                      "name": "csAlertDivider",
+                      "width": "fill_container",
+                      "height": 1,
+                      "fill": "$--border"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "pLtb7",
+                      "name": "csAlertRow2",
+                      "width": "fill_container",
+                      "padding": 16,
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "a2LCM",
+                          "name": "csAlertRow2Title",
+                          "fill": "$--foreground",
+                          "content": "Sound Alert",
+                          "fontFamily": "$--font-secondary",
+                          "fontSize": 15,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "CNOxW",
+                          "name": "csToggle3",
+                          "width": 52,
+                          "height": 32,
+                          "fill": "$--secondary",
+                          "cornerRadius": 16,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "YMhJO",
+                              "x": 2,
+                              "y": 2,
+                              "name": "csAlertRow2Knob",
+                              "width": 28,
+                              "height": 28,
+                              "fill": "$--white",
+                              "cornerRadius": 14
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "4HY8I",
+              "name": "csDangerSection",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "o92N0",
+                  "name": "csDangerLabel",
+                  "fill": "#EF4444",
+                  "content": "Danger Zone",
+                  "fontFamily": "$--font-secondary",
+                  "fontSize": 13,
+                  "fontWeight": "500"
+                },
+                {
+                  "type": "frame",
+                  "id": "ifG8e",
+                  "name": "csDangerCard",
+                  "clip": true,
+                  "width": "fill_container",
+                  "fill": "$--card",
+                  "cornerRadius": "$--radius-m",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "$--border"
+                  },
+                  "layout": "vertical",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "VcrOk",
+                      "name": "csDangerRow1",
+                      "width": "fill_container",
+                      "gap": 12,
+                      "padding": 16,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "sHkAW",
+                          "name": "csDangerRow1Icon",
+                          "width": 22,
+                          "height": 22,
+                          "iconFontName": "restart_alt",
+                          "iconFontFamily": "Material Symbols Rounded",
+                          "weight": 400,
+                          "fill": "$--foreground"
+                        },
+                        {
+                          "type": "text",
+                          "id": "dT4Yw",
+                          "name": "csDangerRow1Title",
+                          "fill": "$--foreground",
+                          "content": "Reset Camera Settings",
+                          "fontFamily": "$--font-secondary",
+                          "fontSize": 15,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "TDWti",
+                      "name": "csDangerDivider",
+                      "width": "fill_container",
+                      "height": 1,
+                      "fill": "$--border"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "2F1dC",
+                      "name": "csDangerRow2",
+                      "width": "fill_container",
+                      "gap": 12,
+                      "padding": 16,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "W9XHb",
+                          "name": "csDangerRow2Icon",
+                          "width": 22,
+                          "height": 22,
+                          "iconFontName": "delete",
+                          "iconFontFamily": "Material Symbols Rounded",
+                          "weight": 400,
+                          "fill": "#EF4444"
+                        },
+                        {
+                          "type": "text",
+                          "id": "6fpzL",
+                          "name": "csDangerRow2Title",
+                          "fill": "#EF4444",
+                          "content": "Remove Camera",
+                          "fontFamily": "$--font-secondary",
+                          "fontSize": 15,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
                 }
               ]
             }

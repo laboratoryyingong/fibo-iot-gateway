@@ -4,5 +4,5 @@ class AppParseConfig {
 
   // NOTE: This should be the Parse Client Key (if your server requires one).
   // Do NOT put the Master Key in a client app.
-  static const String? clientKey = '01313340edd241209ec5c76432b66497c1f9749724a304eb7d19766704f2dcde';
+  static const String clientKey = '01313340edd241209ec5c76432b66497c1f9749724a304eb7d19766704f2dcde';
 }
