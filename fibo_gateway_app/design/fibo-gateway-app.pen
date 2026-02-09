@@ -12276,7 +12276,7 @@
                           "id": "EoHq9",
                           "name": "addNVRInputUserText",
                           "fill": "$--foreground",
-                          "content": "admin",
+                          "content": "username",
                           "fontFamily": "$--font-secondary",
                           "fontSize": 15,
                           "fontWeight": "normal"

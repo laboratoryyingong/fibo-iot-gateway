@@ -1,8 +1,7 @@
-class AppParseConfig {
-  static const String serverUrl = 'https://parse.innoau.com.au/parse/';
-  static const String appId = '78bfa1b709da82ec18963c7316c134e90aa146e29031b8cc';
+import 'parse_config.local.dart' as local;
 
-  // NOTE: This should be the Parse Client Key (if your server requires one).
-  // Do NOT put the Master Key in a client app.
-  static const String clientKey = '';
+class AppParseConfig {
+  static const String serverUrl = local.serverUrl;
+  static const String appId = local.appId;
+  static const String clientKey = local.clientKey;
 }

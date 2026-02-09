@@ -1,21 +1,51 @@
-# fibo_gateway_app
+# Fibo Gateway App
 
-A new Flutter project.
+Flutter app for a Zigbee gateway dashboard with device management, pairing flow, and basic account authentication.
 
-## Getting Started
+**Modules**
+- Auth: splash, login, sign up, forgot password
+- Dashboard: home overview, quick access, metrics
+- Devices: list, detail
+- Network: status overview
+- Settings: gateway and system sections
+- Pairing: start, searching, device found, success
 
-This project is a starting point for a Flutter application.
+**Tech Stack**
+- Flutter
+- Parse Server SDK (`parse_server_sdk_flutter`)
 
-A few resources to get you started if this is your first Flutter project:
+**Project Structure**
+- `fibo_gateway_app/lib/screens/`: UI screens
+- `fibo_gateway_app/lib/services/`: Parse config
+- `fibo_gateway_app/lib/theme/`: colors and typography
+- `fibo_gateway_app/lib/widgets/`: shared components
+- `fibo_gateway_app/design/`: `.pen` design source
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+**Local Parse Config**
+This project expects a local-only Parse config file that is ignored by git.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+1. Copy `fibo_gateway_app/lib/services/parse_config.example.dart` to `fibo_gateway_app/lib/services/parse_config.local.dart`
+2. Fill in your real `serverUrl`, `appId`, and `clientKey` values
 
-## Parse Dashboard
-https://dashboard.innoau.com.au/login
-user: admin
-password: 6c2a9f5c8d8e4f66b8a1c2d3
+Note: `parse_config.local.dart` is gitignored on purpose.
+
+**Parse Dashboard (redacted)**
+- URL: `<REDACTED_DASHBOARD_URL>`
+- User: `<REDACTED_USER>`
+- Password: `<REDACTED_PASSWORD>`
+
+**Run**
+```bash
+cd fibo_gateway_app
+flutter pub get
+flutter run
+```
+
+**Navigation**
+- `/home` -> bottom tabs: Home, Devices, Network, Settings
+- `/device-detail` -> device detail page (no footer)
+- `/pairing/*` -> pairing flow screens
+
+**Security**
+- Do not commit secrets or credentials
+- Use `parse_config.local.dart` for local-only settings
