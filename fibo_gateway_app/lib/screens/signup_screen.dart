@@ -37,22 +37,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   String? _emailValidator(String? value) {
     final text = value?.trim() ?? '';
-    if (text.isEmpty) return '请输入邮箱';
+    if (text.isEmpty) return 'Please enter your email';
     final emailRegex = RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$');
-    if (!emailRegex.hasMatch(text)) return '邮箱格式不正确';
+    if (!emailRegex.hasMatch(text)) return 'Invalid email format';
     return null;
   }
 
   String? _passwordValidator(String? value) {
     final text = value ?? '';
-    if (text.isEmpty) return '请输入密码';
-    if (text.length < 6) return '密码至少 6 位';
+    if (text.isEmpty) return 'Please enter your password';
+    if (text.length < 6) return 'Password must be at least 6 characters';
     return null;
   }
 
   String? _confirmValidator(String? value) {
-    if ((value ?? '').isEmpty) return '请再次输入密码';
-    if (value != _passwordController.text) return '两次密码不一致';
+    if ((value ?? '').isEmpty) return 'Please re-enter your password';
+    if (value != _passwordController.text) return 'Passwords do not match';
     return null;
   }
 
@@ -66,7 +66,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('确定'),
+            child: const Text('OK'),
           ),
         ],
       ),
@@ -77,7 +77,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     final formState = _formKey.currentState;
     if (formState == null || !formState.validate()) return;
     if (!_agreeToTerms) {
-      await _showMessage('需要同意条款', '请先同意条款再继续。');
+      await _showMessage('Terms acceptance required', 'Please accept the terms before continuing.');
       return;
     }
 
@@ -92,13 +92,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
     setState(() => _isLoading = false);
 
     if (response.success) {
-      await _showMessage('注册成功', '我们已发送验证邮件，请先完成邮箱验证后再登录。');
+      await _showMessage(
+        'Sign-up successful',
+        'We sent a verification email. Please verify your email before signing in.',
+      );
       if (!mounted) return;
       Navigator.of(context).pushReplacementNamed('/login');
       return;
     }
 
-    await _showMessage('注册失败', response.error?.message ?? '请稍后再试');
+    await _showMessage('Sign-up failed', response.error?.message ?? 'Please try again later');
   }
 
   @override
@@ -140,7 +143,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         hint: 'Enter your full name',
                         prefixIcon: Icons.person_outline,
                         controller: _nameController,
-                        validator: (value) => _requiredValidator(value, '请输入姓名'),
+                        validator: (value) => _requiredValidator(value, 'Please enter your full name'),
                       ),
                       const SizedBox(height: 16),
                       AuthTextField(

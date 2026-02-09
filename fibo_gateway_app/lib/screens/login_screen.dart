@@ -27,16 +27,16 @@ class _LoginScreenState extends State<LoginScreen> {
 
   String? _emailValidator(String? value) {
     final text = value?.trim() ?? '';
-    if (text.isEmpty) return '请输入邮箱';
+    if (text.isEmpty) return 'Please enter your email';
     final emailRegex = RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$');
-    if (!emailRegex.hasMatch(text)) return '邮箱格式不正确';
+    if (!emailRegex.hasMatch(text)) return 'Invalid email format';
     return null;
   }
 
   String? _passwordValidator(String? value) {
     final text = value ?? '';
-    if (text.isEmpty) return '请输入密码';
-    if (text.length < 6) return '密码至少 6 位';
+    if (text.isEmpty) return 'Please enter your password';
+    if (text.length < 6) return 'Password must be at least 6 characters';
     return null;
   }
 
@@ -50,7 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('确定'),
+            child: const Text('OK'),
           ),
         ],
       ),
@@ -74,15 +74,15 @@ class _LoginScreenState extends State<LoginScreen> {
       final loggedInUser = response.result as ParseUser;
       final emailVerified = loggedInUser.get<bool>('emailVerified') ?? false;
       if (!emailVerified) {
-        await _showMessage('请验证邮箱', '你的邮箱尚未验证，请先完成邮箱验证后再登录。');
+        await _showMessage('Please verify your email', 'Your email is not verified. Please verify it before signing in.');
         await loggedInUser.logout();
         return;
       }
-      await _showMessage('登录成功', '欢迎回来！');
+      await _showMessage('Sign-in successful', 'Welcome back!');
       return;
     }
 
-    await _showMessage('登录失败', response.error?.message ?? '请稍后再试');
+    await _showMessage('Sign-in failed', response.error?.message ?? 'Please try again later');
   }
 
   @override
@@ -140,6 +140,10 @@ class _LoginScreenState extends State<LoginScreen> {
                             : const Text('Sign In'),
                       ),
                       const SizedBox(height: 24),
+                      // Social sign-in options are intentionally hidden for now.
+                      // Uncomment this block when enabling Google/Apple sign-in.
+                      /*
+                      const SizedBox(height: 24),
                       Row(
                         children: [
                           const Expanded(child: Divider(color: AppColors.border, height: 1)),
@@ -162,6 +166,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         label: const Text('Apple'),
                       ),
                       const SizedBox(height: 24),
+                      */
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [

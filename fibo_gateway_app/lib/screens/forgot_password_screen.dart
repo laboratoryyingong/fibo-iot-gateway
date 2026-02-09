@@ -24,9 +24,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
   String? _emailValidator(String? value) {
     final text = value?.trim() ?? '';
-    if (text.isEmpty) return '请输入邮箱';
+    if (text.isEmpty) return 'Please enter your email';
     final emailRegex = RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$');
-    if (!emailRegex.hasMatch(text)) return '邮箱格式不正确';
+    if (!emailRegex.hasMatch(text)) return 'Invalid email format';
     return null;
   }
 
@@ -40,7 +40,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('确定'),
+            child: const Text('OK'),
           ),
         ],
       ),
@@ -57,11 +57,11 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     setState(() => _isLoading = false);
 
     if (response.success) {
-      await _showMessage('已发送', '重置链接已发送到你的邮箱。');
+      await _showMessage('Sent', 'A reset link has been sent to your email.');
       return;
     }
 
-    await _showMessage('发送失败', response.error?.message ?? '请稍后再试');
+    await _showMessage('Send failed', response.error?.message ?? 'Please try again later');
   }
 
   @override
