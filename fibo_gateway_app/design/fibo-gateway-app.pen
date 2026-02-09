@@ -15,73 +15,6 @@
       "children": [
         {
           "type": "frame",
-          "id": "HtHd1",
-          "name": "statusBar",
-          "width": "fill_container",
-          "height": 54,
-          "padding": [
-            14,
-            24
-          ],
-          "justifyContent": "space_between",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "text",
-              "id": "Rra6F",
-              "name": "statusTime",
-              "fill": "$--foreground",
-              "content": "9:41",
-              "fontFamily": "$--font-secondary",
-              "fontSize": 15,
-              "fontWeight": "600"
-            },
-            {
-              "type": "frame",
-              "id": "JHxKc",
-              "name": "statusRight",
-              "gap": 6,
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "icon_font",
-                  "id": "lSM1W",
-                  "name": "statusSignal",
-                  "width": 18,
-                  "height": 18,
-                  "iconFontName": "signal_cellular_alt",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "weight": 400,
-                  "fill": "$--foreground"
-                },
-                {
-                  "type": "icon_font",
-                  "id": "zgpmy",
-                  "name": "statusWifi",
-                  "width": 18,
-                  "height": 18,
-                  "iconFontName": "wifi",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "weight": 400,
-                  "fill": "$--foreground"
-                },
-                {
-                  "type": "icon_font",
-                  "id": "rgDYI",
-                  "name": "statusBattery",
-                  "width": 22,
-                  "height": 22,
-                  "iconFontName": "battery_full",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "weight": 400,
-                  "fill": "$--foreground"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "frame",
           "id": "X7vgf",
           "name": "mHeader",
           "width": "fill_container",
@@ -121,6 +54,31 @@
                       "iconFontFamily": "Material Symbols Rounded",
                       "weight": 400,
                       "fill": "$--white"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "oGNZM",
+                  "name": "mMenuBtn",
+                  "width": 40,
+                  "height": 40,
+                  "fill": "$--secondary",
+                  "cornerRadius": 20,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "bPOln",
+                      "x": 9,
+                      "y": 9,
+                      "name": "mMenuIcon",
+                      "width": 22,
+                      "height": 22,
+                      "iconFontName": "menu",
+                      "iconFontFamily": "Material Symbols Rounded",
+                      "weight": 400,
+                      "fill": "$--foreground"
                     }
                   ]
                 },
@@ -1033,73 +991,6 @@
       "children": [
         {
           "type": "frame",
-          "id": "K0mx3",
-          "name": "statusBar2",
-          "width": "fill_container",
-          "height": 54,
-          "padding": [
-            14,
-            24
-          ],
-          "justifyContent": "space_between",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "text",
-              "id": "5wJOR",
-              "name": "statusTime2",
-              "fill": "$--foreground",
-              "content": "9:41",
-              "fontFamily": "$--font-secondary",
-              "fontSize": 15,
-              "fontWeight": "600"
-            },
-            {
-              "type": "frame",
-              "id": "14u1D",
-              "name": "statusRight2",
-              "gap": 6,
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "icon_font",
-                  "id": "ZDirm",
-                  "name": "statusSignal2",
-                  "width": 18,
-                  "height": 18,
-                  "iconFontName": "signal_cellular_alt",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "weight": 400,
-                  "fill": "$--foreground"
-                },
-                {
-                  "type": "icon_font",
-                  "id": "5kvn6",
-                  "name": "statusWifi2",
-                  "width": 18,
-                  "height": 18,
-                  "iconFontName": "wifi",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "weight": 400,
-                  "fill": "$--foreground"
-                },
-                {
-                  "type": "icon_font",
-                  "id": "H6h7u",
-                  "name": "statusBattery2",
-                  "width": 22,
-                  "height": 22,
-                  "iconFontName": "battery_full",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "weight": 400,
-                  "fill": "$--foreground"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "frame",
           "id": "MYm3G",
           "name": "mHeader2",
           "width": "fill_container",
@@ -1111,37 +1002,105 @@
           "alignItems": "center",
           "children": [
             {
-              "type": "text",
-              "id": "WeK8u",
-              "name": "mHeaderTitle2",
-              "fill": "$--foreground",
-              "content": "Devices",
-              "fontFamily": "$--font-primary",
-              "fontSize": 28,
-              "fontWeight": "600"
+              "type": "frame",
+              "id": "UDcKW",
+              "name": "devHeaderLeft",
+              "gap": 16,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "dEa6l",
+                  "name": "devMenuBtn",
+                  "width": 40,
+                  "height": 40,
+                  "fill": "$--secondary",
+                  "cornerRadius": 20,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "Py4bm",
+                      "x": 9,
+                      "y": 9,
+                      "name": "devMenuIcon",
+                      "width": 22,
+                      "height": 22,
+                      "iconFontName": "menu",
+                      "iconFontFamily": "Material Symbols Rounded",
+                      "weight": 400,
+                      "fill": "$--foreground"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "WeK8u",
+                  "name": "mHeaderTitle2",
+                  "fill": "$--foreground",
+                  "content": "Devices",
+                  "fontFamily": "$--font-primary",
+                  "fontSize": 28,
+                  "fontWeight": "600"
+                }
+              ]
             },
             {
               "type": "frame",
-              "id": "wbPfl",
-              "name": "mAddBtn",
-              "width": 40,
-              "height": 40,
-              "fill": "$--primary",
-              "cornerRadius": 20,
-              "layout": "none",
+              "id": "DjfQx",
+              "name": "devHeaderRight",
+              "gap": 8,
+              "alignItems": "center",
               "children": [
                 {
-                  "type": "icon_font",
-                  "id": "WVkPt",
-                  "x": 8,
-                  "y": 8,
-                  "name": "mAddIcon",
-                  "width": 24,
-                  "height": 24,
-                  "iconFontName": "add",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "weight": 400,
-                  "fill": "$--white"
+                  "type": "frame",
+                  "id": "1LTnk",
+                  "name": "devNotifBtn",
+                  "width": 40,
+                  "height": 40,
+                  "fill": "$--secondary",
+                  "cornerRadius": 20,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "MpW8j",
+                      "x": 9,
+                      "y": 9,
+                      "name": "devNotifIcon",
+                      "width": 22,
+                      "height": 22,
+                      "iconFontName": "notifications",
+                      "iconFontFamily": "Material Symbols Rounded",
+                      "weight": 400,
+                      "fill": "$--foreground"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "wbPfl",
+                  "name": "mAddBtn",
+                  "width": 40,
+                  "height": 40,
+                  "fill": "$--primary",
+                  "cornerRadius": 20,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "WVkPt",
+                      "x": 8,
+                      "y": 8,
+                      "name": "mAddIcon",
+                      "width": 24,
+                      "height": 24,
+                      "iconFontName": "add",
+                      "iconFontFamily": "Material Symbols Rounded",
+                      "weight": 400,
+                      "fill": "$--white"
+                    }
+                  ]
                 }
               ]
             }
@@ -2047,73 +2006,6 @@
       "children": [
         {
           "type": "frame",
-          "id": "bcLXL",
-          "name": "statusBar3",
-          "width": "fill_container",
-          "height": 54,
-          "padding": [
-            14,
-            24
-          ],
-          "justifyContent": "space_between",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "text",
-              "id": "SKJB5",
-              "name": "statusTime3",
-              "fill": "$--foreground",
-              "content": "9:41",
-              "fontFamily": "$--font-secondary",
-              "fontSize": 15,
-              "fontWeight": "600"
-            },
-            {
-              "type": "frame",
-              "id": "9HHS5",
-              "name": "statusRight3",
-              "gap": 6,
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "icon_font",
-                  "id": "DU8c5",
-                  "name": "statusSignal3",
-                  "width": 18,
-                  "height": 18,
-                  "iconFontName": "signal_cellular_alt",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "weight": 400,
-                  "fill": "$--foreground"
-                },
-                {
-                  "type": "icon_font",
-                  "id": "L1CTY",
-                  "name": "statusWifi3",
-                  "width": 18,
-                  "height": 18,
-                  "iconFontName": "wifi",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "weight": 400,
-                  "fill": "$--foreground"
-                },
-                {
-                  "type": "icon_font",
-                  "id": "qawHF",
-                  "name": "statusBattery3",
-                  "width": 22,
-                  "height": 22,
-                  "iconFontName": "battery_full",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "weight": 400,
-                  "fill": "$--foreground"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "frame",
           "id": "vVDyA",
           "name": "mHeader3",
           "width": "fill_container",
@@ -2122,6 +2014,7 @@
             8,
             20
           ],
+          "justifyContent": "space_between",
           "alignItems": "center",
           "children": [
             {
@@ -2176,6 +2069,31 @@
                   "fontFamily": "$--font-secondary",
                   "fontSize": 13,
                   "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "WhvjU",
+              "name": "detailNotifBtn",
+              "width": 40,
+              "height": 40,
+              "fill": "$--secondary",
+              "cornerRadius": 20,
+              "layout": "none",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "aSpCw",
+                  "x": 9,
+                  "y": 9,
+                  "name": "detailNotifIcon",
+                  "width": 22,
+                  "height": 22,
+                  "iconFontName": "notifications",
+                  "iconFontFamily": "Material Symbols Rounded",
+                  "weight": 400,
+                  "fill": "$--foreground"
                 }
               ]
             }
@@ -2667,73 +2585,6 @@
       "children": [
         {
           "type": "frame",
-          "id": "lw536",
-          "name": "statusBar4",
-          "width": "fill_container",
-          "height": 54,
-          "padding": [
-            14,
-            24
-          ],
-          "justifyContent": "space_between",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "text",
-              "id": "qWkTK",
-              "name": "statusTime4",
-              "fill": "$--foreground",
-              "content": "9:41",
-              "fontFamily": "$--font-secondary",
-              "fontSize": 15,
-              "fontWeight": "600"
-            },
-            {
-              "type": "frame",
-              "id": "rGOVR",
-              "name": "statusRight4",
-              "gap": 6,
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "icon_font",
-                  "id": "zcLzg",
-                  "name": "statusSignal4",
-                  "width": 18,
-                  "height": 18,
-                  "iconFontName": "signal_cellular_alt",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "weight": 400,
-                  "fill": "$--foreground"
-                },
-                {
-                  "type": "icon_font",
-                  "id": "plc26",
-                  "name": "statusWifi4",
-                  "width": 18,
-                  "height": 18,
-                  "iconFontName": "wifi",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "weight": 400,
-                  "fill": "$--foreground"
-                },
-                {
-                  "type": "icon_font",
-                  "id": "CSRty",
-                  "name": "statusBattery4",
-                  "width": 22,
-                  "height": 22,
-                  "iconFontName": "battery_full",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "weight": 400,
-                  "fill": "$--foreground"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "frame",
           "id": "S9L1M",
           "name": "mHeader4",
           "width": "fill_container",
@@ -2745,37 +2596,105 @@
           "alignItems": "center",
           "children": [
             {
-              "type": "text",
-              "id": "VPUaG",
-              "name": "mHeaderTitle4",
-              "fill": "$--foreground",
-              "content": "Network",
-              "fontFamily": "$--font-primary",
-              "fontSize": 28,
-              "fontWeight": "600"
+              "type": "frame",
+              "id": "MK8Ld",
+              "name": "netHeaderLeft",
+              "gap": 16,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "yf8bz",
+                  "name": "netMenuBtn",
+                  "width": 40,
+                  "height": 40,
+                  "fill": "$--secondary",
+                  "cornerRadius": 20,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "XFLrZ",
+                      "x": 9,
+                      "y": 9,
+                      "name": "netMenuIcon",
+                      "width": 22,
+                      "height": 22,
+                      "iconFontName": "menu",
+                      "iconFontFamily": "Material Symbols Rounded",
+                      "weight": 400,
+                      "fill": "$--foreground"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "VPUaG",
+                  "name": "mHeaderTitle4",
+                  "fill": "$--foreground",
+                  "content": "Network",
+                  "fontFamily": "$--font-primary",
+                  "fontSize": 28,
+                  "fontWeight": "600"
+                }
+              ]
             },
             {
               "type": "frame",
-              "id": "OuMrW",
-              "name": "mRefreshBtn",
-              "width": 40,
-              "height": 40,
-              "fill": "$--secondary",
-              "cornerRadius": 20,
-              "layout": "none",
+              "id": "PcJAo",
+              "name": "netHeaderRight",
+              "gap": 8,
+              "alignItems": "center",
               "children": [
                 {
-                  "type": "icon_font",
-                  "id": "0wjF8",
-                  "x": 9,
-                  "y": 9,
-                  "name": "mRefreshIcon",
-                  "width": 22,
-                  "height": 22,
-                  "iconFontName": "refresh",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "weight": 400,
-                  "fill": "$--foreground"
+                  "type": "frame",
+                  "id": "FtlK8",
+                  "name": "netNotifBtn",
+                  "width": 40,
+                  "height": 40,
+                  "fill": "$--secondary",
+                  "cornerRadius": 20,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "KCSnc",
+                      "x": 9,
+                      "y": 9,
+                      "name": "netNotifIcon",
+                      "width": 22,
+                      "height": 22,
+                      "iconFontName": "notifications",
+                      "iconFontFamily": "Material Symbols Rounded",
+                      "weight": 400,
+                      "fill": "$--foreground"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "OuMrW",
+                  "name": "mRefreshBtn",
+                  "width": 40,
+                  "height": 40,
+                  "fill": "$--secondary",
+                  "cornerRadius": 20,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "0wjF8",
+                      "x": 9,
+                      "y": 9,
+                      "name": "mRefreshIcon",
+                      "width": 22,
+                      "height": 22,
+                      "iconFontName": "refresh",
+                      "iconFontFamily": "Material Symbols Rounded",
+                      "weight": 400,
+                      "fill": "$--foreground"
+                    }
+                  ]
                 }
               ]
             }
@@ -3414,70 +3333,6 @@
       "children": [
         {
           "type": "frame",
-          "id": "wwDww",
-          "name": "mStatusBar",
-          "width": "fill_container",
-          "height": 54,
-          "padding": [
-            14,
-            24
-          ],
-          "justifyContent": "space_between",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "text",
-              "id": "swjwX",
-              "name": "mStatusTime",
-              "fill": "$--foreground",
-              "content": "9:41",
-              "fontFamily": "$--font-secondary",
-              "fontSize": 15,
-              "fontWeight": "600"
-            },
-            {
-              "type": "frame",
-              "id": "808sl",
-              "name": "mStatusRight",
-              "gap": 6,
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "icon_font",
-                  "id": "DJFZm",
-                  "name": "mSignal",
-                  "width": 18,
-                  "height": 18,
-                  "iconFontName": "signal_cellular_alt",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "fill": "$--foreground"
-                },
-                {
-                  "type": "icon_font",
-                  "id": "pOt9s",
-                  "name": "mWifi",
-                  "width": 18,
-                  "height": 18,
-                  "iconFontName": "wifi",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "fill": "$--foreground"
-                },
-                {
-                  "type": "icon_font",
-                  "id": "0eh66",
-                  "name": "mBattery",
-                  "width": 18,
-                  "height": 18,
-                  "iconFontName": "battery_full",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "fill": "$--foreground"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "frame",
           "id": "FDJzM",
           "name": "mHeader",
           "width": "fill_container",
@@ -3485,18 +3340,77 @@
             12,
             20
           ],
-          "justifyContent": "center",
+          "justifyContent": "space_between",
           "alignItems": "center",
           "children": [
             {
-              "type": "text",
-              "id": "smn9x",
-              "name": "mHeaderTitle",
-              "fill": "$--foreground",
-              "content": "Settings",
-              "fontFamily": "$--font-secondary",
-              "fontSize": 20,
-              "fontWeight": "600"
+              "type": "frame",
+              "id": "qTktP",
+              "name": "settHeaderLeft",
+              "gap": 16,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "lDdFE",
+                  "name": "settMenuBtn",
+                  "width": 40,
+                  "height": 40,
+                  "fill": "$--secondary",
+                  "cornerRadius": 20,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "t6EGk",
+                      "x": 9,
+                      "y": 9,
+                      "name": "settMenuIcon",
+                      "width": 22,
+                      "height": 22,
+                      "iconFontName": "menu",
+                      "iconFontFamily": "Material Symbols Rounded",
+                      "weight": 400,
+                      "fill": "$--foreground"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "smn9x",
+                  "name": "mHeaderTitle",
+                  "fill": "$--foreground",
+                  "content": "Settings",
+                  "fontFamily": "$--font-secondary",
+                  "fontSize": 20,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "tMO7D",
+              "name": "settNotifBtn",
+              "width": 40,
+              "height": 40,
+              "fill": "$--secondary",
+              "cornerRadius": 20,
+              "layout": "none",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "nRNCM",
+                  "x": 9,
+                  "y": 9,
+                  "name": "settNotifIcon",
+                  "width": 22,
+                  "height": 22,
+                  "iconFontName": "notifications",
+                  "iconFontFamily": "Material Symbols Rounded",
+                  "weight": 400,
+                  "fill": "$--foreground"
+                }
+              ]
             }
           ]
         },
@@ -4363,70 +4277,6 @@
       "children": [
         {
           "type": "frame",
-          "id": "WtP9t",
-          "name": "pStatusBar",
-          "width": "fill_container",
-          "height": 54,
-          "padding": [
-            14,
-            24
-          ],
-          "justifyContent": "space_between",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "text",
-              "id": "xPSUA",
-              "name": "pStatusTime",
-              "fill": "$--foreground",
-              "content": "9:41",
-              "fontFamily": "$--font-secondary",
-              "fontSize": 15,
-              "fontWeight": "600"
-            },
-            {
-              "type": "frame",
-              "id": "TWMZa",
-              "name": "pStatusRight",
-              "gap": 6,
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "icon_font",
-                  "id": "02ZjV",
-                  "name": "pSignal",
-                  "width": 18,
-                  "height": 18,
-                  "iconFontName": "signal_cellular_alt",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "fill": "$--foreground"
-                },
-                {
-                  "type": "icon_font",
-                  "id": "kQAZa",
-                  "name": "pWifi",
-                  "width": 18,
-                  "height": 18,
-                  "iconFontName": "wifi",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "fill": "$--foreground"
-                },
-                {
-                  "type": "icon_font",
-                  "id": "SzKIX",
-                  "name": "pBattery",
-                  "width": 18,
-                  "height": 18,
-                  "iconFontName": "battery_full",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "fill": "$--foreground"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "frame",
           "id": "HsmBH",
           "name": "pHeader",
           "width": "fill_container",
@@ -4468,10 +4318,28 @@
             },
             {
               "type": "frame",
-              "id": "VDn8m",
-              "name": "pHeaderSpacer",
-              "width": 24,
-              "height": 24
+              "id": "N6ajE",
+              "name": "pairNotifBtn",
+              "width": 40,
+              "height": 40,
+              "fill": "$--secondary",
+              "cornerRadius": 20,
+              "layout": "none",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "UXKfM",
+                  "x": 9,
+                  "y": 9,
+                  "name": "pairNotifIcon",
+                  "width": 22,
+                  "height": 22,
+                  "iconFontName": "notifications",
+                  "iconFontFamily": "Material Symbols Rounded",
+                  "weight": 400,
+                  "fill": "$--foreground"
+                }
+              ]
             }
           ]
         },
@@ -4754,70 +4622,6 @@
       "children": [
         {
           "type": "frame",
-          "id": "lCfGP",
-          "name": "sStatusBar",
-          "width": "fill_container",
-          "height": 54,
-          "padding": [
-            14,
-            24
-          ],
-          "justifyContent": "space_between",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "text",
-              "id": "BmT40",
-              "name": "sStatusTime",
-              "fill": "$--foreground",
-              "content": "9:41",
-              "fontFamily": "$--font-secondary",
-              "fontSize": 15,
-              "fontWeight": "600"
-            },
-            {
-              "type": "frame",
-              "id": "KNOgm",
-              "name": "sStatusRight",
-              "gap": 6,
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "icon_font",
-                  "id": "RqZ8P",
-                  "name": "sSignal",
-                  "width": 18,
-                  "height": 18,
-                  "iconFontName": "signal_cellular_alt",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "fill": "$--foreground"
-                },
-                {
-                  "type": "icon_font",
-                  "id": "ne0DR",
-                  "name": "sWifi",
-                  "width": 18,
-                  "height": 18,
-                  "iconFontName": "wifi",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "fill": "$--foreground"
-                },
-                {
-                  "type": "icon_font",
-                  "id": "WaP8v",
-                  "name": "sBattery",
-                  "width": 18,
-                  "height": 18,
-                  "iconFontName": "battery_full",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "fill": "$--foreground"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "frame",
           "id": "d076j",
           "name": "sHeader",
           "width": "fill_container",
@@ -4859,10 +4663,28 @@
             },
             {
               "type": "frame",
-              "id": "KIqiv",
-              "name": "sHeaderSpacer",
-              "width": 24,
-              "height": 24
+              "id": "AjrWu",
+              "name": "searchNotifBtn",
+              "width": 40,
+              "height": 40,
+              "fill": "$--secondary",
+              "cornerRadius": 20,
+              "layout": "none",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "P1KY0",
+                  "x": 9,
+                  "y": 9,
+                  "name": "searchNotifIcon",
+                  "width": 22,
+                  "height": 22,
+                  "iconFontName": "notifications",
+                  "iconFontFamily": "Material Symbols Rounded",
+                  "weight": 400,
+                  "fill": "$--foreground"
+                }
+              ]
             }
           ]
         },
@@ -5097,70 +4919,6 @@
       "children": [
         {
           "type": "frame",
-          "id": "EnKGK",
-          "name": "fStatusBar",
-          "width": "fill_container",
-          "height": 54,
-          "padding": [
-            14,
-            24
-          ],
-          "justifyContent": "space_between",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "text",
-              "id": "DivZb",
-              "name": "fStatusTime",
-              "fill": "$--foreground",
-              "content": "9:41",
-              "fontFamily": "$--font-secondary",
-              "fontSize": 15,
-              "fontWeight": "600"
-            },
-            {
-              "type": "frame",
-              "id": "kNCTE",
-              "name": "fStatusRight",
-              "gap": 6,
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "icon_font",
-                  "id": "RGkhb",
-                  "name": "fSignal",
-                  "width": 18,
-                  "height": 18,
-                  "iconFontName": "signal_cellular_alt",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "fill": "$--foreground"
-                },
-                {
-                  "type": "icon_font",
-                  "id": "6Lgrq",
-                  "name": "fWifi",
-                  "width": 18,
-                  "height": 18,
-                  "iconFontName": "wifi",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "fill": "$--foreground"
-                },
-                {
-                  "type": "icon_font",
-                  "id": "uoBcL",
-                  "name": "fBattery",
-                  "width": 18,
-                  "height": 18,
-                  "iconFontName": "battery_full",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "fill": "$--foreground"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "frame",
           "id": "jkL79",
           "name": "fHeader",
           "width": "fill_container",
@@ -5202,10 +4960,28 @@
             },
             {
               "type": "frame",
-              "id": "sOZlE",
-              "name": "fHeaderSpacer",
-              "width": 24,
-              "height": 24
+              "id": "yoGXL",
+              "name": "foundNotifBtn",
+              "width": 40,
+              "height": 40,
+              "fill": "$--secondary",
+              "cornerRadius": 20,
+              "layout": "none",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "JeyzQ",
+                  "x": 9,
+                  "y": 9,
+                  "name": "foundNotifIcon",
+                  "width": 22,
+                  "height": 22,
+                  "iconFontName": "notifications",
+                  "iconFontFamily": "Material Symbols Rounded",
+                  "weight": 400,
+                  "fill": "$--foreground"
+                }
+              ]
             }
           ]
         },
@@ -5524,70 +5300,6 @@
       "fill": "$--background",
       "layout": "vertical",
       "children": [
-        {
-          "type": "frame",
-          "id": "7r9vF",
-          "name": "suStatusBar",
-          "width": "fill_container",
-          "height": 54,
-          "padding": [
-            14,
-            24
-          ],
-          "justifyContent": "space_between",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "text",
-              "id": "pgPPM",
-              "name": "suStatusTime",
-              "fill": "$--foreground",
-              "content": "9:41",
-              "fontFamily": "$--font-secondary",
-              "fontSize": 15,
-              "fontWeight": "600"
-            },
-            {
-              "type": "frame",
-              "id": "VjJQO",
-              "name": "suStatusRight",
-              "gap": 6,
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "icon_font",
-                  "id": "fm473",
-                  "name": "suSignal",
-                  "width": 18,
-                  "height": 18,
-                  "iconFontName": "signal_cellular_alt",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "fill": "$--foreground"
-                },
-                {
-                  "type": "icon_font",
-                  "id": "T3Nsd",
-                  "name": "suWifi",
-                  "width": 18,
-                  "height": 18,
-                  "iconFontName": "wifi",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "fill": "$--foreground"
-                },
-                {
-                  "type": "icon_font",
-                  "id": "7WoS0",
-                  "name": "suBattery",
-                  "width": 18,
-                  "height": 18,
-                  "iconFontName": "battery_full",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "fill": "$--foreground"
-                }
-              ]
-            }
-          ]
-        },
         {
           "type": "frame",
           "id": "jPR8x",
@@ -5954,73 +5666,6 @@
       "fill": "$--background",
       "layout": "vertical",
       "children": [
-        {
-          "type": "frame",
-          "id": "l9L8p",
-          "name": "statusBar",
-          "width": "fill_container",
-          "height": 54,
-          "padding": [
-            14,
-            24
-          ],
-          "justifyContent": "space_between",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "text",
-              "id": "OSryh",
-              "name": "statusTime",
-              "fill": "$--foreground",
-              "content": "9:41",
-              "fontFamily": "$--font-secondary",
-              "fontSize": 15,
-              "fontWeight": "600"
-            },
-            {
-              "type": "frame",
-              "id": "xEHUY",
-              "name": "statusRight",
-              "gap": 6,
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "icon_font",
-                  "id": "fhK6s",
-                  "name": "statusSignal",
-                  "width": 18,
-                  "height": 18,
-                  "iconFontName": "signal_cellular_alt",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "weight": 400,
-                  "fill": "$--foreground"
-                },
-                {
-                  "type": "icon_font",
-                  "id": "cxmQJ",
-                  "name": "statusWifi",
-                  "width": 18,
-                  "height": 18,
-                  "iconFontName": "wifi",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "weight": 400,
-                  "fill": "$--foreground"
-                },
-                {
-                  "type": "icon_font",
-                  "id": "99JOS",
-                  "name": "statusBattery",
-                  "width": 22,
-                  "height": 22,
-                  "iconFontName": "battery_full",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "weight": 400,
-                  "fill": "$--foreground"
-                }
-              ]
-            }
-          ]
-        },
         {
           "type": "frame",
           "id": "3UHpj",
@@ -6440,73 +6085,6 @@
       "fill": "$--background",
       "layout": "vertical",
       "children": [
-        {
-          "type": "frame",
-          "id": "GcvU6",
-          "name": "signupStatusBar",
-          "width": "fill_container",
-          "height": 54,
-          "padding": [
-            14,
-            24
-          ],
-          "justifyContent": "space_between",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "text",
-              "id": "0D9oy",
-              "name": "signupStatusTime",
-              "fill": "$--foreground",
-              "content": "9:41",
-              "fontFamily": "$--font-secondary",
-              "fontSize": 15,
-              "fontWeight": "600"
-            },
-            {
-              "type": "frame",
-              "id": "T0vXX",
-              "name": "signupStatusRight",
-              "gap": 6,
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "icon_font",
-                  "id": "DGIGy",
-                  "name": "signupStatusSignal",
-                  "width": 18,
-                  "height": 18,
-                  "iconFontName": "signal_cellular_alt",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "weight": 400,
-                  "fill": "$--foreground"
-                },
-                {
-                  "type": "icon_font",
-                  "id": "RwycO",
-                  "name": "signupStatusWifi",
-                  "width": 18,
-                  "height": 18,
-                  "iconFontName": "wifi",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "weight": 400,
-                  "fill": "$--foreground"
-                },
-                {
-                  "type": "icon_font",
-                  "id": "x2pBU",
-                  "name": "signupStatusBattery",
-                  "width": 22,
-                  "height": 22,
-                  "iconFontName": "battery_full",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "weight": 400,
-                  "fill": "$--foreground"
-                }
-              ]
-            }
-          ]
-        },
         {
           "type": "frame",
           "id": "je2aG",
@@ -7012,73 +6590,6 @@
       "children": [
         {
           "type": "frame",
-          "id": "sGVPQ",
-          "name": "forgotStatusBar",
-          "width": "fill_container",
-          "height": 54,
-          "padding": [
-            14,
-            24
-          ],
-          "justifyContent": "space_between",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "text",
-              "id": "KvCKi",
-              "name": "forgotStatusTime",
-              "fill": "$--foreground",
-              "content": "9:41",
-              "fontFamily": "$--font-secondary",
-              "fontSize": 15,
-              "fontWeight": "600"
-            },
-            {
-              "type": "frame",
-              "id": "4Yk28",
-              "name": "forgotStatusRight",
-              "gap": 6,
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "icon_font",
-                  "id": "zxExz",
-                  "name": "forgotStatusSignal",
-                  "width": 18,
-                  "height": 18,
-                  "iconFontName": "signal_cellular_alt",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "weight": 400,
-                  "fill": "$--foreground"
-                },
-                {
-                  "type": "icon_font",
-                  "id": "9BpaI",
-                  "name": "forgotStatusWifi",
-                  "width": 18,
-                  "height": 18,
-                  "iconFontName": "wifi",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "weight": 400,
-                  "fill": "$--foreground"
-                },
-                {
-                  "type": "icon_font",
-                  "id": "ShggX",
-                  "name": "forgotStatusBattery",
-                  "width": 22,
-                  "height": 22,
-                  "iconFontName": "battery_full",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "weight": 400,
-                  "fill": "$--foreground"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "frame",
           "id": "PwC5I",
           "name": "forgotHeader",
           "width": "fill_container",
@@ -7362,73 +6873,6 @@
       "children": [
         {
           "type": "frame",
-          "id": "YcbRF",
-          "name": "scenesStatusBar",
-          "width": "fill_container",
-          "height": 54,
-          "padding": [
-            14,
-            24
-          ],
-          "justifyContent": "space_between",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "text",
-              "id": "PoAxg",
-              "name": "scenesStatusTime",
-              "fill": "$--foreground",
-              "content": "9:41",
-              "fontFamily": "$--font-secondary",
-              "fontSize": 15,
-              "fontWeight": "600"
-            },
-            {
-              "type": "frame",
-              "id": "wNEko",
-              "name": "scenesStatusRight",
-              "gap": 6,
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "icon_font",
-                  "id": "HqmiA",
-                  "name": "scenesStatusSignal",
-                  "width": 18,
-                  "height": 18,
-                  "iconFontName": "signal_cellular_alt",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "weight": 400,
-                  "fill": "$--foreground"
-                },
-                {
-                  "type": "icon_font",
-                  "id": "82rDy",
-                  "name": "scenesStatusWifi",
-                  "width": 18,
-                  "height": 18,
-                  "iconFontName": "wifi",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "weight": 400,
-                  "fill": "$--foreground"
-                },
-                {
-                  "type": "icon_font",
-                  "id": "PH0gK",
-                  "name": "scenesStatusBattery",
-                  "width": 22,
-                  "height": 22,
-                  "iconFontName": "battery_full",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "weight": 400,
-                  "fill": "$--foreground"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "frame",
           "id": "z7IRd",
           "name": "scenesHeader",
           "width": "fill_container",
@@ -7440,37 +6884,105 @@
           "alignItems": "center",
           "children": [
             {
-              "type": "text",
-              "id": "BZNrn",
-              "name": "scenesTitle",
-              "fill": "$--foreground",
-              "content": "Scenes",
-              "fontFamily": "$--font-primary",
-              "fontSize": 28,
-              "fontWeight": "600"
+              "type": "frame",
+              "id": "6Gw31",
+              "name": "scenesHeaderLeft",
+              "gap": 16,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "QvtF5",
+                  "name": "scenesMenuBtn",
+                  "width": 40,
+                  "height": 40,
+                  "fill": "$--secondary",
+                  "cornerRadius": 20,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "3uth0",
+                      "x": 9,
+                      "y": 9,
+                      "name": "scenesMenuIcon",
+                      "width": 22,
+                      "height": 22,
+                      "iconFontName": "menu",
+                      "iconFontFamily": "Material Symbols Rounded",
+                      "weight": 400,
+                      "fill": "$--foreground"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "BZNrn",
+                  "name": "scenesTitle",
+                  "fill": "$--foreground",
+                  "content": "Scenes",
+                  "fontFamily": "$--font-primary",
+                  "fontSize": 28,
+                  "fontWeight": "600"
+                }
+              ]
             },
             {
               "type": "frame",
-              "id": "AMj9M",
-              "name": "scenesAddBtn",
-              "width": 40,
-              "height": 40,
-              "fill": "$--primary",
-              "cornerRadius": 20,
-              "layout": "none",
+              "id": "kjCdc",
+              "name": "scenesHeaderRight",
+              "gap": 8,
+              "alignItems": "center",
               "children": [
                 {
-                  "type": "icon_font",
-                  "id": "tzj6m",
-                  "x": 8,
-                  "y": 8,
-                  "name": "scenesAddIcon",
-                  "width": 24,
-                  "height": 24,
-                  "iconFontName": "add",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "weight": 400,
-                  "fill": "$--white"
+                  "type": "frame",
+                  "id": "gF8qn",
+                  "name": "scenesNotifBtn",
+                  "width": 40,
+                  "height": 40,
+                  "fill": "$--secondary",
+                  "cornerRadius": 20,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "oTkMo",
+                      "x": 9,
+                      "y": 9,
+                      "name": "scenesNotifIcon",
+                      "width": 22,
+                      "height": 22,
+                      "iconFontName": "notifications",
+                      "iconFontFamily": "Material Symbols Rounded",
+                      "weight": 400,
+                      "fill": "$--foreground"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "AMj9M",
+                  "name": "scenesAddBtn",
+                  "width": 40,
+                  "height": 40,
+                  "fill": "$--primary",
+                  "cornerRadius": 20,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "tzj6m",
+                      "x": 8,
+                      "y": 8,
+                      "name": "scenesAddIcon",
+                      "width": 24,
+                      "height": 24,
+                      "iconFontName": "add",
+                      "iconFontFamily": "Material Symbols Rounded",
+                      "weight": 400,
+                      "fill": "$--white"
+                    }
+                  ]
                 }
               ]
             }
@@ -8484,73 +7996,6 @@
       "children": [
         {
           "type": "frame",
-          "id": "taN9S",
-          "name": "detailStatusBar",
-          "width": "fill_container",
-          "height": 54,
-          "padding": [
-            14,
-            24
-          ],
-          "justifyContent": "space_between",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "text",
-              "id": "iPPuL",
-              "name": "detailStatusTime",
-              "fill": "$--foreground",
-              "content": "9:41",
-              "fontFamily": "$--font-secondary",
-              "fontSize": 15,
-              "fontWeight": "600"
-            },
-            {
-              "type": "frame",
-              "id": "H8v07",
-              "name": "detailStatusRight",
-              "gap": 6,
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "icon_font",
-                  "id": "yIezi",
-                  "name": "detailStatusSignal",
-                  "width": 18,
-                  "height": 18,
-                  "iconFontName": "signal_cellular_alt",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "weight": 400,
-                  "fill": "$--foreground"
-                },
-                {
-                  "type": "icon_font",
-                  "id": "dP11D",
-                  "name": "detailStatusWifi",
-                  "width": 18,
-                  "height": 18,
-                  "iconFontName": "wifi",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "weight": 400,
-                  "fill": "$--foreground"
-                },
-                {
-                  "type": "icon_font",
-                  "id": "rqCDT",
-                  "name": "detailStatusBattery",
-                  "width": 22,
-                  "height": 22,
-                  "iconFontName": "battery_full",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "weight": 400,
-                  "fill": "$--foreground"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "frame",
           "id": "dU60N",
           "name": "detailHeader",
           "width": "fill_container",
@@ -8627,6 +8072,31 @@
                   "fontFamily": "$--font-secondary",
                   "fontSize": 14,
                   "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "XDq5J",
+              "name": "sceneDetailNotifBtn",
+              "width": 40,
+              "height": 40,
+              "fill": "$--secondary",
+              "cornerRadius": 20,
+              "layout": "none",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "q9SOj",
+                  "x": 9,
+                  "y": 9,
+                  "name": "sceneDetailNotifIcon",
+                  "width": 22,
+                  "height": 22,
+                  "iconFontName": "notifications",
+                  "iconFontFamily": "Material Symbols Rounded",
+                  "weight": 400,
+                  "fill": "$--foreground"
                 }
               ]
             }
@@ -9380,73 +8850,6 @@
       "children": [
         {
           "type": "frame",
-          "id": "qAEXZ",
-          "name": "triggerStatusBar",
-          "width": "fill_container",
-          "height": 54,
-          "padding": [
-            14,
-            24
-          ],
-          "justifyContent": "space_between",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "text",
-              "id": "9ZfHn",
-              "name": "triggerStatusTime",
-              "fill": "$--foreground",
-              "content": "9:41",
-              "fontFamily": "$--font-secondary",
-              "fontSize": 15,
-              "fontWeight": "600"
-            },
-            {
-              "type": "frame",
-              "id": "bNRva",
-              "name": "triggerStatusRight",
-              "gap": 6,
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "icon_font",
-                  "id": "ItDNY",
-                  "name": "triggerStatusSignal",
-                  "width": 18,
-                  "height": 18,
-                  "iconFontName": "signal_cellular_alt",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "weight": 400,
-                  "fill": "$--foreground"
-                },
-                {
-                  "type": "icon_font",
-                  "id": "hF2KA",
-                  "name": "triggerStatusWifi",
-                  "width": 18,
-                  "height": 18,
-                  "iconFontName": "wifi",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "weight": 400,
-                  "fill": "$--foreground"
-                },
-                {
-                  "type": "icon_font",
-                  "id": "w8QO7",
-                  "name": "triggerStatusBattery",
-                  "width": 22,
-                  "height": 22,
-                  "iconFontName": "battery_full",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "weight": 400,
-                  "fill": "$--foreground"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "frame",
           "id": "7cDzF",
           "name": "triggerScreenHeader",
           "width": "fill_container",
@@ -9498,6 +8901,31 @@
                   "fontFamily": "$--font-primary",
                   "fontSize": 20,
                   "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "heV4T",
+              "name": "triggerNotifBtn",
+              "width": 40,
+              "height": 40,
+              "fill": "$--secondary",
+              "cornerRadius": 20,
+              "layout": "none",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "0LtrN",
+                  "x": 9,
+                  "y": 9,
+                  "name": "triggerNotifIcon",
+                  "width": 22,
+                  "height": 22,
+                  "iconFontName": "notifications",
+                  "iconFontFamily": "Material Symbols Rounded",
+                  "weight": 400,
+                  "fill": "$--foreground"
                 }
               ]
             }
@@ -9899,73 +9327,6 @@
       "children": [
         {
           "type": "frame",
-          "id": "WykSa",
-          "name": "actionStatusBar",
-          "width": "fill_container",
-          "height": 54,
-          "padding": [
-            14,
-            24
-          ],
-          "justifyContent": "space_between",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "text",
-              "id": "qAufn",
-              "name": "actionStatusTime",
-              "fill": "$--foreground",
-              "content": "9:41",
-              "fontFamily": "$--font-secondary",
-              "fontSize": 15,
-              "fontWeight": "600"
-            },
-            {
-              "type": "frame",
-              "id": "hdd7A",
-              "name": "actionStatusRight",
-              "gap": 6,
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "icon_font",
-                  "id": "4kjEP",
-                  "name": "actionStatusSignal",
-                  "width": 18,
-                  "height": 18,
-                  "iconFontName": "signal_cellular_alt",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "weight": 400,
-                  "fill": "$--foreground"
-                },
-                {
-                  "type": "icon_font",
-                  "id": "KnLbt",
-                  "name": "actionStatusWifi",
-                  "width": 18,
-                  "height": 18,
-                  "iconFontName": "wifi",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "weight": 400,
-                  "fill": "$--foreground"
-                },
-                {
-                  "type": "icon_font",
-                  "id": "1R3dF",
-                  "name": "actionStatusBattery",
-                  "width": 22,
-                  "height": 22,
-                  "iconFontName": "battery_full",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "weight": 400,
-                  "fill": "$--foreground"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "frame",
           "id": "GGzbJ",
           "name": "actionScreenHeader",
           "width": "fill_container",
@@ -10017,6 +9378,31 @@
                   "fontFamily": "$--font-primary",
                   "fontSize": 20,
                   "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "BwUHR",
+              "name": "actionNotifBtn",
+              "width": 40,
+              "height": 40,
+              "fill": "$--secondary",
+              "cornerRadius": 20,
+              "layout": "none",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "JA3VV",
+                  "x": 9,
+                  "y": 9,
+                  "name": "actionNotifIcon",
+                  "width": 22,
+                  "height": 22,
+                  "iconFontName": "notifications",
+                  "iconFontFamily": "Material Symbols Rounded",
+                  "weight": 400,
+                  "fill": "$--foreground"
                 }
               ]
             }
@@ -10418,73 +9804,6 @@
       "children": [
         {
           "type": "frame",
-          "id": "vliJ5",
-          "name": "selectStatusBar",
-          "width": "fill_container",
-          "height": 54,
-          "padding": [
-            14,
-            24
-          ],
-          "justifyContent": "space_between",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "text",
-              "id": "6JpVx",
-              "name": "selectStatusTime",
-              "fill": "$--foreground",
-              "content": "9:41",
-              "fontFamily": "$--font-secondary",
-              "fontSize": 15,
-              "fontWeight": "600"
-            },
-            {
-              "type": "frame",
-              "id": "sT7AB",
-              "name": "selectStatusRight",
-              "gap": 6,
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "icon_font",
-                  "id": "0DjhR",
-                  "name": "selectStatusSignal",
-                  "width": 18,
-                  "height": 18,
-                  "iconFontName": "signal_cellular_alt",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "weight": 400,
-                  "fill": "$--foreground"
-                },
-                {
-                  "type": "icon_font",
-                  "id": "Etl1u",
-                  "name": "selectStatusWifi",
-                  "width": 18,
-                  "height": 18,
-                  "iconFontName": "wifi",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "weight": 400,
-                  "fill": "$--foreground"
-                },
-                {
-                  "type": "icon_font",
-                  "id": "cJKvt",
-                  "name": "selectStatusBattery",
-                  "width": 22,
-                  "height": 22,
-                  "iconFontName": "battery_full",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "weight": 400,
-                  "fill": "$--foreground"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "frame",
           "id": "boBNX",
           "name": "selectScreenHeader",
           "width": "fill_container",
@@ -10536,6 +9855,31 @@
                   "fontFamily": "$--font-primary",
                   "fontSize": 20,
                   "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "ODISP",
+              "name": "selectNotifBtn",
+              "width": 40,
+              "height": 40,
+              "fill": "$--secondary",
+              "cornerRadius": 20,
+              "layout": "none",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "c7hFG",
+                  "x": 9,
+                  "y": 9,
+                  "name": "selectNotifIcon",
+                  "width": 22,
+                  "height": 22,
+                  "iconFontName": "notifications",
+                  "iconFontFamily": "Material Symbols Rounded",
+                  "weight": 400,
+                  "fill": "$--foreground"
                 }
               ]
             }
@@ -11252,73 +10596,6 @@
       "children": [
         {
           "type": "frame",
-          "id": "iWx26",
-          "name": "camStatusBar",
-          "width": "fill_container",
-          "height": 54,
-          "padding": [
-            14,
-            24
-          ],
-          "justifyContent": "space_between",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "text",
-              "id": "mH6SH",
-              "name": "camStatusTime",
-              "fill": "$--foreground",
-              "content": "9:41",
-              "fontFamily": "$--font-secondary",
-              "fontSize": 15,
-              "fontWeight": "600"
-            },
-            {
-              "type": "frame",
-              "id": "BJXzR",
-              "name": "camStatusRight",
-              "gap": 6,
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "icon_font",
-                  "id": "aaDQ6",
-                  "name": "camListStatusSignal",
-                  "width": 18,
-                  "height": 18,
-                  "iconFontName": "signal_cellular_alt",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "weight": 400,
-                  "fill": "$--foreground"
-                },
-                {
-                  "type": "icon_font",
-                  "id": "5BOfD",
-                  "name": "camListStatusWifi",
-                  "width": 18,
-                  "height": 18,
-                  "iconFontName": "wifi",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "weight": 400,
-                  "fill": "$--foreground"
-                },
-                {
-                  "type": "icon_font",
-                  "id": "pTVsO",
-                  "name": "camListStatusBattery",
-                  "width": 22,
-                  "height": 18,
-                  "iconFontName": "battery_full",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "weight": 400,
-                  "fill": "$--foreground"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "frame",
           "id": "iezrw",
           "name": "camHeader",
           "width": "fill_container",
@@ -11330,37 +10607,105 @@
           "alignItems": "center",
           "children": [
             {
-              "type": "text",
-              "id": "aYtnA",
-              "name": "camTitle",
-              "fill": "$--foreground",
-              "content": "Cameras",
-              "fontFamily": "$--font-primary",
-              "fontSize": 28,
-              "fontWeight": "600"
+              "type": "frame",
+              "id": "6PpLO",
+              "name": "camHeaderLeft",
+              "gap": 16,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "yICJu",
+                  "name": "camMenuBtn",
+                  "width": 40,
+                  "height": 40,
+                  "fill": "$--secondary",
+                  "cornerRadius": 20,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "7tQns",
+                      "x": 9,
+                      "y": 9,
+                      "name": "camMenuIcon",
+                      "width": 22,
+                      "height": 22,
+                      "iconFontName": "menu",
+                      "iconFontFamily": "Material Symbols Rounded",
+                      "weight": 400,
+                      "fill": "$--foreground"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "aYtnA",
+                  "name": "camTitle",
+                  "fill": "$--foreground",
+                  "content": "Cameras",
+                  "fontFamily": "$--font-primary",
+                  "fontSize": 28,
+                  "fontWeight": "600"
+                }
+              ]
             },
             {
               "type": "frame",
-              "id": "2Xl3k",
-              "name": "camAddBtn",
-              "width": 40,
-              "height": 40,
-              "fill": "$--primary",
-              "cornerRadius": 20,
-              "layout": "none",
+              "id": "UqGRa",
+              "name": "camHeaderRight",
+              "gap": 8,
+              "alignItems": "center",
               "children": [
                 {
-                  "type": "icon_font",
-                  "id": "ngLLD",
-                  "x": 8,
-                  "y": 8,
-                  "name": "camListAddIcon",
-                  "width": 24,
-                  "height": 24,
-                  "iconFontName": "add",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "weight": 400,
-                  "fill": "$--white"
+                  "type": "frame",
+                  "id": "oHsTJ",
+                  "name": "camNotifBtn",
+                  "width": 40,
+                  "height": 40,
+                  "fill": "$--secondary",
+                  "cornerRadius": 20,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "9Kj8a",
+                      "x": 9,
+                      "y": 9,
+                      "name": "camNotifIcon",
+                      "width": 22,
+                      "height": 22,
+                      "iconFontName": "notifications",
+                      "iconFontFamily": "Material Symbols Rounded",
+                      "weight": 400,
+                      "fill": "$--foreground"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "2Xl3k",
+                  "name": "camAddBtn",
+                  "width": 40,
+                  "height": 40,
+                  "fill": "$--primary",
+                  "cornerRadius": 20,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "ngLLD",
+                      "x": 8,
+                      "y": 8,
+                      "name": "camListAddIcon",
+                      "width": 24,
+                      "height": 24,
+                      "iconFontName": "add",
+                      "iconFontFamily": "Material Symbols Rounded",
+                      "weight": 400,
+                      "fill": "$--white"
+                    }
+                  ]
                 }
               ]
             }
@@ -12157,73 +11502,6 @@
       "children": [
         {
           "type": "frame",
-          "id": "F6gy0",
-          "name": "liveStatusBar",
-          "width": "fill_container",
-          "height": 54,
-          "padding": [
-            14,
-            24
-          ],
-          "justifyContent": "space_between",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "text",
-              "id": "lV8Vp",
-              "name": "camLiveStatusTime",
-              "fill": "#FFFFFF",
-              "content": "9:41",
-              "fontFamily": "$--font-secondary",
-              "fontSize": 15,
-              "fontWeight": "600"
-            },
-            {
-              "type": "frame",
-              "id": "A7a1n",
-              "name": "camLiveStatusRight",
-              "gap": 6,
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "icon_font",
-                  "id": "4oc0r",
-                  "name": "camLiveStatusSignal",
-                  "width": 18,
-                  "height": 18,
-                  "iconFontName": "signal_cellular_alt",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "weight": 400,
-                  "fill": "#FFFFFF"
-                },
-                {
-                  "type": "icon_font",
-                  "id": "xaLlZ",
-                  "name": "camLiveStatusWifi",
-                  "width": 18,
-                  "height": 18,
-                  "iconFontName": "wifi",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "weight": 400,
-                  "fill": "#FFFFFF"
-                },
-                {
-                  "type": "icon_font",
-                  "id": "187W2",
-                  "name": "camLiveStatusBattery",
-                  "width": 22,
-                  "height": 18,
-                  "iconFontName": "battery_full",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "weight": 400,
-                  "fill": "#FFFFFF"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "frame",
           "id": "YQDWD",
           "name": "liveHeader",
           "width": "fill_container",
@@ -12721,73 +11999,6 @@
       "children": [
         {
           "type": "frame",
-          "id": "ahuBH",
-          "name": "addNVRStatusBar",
-          "width": "fill_container",
-          "height": 54,
-          "padding": [
-            14,
-            24
-          ],
-          "justifyContent": "space_between",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "text",
-              "id": "N8Sty",
-              "name": "addNVRStatusTime",
-              "fill": "$--foreground",
-              "content": "9:41",
-              "fontFamily": "$--font-secondary",
-              "fontSize": 15,
-              "fontWeight": "600"
-            },
-            {
-              "type": "frame",
-              "id": "BpSJr",
-              "name": "addNVRStatusRight",
-              "gap": 6,
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "icon_font",
-                  "id": "abJLj",
-                  "name": "addNVRStatusSignal",
-                  "width": 18,
-                  "height": 18,
-                  "iconFontName": "signal_cellular_alt",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "weight": 400,
-                  "fill": "$--foreground"
-                },
-                {
-                  "type": "icon_font",
-                  "id": "0OC7N",
-                  "name": "addNVRStatusWifi",
-                  "width": 18,
-                  "height": 18,
-                  "iconFontName": "wifi",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "weight": 400,
-                  "fill": "$--foreground"
-                },
-                {
-                  "type": "icon_font",
-                  "id": "43luv",
-                  "name": "addNVRStatusBattery",
-                  "width": 22,
-                  "height": 18,
-                  "iconFontName": "battery_full",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "weight": 400,
-                  "fill": "$--foreground"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "frame",
           "id": "Mjv8d",
           "name": "addNVRHeader",
           "width": "fill_container",
@@ -12796,6 +12007,7 @@
             8,
             20
           ],
+          "justifyContent": "space_between",
           "alignItems": "center",
           "children": [
             {
@@ -12832,6 +12044,31 @@
               "fontFamily": "$--font-primary",
               "fontSize": 20,
               "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "Q2sy0",
+              "name": "addNVRNotifBtn",
+              "width": 40,
+              "height": 40,
+              "fill": "$--secondary",
+              "cornerRadius": 20,
+              "layout": "none",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "rxLub",
+                  "x": 9,
+                  "y": 9,
+                  "name": "addNVRNotifIcon",
+                  "width": 22,
+                  "height": 22,
+                  "iconFontName": "notifications",
+                  "iconFontFamily": "Material Symbols Rounded",
+                  "weight": 400,
+                  "fill": "$--foreground"
+                }
+              ]
             }
           ]
         },
@@ -13194,73 +12431,6 @@
       "fill": "$--background",
       "layout": "vertical",
       "children": [
-        {
-          "type": "frame",
-          "id": "No9Du",
-          "name": "chStatusBar",
-          "width": "fill_container",
-          "height": 54,
-          "padding": [
-            14,
-            24
-          ],
-          "justifyContent": "space_between",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "text",
-              "id": "VUNxD",
-              "name": "chStatusTime",
-              "fill": "$--foreground",
-              "content": "9:41",
-              "fontFamily": "$--font-secondary",
-              "fontSize": 15,
-              "fontWeight": "600"
-            },
-            {
-              "type": "frame",
-              "id": "o2033",
-              "name": "chStatusRight",
-              "gap": 6,
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "icon_font",
-                  "id": "d1zxd",
-                  "name": "chStatusSignal",
-                  "width": 18,
-                  "height": 18,
-                  "iconFontName": "signal_cellular_alt",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "weight": 400,
-                  "fill": "$--foreground"
-                },
-                {
-                  "type": "icon_font",
-                  "id": "B5GUv",
-                  "name": "chStatusWifi",
-                  "width": 18,
-                  "height": 18,
-                  "iconFontName": "wifi",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "weight": 400,
-                  "fill": "$--foreground"
-                },
-                {
-                  "type": "icon_font",
-                  "id": "V4gsE",
-                  "name": "chStatusBattery",
-                  "width": 22,
-                  "height": 18,
-                  "iconFontName": "battery_full",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "weight": 400,
-                  "fill": "$--foreground"
-                }
-              ]
-            }
-          ]
-        },
         {
           "type": "frame",
           "id": "Qlb6V",
@@ -13967,73 +13137,6 @@
       "fill": "#000000",
       "layout": "vertical",
       "children": [
-        {
-          "type": "frame",
-          "id": "kFlxb",
-          "name": "pbStatusBar",
-          "width": "fill_container",
-          "height": 54,
-          "padding": [
-            14,
-            24
-          ],
-          "justifyContent": "space_between",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "text",
-              "id": "IclJz",
-              "name": "pbStatusTime",
-              "fill": "#FFFFFF",
-              "content": "9:41",
-              "fontFamily": "$--font-secondary",
-              "fontSize": 15,
-              "fontWeight": "600"
-            },
-            {
-              "type": "frame",
-              "id": "zSD00",
-              "name": "pbStatusRight",
-              "gap": 6,
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "icon_font",
-                  "id": "ilybr",
-                  "name": "pbStatusSignal",
-                  "width": 18,
-                  "height": 18,
-                  "iconFontName": "signal_cellular_alt",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "weight": 400,
-                  "fill": "#FFFFFF"
-                },
-                {
-                  "type": "icon_font",
-                  "id": "4FXZD",
-                  "name": "pbStatusWifi",
-                  "width": 18,
-                  "height": 18,
-                  "iconFontName": "wifi",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "weight": 400,
-                  "fill": "#FFFFFF"
-                },
-                {
-                  "type": "icon_font",
-                  "id": "rZJiO",
-                  "name": "pbStatusBattery",
-                  "width": 22,
-                  "height": 18,
-                  "iconFontName": "battery_full",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "weight": 400,
-                  "fill": "#FFFFFF"
-                }
-              ]
-            }
-          ]
-        },
         {
           "type": "frame",
           "id": "bdzX8",
@@ -14782,73 +13885,6 @@
       "children": [
         {
           "type": "frame",
-          "id": "MTpo7",
-          "name": "csStatusBar",
-          "width": "fill_container",
-          "height": 54,
-          "padding": [
-            14,
-            24
-          ],
-          "justifyContent": "space_between",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "text",
-              "id": "u8N4S",
-              "name": "csStatusTime",
-              "fill": "$--foreground",
-              "content": "9:41",
-              "fontFamily": "$--font-secondary",
-              "fontSize": 15,
-              "fontWeight": "600"
-            },
-            {
-              "type": "frame",
-              "id": "GLp3F",
-              "name": "csStatusRight",
-              "gap": 6,
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "icon_font",
-                  "id": "FbkQ0",
-                  "name": "csStatusSignal",
-                  "width": 18,
-                  "height": 18,
-                  "iconFontName": "signal_cellular_alt",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "weight": 400,
-                  "fill": "$--foreground"
-                },
-                {
-                  "type": "icon_font",
-                  "id": "BstrW",
-                  "name": "csStatusWifi",
-                  "width": 18,
-                  "height": 18,
-                  "iconFontName": "wifi",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "weight": 400,
-                  "fill": "$--foreground"
-                },
-                {
-                  "type": "icon_font",
-                  "id": "DjufO",
-                  "name": "csStatusBattery",
-                  "width": 22,
-                  "height": 18,
-                  "iconFontName": "battery_full",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "weight": 400,
-                  "fill": "$--foreground"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "frame",
           "id": "Gv1Eh",
           "name": "csHeader",
           "width": "fill_container",
@@ -14857,6 +13893,7 @@
             8,
             20
           ],
+          "justifyContent": "space_between",
           "alignItems": "center",
           "children": [
             {
@@ -14893,6 +13930,31 @@
               "fontFamily": "$--font-primary",
               "fontSize": 20,
               "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "LfR2I",
+              "name": "csNotifBtn",
+              "width": 40,
+              "height": 40,
+              "fill": "$--secondary",
+              "cornerRadius": 20,
+              "layout": "none",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "ia0di",
+                  "x": 9,
+                  "y": 9,
+                  "name": "csNotifIcon",
+                  "width": 22,
+                  "height": 22,
+                  "iconFontName": "notifications",
+                  "iconFontFamily": "Material Symbols Rounded",
+                  "weight": 400,
+                  "fill": "$--foreground"
+                }
+              ]
             }
           ]
         },

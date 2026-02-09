@@ -1,6 +1,5 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_text_styles.dart';
 
@@ -15,11 +14,25 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Timer(const Duration(seconds: 2), () {
-      if (mounted) {
+    _bootstrap();
+  }
+
+  Future<void> _bootstrap() async {
+    await Future<void>.delayed(const Duration(seconds: 2));
+    final currentUser = await ParseUser.currentUser() as ParseUser?;
+    if (!mounted) return;
+    if (currentUser != null) {
+      final emailVerified = currentUser.get<bool>('emailVerified') ?? true;
+      if (!emailVerified) {
+        await currentUser.logout();
+        if (!mounted) return;
         Navigator.of(context).pushReplacementNamed('/login');
+        return;
       }
-    });
+      Navigator.of(context).pushReplacementNamed('/home');
+      return;
+    }
+    Navigator.of(context).pushReplacementNamed('/login');
   }
 
   @override

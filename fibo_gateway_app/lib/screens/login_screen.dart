@@ -78,7 +78,8 @@ class _LoginScreenState extends State<LoginScreen> {
         await loggedInUser.logout();
         return;
       }
-      await _showMessage('Sign-in successful', 'Welcome back!');
+      if (!mounted) return;
+      Navigator.of(context).pushReplacementNamed('/home');
       return;
     }
 
