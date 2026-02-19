@@ -4,6 +4,7 @@ import '../theme/app_text_styles.dart';
 import 'dashboard_home_screen.dart';
 import 'devices_list_screen.dart';
 import 'network_status_screen.dart';
+import 'scenes_list_screen.dart';
 import 'settings_main_screen.dart';
 
 class HomeShell extends StatefulWidget {
@@ -19,6 +20,7 @@ class _HomeShellState extends State<HomeShell> {
   final List<Widget> _pages = const [
     DashboardHomeScreen(),
     DevicesListScreen(),
+    ScenesListScreen(),
     NetworkStatusScreen(),
     SettingsMainScreen(),
   ];
@@ -26,10 +28,7 @@ class _HomeShellState extends State<HomeShell> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(
-        index: _index,
-        children: _pages,
-      ),
+      body: IndexedStack(index: _index, children: _pages),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _index,
         onTap: (value) => setState(() => _index = value),
@@ -52,6 +51,11 @@ class _HomeShellState extends State<HomeShell> {
             icon: Icon(Icons.devices_outlined),
             activeIcon: Icon(Icons.devices),
             label: 'Devices',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.bolt_outlined),
+            activeIcon: Icon(Icons.bolt),
+            label: 'Scenes',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.lan_outlined),

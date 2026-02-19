@@ -50,7 +50,8 @@ class PairingSearchingScreen extends StatelessWidget {
                       width: double.infinity,
                       height: 52,
                       child: ElevatedButton(
-                        onPressed: () => Navigator.of(context).pushNamed('/pairing/found'),
+                        onPressed: () =>
+                            Navigator.of(context).pushNamed('/pairing/found'),
                         child: const Text('Simulate Device Found'),
                       ),
                     ),
@@ -81,9 +82,16 @@ class _Header extends StatelessWidget {
           InkWell(
             onTap: onClose,
             borderRadius: BorderRadius.circular(16),
-            child: const Icon(Icons.close, size: 24, color: AppColors.foreground),
+            child: const Icon(
+              Icons.close,
+              size: 24,
+              color: AppColors.foreground,
+            ),
           ),
-          Text(title, style: AppTextStyles.body16.copyWith(fontWeight: FontWeight.w600)),
+          Text(
+            title,
+            style: AppTextStyles.body16.copyWith(fontWeight: FontWeight.w600),
+          ),
           Container(
             width: 40,
             height: 40,
@@ -91,7 +99,11 @@ class _Header extends StatelessWidget {
               color: AppColors.secondary,
               borderRadius: BorderRadius.circular(20),
             ),
-            child: const Icon(Icons.notifications, size: 22, color: AppColors.foreground),
+            child: const Icon(
+              Icons.notifications,
+              size: 22,
+              color: AppColors.foreground,
+            ),
           ),
         ],
       ),
@@ -109,8 +121,8 @@ class _Radar extends StatelessWidget {
         shape: BoxShape.circle,
         gradient: RadialGradient(
           colors: [
-            AppColors.primary.withOpacity(0.35),
-            const Color(0xFFF97316).withOpacity(0.2),
+            AppColors.primary.withValues(alpha: 0.35),
+            const Color(0xFFF97316).withValues(alpha: 0.2),
             Colors.transparent,
           ],
           stops: const [0.0, 0.3, 1.0],
@@ -122,7 +134,10 @@ class _Radar extends StatelessWidget {
           height: 160,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            border: Border.all(color: AppColors.primary.withOpacity(0.6), width: 2),
+            border: Border.all(
+              color: AppColors.primary.withValues(alpha: 0.6),
+              width: 2,
+            ),
           ),
           child: Center(
             child: Container(
@@ -132,7 +147,11 @@ class _Radar extends StatelessWidget {
                 shape: BoxShape.circle,
                 color: AppColors.primary,
               ),
-              child: const Icon(Icons.radar, size: 32, color: AppColors.primaryForeground),
+              child: const Icon(
+                Icons.radar,
+                size: 32,
+                color: AppColors.primaryForeground,
+              ),
             ),
           ),
         ),
@@ -174,7 +193,10 @@ class _ProgressCard extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 12),
-          Text('This may take up to 60 seconds', style: AppTextStyles.body13Muted),
+          Text(
+            'This may take up to 60 seconds',
+            style: AppTextStyles.body13Muted,
+          ),
         ],
       ),
     );

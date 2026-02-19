@@ -19,10 +19,14 @@ class PairingSuccessScreen extends StatelessWidget {
                   width: 120,
                   height: 120,
                   decoration: BoxDecoration(
-                    color: const Color(0xFF10B981).withOpacity(0.12),
+                    color: const Color(0xFF10B981).withValues(alpha: 0.12),
                     borderRadius: BorderRadius.circular(60),
                   ),
-                  child: const Icon(Icons.check_circle, size: 64, color: Color(0xFF10B981)),
+                  child: const Icon(
+                    Icons.check_circle,
+                    size: 64,
+                    color: Color(0xFF10B981),
+                  ),
                 ),
                 const SizedBox(height: 24),
                 Text(
@@ -53,16 +57,26 @@ class PairingSuccessScreen extends StatelessWidget {
                           color: AppColors.secondary,
                           borderRadius: BorderRadius.circular(16),
                         ),
-                        child: const Icon(Icons.lightbulb, size: 28, color: AppColors.primary),
+                        child: const Icon(
+                          Icons.lightbulb,
+                          size: 28,
+                          color: AppColors.primary,
+                        ),
                       ),
                       const SizedBox(width: 12),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Living Room Light', style: AppTextStyles.body16),
+                            Text(
+                              'Living Room Light',
+                              style: AppTextStyles.body16,
+                            ),
                             const SizedBox(height: 4),
-                            Text('Living Room', style: AppTextStyles.body14Muted),
+                            Text(
+                              'Living Room',
+                              style: AppTextStyles.body14Muted,
+                            ),
                             const SizedBox(height: 6),
                             Row(
                               children: [
@@ -75,7 +89,10 @@ class PairingSuccessScreen extends StatelessWidget {
                                   ),
                                 ),
                                 const SizedBox(width: 6),
-                                Text('Online', style: AppTextStyles.body13Muted),
+                                Text(
+                                  'Online',
+                                  style: AppTextStyles.body13Muted,
+                                ),
                               ],
                             ),
                           ],
@@ -89,7 +106,8 @@ class PairingSuccessScreen extends StatelessWidget {
                   width: double.infinity,
                   height: 52,
                   child: ElevatedButton.icon(
-                    onPressed: () => Navigator.of(context).pushNamed('/device-detail'),
+                    onPressed: () =>
+                        Navigator.of(context).pushNamed('/device-detail'),
                     icon: const Icon(Icons.tune, size: 20),
                     label: const Text('Control Device'),
                   ),
@@ -99,7 +117,9 @@ class PairingSuccessScreen extends StatelessWidget {
                   width: double.infinity,
                   height: 52,
                   child: OutlinedButton(
-                    onPressed: () => Navigator.of(context).pushNamedAndRemoveUntil('/home', (route) => false),
+                    onPressed: () => Navigator.of(
+                      context,
+                    ).pushNamedAndRemoveUntil('/home', (route) => false),
                     child: const Text('Back to Home'),
                   ),
                 ),

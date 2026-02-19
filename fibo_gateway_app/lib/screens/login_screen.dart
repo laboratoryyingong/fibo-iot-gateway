@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
-import '../theme/app_colors.dart';
 import '../theme/app_text_styles.dart';
 import '../widgets/auth_text_field.dart';
 import '../widgets/password_field.dart';
@@ -74,7 +73,10 @@ class _LoginScreenState extends State<LoginScreen> {
       final loggedInUser = response.result as ParseUser;
       final emailVerified = loggedInUser.get<bool>('emailVerified') ?? false;
       if (!emailVerified) {
-        await _showMessage('Please verify your email', 'Your email is not verified. Please verify it before signing in.');
+        await _showMessage(
+          'Please verify your email',
+          'Your email is not verified. Please verify it before signing in.',
+        );
         await loggedInUser.logout();
         return;
       }
@@ -83,7 +85,10 @@ class _LoginScreenState extends State<LoginScreen> {
       return;
     }
 
-    await _showMessage('Sign-in failed', response.error?.message ?? 'Please try again later');
+    await _showMessage(
+      'Sign-in failed',
+      response.error?.message ?? 'Please try again later',
+    );
   }
 
   @override
@@ -102,7 +107,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: [
                       Text('Welcome Back', style: AppTextStyles.heading28),
                       const SizedBox(height: 8),
-                      Text('Sign in to continue', style: AppTextStyles.body15Muted),
+                      Text(
+                        'Sign in to continue',
+                        style: AppTextStyles.body15Muted,
+                      ),
                       const SizedBox(height: 32),
                       AuthTextField(
                         label: 'Email',
@@ -125,8 +133,13 @@ class _LoginScreenState extends State<LoginScreen> {
                       Align(
                         alignment: Alignment.centerRight,
                         child: TextButton(
-                          onPressed: () => Navigator.of(context).pushNamed('/forgot-password'),
-                          child: Text('Forgot Password?', style: AppTextStyles.link14),
+                          onPressed: () => Navigator.of(
+                            context,
+                          ).pushNamed('/forgot-password'),
+                          child: Text(
+                            'Forgot Password?',
+                            style: AppTextStyles.link14,
+                          ),
                         ),
                       ),
                       const SizedBox(height: 8),
@@ -136,7 +149,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             ? const SizedBox(
                                 width: 20,
                                 height: 20,
-                                child: CircularProgressIndicator(strokeWidth: 2),
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                ),
                               )
                             : const Text('Sign In'),
                       ),
@@ -171,10 +186,14 @@ class _LoginScreenState extends State<LoginScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text("Don't have an account?", style: AppTextStyles.body14Muted),
+                          Text(
+                            "Don't have an account?",
+                            style: AppTextStyles.body14Muted,
+                          ),
                           const SizedBox(width: 4),
                           TextButton(
-                            onPressed: () => Navigator.of(context).pushNamed('/signup'),
+                            onPressed: () =>
+                                Navigator.of(context).pushNamed('/signup'),
                             child: Text('Sign Up', style: AppTextStyles.link14),
                           ),
                         ],

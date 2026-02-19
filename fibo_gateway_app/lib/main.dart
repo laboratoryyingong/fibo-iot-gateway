@@ -10,6 +10,10 @@ import 'screens/pairing_start_screen.dart';
 import 'screens/pairing_searching_screen.dart';
 import 'screens/pairing_device_found_screen.dart';
 import 'screens/pairing_success_screen.dart';
+import 'screens/scenes_add_action_screen.dart';
+import 'screens/scenes_add_trigger_screen.dart';
+import 'screens/scenes_detail_screen.dart';
+import 'screens/scenes_select_device_screen.dart';
 import 'services/parse_config.dart';
 import 'theme/app_theme.dart';
 
@@ -46,6 +50,10 @@ class FiboGatewayApp extends StatelessWidget {
         '/pairing/searching': (context) => const PairingSearchingScreen(),
         '/pairing/found': (context) => const PairingDeviceFoundScreen(),
         '/pairing/success': (context) => const PairingSuccessScreen(),
+        '/scenes/detail': (context) => const ScenesDetailScreen(),
+        '/scenes/add-trigger': (context) => const ScenesAddTriggerScreen(),
+        '/scenes/add-action': (context) => const ScenesAddActionScreen(),
+        '/scenes/select-device': (context) => const ScenesSelectDeviceScreen(),
       },
     );
   }

@@ -25,15 +25,22 @@ class PairingDeviceFoundScreen extends StatelessWidget {
                     const SizedBox(height: 16),
                     _DeviceCard(),
                     const SizedBox(height: 16),
-                    _InputField(label: 'Device Name', value: 'Living Room Light'),
+                    _InputField(
+                      label: 'Device Name',
+                      value: 'Living Room Light',
+                    ),
                     const SizedBox(height: 16),
-                    _DropdownField(label: 'Assign to Room', value: 'Living Room'),
+                    _DropdownField(
+                      label: 'Assign to Room',
+                      value: 'Living Room',
+                    ),
                     const SizedBox(height: 24),
                     SizedBox(
                       width: double.infinity,
                       height: 52,
                       child: ElevatedButton(
-                        onPressed: () => Navigator.of(context).pushNamed('/pairing/success'),
+                        onPressed: () =>
+                            Navigator.of(context).pushNamed('/pairing/success'),
                         child: const Text('Pair Device'),
                       ),
                     ),
@@ -64,9 +71,16 @@ class _Header extends StatelessWidget {
           InkWell(
             onTap: onBack,
             borderRadius: BorderRadius.circular(16),
-            child: const Icon(Icons.arrow_back, size: 24, color: AppColors.foreground),
+            child: const Icon(
+              Icons.arrow_back,
+              size: 24,
+              color: AppColors.foreground,
+            ),
           ),
-          Text(title, style: AppTextStyles.body16.copyWith(fontWeight: FontWeight.w600)),
+          Text(
+            title,
+            style: AppTextStyles.body16.copyWith(fontWeight: FontWeight.w600),
+          ),
           Container(
             width: 40,
             height: 40,
@@ -74,7 +88,11 @@ class _Header extends StatelessWidget {
               color: AppColors.secondary,
               borderRadius: BorderRadius.circular(20),
             ),
-            child: const Icon(Icons.notifications, size: 22, color: AppColors.foreground),
+            child: const Icon(
+              Icons.notifications,
+              size: 22,
+              color: AppColors.foreground,
+            ),
           ),
         ],
       ),
@@ -88,7 +106,7 @@ class _SuccessBanner extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: const Color(0xFF10B981).withOpacity(0.12),
+        color: const Color(0xFF10B981).withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(16),
       ),
       child: Row(
@@ -97,7 +115,9 @@ class _SuccessBanner extends StatelessWidget {
           const SizedBox(width: 12),
           Text(
             '1 new device found nearby!',
-            style: AppTextStyles.body14.copyWith(color: const Color(0xFF10B981)),
+            style: AppTextStyles.body14.copyWith(
+              color: const Color(0xFF10B981),
+            ),
           ),
         ],
       ),
@@ -124,7 +144,11 @@ class _DeviceCard extends StatelessWidget {
               color: AppColors.secondary,
               borderRadius: BorderRadius.circular(12),
             ),
-            child: const Icon(Icons.lightbulb, size: 24, color: AppColors.primary),
+            child: const Icon(
+              Icons.lightbulb,
+              size: 24,
+              color: AppColors.primary,
+            ),
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -144,7 +168,11 @@ class _DeviceCard extends StatelessWidget {
               color: AppColors.primary,
               borderRadius: BorderRadius.circular(12),
             ),
-            child: const Icon(Icons.check, size: 16, color: AppColors.primaryForeground),
+            child: const Icon(
+              Icons.check,
+              size: 16,
+              color: AppColors.primaryForeground,
+            ),
           ),
         ],
       ),
@@ -207,7 +235,11 @@ class _DropdownField extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(value, style: AppTextStyles.body14),
-              const Icon(Icons.keyboard_arrow_down, size: 24, color: AppColors.mutedForeground),
+              const Icon(
+                Icons.keyboard_arrow_down,
+                size: 24,
+                color: AppColors.mutedForeground,
+              ),
             ],
           ),
         ),
