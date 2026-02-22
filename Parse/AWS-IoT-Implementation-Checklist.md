@@ -18,7 +18,7 @@
 
 | ID | Phase | Task | Owner | Depends On | Output Artifact | Status |
 |---|---|---|---|---|---|---|
-| P0-01 | Preparation | Confirm AWS account/region strategy for IoT, Cognito, DynamoDB | Cloud | None | Environment decision note | [ ] |
+| P0-01 | Preparation | Confirm AWS account/region strategy for IoT, Cognito, DynamoDB | Cloud | None | `Parse/AWS-Environment-Decision-Note.md` | [x] |
 | P0-02 | Preparation | Create naming registry for `accountId`, `gatewayId`, `deviceId` formats | Backend | P0-01 | Naming convention doc | [ ] |
 | P0-03 | Preparation | Define topic/shadow prefix constants (`fibo/v1/...`) | Cloud | P0-02 | Topic constants file | [ ] |
 | P1-01 | Identity | Create Cognito Identity Pool for developer-auth identities | Cloud | P0-01 | Identity Pool ID | [ ] |
@@ -89,7 +89,7 @@
 
 | Priority | Task ID | Task | Status |
 |---|---|---|---|
-| 1 | P0-01 | Confirm AWS account/region strategy | [ ] |
+| 1 | P0-01 | Confirm AWS account/region strategy | [x] |
 | 2 | P0-02 | Lock ID naming conventions | [ ] |
 | 3 | P1-01 | Create Cognito Identity Pool | [ ] |
 | 4 | P1-03 | Implement Parse `getAwsIotSession` | [ ] |
@@ -99,4 +99,3 @@
 | 8 | P3-01 | Finalize command schema | [ ] |
 | 9 | P4-03 | Gateway ACK publisher (<1s) | [ ] |
 | 10 | P5-03 | App ACK timeout alert | [ ] |
-

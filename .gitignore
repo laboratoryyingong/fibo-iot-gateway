@@ -109,6 +109,9 @@ coverage/
 
 # Local-only Parse Server config
 fibo_gateway_app/lib/services/parse_config.local.dart
+Parse/.env
+Parse/.env.*
+!Parse/.env.example
 
 # Symbols
 app.*.symbols
