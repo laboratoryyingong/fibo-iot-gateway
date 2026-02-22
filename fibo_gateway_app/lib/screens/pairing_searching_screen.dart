@@ -122,7 +122,7 @@ class _Radar extends StatelessWidget {
         gradient: RadialGradient(
           colors: [
             AppColors.primary.withValues(alpha: 0.35),
-            const Color(0xFFF97316).withValues(alpha: 0.2),
+            AppColors.primary.withValues(alpha: 0.2),
             Colors.transparent,
           ],
           stops: const [0.0, 0.3, 1.0],

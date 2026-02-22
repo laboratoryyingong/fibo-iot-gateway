@@ -1,0 +1,41 @@
+name: Flutter CI
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+
+jobs:
+  analyze-and-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: fibo_gateway_app
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Create local Parse config for CI
+        run: |
+          cat > lib/services/parse_config.local.dart <<'EOF'
+          const String serverUrl = 'https://example.com/parse/';
+          const String appId = 'ci-placeholder-app-id';
+          const String clientKey = '';
+          EOF
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Static analysis
+        run: flutter analyze
+
+      - name: Run tests
+        run: flutter test

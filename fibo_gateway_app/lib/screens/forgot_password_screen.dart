@@ -61,7 +61,10 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       return;
     }
 
-    await _showMessage('Send failed', response.error?.message ?? 'Please try again later');
+    await _showMessage(
+      'Send failed',
+      response.error?.message ?? 'Please try again later',
+    );
   }
 
   @override
@@ -90,11 +93,18 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                 color: AppColors.secondary,
                                 borderRadius: BorderRadius.circular(20),
                               ),
-                              child: const Icon(Icons.arrow_back, size: 22, color: AppColors.foreground),
+                              child: const Icon(
+                                Icons.arrow_back,
+                                size: 22,
+                                color: AppColors.foreground,
+                              ),
                             ),
                           ),
                           const SizedBox(width: 16),
-                          Text('Forgot Password', style: AppTextStyles.heading20),
+                          Text(
+                            'Forgot Password',
+                            style: AppTextStyles.heading20,
+                          ),
                         ],
                       ),
                       const SizedBox(height: 32),
@@ -108,10 +118,17 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                 color: AppColors.secondary,
                                 borderRadius: BorderRadius.circular(40),
                               ),
-                              child: const Icon(Icons.lock_reset, size: 40, color: AppColors.primary),
+                              child: const Icon(
+                                Icons.lock_reset,
+                                size: 40,
+                                color: AppColors.primary,
+                              ),
                             ),
                             const SizedBox(height: 16),
-                            Text('Reset Password', style: AppTextStyles.heading24),
+                            Text(
+                              'Reset Password',
+                              style: AppTextStyles.heading24,
+                            ),
                             const SizedBox(height: 8),
                             Text(
                               "Enter your email address and we'll send you a link to reset your password.",
@@ -138,7 +155,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                             ? const SizedBox(
                                 width: 20,
                                 height: 20,
-                                child: CircularProgressIndicator(strokeWidth: 2),
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                ),
                               )
                             : const Text('Send Reset Link'),
                       ),
@@ -146,10 +165,15 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text('Remember your password?', style: AppTextStyles.body14Muted),
+                          Text(
+                            'Remember your password?',
+                            style: AppTextStyles.body14Muted,
+                          ),
                           const SizedBox(width: 4),
                           TextButton(
-                            onPressed: () => Navigator.of(context).pushReplacementNamed('/login'),
+                            onPressed: () => Navigator.of(
+                              context,
+                            ).pushReplacementNamed('/login'),
                             child: Text('Sign In', style: AppTextStyles.link14),
                           ),
                         ],

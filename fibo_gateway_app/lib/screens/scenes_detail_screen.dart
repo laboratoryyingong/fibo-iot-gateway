@@ -65,9 +65,9 @@ class ScenesDetailScreen extends StatelessWidget {
                       width: double.infinity,
                       child: OutlinedButton(
                         style: OutlinedButton.styleFrom(
-                          foregroundColor: const Color(0xFFEF4444),
+                          foregroundColor: AppColors.destructive,
                           side: const BorderSide(
-                            color: Color(0xFFEF4444),
+                            color: AppColors.destructive,
                             width: 1,
                           ),
                         ),

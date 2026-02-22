@@ -38,7 +38,11 @@ class _PasswordFieldState extends State<PasswordField> {
           autofillHints: widget.autofillHints,
           decoration: InputDecoration(
             hintText: widget.hint,
-            prefixIcon: Icon(Icons.lock_outline, size: 20, color: AppTextStyles.body15Muted.color),
+            prefixIcon: Icon(
+              Icons.lock_outline,
+              size: 20,
+              color: AppTextStyles.body15Muted.color,
+            ),
             suffixIcon: IconButton(
               onPressed: () => setState(() => _obscureText = !_obscureText),
               icon: Icon(

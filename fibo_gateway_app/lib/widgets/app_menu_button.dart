@@ -8,11 +8,15 @@ class AppMenuButton extends StatelessWidget {
     this.userName = 'Admin',
     this.gatewayName = 'Zigbee Hub',
     this.onLogout,
+    this.onOpenCameraCenter,
+    this.onOpenUserPortal,
   });
 
   final String userName;
   final String gatewayName;
   final VoidCallback? onLogout;
+  final VoidCallback? onOpenCameraCenter;
+  final VoidCallback? onOpenUserPortal;
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +52,27 @@ class AppMenuButton extends StatelessWidget {
           value: 2,
           child: Row(
             children: const [
+              Icon(Icons.videocam, size: 18, color: AppColors.foreground),
+              SizedBox(width: 10),
+              Text('Camera Center'),
+            ],
+          ),
+        ),
+        PopupMenuItem<int>(
+          value: 3,
+          child: Row(
+            children: const [
+              Icon(Icons.person, size: 18, color: AppColors.foreground),
+              SizedBox(width: 10),
+              Text('User Portal'),
+            ],
+          ),
+        ),
+        const PopupMenuDivider(),
+        PopupMenuItem<int>(
+          value: 4,
+          child: Row(
+            children: const [
               Icon(Icons.logout, size: 18, color: AppColors.foreground),
               SizedBox(width: 10),
               Text('Logout'),
@@ -57,6 +82,22 @@ class AppMenuButton extends StatelessWidget {
       ],
       onSelected: (value) {
         if (value == 2) {
+          if (onOpenCameraCenter != null) {
+            onOpenCameraCenter!.call();
+          } else {
+            Navigator.of(context).pushNamed('/camera/list');
+          }
+          return;
+        }
+        if (value == 3) {
+          if (onOpenUserPortal != null) {
+            onOpenUserPortal!.call();
+          } else {
+            Navigator.of(context).pushNamed('/user/home');
+          }
+          return;
+        }
+        if (value == 4) {
           onLogout?.call();
         }
       },

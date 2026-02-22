@@ -13,6 +13,8 @@ class AppTheme {
         surface: AppColors.card,
         onSurface: AppColors.foreground,
         outline: AppColors.border,
+        error: AppColors.destructive,
+        onError: AppColors.white,
       ),
       textTheme: base.textTheme.copyWith(
         headlineMedium: AppTextStyles.heading28,
@@ -27,7 +29,10 @@ class AppTheme {
         fillColor: AppColors.card,
         hintStyle: AppTextStyles.body15Muted,
         labelStyle: AppTextStyles.body14,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 16,
+        ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
           borderSide: const BorderSide(color: AppColors.border, width: 1),

@@ -71,7 +71,11 @@ class _Header extends StatelessWidget {
                   color: AppColors.secondary,
                   borderRadius: BorderRadius.circular(20),
                 ),
-                child: const Icon(Icons.notifications, size: 22, color: AppColors.foreground),
+                child: const Icon(
+                  Icons.notifications,
+                  size: 22,
+                  color: AppColors.foreground,
+                ),
               ),
               const SizedBox(width: 8),
               Container(
@@ -81,7 +85,11 @@ class _Header extends StatelessWidget {
                   color: AppColors.secondary,
                   borderRadius: BorderRadius.circular(20),
                 ),
-                child: const Icon(Icons.refresh, size: 22, color: AppColors.foreground),
+                child: const Icon(
+                  Icons.refresh,
+                  size: 22,
+                  color: AppColors.foreground,
+                ),
               ),
             ],
           ),
@@ -110,7 +118,7 @@ class _StatsRow extends StatelessWidget {
           child: _StatCard(
             value: '87%',
             label: 'Link Quality',
-            valueColor: Color(0xFF22C55E),
+            valueColor: AppColors.successForeground,
           ),
         ),
       ],
@@ -143,7 +151,10 @@ class _StatCard extends StatelessWidget {
         children: [
           Text(
             value,
-            style: AppTextStyles.heading28.copyWith(color: valueColor, fontSize: 26),
+            style: AppTextStyles.heading28.copyWith(
+              color: valueColor,
+              fontSize: 26,
+            ),
           ),
           const SizedBox(height: 6),
           Text(label, style: AppTextStyles.body13Muted),
@@ -170,7 +181,12 @@ class _TopologyCard extends StatelessWidget {
             padding: const EdgeInsets.all(16),
             child: Row(
               children: [
-                Text('Network Topology', style: AppTextStyles.body16.copyWith(fontWeight: FontWeight.w600)),
+                Text(
+                  'Network Topology',
+                  style: AppTextStyles.body16.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
               ],
             ),
           ),
@@ -244,7 +260,12 @@ class _TopologyNode extends StatelessWidget {
           child: Icon(icon, size: 28, color: iconColor),
         ),
         const SizedBox(height: 6),
-        Text(label, style: AppTextStyles.body13Muted.copyWith(color: AppColors.foreground)),
+        Text(
+          label,
+          style: AppTextStyles.body13Muted.copyWith(
+            color: AppColors.foreground,
+          ),
+        ),
       ],
     );
   }
@@ -267,7 +288,12 @@ class _NetworkDetailsCard extends StatelessWidget {
             padding: const EdgeInsets.all(16),
             child: Row(
               children: [
-                Text('Network Details', style: AppTextStyles.body16.copyWith(fontWeight: FontWeight.w600)),
+                Text(
+                  'Network Details',
+                  style: AppTextStyles.body16.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
               ],
             ),
           ),
@@ -304,7 +330,12 @@ class _InfoRow extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(label, style: AppTextStyles.body13Muted),
-        Text(value, style: AppTextStyles.body13Muted.copyWith(color: AppColors.foreground)),
+        Text(
+          value,
+          style: AppTextStyles.body13Muted.copyWith(
+            color: AppColors.foreground,
+          ),
+        ),
       ],
     );
   }

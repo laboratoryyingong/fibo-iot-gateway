@@ -42,7 +42,11 @@ class AuthTextField extends StatelessWidget {
             hintText: hint,
             prefixIcon: prefixIcon == null
                 ? null
-                : Icon(prefixIcon, size: 20, color: AppTextStyles.body15Muted.color),
+                : Icon(
+                    prefixIcon,
+                    size: 20,
+                    color: AppTextStyles.body15Muted.color,
+                  ),
             suffixIcon: suffixIcon,
           ),
         ),

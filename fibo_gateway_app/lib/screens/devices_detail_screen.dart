@@ -58,7 +58,11 @@ class _Header extends StatelessWidget {
                     color: AppColors.secondary,
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  child: const Icon(Icons.arrow_back, size: 22, color: AppColors.foreground),
+                  child: const Icon(
+                    Icons.arrow_back,
+                    size: 22,
+                    color: AppColors.foreground,
+                  ),
                 ),
               ),
               const SizedBox(width: 16),
@@ -79,7 +83,11 @@ class _Header extends StatelessWidget {
               color: AppColors.secondary,
               borderRadius: BorderRadius.circular(20),
             ),
-            child: const Icon(Icons.notifications, size: 22, color: AppColors.foreground),
+            child: const Icon(
+              Icons.notifications,
+              size: 22,
+              color: AppColors.foreground,
+            ),
           ),
         ],
       ),
@@ -108,7 +116,11 @@ class _PowerCard extends StatelessWidget {
               color: AppColors.primary,
               borderRadius: BorderRadius.circular(40),
             ),
-            child: const Icon(Icons.lightbulb, size: 40, color: AppColors.primaryForeground),
+            child: const Icon(
+              Icons.lightbulb,
+              size: 40,
+              color: AppColors.primaryForeground,
+            ),
           ),
           const SizedBox(height: 16),
           Column(
@@ -164,12 +176,19 @@ class _BrightnessCard extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  const Icon(Icons.light_mode, size: 22, color: AppColors.primary),
+                  const Icon(
+                    Icons.light_mode,
+                    size: 22,
+                    color: AppColors.primary,
+                  ),
                   const SizedBox(width: 10),
                   Text('Brightness', style: AppTextStyles.body14),
                 ],
               ),
-              Text('80%', style: AppTextStyles.body14.copyWith(color: AppColors.primary)),
+              Text(
+                '80%',
+                style: AppTextStyles.body14.copyWith(color: AppColors.primary),
+              ),
             ],
           ),
           const SizedBox(height: 16),
@@ -234,10 +253,7 @@ class _ColorTemperatureCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              _ColorSwatch(
-                color: const Color(0xFFFFE4C4),
-                selected: true,
-              ),
+              _ColorSwatch(color: const Color(0xFFFFE4C4), selected: true),
               const SizedBox(width: 12),
               const _ColorSwatch(color: Color(0xFFFFFAF0)),
               const SizedBox(width: 12),
@@ -304,7 +320,9 @@ class _DeviceInfoCard extends StatelessWidget {
           _InfoRow(
             label: 'Signal',
             value: 'Strong',
-            valueStyle: AppTextStyles.body14.copyWith(color: const Color(0xFF16A34A)),
+            valueStyle: AppTextStyles.body14.copyWith(
+              color: AppColors.successStrong,
+            ),
           ),
         ],
       ),
@@ -313,11 +331,7 @@ class _DeviceInfoCard extends StatelessWidget {
 }
 
 class _InfoRow extends StatelessWidget {
-  const _InfoRow({
-    required this.label,
-    required this.value,
-    this.valueStyle,
-  });
+  const _InfoRow({required this.label, required this.value, this.valueStyle});
 
   final String label;
   final String value;
@@ -329,7 +343,12 @@ class _InfoRow extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(label, style: AppTextStyles.body13Muted),
-        Text(value, style: valueStyle ?? AppTextStyles.body13Muted.copyWith(color: AppColors.foreground)),
+        Text(
+          value,
+          style:
+              valueStyle ??
+              AppTextStyles.body13Muted.copyWith(color: AppColors.foreground),
+        ),
       ],
     );
   }

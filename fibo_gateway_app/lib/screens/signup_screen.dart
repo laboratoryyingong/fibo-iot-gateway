@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
+import '../services/user_role_resolver.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_text_styles.dart';
 import '../widgets/auth_text_field.dart';
@@ -18,6 +19,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmController = TextEditingController();
+  String _selectedUserType = kUserTypeUser;
   bool _agreeToTerms = true;
   bool _isLoading = false;
 
@@ -77,7 +79,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
     final formState = _formKey.currentState;
     if (formState == null || !formState.validate()) return;
     if (!_agreeToTerms) {
-      await _showMessage('Terms acceptance required', 'Please accept the terms before continuing.');
+      await _showMessage(
+        'Terms acceptance required',
+        'Please accept the terms before continuing.',
+      );
       return;
     }
 
@@ -88,6 +93,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       _emailController.text.trim(),
     );
     user.set<String>('fullName', _nameController.text.trim());
+    user.set<String>('userType', _selectedUserType);
     final response = await user.signUp();
     setState(() => _isLoading = false);
 
@@ -101,7 +107,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
       return;
     }
 
-    await _showMessage('Sign-up failed', response.error?.message ?? 'Please try again later');
+    await _showMessage(
+      'Sign-up failed',
+      response.error?.message ?? 'Please try again later',
+    );
   }
 
   @override
@@ -130,11 +139,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 color: AppColors.secondary,
                                 borderRadius: BorderRadius.circular(20),
                               ),
-                              child: const Icon(Icons.arrow_back, size: 22, color: AppColors.foreground),
+                              child: const Icon(
+                                Icons.arrow_back,
+                                size: 22,
+                                color: AppColors.foreground,
+                              ),
                             ),
                           ),
                           const SizedBox(width: 16),
-                          Text('Create Account', style: AppTextStyles.heading20),
+                          Text(
+                            'Create Account',
+                            style: AppTextStyles.heading20,
+                          ),
                         ],
                       ),
                       const SizedBox(height: 24),
@@ -143,7 +159,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         hint: 'Enter your full name',
                         prefixIcon: Icons.person_outline,
                         controller: _nameController,
-                        validator: (value) => _requiredValidator(value, 'Please enter your full name'),
+                        validator: (value) => _requiredValidator(
+                          value,
+                          'Please enter your full name',
+                        ),
                       ),
                       const SizedBox(height: 16),
                       AuthTextField(
@@ -154,6 +173,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         keyboardType: TextInputType.emailAddress,
                         autofillHints: const [AutofillHints.email],
                         validator: _emailValidator,
+                      ),
+                      const SizedBox(height: 16),
+                      _UserTypeSelector(
+                        selectedType: _selectedUserType,
+                        onChanged: (type) =>
+                            setState(() => _selectedUserType = type),
                       ),
                       const SizedBox(height: 16),
                       PasswordField(
@@ -176,12 +201,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         children: [
                           Checkbox(
                             value: _agreeToTerms,
-                            onChanged: (value) => setState(() => _agreeToTerms = value ?? false),
+                            onChanged: (value) =>
+                                setState(() => _agreeToTerms = value ?? false),
                           ),
                           const SizedBox(width: 8),
-                          Text('I agree to the', style: AppTextStyles.body13Muted),
+                          Text(
+                            'I agree to the',
+                            style: AppTextStyles.body13Muted,
+                          ),
                           const SizedBox(width: 4),
-                          Text('Terms & Conditions', style: AppTextStyles.link14.copyWith(fontSize: 13)),
+                          Text(
+                            'Terms & Conditions',
+                            style: AppTextStyles.link14.copyWith(fontSize: 13),
+                          ),
                         ],
                       ),
                       const SizedBox(height: 12),
@@ -191,7 +223,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ? const SizedBox(
                                 width: 20,
                                 height: 20,
-                                child: CircularProgressIndicator(strokeWidth: 2),
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                ),
                               )
                             : const Text('Create Account'),
                       ),
@@ -199,10 +233,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text('Already have an account?', style: AppTextStyles.body14Muted),
+                          Text(
+                            'Already have an account?',
+                            style: AppTextStyles.body14Muted,
+                          ),
                           const SizedBox(width: 4),
                           TextButton(
-                            onPressed: () => Navigator.of(context).pushReplacementNamed('/login'),
+                            onPressed: () => Navigator.of(
+                              context,
+                            ).pushReplacementNamed('/login'),
                             child: Text('Sign In', style: AppTextStyles.link14),
                           ),
                         ],
@@ -213,6 +252,93 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class _UserTypeSelector extends StatelessWidget {
+  const _UserTypeSelector({
+    required this.selectedType,
+    required this.onChanged,
+  });
+
+  final String selectedType;
+  final ValueChanged<String> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Account Type',
+          style: AppTextStyles.body14.copyWith(fontWeight: FontWeight.w600),
+        ),
+        const SizedBox(height: 8),
+        Row(
+          children: [
+            Expanded(
+              child: _TypeOption(
+                label: 'User',
+                value: kUserTypeUser,
+                selected: selectedType == kUserTypeUser,
+                onTap: onChanged,
+              ),
+            ),
+            const SizedBox(width: 8),
+            Expanded(
+              child: _TypeOption(
+                label: 'Installer',
+                value: kUserTypeInstaller,
+                selected: selectedType == kUserTypeInstaller,
+                onTap: onChanged,
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class _TypeOption extends StatelessWidget {
+  const _TypeOption({
+    required this.label,
+    required this.value,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final String label;
+  final String value;
+  final bool selected;
+  final ValueChanged<String> onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () => onTap(value),
+      borderRadius: BorderRadius.circular(12),
+      child: Container(
+        height: 44,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: selected ? AppColors.primary : AppColors.card,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: selected ? AppColors.primary : AppColors.border,
+          ),
+        ),
+        child: Text(
+          label,
+          style: AppTextStyles.body14.copyWith(
+            color: selected
+                ? AppColors.primaryForeground
+                : AppColors.foreground,
+            fontWeight: FontWeight.w600,
+          ),
         ),
       ),
     );

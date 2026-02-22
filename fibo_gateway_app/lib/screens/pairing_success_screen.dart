@@ -19,13 +19,13 @@ class PairingSuccessScreen extends StatelessWidget {
                   width: 120,
                   height: 120,
                   decoration: BoxDecoration(
-                    color: const Color(0xFF10B981).withValues(alpha: 0.12),
+                    color: AppColors.successStrong.withValues(alpha: 0.12),
                     borderRadius: BorderRadius.circular(60),
                   ),
                   child: const Icon(
                     Icons.check_circle,
                     size: 64,
-                    color: Color(0xFF10B981),
+                    color: AppColors.successStrong,
                   ),
                 ),
                 const SizedBox(height: 24),
@@ -84,7 +84,7 @@ class PairingSuccessScreen extends StatelessWidget {
                                   width: 8,
                                   height: 8,
                                   decoration: const BoxDecoration(
-                                    color: Color(0xFF10B981),
+                                    color: AppColors.successStrong,
                                     shape: BoxShape.circle,
                                   ),
                                 ),

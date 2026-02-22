@@ -27,8 +27,10 @@ class DevicesListScreen extends StatelessWidget {
                       name: 'Living Room Light',
                       status: 'Online',
                       room: 'Living Room',
-                      statusColor: const Color(0xFF22C55E),
-                      onTap: () => Navigator.of(context).pushNamed('/device-detail'),
+                      statusColor: AppColors.success,
+                      statusTextColor: AppColors.successForeground,
+                      onTap: () =>
+                          Navigator.of(context).pushNamed('/device-detail'),
                     ),
                     const SizedBox(height: 12),
                     _DeviceCard(
@@ -36,8 +38,10 @@ class DevicesListScreen extends StatelessWidget {
                       name: 'Thermostat',
                       status: 'Online',
                       room: 'Hallway',
-                      statusColor: const Color(0xFF22C55E),
-                      onTap: () => Navigator.of(context).pushNamed('/device-detail'),
+                      statusColor: AppColors.success,
+                      statusTextColor: AppColors.successForeground,
+                      onTap: () =>
+                          Navigator.of(context).pushNamed('/device-detail'),
                     ),
                     const SizedBox(height: 12),
                     _DeviceCard(
@@ -45,8 +49,10 @@ class DevicesListScreen extends StatelessWidget {
                       name: 'Front Door Lock',
                       status: 'Online',
                       room: 'Entrance',
-                      statusColor: const Color(0xFF22C55E),
-                      onTap: () => Navigator.of(context).pushNamed('/device-detail'),
+                      statusColor: AppColors.success,
+                      statusTextColor: AppColors.successForeground,
+                      onTap: () =>
+                          Navigator.of(context).pushNamed('/device-detail'),
                     ),
                     const SizedBox(height: 12),
                     _DeviceCard(
@@ -54,9 +60,11 @@ class DevicesListScreen extends StatelessWidget {
                       name: 'Kitchen Motion Sensor',
                       status: 'Offline',
                       room: 'Kitchen',
-                      statusColor: const Color(0xFFEF4444),
+                      statusColor: AppColors.colorError,
+                      statusTextColor: AppColors.colorErrorForeground,
                       iconMuted: true,
-                      onTap: () => Navigator.of(context).pushNamed('/device-detail'),
+                      onTap: () =>
+                          Navigator.of(context).pushNamed('/device-detail'),
                     ),
                     const SizedBox(height: 12),
                     _DeviceCard(
@@ -64,8 +72,10 @@ class DevicesListScreen extends StatelessWidget {
                       name: 'Bedroom Blinds',
                       status: 'Online',
                       room: 'Bedroom',
-                      statusColor: const Color(0xFF22C55E),
-                      onTap: () => Navigator.of(context).pushNamed('/device-detail'),
+                      statusColor: AppColors.success,
+                      statusTextColor: AppColors.successForeground,
+                      onTap: () =>
+                          Navigator.of(context).pushNamed('/device-detail'),
                     ),
                   ],
                 ),
@@ -111,7 +121,11 @@ class _Header extends StatelessWidget {
                   color: AppColors.secondary,
                   borderRadius: BorderRadius.circular(20),
                 ),
-                child: const Icon(Icons.notifications, size: 22, color: AppColors.foreground),
+                child: const Icon(
+                  Icons.notifications,
+                  size: 22,
+                  color: AppColors.foreground,
+                ),
               ),
               const SizedBox(width: 8),
               InkWell(
@@ -124,7 +138,11 @@ class _Header extends StatelessWidget {
                     color: AppColors.primary,
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  child: const Icon(Icons.add, size: 24, color: AppColors.primaryForeground),
+                  child: const Icon(
+                    Icons.add,
+                    size: 24,
+                    color: AppColors.primaryForeground,
+                  ),
                 ),
               ),
             ],
@@ -150,7 +168,11 @@ class _SearchBar extends StatelessWidget {
         ),
         child: Row(
           children: [
-            const Icon(Icons.search, size: 20, color: AppColors.mutedForeground),
+            const Icon(
+              Icons.search,
+              size: 20,
+              color: AppColors.mutedForeground,
+            ),
             const SizedBox(width: 10),
             Text('Search devices...', style: AppTextStyles.body14Muted),
           ],
@@ -169,18 +191,11 @@ class _FilterTabs extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(20, 0, 20, 12),
       child: Row(
         children: [
-          _FilterChip(
-            text: 'All (24)',
-            active: true,
-          ),
+          _FilterChip(text: 'All (24)', active: true),
           const SizedBox(width: 8),
-          const _FilterChip(
-            text: 'Online (21)',
-          ),
+          const _FilterChip(text: 'Online (21)'),
           const SizedBox(width: 8),
-          const _FilterChip(
-            text: 'Offline (3)',
-          ),
+          const _FilterChip(text: 'Offline (3)'),
         ],
       ),
     );
@@ -220,6 +235,7 @@ class _DeviceCard extends StatelessWidget {
     required this.status,
     required this.room,
     required this.statusColor,
+    required this.statusTextColor,
     required this.onTap,
     this.iconMuted = false,
   });
@@ -229,6 +245,7 @@ class _DeviceCard extends StatelessWidget {
   final String status;
   final String room;
   final Color statusColor;
+  final Color statusTextColor;
   final VoidCallback onTap;
   final bool iconMuted;
 
@@ -256,7 +273,9 @@ class _DeviceCard extends StatelessWidget {
               child: Icon(
                 icon,
                 size: 26,
-                color: iconMuted ? AppColors.mutedForeground : AppColors.primary,
+                color: iconMuted
+                    ? AppColors.mutedForeground
+                    : AppColors.primary,
               ),
             ),
             const SizedBox(width: 14),
@@ -269,7 +288,10 @@ class _DeviceCard extends StatelessWidget {
                   Row(
                     children: [
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 3,
+                        ),
                         decoration: BoxDecoration(
                           color: statusColor,
                           borderRadius: BorderRadius.circular(10),
@@ -277,7 +299,7 @@ class _DeviceCard extends StatelessWidget {
                         child: Text(
                           status,
                           style: AppTextStyles.body13Muted.copyWith(
-                            color: Colors.white,
+                            color: statusTextColor,
                             fontWeight: FontWeight.w600,
                             fontSize: 11,
                           ),
@@ -290,7 +312,11 @@ class _DeviceCard extends StatelessWidget {
                 ],
               ),
             ),
-            const Icon(Icons.chevron_right, size: 24, color: AppColors.mutedForeground),
+            const Icon(
+              Icons.chevron_right,
+              size: 24,
+              color: AppColors.mutedForeground,
+            ),
           ],
         ),
       ),

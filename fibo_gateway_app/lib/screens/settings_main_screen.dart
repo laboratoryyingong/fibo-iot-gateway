@@ -30,8 +30,16 @@ class SettingsMainScreen extends StatelessWidget {
                     _SectionLabel('Gateway Configuration'),
                     _Card(
                       children: [
-                        _RowItem(label: 'Gateway Name', value: 'Zigbee Hub', showDivider: true),
-                        _RowItem(label: 'Channel', value: '15', showDivider: true),
+                        _RowItem(
+                          label: 'Gateway Name',
+                          value: 'Zigbee Hub',
+                          showDivider: true,
+                        ),
+                        _RowItem(
+                          label: 'Channel',
+                          value: '15',
+                          showDivider: true,
+                        ),
                         _RowToggle(label: 'Permit Join', enabled: false),
                       ],
                     ),
@@ -39,8 +47,16 @@ class SettingsMainScreen extends StatelessWidget {
                     _SectionLabel('Network Settings'),
                     _Card(
                       children: [
-                        _RowItem(label: 'Power', value: 'High', showDivider: true),
-                        _RowItem(label: 'LED Indicator', value: 'On', showDivider: true),
+                        _RowItem(
+                          label: 'Power',
+                          value: 'High',
+                          showDivider: true,
+                        ),
+                        _RowItem(
+                          label: 'LED Indicator',
+                          value: 'On',
+                          showDivider: true,
+                        ),
                         _RowItem(label: 'Firmware Update', value: 'Up to date'),
                       ],
                     ),
@@ -48,25 +64,36 @@ class SettingsMainScreen extends StatelessWidget {
                     _SectionLabel('System Information'),
                     _Card(
                       children: [
-                        _RowItem(label: 'Firmware', value: 'v1.2.4', showDivider: true),
-                        _RowItem(label: 'MAC Address', value: '84:A2:3B:9C:11', showDivider: true),
+                        _RowItem(
+                          label: 'Firmware',
+                          value: 'v1.2.4',
+                          showDivider: true,
+                        ),
+                        _RowItem(
+                          label: 'MAC Address',
+                          value: '84:A2:3B:9C:11',
+                          showDivider: true,
+                        ),
                         _RowItem(label: 'Uptime', value: '14 days 6 hours'),
                       ],
                     ),
                     SizedBox(height: 20),
-                    _SectionLabel('Danger Zone', color: Color(0xFFEF4444)),
+                    _SectionLabel(
+                      'Danger Zone',
+                      color: AppColors.colorErrorForeground,
+                    ),
                     _DangerCard(
                       children: [
                         _RowItem(
                           label: 'Restart Gateway',
                           value: 'Reboot now',
                           showDivider: true,
-                          valueColor: Color(0xFFEF4444),
+                          valueColor: AppColors.colorErrorForeground,
                         ),
                         _RowItem(
                           label: 'Factory Reset',
                           value: 'Erase all data',
-                          valueColor: Color(0xFFEF4444),
+                          valueColor: AppColors.colorErrorForeground,
                         ),
                       ],
                     ),
@@ -107,7 +134,11 @@ class _Header extends StatelessWidget {
               color: AppColors.secondary,
               borderRadius: BorderRadius.circular(20),
             ),
-            child: const Icon(Icons.notifications, size: 22, color: AppColors.foreground),
+            child: const Icon(
+              Icons.notifications,
+              size: 22,
+              color: AppColors.foreground,
+            ),
           ),
         ],
       ),
@@ -168,7 +199,7 @@ class _DangerCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.card,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFFEF4444), width: 1),
+        border: Border.all(color: AppColors.colorError, width: 1),
       ),
       child: Column(children: children),
     );
@@ -200,7 +231,9 @@ class _RowItem extends StatelessWidget {
               Text(label, style: AppTextStyles.body14),
               Text(
                 value,
-                style: AppTextStyles.body14.copyWith(color: valueColor ?? AppColors.mutedForeground),
+                style: AppTextStyles.body14.copyWith(
+                  color: valueColor ?? AppColors.mutedForeground,
+                ),
               ),
             ],
           ),

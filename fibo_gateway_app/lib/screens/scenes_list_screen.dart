@@ -192,8 +192,8 @@ class _SceneCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final statusColor = active
-        ? const Color(0xFF10B981)
-        : AppColors.mutedForeground;
+        ? AppColors.successForeground
+        : AppColors.neutralStrong;
     return InkWell(
       borderRadius: BorderRadius.circular(16),
       onTap: onTap,
@@ -240,7 +240,7 @@ class _SceneCard extends StatelessWidget {
                         child: Text(
                           active ? 'Active' : 'Inactive',
                           style: AppTextStyles.body13Muted.copyWith(
-                            color: Colors.white,
+                            color: AppColors.white,
                             fontWeight: FontWeight.w600,
                             fontSize: 11,
                           ),

@@ -9,6 +9,9 @@ Flutter app for a Zigbee gateway dashboard with device management, pairing flow,
 - Network: status overview
 - Settings: gateway and system sections
 - Pairing: start, searching, device found, success
+- Scenes: list, detail, trigger/action builder
+- Camera: list, live view, add NVR, channels, playback, settings
+- User Role: user dashboard, devices, device detail, scenes, settings
 
 **Tech Stack**
 - Flutter
@@ -42,9 +45,12 @@ flutter run
 ```
 
 **Navigation**
-- `/home` -> bottom tabs: Home, Devices, Network, Settings
+- `/home` -> bottom tabs: Home, Devices, Scenes, Network, Settings
+- `/user/home` -> user bottom tabs: Home, Devices, Scenes, Settings
 - `/device-detail` -> device detail page (no footer)
 - `/pairing/*` -> pairing flow screens
+- `/scenes/*` -> scenes flow screens
+- `/camera/*` -> camera center screens
 
 **Security**
 - Do not commit secrets or credentials

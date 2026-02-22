@@ -20,11 +20,11 @@ class DashboardHomeScreen extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(20, 16, 20, 16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    _GatewayStatusCard(),
-                    SizedBox(height: 12),
-                    _MetricsRow(),
-                    SizedBox(height: 20),
+                  children: [
+                    const _GatewayStatusCard(),
+                    const SizedBox(height: 12),
+                    const _MetricsRow(),
+                    const SizedBox(height: 20),
                     _QuickAccessSection(),
                   ],
                 ),
@@ -61,7 +61,10 @@ class _Header extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Zigbee Hub', style: AppTextStyles.heading20.copyWith(fontSize: 18)),
+                  Text(
+                    'Zigbee Hub',
+                    style: AppTextStyles.heading20.copyWith(fontSize: 18),
+                  ),
                   const SizedBox(height: 2),
                   Text('Welcome back, Admin', style: AppTextStyles.body13Muted),
                 ],
@@ -75,7 +78,11 @@ class _Header extends StatelessWidget {
               color: AppColors.secondary,
               borderRadius: BorderRadius.circular(20),
             ),
-            child: const Icon(Icons.notifications, size: 22, color: AppColors.foreground),
+            child: const Icon(
+              Icons.notifications,
+              size: 22,
+              color: AppColors.foreground,
+            ),
           ),
         ],
       ),
@@ -101,10 +108,14 @@ class _GatewayStatusCard extends StatelessWidget {
             width: 48,
             height: 48,
             decoration: BoxDecoration(
-              color: const Color(0xFF22C55E),
+              color: AppColors.success,
               borderRadius: BorderRadius.circular(24),
             ),
-            child: const Icon(Icons.wifi, size: 24, color: Colors.white),
+            child: const Icon(
+              Icons.wifi,
+              size: 24,
+              color: AppColors.successForeground,
+            ),
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -113,7 +124,9 @@ class _GatewayStatusCard extends StatelessWidget {
               children: [
                 Text(
                   'Gateway Online',
-                  style: AppTextStyles.body16.copyWith(fontWeight: FontWeight.w600),
+                  style: AppTextStyles.body16.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
                 const SizedBox(height: 4),
                 Text(
@@ -145,11 +158,7 @@ class _MetricsRow extends StatelessWidget {
         ),
         SizedBox(width: 12),
         Expanded(
-          child: _MetricCard(
-            icon: Icons.speed,
-            value: '98%',
-            label: 'Network',
-          ),
+          child: _MetricCard(icon: Icons.speed, value: '98%', label: 'Network'),
         ),
         SizedBox(width: 12),
         Expanded(
@@ -208,7 +217,10 @@ class _QuickAccessSection extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('Quick Access', style: AppTextStyles.body16.copyWith(fontWeight: FontWeight.w600)),
+            Text(
+              'Quick Access',
+              style: AppTextStyles.body16.copyWith(fontWeight: FontWeight.w600),
+            ),
             Text('See all', style: AppTextStyles.link14.copyWith(fontSize: 13)),
           ],
         ),
@@ -220,7 +232,15 @@ class _QuickAccessSection extends StatelessWidget {
             border: Border.all(color: AppColors.border, width: 1),
           ),
           child: Column(
-            children: const [
+            children: [
+              _QuickDeviceRow(
+                icon: Icons.videocam,
+                title: 'Camera Center',
+                subtitle: '6 online streams',
+                enabled: true,
+                showDivider: true,
+                onTap: () => Navigator.of(context).pushNamed('/camera/list'),
+              ),
               _QuickDeviceRow(
                 icon: Icons.lightbulb,
                 title: 'Living Room Light',
@@ -264,6 +284,7 @@ class _QuickDeviceRow extends StatelessWidget {
     required this.subtitle,
     required this.enabled,
     required this.showDivider,
+    this.onTap,
   });
 
   final IconData icon;
@@ -271,40 +292,46 @@ class _QuickDeviceRow extends StatelessWidget {
   final String subtitle;
   final bool enabled;
   final bool showDivider;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
-      decoration: BoxDecoration(
-        border: showDivider
-            ? const Border(bottom: BorderSide(color: AppColors.border, width: 1))
-            : null,
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 44,
-            height: 44,
-            decoration: BoxDecoration(
-              color: AppColors.secondary,
-              borderRadius: BorderRadius.circular(10),
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+        decoration: BoxDecoration(
+          border: showDivider
+              ? const Border(
+                  bottom: BorderSide(color: AppColors.border, width: 1),
+                )
+              : null,
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 44,
+              height: 44,
+              decoration: BoxDecoration(
+                color: AppColors.secondary,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Icon(icon, size: 24, color: AppColors.primary),
             ),
-            child: Icon(icon, size: 24, color: AppColors.primary),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(title, style: AppTextStyles.body14),
-                const SizedBox(height: 2),
-                Text(subtitle, style: AppTextStyles.body13Muted),
-              ],
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(title, style: AppTextStyles.body14),
+                  const SizedBox(height: 2),
+                  Text(subtitle, style: AppTextStyles.body13Muted),
+                ],
+              ),
             ),
-          ),
-          _MiniToggle(isOn: enabled),
-        ],
+            _MiniToggle(isOn: enabled),
+          ],
+        ),
       ),
     );
   }

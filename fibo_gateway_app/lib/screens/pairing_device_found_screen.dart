@@ -106,17 +106,21 @@ class _SuccessBanner extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: const Color(0xFF10B981).withValues(alpha: 0.12),
+        color: AppColors.successStrong.withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(16),
       ),
       child: Row(
         children: [
-          const Icon(Icons.check_circle, size: 24, color: Color(0xFF10B981)),
+          const Icon(
+            Icons.check_circle,
+            size: 24,
+            color: AppColors.successStrong,
+          ),
           const SizedBox(width: 12),
           Text(
             '1 new device found nearby!',
             style: AppTextStyles.body14.copyWith(
-              color: const Color(0xFF10B981),
+              color: AppColors.successStrong,
             ),
           ),
         ],

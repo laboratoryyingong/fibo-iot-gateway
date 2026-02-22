@@ -28,7 +28,11 @@ class PairingStartScreen extends StatelessWidget {
                         color: AppColors.secondary,
                         borderRadius: BorderRadius.circular(100),
                       ),
-                      child: const Icon(Icons.add_circle, size: 80, color: AppColors.primary),
+                      child: const Icon(
+                        Icons.add_circle,
+                        size: 80,
+                        color: AppColors.primary,
+                      ),
                     ),
                     const SizedBox(height: 24),
                     Text(
@@ -49,7 +53,9 @@ class PairingStartScreen extends StatelessWidget {
                       width: double.infinity,
                       height: 52,
                       child: ElevatedButton(
-                        onPressed: () => Navigator.of(context).pushNamed('/pairing/searching'),
+                        onPressed: () => Navigator.of(
+                          context,
+                        ).pushNamed('/pairing/searching'),
                         child: const Text('Start Searching'),
                       ),
                     ),
@@ -86,7 +92,10 @@ class _Header extends StatelessWidget {
               ],
             ),
           ),
-          Text(title, style: AppTextStyles.body16.copyWith(fontWeight: FontWeight.w600)),
+          Text(
+            title,
+            style: AppTextStyles.body16.copyWith(fontWeight: FontWeight.w600),
+          ),
           Container(
             width: 40,
             height: 40,
@@ -94,7 +103,11 @@ class _Header extends StatelessWidget {
               color: AppColors.secondary,
               borderRadius: BorderRadius.circular(20),
             ),
-            child: const Icon(Icons.notifications, size: 22, color: AppColors.foreground),
+            child: const Icon(
+              Icons.notifications,
+              size: 22,
+              color: AppColors.foreground,
+            ),
           ),
         ],
       ),
@@ -119,17 +132,20 @@ class _StepsCard extends StatelessWidget {
           SizedBox(height: 16),
           _StepRow(
             index: '1',
-            text: 'Put your Zigbee device close to the gateway (within 2 meters)',
+            text:
+                'Put your Zigbee device close to the gateway (within 2 meters)',
           ),
           SizedBox(height: 12),
           _StepRow(
             index: '2',
-            text: 'Enable pairing mode on your device (usually by pressing and holding the reset button for 5 seconds)',
+            text:
+                'Enable pairing mode on your device (usually by pressing and holding the reset button for 5 seconds)',
           ),
           SizedBox(height: 12),
           _StepRow(
             index: '3',
-            text: 'Wait for the device LED to blink, indicating it\'s ready to pair',
+            text:
+                'Wait for the device LED to blink, indicating it\'s ready to pair',
           ),
         ],
       ),
@@ -159,16 +175,14 @@ class _StepRow extends StatelessWidget {
             child: Text(
               index,
               style: AppTextStyles.body13Muted.copyWith(
-                color: Colors.white,
+                color: AppColors.white,
                 fontWeight: FontWeight.w600,
               ),
             ),
           ),
         ),
         const SizedBox(width: 12),
-        Expanded(
-          child: Text(text, style: AppTextStyles.body14),
-        ),
+        Expanded(child: Text(text, style: AppTextStyles.body14)),
       ],
     );
   }

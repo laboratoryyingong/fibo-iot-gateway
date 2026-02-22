@@ -14,6 +14,14 @@ import 'screens/scenes_add_action_screen.dart';
 import 'screens/scenes_add_trigger_screen.dart';
 import 'screens/scenes_detail_screen.dart';
 import 'screens/scenes_select_device_screen.dart';
+import 'screens/camera_add_nvr_screen.dart';
+import 'screens/camera_list_screen.dart';
+import 'screens/camera_live_view_screen.dart';
+import 'screens/camera_nvr_channels_screen.dart';
+import 'screens/camera_playback_screen.dart';
+import 'screens/camera_settings_screen.dart';
+import 'screens/user_device_detail_screen.dart';
+import 'screens/user_home_shell.dart';
 import 'services/parse_config.dart';
 import 'theme/app_theme.dart';
 
@@ -54,6 +62,14 @@ class FiboGatewayApp extends StatelessWidget {
         '/scenes/add-trigger': (context) => const ScenesAddTriggerScreen(),
         '/scenes/add-action': (context) => const ScenesAddActionScreen(),
         '/scenes/select-device': (context) => const ScenesSelectDeviceScreen(),
+        '/camera/list': (context) => const CameraListScreen(),
+        '/camera/live-view': (context) => const CameraLiveViewScreen(),
+        '/camera/add-nvr': (context) => const CameraAddNvrScreen(),
+        '/camera/nvr-channels': (context) => const CameraNvrChannelsScreen(),
+        '/camera/playback': (context) => const CameraPlaybackScreen(),
+        '/camera/settings': (context) => const CameraSettingsScreen(),
+        '/user/home': (context) => const UserHomeShell(),
+        '/user/device-detail': (context) => const UserDeviceDetailScreen(),
       },
     );
   }
