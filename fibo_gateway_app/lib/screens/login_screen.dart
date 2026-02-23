@@ -3,6 +3,7 @@ import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 import '../services/user_role_resolver.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
+import '../widgets/auth_background_image.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -132,7 +133,7 @@ class _LoginScreenState extends State<LoginScreen> {
             return Stack(
               children: [
                 Container(color: AppColors.authBgBase),
-                Container(color: AppColors.authImagePlaceholder),
+                const AuthBackgroundImage(),
                 Positioned(
                   left: 0,
                   right: 0,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
+import '../widgets/auth_background_image.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
@@ -79,31 +80,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             return Stack(
               children: [
                 Container(color: AppColors.authBgBase),
-                Container(color: AppColors.authImagePlaceholder),
-                Positioned(
-                  left: -constraints.maxWidth * 3.54,
-                  top: constraints.maxHeight * 0.256,
-                  child: Container(
-                    width: constraints.maxWidth * 4.05,
-                    height: constraints.maxHeight * 1.245,
-                    decoration: const BoxDecoration(
-                      color: AppColors.authAccentRed,
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-                ),
-                Positioned(
-                  left: constraints.maxWidth * 0.195,
-                  top: constraints.maxHeight * 0.209,
-                  child: Container(
-                    width: constraints.maxWidth * 4.34,
-                    height: constraints.maxHeight * 1.336,
-                    decoration: const BoxDecoration(
-                      color: AppColors.authAccentBlue,
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-                ),
+                const AuthBackgroundImage(),
                 Positioned(
                   left: 0,
                   right: 0,

@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 import '../services/user_role_resolver.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
+import '../widgets/auth_background_image.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -18,12 +22,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmController = TextEditingController();
+  final ImagePicker _imagePicker = ImagePicker();
 
   bool _isInstaller = false;
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
   bool _agreeToTerms = true;
   bool _isLoading = false;
+  bool _isPickingAvatar = false;
+  File? _avatarImage;
 
   @override
   void dispose() {
@@ -78,6 +85,58 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
+  Future<void> _showAvatarSourceSheet() async {
+    if (_isLoading || _isPickingAvatar) return;
+
+    final source = await showModalBottomSheet<ImageSource>(
+      context: context,
+      backgroundColor: AppColors.authBgSurface,
+      builder: (context) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(
+                Icons.photo_library_outlined,
+                color: AppColors.authTextPrimary,
+              ),
+              title: const Text('Choose from Gallery'),
+              onTap: () => Navigator.of(context).pop(ImageSource.gallery),
+            ),
+            ListTile(
+              leading: const Icon(
+                Icons.camera_alt_outlined,
+                color: AppColors.authTextPrimary,
+              ),
+              title: const Text('Take a Photo'),
+              onTap: () => Navigator.of(context).pop(ImageSource.camera),
+            ),
+          ],
+        ),
+      ),
+    );
+
+    if (source == null) return;
+
+    setState(() => _isPickingAvatar = true);
+    try {
+      final file = await _imagePicker.pickImage(
+        source: source,
+        maxWidth: 1024,
+        imageQuality: 85,
+      );
+      if (file == null || !mounted) return;
+      setState(() => _avatarImage = File(file.path));
+    } catch (_) {
+      await _showMessage(
+        'Avatar upload',
+        'Unable to select image. Please try again.',
+      );
+    } finally {
+      if (mounted) setState(() => _isPickingAvatar = false);
+    }
+  }
+
   Future<void> _handleSignUp() async {
     final formState = _formKey.currentState;
     if (formState == null || !formState.validate()) return;
@@ -102,6 +161,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
     if (_isInstaller) {
       user.set<String>('businessInfo', _businessInfoController.text.trim());
+    }
+    if (_avatarImage != null) {
+      final avatarFile = ParseFile(
+        _avatarImage!,
+        name: 'avatar_${DateTime.now().millisecondsSinceEpoch}.jpg',
+      );
+      final uploadResponse = await avatarFile.upload();
+      if (!uploadResponse.success) {
+        setState(() => _isLoading = false);
+        await _showMessage(
+          'Avatar upload failed',
+          uploadResponse.error?.message ?? 'Please choose another image.',
+        );
+        return;
+      }
+      user.set<dynamic>('avatar', avatarFile);
     }
 
     final response = await user.signUp();
@@ -137,7 +212,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             return Stack(
               children: [
                 Container(color: AppColors.authBgBase),
-                Container(color: AppColors.authImagePlaceholder),
+                const AuthBackgroundImage(),
                 Positioned(
                   left: 0,
                   right: 0,
@@ -314,43 +389,89 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 Positioned(
                   right: 24,
                   top: panelTop + 40,
-                  child: IgnorePointer(
-                    child: Container(
-                      width: 72,
-                      height: 72,
-                      decoration: const BoxDecoration(
-                        color: AppColors.authBgSurface,
-                        shape: BoxShape.circle,
-                      ),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  right: 40,
-                  top: panelTop + 56,
-                  child: IgnorePointer(
-                    child: Container(
-                      width: 40,
-                      height: 40,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: AppColors.authBgElevated,
-                          width: 1.67,
-                        ),
-                      ),
-                      child: const Icon(
-                        Icons.person_add_alt_1_outlined,
-                        size: 20,
-                        color: AppColors.authTextPrimary,
-                      ),
-                    ),
+                  child: _AvatarUploadButton(
+                    imageFile: _avatarImage,
+                    isLoading: _isPickingAvatar || _isLoading,
+                    onTap: _showAvatarSourceSheet,
                   ),
                 ),
               ],
             );
           },
+        ),
+      ),
+    );
+  }
+}
+
+class _AvatarUploadButton extends StatelessWidget {
+  const _AvatarUploadButton({
+    required this.imageFile,
+    required this.isLoading,
+    required this.onTap,
+  });
+
+  final File? imageFile;
+  final bool isLoading;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: isLoading ? null : onTap,
+        customBorder: const CircleBorder(),
+        child: Container(
+          width: 72,
+          height: 72,
+          decoration: const BoxDecoration(
+            color: AppColors.authBgSurface,
+            shape: BoxShape.circle,
+          ),
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              if (imageFile != null)
+                ClipOval(
+                  child: Image.file(
+                    imageFile!,
+                    width: 72,
+                    height: 72,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              Container(
+                width: 40,
+                height: 40,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: AppColors.authBgElevated,
+                    width: 1.67,
+                  ),
+                  color: imageFile == null
+                      ? Colors.transparent
+                      : AppColors.authBgBase.withValues(alpha: 0.5),
+                ),
+                child: isLoading
+                    ? const SizedBox(
+                        width: 16,
+                        height: 16,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: AppColors.authTextPrimary,
+                        ),
+                      )
+                    : const Icon(
+                        Icons.person_add_alt_1_outlined,
+                        size: 20,
+                        color: AppColors.authTextPrimary,
+                      ),
+              ),
+            ],
+          ),
         ),
       ),
     );
