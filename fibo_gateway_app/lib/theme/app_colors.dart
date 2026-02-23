@@ -58,4 +58,19 @@ class AppColors {
   static const shadowSoft = Color(0x101A2332);
   static const shadowBar = Color(0x081A2332);
   static const shadowBlue = Color(0x304A90D9);
+
+  // Auth module tokens from design/tokens.md + design/auth.pen
+  static const authBgBase = Color(0xFF1B242D);
+  static const authBgSurface = Color(0xFF25313D);
+  static const authBgElevated = Color(0xFF314252);
+  static const authTabBg = Color(0xFF131D26);
+  static const authImagePlaceholder = Color(0xFF2A3545);
+  static const authTextPrimary = Color(0xFFFFFFFF);
+  static const authTextMuted = Color(0xFF737B8C);
+  static const authLinkSoft = Color(0xFFEFF3F6);
+  static const authAccentOrange = Color(0xFFFF8A5D);
+  static const authAccentRed = Color(0xFFF85365);
+  static const authAccentBlue = Color(0xFF505EDC);
+  static const authButtonStart = Color(0xFF7773FA);
+  static const authButtonEnd = Color(0xFF5652E5);
 }

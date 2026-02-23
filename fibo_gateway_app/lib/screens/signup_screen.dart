@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 import '../services/user_role_resolver.dart';
 import '../theme/app_colors.dart';
-import '../theme/app_text_styles.dart';
-import '../widgets/auth_text_field.dart';
-import '../widgets/header_action_button.dart';
-import '../widgets/password_field.dart';
+import '../theme/app_theme.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -16,17 +13,22 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _nameController = TextEditingController();
+  final _firstNameController = TextEditingController();
+  final _businessInfoController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmController = TextEditingController();
-  String _selectedUserType = kUserTypeUser;
+
+  bool _isInstaller = false;
+  bool _obscurePassword = true;
+  bool _obscureConfirmPassword = true;
   bool _agreeToTerms = true;
   bool _isLoading = false;
 
   @override
   void dispose() {
-    _nameController.dispose();
+    _firstNameController.dispose();
+    _businessInfoController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     _confirmController.dispose();
@@ -79,6 +81,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Future<void> _handleSignUp() async {
     final formState = _formKey.currentState;
     if (formState == null || !formState.validate()) return;
+
     if (!_agreeToTerms) {
       await _showMessage(
         'Terms acceptance required',
@@ -88,14 +91,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
 
     setState(() => _isLoading = true);
-    final user = ParseUser(
-      _emailController.text.trim(),
-      _passwordController.text,
-      _emailController.text.trim(),
+
+    final email = _emailController.text.trim().toLowerCase();
+    final user = ParseUser(email, _passwordController.text, email);
+
+    user.set<String>('fullName', _firstNameController.text.trim());
+    user.set<String>(
+      'userType',
+      _isInstaller ? kUserTypeInstaller : kUserTypeUser,
     );
-    user.set<String>('fullName', _nameController.text.trim());
-    user.set<String>('userType', _selectedUserType);
+    if (_isInstaller) {
+      user.set<String>('businessInfo', _businessInfoController.text.trim());
+    }
+
     final response = await user.signUp();
+
     setState(() => _isLoading = false);
 
     if (response.success) {
@@ -116,130 +126,231 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.fromLTRB(24, 8, 24, 24),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          HeaderActionButton(
-                            icon: Icons.arrow_back,
-                            onTap: () => Navigator.of(context).pop(),
-                          ),
-                          const SizedBox(width: 16),
-                          Text(
-                            'Create Account',
-                            style: AppTextStyles.heading20,
-                          ),
-                        ],
+    return Theme(
+      data: AppTheme.authDark,
+      child: Scaffold(
+        body: LayoutBuilder(
+          builder: (context, constraints) {
+            final panelTop = constraints.maxHeight * (160 / 812);
+            final textTheme = Theme.of(context).textTheme;
+
+            return Stack(
+              children: [
+                Container(color: AppColors.authBgBase),
+                Container(color: AppColors.authImagePlaceholder),
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  top: panelTop,
+                  bottom: 0,
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      color: AppColors.authBgBase,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(24),
+                        topRight: Radius.circular(24),
                       ),
-                      const SizedBox(height: 24),
-                      AuthTextField(
-                        label: 'Full Name',
-                        hint: 'Enter your full name',
-                        prefixIcon: Icons.person_outline,
-                        controller: _nameController,
-                        validator: (value) => _requiredValidator(
-                          value,
-                          'Please enter your full name',
+                    ),
+                    child: SingleChildScrollView(
+                      padding: const EdgeInsets.fromLTRB(24, 40, 24, 24),
+                      child: Form(
+                        key: _formKey,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'New\nAccount',
+                              style: textTheme.headlineMedium,
+                            ),
+                            const SizedBox(height: 16),
+                            _UserTypeSelector(
+                              isInstaller: _isInstaller,
+                              onChanged: (isInstaller) {
+                                setState(() {
+                                  _isInstaller = isInstaller;
+                                  if (!isInstaller) {
+                                    _businessInfoController.clear();
+                                  }
+                                });
+                              },
+                            ),
+                            const SizedBox(height: 24),
+                            _AuthField(
+                              controller: _emailController,
+                              hint: 'Email',
+                              keyboardType: TextInputType.emailAddress,
+                              validator: _emailValidator,
+                            ),
+                            const SizedBox(height: 16),
+                            _AuthField(
+                              controller: _firstNameController,
+                              hint: 'Full Name',
+                              validator: (value) => _requiredValidator(
+                                value,
+                                'Please enter your full name',
+                              ),
+                            ),
+                            const SizedBox(height: 16),
+                            if (_isInstaller)
+                              _AuthField(
+                                controller: _businessInfoController,
+                                hint: 'Business Info',
+                                validator: (value) => _requiredValidator(
+                                  value,
+                                  'Please enter your business info',
+                                ),
+                              ),
+                            if (_isInstaller) const SizedBox(height: 16),
+                            _AuthField(
+                              controller: _passwordController,
+                              hint: 'Password',
+                              obscureText: _obscurePassword,
+                              validator: _passwordValidator,
+                              suffix: IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _obscurePassword = !_obscurePassword;
+                                  });
+                                },
+                                icon: Icon(
+                                  _obscurePassword
+                                      ? Icons.visibility_outlined
+                                      : Icons.visibility_off_outlined,
+                                  size: 18,
+                                  color: AppColors.authTextMuted,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 16),
+                            _AuthField(
+                              controller: _confirmController,
+                              hint: 'Confirm Password',
+                              obscureText: _obscureConfirmPassword,
+                              validator: _confirmValidator,
+                              suffix: IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _obscureConfirmPassword =
+                                        !_obscureConfirmPassword;
+                                  });
+                                },
+                                icon: Icon(
+                                  _obscureConfirmPassword
+                                      ? Icons.visibility_outlined
+                                      : Icons.visibility_off_outlined,
+                                  size: 18,
+                                  color: AppColors.authTextMuted,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 12),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 1),
+                                  child: SizedBox(
+                                    width: 20,
+                                    height: 20,
+                                    child: Checkbox(
+                                      value: _agreeToTerms,
+                                      onChanged: (value) {
+                                        setState(
+                                          () => _agreeToTerms = value ?? false,
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(width: 10),
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(top: 2),
+                                    child: Text(
+                                      'I agree to the Terms & Conditions',
+                                      style: textTheme.bodySmall,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 20),
+                            SizedBox(
+                              width: double.infinity,
+                              child: _GradientActionButton(
+                                text: 'Get Started',
+                                isLoading: _isLoading,
+                                onPressed: _isLoading ? null : _handleSignUp,
+                              ),
+                            ),
+                            const SizedBox(height: 24),
+                            Center(
+                              child: InkWell(
+                                onTap: () => Navigator.of(
+                                  context,
+                                ).pushReplacementNamed('/login'),
+                                borderRadius: BorderRadius.circular(8),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 8,
+                                    vertical: 4,
+                                  ),
+                                  child: Text(
+                                    'Already have an account? Sign In',
+                                    style: textTheme.bodyLarge?.copyWith(
+                                      color: AppColors.authTextMuted,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      const SizedBox(height: 16),
-                      AuthTextField(
-                        label: 'Email',
-                        hint: 'Enter your email',
-                        prefixIcon: Icons.mail_outline,
-                        controller: _emailController,
-                        keyboardType: TextInputType.emailAddress,
-                        autofillHints: const [AutofillHints.email],
-                        validator: _emailValidator,
-                      ),
-                      const SizedBox(height: 16),
-                      _UserTypeSelector(
-                        selectedType: _selectedUserType,
-                        onChanged: (type) =>
-                            setState(() => _selectedUserType = type),
-                      ),
-                      const SizedBox(height: 16),
-                      PasswordField(
-                        label: 'Password',
-                        hint: 'Create a password',
-                        controller: _passwordController,
-                        autofillHints: const [AutofillHints.newPassword],
-                        validator: _passwordValidator,
-                      ),
-                      const SizedBox(height: 16),
-                      PasswordField(
-                        label: 'Confirm Password',
-                        hint: 'Confirm your password',
-                        controller: _confirmController,
-                        autofillHints: const [AutofillHints.newPassword],
-                        validator: _confirmValidator,
-                      ),
-                      const SizedBox(height: 12),
-                      Row(
-                        children: [
-                          Checkbox(
-                            value: _agreeToTerms,
-                            onChanged: (value) =>
-                                setState(() => _agreeToTerms = value ?? false),
-                          ),
-                          const SizedBox(width: 8),
-                          Text(
-                            'I agree to the',
-                            style: AppTextStyles.body13Muted,
-                          ),
-                          const SizedBox(width: 4),
-                          Text(
-                            'Terms & Conditions',
-                            style: AppTextStyles.link14.copyWith(fontSize: 13),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 12),
-                      ElevatedButton(
-                        onPressed: _isLoading ? null : _handleSignUp,
-                        child: _isLoading
-                            ? const SizedBox(
-                                width: 20,
-                                height: 20,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                ),
-                              )
-                            : const Text('Create Account'),
-                      ),
-                      const SizedBox(height: 24),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Already have an account?',
-                            style: AppTextStyles.body14Muted,
-                          ),
-                          const SizedBox(width: 4),
-                          TextButton(
-                            onPressed: () => Navigator.of(
-                              context,
-                            ).pushReplacementNamed('/login'),
-                            child: Text('Sign In', style: AppTextStyles.link14),
-                          ),
-                        ],
-                      ),
-                    ],
+                    ),
                   ),
                 ),
-              ),
-            ),
-          ],
+                Positioned(
+                  right: 24,
+                  top: panelTop + 40,
+                  child: IgnorePointer(
+                    child: Container(
+                      width: 72,
+                      height: 72,
+                      decoration: const BoxDecoration(
+                        color: AppColors.authBgSurface,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  right: 40,
+                  top: panelTop + 56,
+                  child: IgnorePointer(
+                    child: Container(
+                      width: 40,
+                      height: 40,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: AppColors.authBgElevated,
+                          width: 1.67,
+                        ),
+                      ),
+                      child: const Icon(
+                        Icons.person_add_alt_1_outlined,
+                        size: 20,
+                        color: AppColors.authTextPrimary,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            );
+          },
         ),
       ),
     );
@@ -247,87 +358,190 @@ class _SignUpScreenState extends State<SignUpScreen> {
 }
 
 class _UserTypeSelector extends StatelessWidget {
-  const _UserTypeSelector({
-    required this.selectedType,
-    required this.onChanged,
-  });
+  const _UserTypeSelector({required this.isInstaller, required this.onChanged});
 
-  final String selectedType;
-  final ValueChanged<String> onChanged;
+  final bool isInstaller;
+  final ValueChanged<bool> onChanged;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Account Type',
-          style: AppTextStyles.body14.copyWith(fontWeight: FontWeight.w600),
-        ),
-        const SizedBox(height: 8),
-        Row(
-          children: [
-            Expanded(
-              child: _TypeOption(
-                label: 'User',
-                value: kUserTypeUser,
-                selected: selectedType == kUserTypeUser,
-                onTap: onChanged,
-              ),
+    final textTheme = Theme.of(context).textTheme;
+
+    return Container(
+      height: 42,
+      padding: EdgeInsets.zero,
+      clipBehavior: Clip.antiAlias,
+      decoration: BoxDecoration(
+        color: AppColors.authTabBg,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: _RoleTab(
+              isLeft: true,
+              active: !isInstaller,
+              icon: Icons.person_outline,
+              label: 'User',
+              textTheme: textTheme,
+              onTap: () => onChanged(false),
             ),
-            const SizedBox(width: 8),
-            Expanded(
-              child: _TypeOption(
-                label: 'Installer',
-                value: kUserTypeInstaller,
-                selected: selectedType == kUserTypeInstaller,
-                onTap: onChanged,
-              ),
+          ),
+          Expanded(
+            child: _RoleTab(
+              isLeft: false,
+              active: isInstaller,
+              icon: Icons.engineering_outlined,
+              label: 'Installer',
+              textTheme: textTheme,
+              onTap: () => onChanged(true),
             ),
-          ],
-        ),
-      ],
+          ),
+        ],
+      ),
     );
   }
 }
 
-class _TypeOption extends StatelessWidget {
-  const _TypeOption({
+class _RoleTab extends StatelessWidget {
+  const _RoleTab({
+    required this.isLeft,
+    required this.active,
+    required this.icon,
     required this.label,
-    required this.value,
-    required this.selected,
+    required this.textTheme,
     required this.onTap,
   });
 
+  final bool isLeft;
+  final bool active;
+  final IconData icon;
   final String label;
-  final String value;
-  final bool selected;
-  final ValueChanged<String> onTap;
+  final TextTheme textTheme;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
+    final radius = BorderRadius.only(
+      topLeft: Radius.circular(isLeft ? 12 : 0),
+      bottomLeft: Radius.circular(isLeft ? 12 : 0),
+      topRight: Radius.circular(isLeft ? 0 : 12),
+      bottomRight: Radius.circular(isLeft ? 0 : 12),
+    );
+
     return InkWell(
-      onTap: () => onTap(value),
-      borderRadius: BorderRadius.circular(12),
-      child: Container(
-        height: 44,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: selected ? AppColors.primary : AppColors.card,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: selected ? AppColors.primary : AppColors.border,
+      borderRadius: radius,
+      onTap: onTap,
+      child: SizedBox.expand(
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            borderRadius: radius,
+            gradient: active
+                ? const LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      AppColors.authButtonStart,
+                      AppColors.authButtonEnd,
+                    ],
+                  )
+                : null,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                icon,
+                size: 16,
+                color: active
+                    ? AppColors.authTextPrimary
+                    : AppColors.authTextMuted,
+              ),
+              const SizedBox(width: 6),
+              Text(
+                label,
+                style: textTheme.labelMedium?.copyWith(
+                  color: active
+                      ? AppColors.authTextPrimary
+                      : AppColors.authTextMuted,
+                ),
+              ),
+            ],
           ),
         ),
-        child: Text(
-          label,
-          style: AppTextStyles.body14.copyWith(
-            color: selected
-                ? AppColors.primaryForeground
-                : AppColors.foreground,
-            fontWeight: FontWeight.w600,
-          ),
+      ),
+    );
+  }
+}
+
+class _AuthField extends StatelessWidget {
+  const _AuthField({
+    required this.controller,
+    required this.hint,
+    this.validator,
+    this.keyboardType,
+    this.obscureText = false,
+    this.suffix,
+  });
+
+  final TextEditingController controller;
+  final String hint;
+  final String? Function(String?)? validator;
+  final TextInputType? keyboardType;
+  final bool obscureText;
+  final Widget? suffix;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: controller,
+      keyboardType: keyboardType,
+      obscureText: obscureText,
+      validator: validator,
+      style: Theme.of(context).textTheme.bodyLarge,
+      decoration: InputDecoration(hintText: hint, suffixIcon: suffix),
+    );
+  }
+}
+
+class _GradientActionButton extends StatelessWidget {
+  const _GradientActionButton({
+    required this.text,
+    required this.isLoading,
+    required this.onPressed,
+  });
+
+  final String text;
+  final bool isLoading;
+  final VoidCallback? onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [AppColors.authButtonStart, AppColors.authButtonEnd],
         ),
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: ElevatedButton(
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.transparent,
+          shadowColor: Colors.transparent,
+        ),
+        child: isLoading
+            ? const SizedBox(
+                width: 20,
+                height: 20,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  color: AppColors.authTextPrimary,
+                ),
+              )
+            : Text(text),
       ),
     );
   }

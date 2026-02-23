@@ -87,4 +87,146 @@ class AppTheme {
       ),
     );
   }
+
+  // Dark auth theme derived from design/tokens.md and design/auth.pen
+  static ThemeData get authDark {
+    final base = ThemeData(
+      useMaterial3: true,
+      brightness: Brightness.dark,
+      colorScheme:
+          const ColorScheme(
+            brightness: Brightness.dark,
+            primary: AppColors.authAccentBlue,
+            onPrimary: AppColors.authTextPrimary,
+            secondary: AppColors.authBgElevated,
+            onSecondary: AppColors.authTextPrimary,
+            error: AppColors.authAccentRed,
+            onError: AppColors.authTextPrimary,
+            surface: AppColors.authBgBase,
+            onSurface: AppColors.authTextPrimary,
+          ).copyWith(
+            outline: AppColors.authBgElevated,
+            onSurfaceVariant: AppColors.authTextMuted,
+          ),
+      scaffoldBackgroundColor: AppColors.authBgBase,
+    );
+
+    const textTheme = TextTheme(
+      headlineMedium: TextStyle(
+        fontFamily: 'Manrope',
+        fontSize: 30,
+        fontWeight: FontWeight.w700,
+        color: AppColors.authTextPrimary,
+        height: 1.2,
+      ),
+      titleLarge: TextStyle(
+        fontFamily: 'Inter',
+        fontSize: 22,
+        fontWeight: FontWeight.w600,
+        color: AppColors.authTextPrimary,
+      ),
+      bodyLarge: TextStyle(
+        fontFamily: 'Manrope',
+        fontSize: 16,
+        fontWeight: FontWeight.w400,
+        color: AppColors.authTextPrimary,
+      ),
+      bodyMedium: TextStyle(
+        fontFamily: 'Manrope',
+        fontSize: 14,
+        fontWeight: FontWeight.w400,
+        color: AppColors.authTextMuted,
+      ),
+      bodySmall: TextStyle(
+        fontFamily: 'Manrope',
+        fontSize: 13,
+        fontWeight: FontWeight.w400,
+        color: AppColors.authTextMuted,
+      ),
+      labelLarge: TextStyle(
+        fontFamily: 'Manrope',
+        fontSize: 16,
+        fontWeight: FontWeight.w700,
+        color: AppColors.authTextPrimary,
+      ),
+      labelMedium: TextStyle(
+        fontFamily: 'Manrope',
+        fontSize: 14,
+        fontWeight: FontWeight.w700,
+        color: AppColors.authTextPrimary,
+      ),
+      labelSmall: TextStyle(
+        fontFamily: 'Manrope',
+        fontSize: 10,
+        fontWeight: FontWeight.w400,
+        color: AppColors.authTextMuted,
+      ),
+    );
+
+    return base.copyWith(
+      textTheme: textTheme,
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: AppColors.authBgBase,
+        hintStyle: textTheme.bodyLarge?.copyWith(
+          color: AppColors.authTextMuted,
+        ),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 17,
+          vertical: 16,
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          borderSide: const BorderSide(
+            color: AppColors.authBgElevated,
+            width: 1,
+          ),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          borderSide: const BorderSide(
+            color: AppColors.authBgElevated,
+            width: 1,
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          borderSide: const BorderSide(
+            color: AppColors.authAccentBlue,
+            width: 1,
+          ),
+        ),
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          foregroundColor: AppColors.authTextPrimary,
+          minimumSize: const Size.fromHeight(52),
+          textStyle: textTheme.labelLarge,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          elevation: 0,
+        ),
+      ),
+      checkboxTheme: CheckboxThemeData(
+        side: const BorderSide(color: AppColors.authBgElevated, width: 1),
+        fillColor: WidgetStateProperty.resolveWith(
+          (states) => states.contains(WidgetState.selected)
+              ? AppColors.authButtonEnd
+              : AppColors.authBgBase,
+        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+      ),
+      dividerTheme: const DividerThemeData(
+        color: AppColors.authBgElevated,
+        thickness: 1,
+      ),
+      iconTheme: const IconThemeData(color: AppColors.authTextMuted),
+      splashColor: Colors.transparent,
+      highlightColor: Colors.transparent,
+      hoverColor: Colors.transparent,
+    );
+  }
+
+  static ThemeData get signUpDark => authDark;
 }

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 import '../theme/app_colors.dart';
-import '../theme/app_text_styles.dart';
-import '../widgets/auth_text_field.dart';
-import '../widgets/header_action_button.dart';
+import '../theme/app_theme.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
@@ -70,109 +68,219 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.fromLTRB(24, 8, 24, 24),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          HeaderActionButton(
-                            icon: Icons.arrow_back,
-                            onTap: () => Navigator.of(context).pop(),
-                          ),
-                          const SizedBox(width: 16),
-                          Text(
-                            'Forgot Password',
-                            style: AppTextStyles.heading20,
-                          ),
-                        ],
+    return Theme(
+      data: AppTheme.authDark,
+      child: Scaffold(
+        body: LayoutBuilder(
+          builder: (context, constraints) {
+            final panelTop = constraints.maxHeight * (228 / 812);
+            final textTheme = Theme.of(context).textTheme;
+
+            return Stack(
+              children: [
+                Container(color: AppColors.authBgBase),
+                Container(color: AppColors.authImagePlaceholder),
+                Positioned(
+                  left: -constraints.maxWidth * 3.54,
+                  top: constraints.maxHeight * 0.256,
+                  child: Container(
+                    width: constraints.maxWidth * 4.05,
+                    height: constraints.maxHeight * 1.245,
+                    decoration: const BoxDecoration(
+                      color: AppColors.authAccentRed,
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                ),
+                Positioned(
+                  left: constraints.maxWidth * 0.195,
+                  top: constraints.maxHeight * 0.209,
+                  child: Container(
+                    width: constraints.maxWidth * 4.34,
+                    height: constraints.maxHeight * 1.336,
+                    decoration: const BoxDecoration(
+                      color: AppColors.authAccentBlue,
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                ),
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  top: panelTop,
+                  bottom: 0,
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      color: AppColors.authBgBase,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(24),
+                        topRight: Radius.circular(24),
                       ),
-                      const SizedBox(height: 32),
-                      Center(
+                    ),
+                    child: SingleChildScrollView(
+                      padding: const EdgeInsets.fromLTRB(24, 40, 24, 24),
+                      child: Form(
+                        key: _formKey,
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Container(
-                              width: 80,
-                              height: 80,
-                              decoration: BoxDecoration(
-                                color: AppColors.secondary,
-                                borderRadius: BorderRadius.circular(40),
-                              ),
-                              child: const Icon(
-                                Icons.lock_reset,
-                                size: 40,
-                                color: AppColors.primary,
-                              ),
-                            ),
-                            const SizedBox(height: 16),
                             Text(
-                              'Reset Password',
-                              style: AppTextStyles.heading24,
+                              'Forgot\nPassword',
+                              style: textTheme.headlineMedium,
                             ),
-                            const SizedBox(height: 8),
+                            const SizedBox(height: 24),
                             Text(
                               "Enter your email address and we'll send you a link to reset your password.",
-                              textAlign: TextAlign.center,
-                              style: AppTextStyles.body15Muted,
+                              style: textTheme.bodyMedium,
+                            ),
+                            const SizedBox(height: 24),
+                            _AuthField(
+                              controller: _emailController,
+                              hint: 'Email Address',
+                              keyboardType: TextInputType.emailAddress,
+                              validator: _emailValidator,
+                            ),
+                            const SizedBox(height: 32),
+                            SizedBox(
+                              width: double.infinity,
+                              child: _GradientActionButton(
+                                text: 'Send Reset Link',
+                                isLoading: _isLoading,
+                                onPressed: _isLoading ? null : _handleReset,
+                              ),
+                            ),
+                            const SizedBox(height: 28),
+                            Center(
+                              child: InkWell(
+                                onTap: () => Navigator.of(
+                                  context,
+                                ).pushReplacementNamed('/login'),
+                                borderRadius: BorderRadius.circular(8),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 8,
+                                    vertical: 4,
+                                  ),
+                                  child: Text(
+                                    'Remember your password? Sign In',
+                                    textAlign: TextAlign.center,
+                                    style: textTheme.bodyLarge?.copyWith(
+                                      color: AppColors.authTextMuted,
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ),
                           ],
                         ),
                       ),
-                      const SizedBox(height: 32),
-                      AuthTextField(
-                        label: 'Email',
-                        hint: 'Enter your email',
-                        prefixIcon: Icons.mail_outline,
-                        controller: _emailController,
-                        keyboardType: TextInputType.emailAddress,
-                        autofillHints: const [AutofillHints.email],
-                        validator: _emailValidator,
-                      ),
-                      const SizedBox(height: 24),
-                      ElevatedButton(
-                        onPressed: _isLoading ? null : _handleReset,
-                        child: _isLoading
-                            ? const SizedBox(
-                                width: 20,
-                                height: 20,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                ),
-                              )
-                            : const Text('Send Reset Link'),
-                      ),
-                      const SizedBox(height: 24),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Remember your password?',
-                            style: AppTextStyles.body14Muted,
-                          ),
-                          const SizedBox(width: 4),
-                          TextButton(
-                            onPressed: () => Navigator.of(
-                              context,
-                            ).pushReplacementNamed('/login'),
-                            child: Text('Sign In', style: AppTextStyles.link14),
-                          ),
-                        ],
-                      ),
-                    ],
+                    ),
                   ),
                 ),
-              ),
-            ),
-          ],
+                Positioned(
+                  right: 24,
+                  top: panelTop + 40,
+                  child: IgnorePointer(
+                    child: Container(
+                      width: 72,
+                      height: 72,
+                      decoration: const BoxDecoration(
+                        color: AppColors.authBgSurface,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Center(
+                        child: Container(
+                          width: 40,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: AppColors.authBgElevated,
+                              width: 1.67,
+                            ),
+                          ),
+                          child: const Icon(
+                            Icons.lock_outline,
+                            size: 22,
+                            color: AppColors.authTextPrimary,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            );
+          },
         ),
+      ),
+    );
+  }
+}
+
+class _AuthField extends StatelessWidget {
+  const _AuthField({
+    required this.controller,
+    required this.hint,
+    this.validator,
+    this.keyboardType,
+  });
+
+  final TextEditingController controller;
+  final String hint;
+  final String? Function(String?)? validator;
+  final TextInputType? keyboardType;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: controller,
+      keyboardType: keyboardType,
+      validator: validator,
+      style: Theme.of(context).textTheme.bodyLarge,
+      decoration: InputDecoration(hintText: hint),
+    );
+  }
+}
+
+class _GradientActionButton extends StatelessWidget {
+  const _GradientActionButton({
+    required this.text,
+    required this.isLoading,
+    required this.onPressed,
+  });
+
+  final String text;
+  final bool isLoading;
+  final VoidCallback? onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [AppColors.authButtonStart, AppColors.authButtonEnd],
+        ),
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: ElevatedButton(
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.transparent,
+          shadowColor: Colors.transparent,
+        ),
+        child: isLoading
+            ? const SizedBox(
+                width: 20,
+                height: 20,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  color: AppColors.authTextPrimary,
+                ),
+              )
+            : Text(text),
       ),
     );
   }

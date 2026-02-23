@@ -1,0 +1,2049 @@
+{
+  "version": "2.8",
+  "children": [
+    {
+      "type": "group",
+      "id": "RycEx",
+      "x": -276.25515818431916,
+      "y": -848.5,
+      "name": "Onboarding Title",
+      "children": [
+        {
+          "type": "rectangle",
+          "cornerRadius": 50,
+          "id": "exmKx",
+          "x": 0,
+          "y": 0,
+          "name": "Rectangle 77",
+          "opacity": 0.20000000298023224,
+          "fill": "#737b8cff",
+          "width": 1325,
+          "height": 364,
+          "stroke": {
+            "align": "inside",
+            "thickness": 1
+          }
+        },
+        {
+          "type": "text",
+          "id": "FCy1S",
+          "x": 261.27777099609375,
+          "y": 74,
+          "name": "Get Started",
+          "fill": "#ffffffff",
+          "content": "Get Started",
+          "textAlign": "center",
+          "fontFamily": "Manrope",
+          "fontSize": 144,
+          "fontWeight": "600"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "alsAH",
+      "x": 198.74484181568084,
+      "y": -315.5,
+      "name": "102 Onboarding",
+      "clip": true,
+      "width": 375,
+      "height": 812,
+      "fill": "#1b242dff",
+      "cornerRadius": 50,
+      "stroke": {
+        "align": "inside",
+        "thickness": 1
+      },
+      "layout": "none",
+      "children": [
+        {
+          "type": "rectangle",
+          "id": "p7me9",
+          "x": 0,
+          "y": 0,
+          "name": "Image",
+          "fill": "#2a3545ff",
+          "width": 375,
+          "height": 812
+        },
+        {
+          "type": "rectangle",
+          "id": "0XUwI",
+          "x": 0,
+          "y": 0,
+          "name": "overlay",
+          "opacity": 0.699999988079071,
+          "fill": {
+            "type": "gradient",
+            "gradientType": "linear",
+            "enabled": true,
+            "rotation": -180,
+            "size": {
+              "height": 0.9999999999999999
+            },
+            "colors": [
+              {
+                "color": "#1b242d00",
+                "position": 0
+              },
+              {
+                "color": "#1b242dff",
+                "position": 1
+              }
+            ],
+            "center": {
+              "y": 0.49999999999999994
+            }
+          },
+          "width": 375,
+          "height": 812,
+          "stroke": {
+            "align": "inside",
+            "thickness": 1
+          }
+        },
+        {
+          "type": "text",
+          "id": "m70y7",
+          "x": 24,
+          "y": 524,
+          "name": "Control your home",
+          "fill": "#ffffffff",
+          "textGrowth": "fixed-width",
+          "width": 327,
+          "content": "Control your home",
+          "lineHeight": 1.2000000476837158,
+          "textAlign": "center",
+          "fontFamily": "Manrope",
+          "fontSize": 30,
+          "fontWeight": "700"
+        },
+        {
+          "type": "text",
+          "id": "7gkZ6",
+          "x": 40,
+          "y": 576,
+          "name": "Control all your smart home devices and enjoy your life",
+          "fill": "#eff3f6ff",
+          "textGrowth": "fixed-width",
+          "width": 295,
+          "content": "Control all your smart home devices \nand enjoy your life",
+          "textAlign": "center",
+          "fontFamily": "Manrope",
+          "fontSize": 16,
+          "fontWeight": "normal"
+        },
+        {
+          "type": "frame",
+          "id": "SRag1",
+          "x": 24,
+          "y": 652,
+          "name": "Button",
+          "width": 327,
+          "fill": {
+            "type": "gradient",
+            "gradientType": "linear",
+            "enabled": true,
+            "rotation": -166.98207191917012,
+            "size": {
+              "height": 1.1233836498300938
+            },
+            "colors": [
+              {
+                "color": "#7773faff",
+                "position": 0
+              },
+              {
+                "color": "#5652e5ff",
+                "position": 1
+              }
+            ],
+            "center": {
+              "x": 0.3734756547044661,
+              "y": 0.45274393361215404
+            }
+          },
+          "cornerRadius": 16,
+          "stroke": {
+            "align": "inside",
+            "thickness": 1
+          },
+          "gap": 6,
+          "padding": [
+            17,
+            16
+          ],
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "oqPWw",
+              "name": "Txt",
+              "fill": "#ffffffff",
+              "content": "Get Started",
+              "textAlign": "center",
+              "textAlignVertical": "middle",
+              "fontFamily": "Manrope",
+              "fontSize": 16,
+              "fontWeight": "700"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "D3AzY",
+          "x": 24,
+          "y": 722,
+          "name": "Button",
+          "width": 327,
+          "fill": "#ffffffff",
+          "cornerRadius": 16,
+          "stroke": {
+            "align": "inside",
+            "thickness": 1
+          },
+          "gap": 6,
+          "padding": [
+            17,
+            16
+          ],
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "UkKi6",
+              "name": "Txt",
+              "fill": "#1b242dff",
+              "content": "Sign In",
+              "textAlign": "center",
+              "textAlignVertical": "middle",
+              "fontFamily": "Manrope",
+              "fontSize": 16,
+              "fontWeight": "700"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "gMwJr",
+      "x": -276.25515818431916,
+      "y": -315.5,
+      "name": "101 Splash",
+      "clip": true,
+      "width": 375,
+      "height": 812,
+      "fill": "#1b242dff",
+      "cornerRadius": 50,
+      "stroke": {
+        "align": "inside",
+        "thickness": 1
+      },
+      "layout": "none",
+      "children": [
+        {
+          "type": "ellipse",
+          "id": "FaYoK",
+          "x": -1326.8721923828125,
+          "y": 207.95318603515625,
+          "name": "Ellipse 12",
+          "sweepAngle": -360.00001001791264,
+          "fill": "#f85365ff",
+          "width": 1518.00634765625,
+          "height": 1010.9276733398438,
+          "stroke": {
+            "align": "inside",
+            "thickness": 1.0666667222976685
+          },
+          "effect": {
+            "type": "blur",
+            "radius": 373.3333511352539
+          }
+        },
+        {
+          "type": "ellipse",
+          "id": "QFHOP",
+          "x": 73,
+          "y": 170,
+          "name": "Ellipse 15",
+          "sweepAngle": -360.00001001791264,
+          "fill": "#505edcff",
+          "width": 1629.2396240234375,
+          "height": 1085.0042724609375,
+          "stroke": {
+            "align": "inside",
+            "thickness": 1.0666667222976685
+          },
+          "effect": {
+            "type": "blur",
+            "radius": 466.6667022705078
+          }
+        },
+        {
+          "type": "frame",
+          "id": "yxQEf",
+          "x": 123,
+          "y": 342,
+          "name": "Logo",
+          "width": 129,
+          "height": 129,
+          "layout": "vertical",
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon_font",
+              "id": "wVlUg",
+              "name": "zigbeeIcon",
+              "width": 72,
+              "height": 72,
+              "iconFontName": "radio-tower",
+              "iconFontFamily": "lucide",
+              "weight": 300,
+              "fill": "#ffffffff"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "5BMdD",
+          "x": 112,
+          "y": 487,
+          "name": "titleText",
+          "fill": "#ffffffff",
+          "content": "Fibo Gateway",
+          "fontFamily": "Inter",
+          "fontSize": 22,
+          "fontWeight": "600",
+          "letterSpacing": 0.5
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "wrUlx",
+      "x": -276.25515818431916,
+      "y": 596.5,
+      "name": "104 Sign In",
+      "clip": true,
+      "width": 375,
+      "height": 812,
+      "fill": "#1b242dff",
+      "cornerRadius": 50,
+      "stroke": {
+        "align": "inside",
+        "thickness": 1
+      },
+      "layout": "none",
+      "children": [
+        {
+          "type": "rectangle",
+          "id": "9QysD",
+          "x": 0,
+          "y": 0,
+          "name": "Image",
+          "fill": "#2a3545ff",
+          "width": 375,
+          "height": 812
+        },
+        {
+          "type": "group",
+          "id": "yuxHP",
+          "x": 0,
+          "y": 228,
+          "name": "Bottom",
+          "children": [
+            {
+              "type": "rectangle",
+              "cornerRadius": [
+                24,
+                24,
+                0,
+                0
+              ],
+              "id": "nqg7Y",
+              "x": 0,
+              "y": 0,
+              "name": "Rectangle 187",
+              "fill": "#1b242dff",
+              "width": 375,
+              "height": 584,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1
+              }
+            },
+            {
+              "type": "text",
+              "id": "7Rtj7",
+              "x": 24,
+              "y": 40,
+              "name": "Welcome Back",
+              "fill": "#ffffffff",
+              "content": "Welcome\nBack",
+              "lineHeight": 1.2000000476837158,
+              "fontFamily": "Manrope",
+              "fontSize": 30,
+              "fontWeight": "700"
+            },
+            {
+              "type": "frame",
+              "id": "N6qOe",
+              "x": 24,
+              "y": 424,
+              "name": "Button",
+              "width": 327,
+              "fill": {
+                "type": "gradient",
+                "gradientType": "linear",
+                "enabled": true,
+                "rotation": -166.98207191917012,
+                "size": {
+                  "height": 1.1233836498300938
+                },
+                "colors": [
+                  {
+                    "color": "#7773faff",
+                    "position": 0
+                  },
+                  {
+                    "color": "#5652e5ff",
+                    "position": 1
+                  }
+                ],
+                "center": {
+                  "x": 0.3734756547044661,
+                  "y": 0.45274393361215404
+                }
+              },
+              "cornerRadius": 16,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1
+              },
+              "gap": 6,
+              "padding": [
+                17,
+                16
+              ],
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "gsVag",
+                  "name": "Txt",
+                  "fill": "#ffffffff",
+                  "content": "Sign In",
+                  "textAlign": "center",
+                  "textAlignVertical": "middle",
+                  "fontFamily": "Manrope",
+                  "fontSize": 16,
+                  "fontWeight": "700"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "iepMl",
+              "x": 40,
+              "y": 360,
+              "name": "Forgot Password?",
+              "fill": "#eff3f6ff",
+              "textGrowth": "fixed-width",
+              "width": 295,
+              "content": "Forgot Password?",
+              "lineHeight": 1.399999976158142,
+              "textAlign": "right",
+              "fontFamily": "Manrope",
+              "fontSize": 14,
+              "fontWeight": "700"
+            },
+            {
+              "type": "text",
+              "id": "rkad3",
+              "x": 24,
+              "y": 504,
+              "name": "Don’t have an account? Get Started",
+              "fill": "#737b8cff",
+              "textGrowth": "fixed-width",
+              "width": 327,
+              "content": "Don’t have an account? Get Started",
+              "textAlign": "center",
+              "fontFamily": "Manrope",
+              "fontSize": 16,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "bZMhu",
+              "x": 24,
+              "y": 204,
+              "name": "Frame 296",
+              "stroke": {
+                "align": "inside",
+                "thickness": 1
+              },
+              "layout": "vertical",
+              "gap": 16,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "YEXbv",
+                  "name": "Input",
+                  "width": 327,
+                  "fill": "#1b242dff",
+                  "cornerRadius": 16,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#314252ff"
+                  },
+                  "gap": 10,
+                  "padding": [
+                    17,
+                    16
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "Xx3yu",
+                      "name": "What’s You Name?",
+                      "fill": "#737b8cff",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Email",
+                      "textAlignVertical": "middle",
+                      "fontFamily": "Manrope",
+                      "fontSize": 16,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "el7K4",
+                  "name": "Input",
+                  "width": 327,
+                  "fill": "#1b242dff",
+                  "cornerRadius": 16,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#314252ff"
+                  },
+                  "gap": 8,
+                  "padding": 16,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "MHmRO",
+                      "name": "What’s You Name?",
+                      "fill": "#737b8cff",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Password",
+                      "textAlignVertical": "middle",
+                      "fontFamily": "Manrope",
+                      "fontSize": 16,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "MjKoy",
+                      "name": "Icon/Show",
+                      "width": 24,
+                      "height": 24,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1
+                      },
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "elAtR",
+                          "x": 3,
+                          "y": 3,
+                          "name": "pwdEye",
+                          "width": 18,
+                          "height": 18,
+                          "iconFontName": "eye-off",
+                          "iconFontFamily": "lucide",
+                          "fill": "#737b8cff"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "ellipse",
+              "id": "m8zlQ",
+              "x": 279,
+              "y": 40,
+              "name": "Ellipse 91",
+              "sweepAngle": -360.00001001791264,
+              "fill": "#25313dff",
+              "width": 72,
+              "height": 72,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1
+              }
+            },
+            {
+              "type": "frame",
+              "id": "FdWSq",
+              "x": 24,
+              "y": 132,
+              "name": "User Type Selector",
+              "width": 327,
+              "height": 44,
+              "fill": "#131d26ff",
+              "cornerRadius": 12,
+              "padding": 4,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "r83AF",
+                  "name": "Tab User",
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "fill": {
+                    "type": "gradient",
+                    "gradientType": "linear",
+                    "enabled": true,
+                    "rotation": -167,
+                    "size": {
+                      "height": 1.12
+                    },
+                    "colors": [
+                      {
+                        "color": "#7773faff",
+                        "position": 0
+                      },
+                      {
+                        "color": "#5652e5ff",
+                        "position": 1
+                      }
+                    ]
+                  },
+                  "cornerRadius": 10,
+                  "gap": 6,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "BDAgS",
+                      "name": "tabUserIcon",
+                      "width": 16,
+                      "height": 16,
+                      "iconFontName": "user",
+                      "iconFontFamily": "lucide",
+                      "fill": "#ffffffff"
+                    },
+                    {
+                      "type": "text",
+                      "id": "AJ3OO",
+                      "name": "tabUserLabel",
+                      "fill": "#ffffffff",
+                      "content": "User",
+                      "fontFamily": "Manrope",
+                      "fontSize": 14,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "EXXkx",
+                  "name": "Tab Installer",
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "fill": "#131d26ff",
+                  "cornerRadius": 10,
+                  "gap": 6,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "RWAKH",
+                      "name": "tabInstIcon",
+                      "width": 16,
+                      "height": 16,
+                      "iconFontName": "wrench",
+                      "iconFontFamily": "lucide",
+                      "fill": "#737b8cff"
+                    },
+                    {
+                      "type": "text",
+                      "id": "UF4NU",
+                      "name": "tabInstLabel",
+                      "fill": "#737b8cff",
+                      "content": "Installer",
+                      "fontFamily": "Manrope",
+                      "fontSize": 14,
+                      "fontWeight": "700"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "O34aY",
+              "x": 399,
+              "y": 204,
+              "name": "Installer Form",
+              "width": 327,
+              "layout": "vertical",
+              "gap": 16,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "MROt7",
+                  "name": "Input License",
+                  "width": 327,
+                  "fill": "#1b242dff",
+                  "cornerRadius": 16,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#314252ff"
+                  },
+                  "gap": 10,
+                  "padding": [
+                    17,
+                    16
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "JOxqN",
+                      "name": "licenseIcon",
+                      "width": 18,
+                      "height": 18,
+                      "iconFontName": "key-round",
+                      "iconFontFamily": "lucide",
+                      "fill": "#737b8cff"
+                    },
+                    {
+                      "type": "text",
+                      "id": "fW2mX",
+                      "name": "licensePlaceholder",
+                      "fill": "#737b8cff",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "License Key",
+                      "textAlignVertical": "middle",
+                      "fontFamily": "Manrope",
+                      "fontSize": 16,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "SMSgj",
+                  "name": "Input Password",
+                  "width": 327,
+                  "fill": "#1b242dff",
+                  "cornerRadius": 16,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#314252ff"
+                  },
+                  "gap": 8,
+                  "padding": 16,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "MQiUB",
+                      "name": "instPwdPlaceholder",
+                      "fill": "#737b8cff",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Password",
+                      "textAlignVertical": "middle",
+                      "fontFamily": "Manrope",
+                      "fontSize": 16,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "ySApO",
+                      "name": "Icon/Show",
+                      "width": 24,
+                      "height": 24,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "Ry0Lg",
+                          "x": 3,
+                          "y": 3,
+                          "name": "instPwdEyeIcon",
+                          "width": 18,
+                          "height": 18,
+                          "iconFontName": "eye-off",
+                          "iconFontFamily": "lucide",
+                          "fill": "#737b8cff"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "4TfuV",
+          "x": 295,
+          "y": 284,
+          "name": "icon",
+          "width": 40,
+          "height": 40,
+          "stroke": {
+            "align": "inside",
+            "thickness": 1.6666666269302368
+          },
+          "layout": "none",
+          "children": [
+            {
+              "type": "text",
+              "id": "JSwnC",
+              "x": 1.6666666269302368,
+              "y": 1.6666666269302368,
+              "name": "☀️",
+              "fill": "#000000ff",
+              "textGrowth": "fixed-width",
+              "width": 36.666664123535156,
+              "content": "👋",
+              "lineHeight": 1.2000000476837158,
+              "textAlign": "center",
+              "textAlignVertical": "middle",
+              "fontFamily": "Manrope",
+              "fontSize": 30,
+              "fontWeight": "normal"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2Eaew",
+      "x": 198.74484181568084,
+      "y": 596.5,
+      "name": "105 Log Back",
+      "clip": true,
+      "width": 375,
+      "height": 812,
+      "fill": "#1b242dff",
+      "cornerRadius": 50,
+      "stroke": {
+        "align": "inside",
+        "thickness": 1
+      },
+      "layout": "none",
+      "children": [
+        {
+          "type": "rectangle",
+          "id": "jHBqu",
+          "x": 0,
+          "y": 0,
+          "name": "Image",
+          "fill": "#2a3545ff",
+          "width": 375,
+          "height": 812
+        },
+        {
+          "type": "group",
+          "id": "9UpPV",
+          "x": 0,
+          "y": 228,
+          "name": "Bottom",
+          "children": [
+            {
+              "type": "rectangle",
+              "cornerRadius": [
+                24,
+                24,
+                0,
+                0
+              ],
+              "id": "tSfB3",
+              "x": 0,
+              "y": 0,
+              "name": "Rectangle 187",
+              "fill": "#1b242dff",
+              "width": 375,
+              "height": 584,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1
+              }
+            },
+            {
+              "type": "text",
+              "id": "t8GW9",
+              "x": 24,
+              "y": 40,
+              "name": "Welcome Back Cameron",
+              "fill": "#ffffffff",
+              "content": "Welcome Back\nCameron",
+              "lineHeight": 1.2000000476837158,
+              "fontFamily": "Manrope",
+              "fontSize": 30,
+              "fontWeight": "700"
+            },
+            {
+              "type": "frame",
+              "id": "nmdiK",
+              "x": 24,
+              "y": 208,
+              "name": "Input",
+              "width": 327,
+              "fill": "#1b242dff",
+              "cornerRadius": 16,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "#314252ff"
+              },
+              "gap": 8,
+              "padding": 16,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "3kOSZ",
+                  "name": "What’s You Name?",
+                  "fill": "#737b8cff",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "●●●●●●",
+                  "textAlignVertical": "middle",
+                  "fontFamily": "Manrope",
+                  "fontSize": 16,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "O0iBm",
+                  "name": "Icon/Show",
+                  "width": 24,
+                  "height": 24,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1
+                  },
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "group",
+                      "id": "64zeS",
+                      "x": 3,
+                      "y": 5,
+                      "name": "Show"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "NW755",
+              "x": 24,
+              "y": 424,
+              "name": "Button",
+              "width": 327,
+              "fill": {
+                "type": "gradient",
+                "gradientType": "linear",
+                "enabled": true,
+                "rotation": -166.98207191917012,
+                "size": {
+                  "height": 1.1233836498300938
+                },
+                "colors": [
+                  {
+                    "color": "#7773faff",
+                    "position": 0
+                  },
+                  {
+                    "color": "#5652e5ff",
+                    "position": 1
+                  }
+                ],
+                "center": {
+                  "x": 0.3734756547044661,
+                  "y": 0.45274393361215404
+                }
+              },
+              "cornerRadius": 16,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1
+              },
+              "gap": 6,
+              "padding": [
+                17,
+                16
+              ],
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "fkCFj",
+                  "name": "Txt",
+                  "fill": "#ffffffff",
+                  "content": "Sign In",
+                  "textAlign": "center",
+                  "textAlignVertical": "middle",
+                  "fontFamily": "Manrope",
+                  "fontSize": 16,
+                  "fontWeight": "700"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "5AVsw",
+              "x": 168,
+              "y": 344,
+              "name": "face id",
+              "clip": true,
+              "width": 40,
+              "height": 40,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1
+              },
+              "layout": "none",
+              "children": [
+                {
+                  "type": "group",
+                  "id": "BvsYu",
+                  "x": 2,
+                  "y": 2,
+                  "name": "Group",
+                  "children": [
+                    {
+                      "type": "path",
+                      "id": "8OQiX",
+                      "x": 10.273653984069824,
+                      "y": 11.909263610839844,
+                      "name": "Vector",
+                      "geometry": "M2.5 0c-1.3828 0-2.5 1.1172-2.5 2.5l0 7.2734c0 1.3828 1.1172 2.5 2.5 2.5 1.3828 0 2.5-1.1172 2.5-2.5l0-7.2734c0-1.3828-1.1211-2.5-2.5-2.5z",
+                      "fill": "#ffffffff",
+                      "width": 1.9999996423721313,
+                      "height": 4.909358024597168,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "id": "IggQZ",
+                      "x": 23.726354598999023,
+                      "y": 11.909492492675781,
+                      "name": "Vector",
+                      "geometry": "M2.5 12.2734c1.3828 0 2.5-1.1172 2.5-2.5l0-7.2734c0-1.3828-1.1172-2.5-2.5-2.5-1.3828 0-2.5 1.1172-2.5 2.5l0 7.2734c0 1.3789 1.1211 2.5 2.5 2.5z",
+                      "fill": "#ffffffff",
+                      "width": 1.9999980926513672,
+                      "height": 4.909361362457275,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "id": "blHss",
+                      "x": 11.002842903137207,
+                      "y": 23.908592224121094,
+                      "name": "Vector",
+                      "geometry": "M34.26282 0.73242c-0.97656-0.97656-2.5586-0.97656-3.5352 0-3.5352 3.5352-8.2344 5.4805-13.23 5.4805-5 0-9.6992-1.9453-13.23-5.4805-0.97656-0.97656-2.5586-0.97656-3.5352 0-0.97656 0.97656-0.97656 2.5586 0 3.5352 4.4805 4.4805 10.434 6.9453 16.77 6.9453 6.3359 0 12.289-2.4688 16.77-6.9453 0.96484-0.97656 0.96484-2.5586-0.00781-3.5352l-0.00179 0z",
+                      "fill": "#ffffffff",
+                      "width": 13.99803352355957,
+                      "height": 4.485165119171143,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "id": "pT5JW",
+                      "x": 15.879610061645508,
+                      "y": 11.909087181091309,
+                      "name": "Vector",
+                      "geometry": "M2.4961 25.3752c4.5312 0 7.5742-3.043 7.5742-7.5742l0.00391-15.301c0-1.3828-1.1172-2.5-2.5-2.5-1.3828 0-2.5 1.1172-2.5 2.5l0 15.305c0 2.2812-1.375 2.5742-2.5742 2.5742-1.3828 0-2.5 1.1172-2.5 2.5-0.00391 1.3789 1.1172 2.4961 2.4961 2.4961l-0.00001-0.0001z",
+                      "fill": "#ffffffff",
+                      "width": 4.029682636260986,
+                      "height": 10.150125503540039,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "id": "idjIz",
+                      "x": 0,
+                      "y": 0,
+                      "name": "Vector",
+                      "geometry": "M2.5 34.773c1.3828 0 2.5-1.1172 2.5-2.5l0-12.773c0-7.9961 6.5039-14.5 14.5-14.5l8.2266 0c1.3828 0 2.5-1.1172 2.5-2.5 0-1.3828-1.1172-2.5-2.5-2.5l-8.2266 0c-10.754 0-19.5 8.7461-19.5 19.5l0 12.773c0 1.3789 1.1172 2.5 2.5 2.5z",
+                      "fill": "#ffffffff",
+                      "width": 12.0906400680542,
+                      "height": 13.909199714660645,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "id": "Xj06y",
+                      "x": 0.00020293395209591836,
+                      "y": 22.090744018554688,
+                      "name": "Vector",
+                      "geometry": "M27.7266 29.773l-8.2266 0c-7.9961 0-14.5-6.5039-14.5-14.5l0-12.773c0-1.3828-1.1172-2.5-2.5-2.5-1.3828 0-2.5 1.1211-2.5 2.5l0 12.773c0 10.754 8.7461 19.5 19.5 19.5l8.2266 0c1.3828 0 2.5-1.1172 2.5-2.5 0-1.3828-1.1172-2.5-2.5-2.5z",
+                      "fill": "#ffffffff",
+                      "width": 12.0906400680542,
+                      "height": 13.909189224243164,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "id": "sj9nx",
+                      "x": 23.909313201904297,
+                      "y": 7.947301128297113e-8,
+                      "name": "Vector",
+                      "geometry": "M10.7266 0l-8.2266 0c-1.3828 0-2.5 1.1172-2.5 2.5 0 1.3828 1.1172 2.5 2.5 2.5l8.2266 0c7.9961 0 14.5 6.5039 14.5 14.5l0 12.773c0 1.3828 1.1172 2.5 2.5 2.5 1.3828 0 2.5-1.1172 2.5-2.5l0-12.773c0-10.754-8.7461-19.5-19.5-19.5l0 0z",
+                      "fill": "#ffffffff",
+                      "width": 12.090641975402832,
+                      "height": 13.909199714660645,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "id": "7DFY9",
+                      "x": 23.909313201904297,
+                      "y": 22.090744018554688,
+                      "name": "Vector",
+                      "geometry": "M27.7266 0c-1.3828 0-2.5 1.1172-2.5 2.5l0 12.773c0 7.9961-6.5039 14.5-14.5 14.5l-8.2266 0c-1.3828 0-2.5 1.1172-2.5 2.5 0 1.3828 1.1172 2.5 2.5 2.5l8.2266 0c10.754 0 19.5-8.7461 19.5-19.5l0-12.773c0-1.3789-1.1172-2.5-2.5-2.5l0 0z",
+                      "fill": "#ffffffff",
+                      "width": 12.090641975402832,
+                      "height": 13.909189224243164,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "buUnH",
+              "x": 40,
+              "y": 276,
+              "name": "Forgot Password?",
+              "fill": "#eff3f6ff",
+              "textGrowth": "fixed-width",
+              "width": 295,
+              "content": "Forgot Password?",
+              "lineHeight": 1.399999976158142,
+              "textAlign": "right",
+              "fontFamily": "Manrope",
+              "fontSize": 14,
+              "fontWeight": "700"
+            },
+            {
+              "type": "text",
+              "id": "b5XXJ",
+              "x": 24,
+              "y": 504,
+              "name": "Don’t have an account? Get Started",
+              "fill": "#737b8cff",
+              "textGrowth": "fixed-width",
+              "width": 327,
+              "content": "Don’t have an account? Get Started",
+              "textAlign": "center",
+              "fontFamily": "Manrope",
+              "fontSize": 16,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "text",
+              "id": "ss5TC",
+              "x": 24,
+              "y": 136,
+              "name": "Oh no, this isn’t me",
+              "fill": "#ff8a5dff",
+              "textGrowth": "fixed-width",
+              "width": 327,
+              "content": "Oh no, this isn’t me",
+              "fontFamily": "Manrope",
+              "fontSize": 16,
+              "fontWeight": "700"
+            },
+            {
+              "type": "ellipse",
+              "id": "m9yS2",
+              "x": 279,
+              "y": 40,
+              "name": "Ellipse 91",
+              "sweepAngle": -360.00001001791264,
+              "fill": {
+                "type": "image",
+                "enabled": true,
+                "url": "",
+                "mode": "fill"
+              },
+              "width": 72,
+              "height": 72,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "9wwYt",
+      "x": 673.7448418156808,
+      "y": -315.5,
+      "name": "103 Sign Up",
+      "clip": true,
+      "width": 375,
+      "height": 812,
+      "fill": "#1b242dff",
+      "cornerRadius": 50,
+      "stroke": {
+        "align": "inside",
+        "thickness": 1
+      },
+      "layout": "none",
+      "children": [
+        {
+          "type": "rectangle",
+          "id": "gumvd",
+          "x": 0,
+          "y": 0,
+          "name": "Image",
+          "fill": "#2a3545ff",
+          "width": 375,
+          "height": 812
+        },
+        {
+          "type": "group",
+          "id": "v4QdW",
+          "x": 0,
+          "y": 160,
+          "name": "Bottom",
+          "children": [
+            {
+              "type": "rectangle",
+              "cornerRadius": [
+                24,
+                24,
+                0,
+                0
+              ],
+              "id": "RKFe9",
+              "x": 0,
+              "y": 0,
+              "name": "Rectangle 187",
+              "fill": "#1b242dff",
+              "width": 375,
+              "height": 652,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1
+              }
+            },
+            {
+              "type": "frame",
+              "id": "9P0xs",
+              "x": 24,
+              "y": 520,
+              "name": "Button",
+              "width": 327,
+              "fill": {
+                "type": "gradient",
+                "gradientType": "linear",
+                "enabled": true,
+                "rotation": -166.98207191917012,
+                "size": {
+                  "height": 1.1233836498300938
+                },
+                "colors": [
+                  {
+                    "color": "#7773faff",
+                    "position": 0
+                  },
+                  {
+                    "color": "#5652e5ff",
+                    "position": 1
+                  }
+                ],
+                "center": {
+                  "x": 0.3734756547044661,
+                  "y": 0.45274393361215404
+                }
+              },
+              "cornerRadius": 16,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1
+              },
+              "gap": 6,
+              "padding": [
+                17,
+                16
+              ],
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "9bcLI",
+                  "name": "Txt",
+                  "fill": "#ffffffff",
+                  "content": "Get Started",
+                  "textAlign": "center",
+                  "textAlignVertical": "middle",
+                  "fontFamily": "Manrope",
+                  "fontSize": 16,
+                  "fontWeight": "700"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "vBGsx",
+              "x": 24,
+              "y": 40,
+              "name": "New Account",
+              "fill": "#ffffffff",
+              "content": "New \nAccount",
+              "lineHeight": 1.2000000476837158,
+              "fontFamily": "Manrope",
+              "fontSize": 30,
+              "fontWeight": "700"
+            },
+            {
+              "type": "frame",
+              "id": "hHkDk",
+              "x": 24,
+              "y": 196,
+              "name": "Frame 296",
+              "stroke": {
+                "align": "inside",
+                "thickness": 1
+              },
+              "layout": "vertical",
+              "gap": 16,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "HbaRO",
+                  "name": "Input",
+                  "width": 327,
+                  "fill": "#1b242dff",
+                  "cornerRadius": 16,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#314252ff"
+                  },
+                  "gap": 10,
+                  "padding": [
+                    17,
+                    16
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "7vlwc",
+                      "name": "What’s You Name?",
+                      "fill": "#737b8cff",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Email",
+                      "textAlignVertical": "middle",
+                      "fontFamily": "Manrope",
+                      "fontSize": 16,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "RgFg9",
+                  "name": "Input",
+                  "width": 327,
+                  "fill": "#1b242dff",
+                  "cornerRadius": 16,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#314252ff"
+                  },
+                  "gap": 10,
+                  "padding": [
+                    17,
+                    16
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "uXVnt",
+                      "name": "What’s You Name?",
+                      "fill": "#737b8cff",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "First Name",
+                      "textAlignVertical": "middle",
+                      "fontFamily": "Manrope",
+                      "fontSize": 16,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "G1Wtm",
+                  "name": "Input",
+                  "width": 327,
+                  "fill": "#1b242dff",
+                  "cornerRadius": 16,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#314252ff"
+                  },
+                  "gap": 8,
+                  "padding": 16,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "gu1Qx",
+                      "name": "What’s You Name?",
+                      "fill": "#737b8cff",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Password",
+                      "textAlignVertical": "middle",
+                      "fontFamily": "Manrope",
+                      "fontSize": 16,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "qKvts",
+                      "name": "Icon/Show",
+                      "width": 24,
+                      "height": 24,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1
+                      },
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "YvqAg",
+                          "x": 3,
+                          "y": 3,
+                          "name": "pwdEyeIcon",
+                          "width": 18,
+                          "height": 18,
+                          "iconFontName": "eye-off",
+                          "iconFontFamily": "lucide",
+                          "fill": "#737b8cff"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "GWnq3",
+                  "name": "Input Confirm Password",
+                  "width": 327,
+                  "fill": "#1b242dff",
+                  "cornerRadius": 16,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#314252ff"
+                  },
+                  "gap": 8,
+                  "padding": 16,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "Q7guz",
+                      "name": "Confirm Password placeholder",
+                      "fill": "#737b8cff",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Confirm Password",
+                      "textAlignVertical": "middle",
+                      "fontFamily": "Manrope",
+                      "fontSize": 16,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Fiu49",
+                      "name": "Icon/Show",
+                      "width": 24,
+                      "height": 24,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1
+                      },
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "6p7lo",
+                          "x": 3,
+                          "y": 3,
+                          "name": "confirmEyeIcon",
+                          "width": 18,
+                          "height": 18,
+                          "iconFontName": "eye-off",
+                          "iconFontFamily": "lucide",
+                          "fill": "#737b8cff"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "M0Kf9",
+                  "name": "Terms Row",
+                  "width": 327,
+                  "gap": 10,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "FEdcp",
+                      "name": "Checkbox",
+                      "width": 20,
+                      "height": 20,
+                      "fill": "#1b242dff",
+                      "cornerRadius": 4,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 2,
+                        "fill": "#5652e5ff"
+                      },
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "LiBeR",
+                          "x": 3,
+                          "y": 3,
+                          "name": "checkIcon",
+                          "width": 14,
+                          "height": 14,
+                          "iconFontName": "check",
+                          "iconFontFamily": "lucide",
+                          "fill": "#5652e5ff"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "tfZHT",
+                      "name": "Terms Label",
+                      "fill": "#737b8cff",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "I agree to the Terms & Conditions",
+                      "fontFamily": "Manrope",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "group",
+              "id": "COEes",
+              "x": 279,
+              "y": 40,
+              "name": "Avatar",
+              "children": [
+                {
+                  "type": "ellipse",
+                  "id": "E71q7",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Ellipse 91",
+                  "sweepAngle": -360.00001001791264,
+                  "width": 72,
+                  "height": 72,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 2,
+                    "fill": "#314252ff"
+                  }
+                },
+                {
+                  "type": "frame",
+                  "id": "V3U33",
+                  "x": 24,
+                  "y": 16,
+                  "name": "Icon/Camera",
+                  "clip": true,
+                  "width": 24,
+                  "height": 24,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1.5
+                  },
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "group",
+                      "id": "Uitax",
+                      "x": 3,
+                      "y": 4,
+                      "name": "Camera"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "TSUmK",
+                  "x": 8,
+                  "y": 40,
+                  "name": "Upload",
+                  "fill": "#737b8cff",
+                  "textGrowth": "fixed-width",
+                  "width": 56,
+                  "content": "Upload",
+                  "lineHeight": 1.6,
+                  "textAlign": "center",
+                  "fontFamily": "Manrope",
+                  "fontSize": 10,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "XAUgT",
+              "x": 24,
+              "y": 606,
+              "name": "Already have an account? Sign In",
+              "fill": "#737b8cff",
+              "textGrowth": "fixed-width",
+              "width": 327,
+              "content": "Already have an account? Sign In",
+              "textAlign": "center",
+              "fontFamily": "Manrope",
+              "fontSize": 16,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "Q6Mmw",
+              "x": 24,
+              "y": 132,
+              "name": "User Type Selector",
+              "width": 327,
+              "height": 44,
+              "fill": "#131d26ff",
+              "cornerRadius": 12,
+              "padding": 4,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "B5CFZ",
+                  "name": "Tab User",
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "fill": {
+                    "type": "gradient",
+                    "gradientType": "linear",
+                    "enabled": true,
+                    "rotation": -167,
+                    "size": {
+                      "height": 1.12
+                    },
+                    "colors": [
+                      {
+                        "color": "#7773faff",
+                        "position": 0
+                      },
+                      {
+                        "color": "#5652e5ff",
+                        "position": 1
+                      }
+                    ]
+                  },
+                  "cornerRadius": 10,
+                  "gap": 6,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "S4tiX",
+                      "name": "activeIcon",
+                      "width": 16,
+                      "height": 16,
+                      "iconFontName": "user",
+                      "iconFontFamily": "lucide",
+                      "fill": "#ffffffff"
+                    },
+                    {
+                      "type": "text",
+                      "id": "YJSxh",
+                      "name": "activeLabel",
+                      "fill": "#ffffffff",
+                      "content": "User",
+                      "fontFamily": "Manrope",
+                      "fontSize": 14,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "GehKr",
+                  "name": "Tab Installer",
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "fill": "#131d26ff",
+                  "cornerRadius": 10,
+                  "gap": 6,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "jlFnI",
+                      "name": "inactiveIcon",
+                      "width": 16,
+                      "height": 16,
+                      "iconFontName": "wrench",
+                      "iconFontFamily": "lucide",
+                      "fill": "#737b8cff"
+                    },
+                    {
+                      "type": "text",
+                      "id": "chNBn",
+                      "name": "inactiveLabel",
+                      "fill": "#737b8cff",
+                      "content": "Installer",
+                      "fontFamily": "Manrope",
+                      "fontSize": 14,
+                      "fontWeight": "700"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "NtQyI",
+      "x": 1148,
+      "y": -315.5,
+      "name": "106 Forget Password",
+      "clip": true,
+      "width": 375,
+      "height": 812,
+      "fill": "#1b242dff",
+      "cornerRadius": 50,
+      "layout": "none",
+      "children": [
+        {
+          "type": "rectangle",
+          "id": "w5eml",
+          "x": 0,
+          "y": 0,
+          "name": "Background Image",
+          "fill": "#2a3545ff",
+          "width": 375,
+          "height": 812
+        },
+        {
+          "type": "ellipse",
+          "id": "tVlsC",
+          "x": -1327,
+          "y": 208,
+          "name": "bg1",
+          "fill": "#f85365ff",
+          "width": 1518,
+          "height": 1011,
+          "effect": {
+            "type": "blur",
+            "radius": 373
+          }
+        },
+        {
+          "type": "ellipse",
+          "id": "q3aeq",
+          "x": 73,
+          "y": 170,
+          "name": "bg2",
+          "fill": "#505edcff",
+          "width": 1629,
+          "height": 1085,
+          "effect": {
+            "type": "blur",
+            "radius": 467
+          }
+        },
+        {
+          "type": "group",
+          "id": "zZr3u",
+          "x": 0,
+          "y": 228,
+          "name": "Bottom",
+          "children": [
+            {
+              "type": "rectangle",
+              "cornerRadius": [
+                24,
+                24,
+                0,
+                0
+              ],
+              "id": "R62Nb",
+              "x": 0,
+              "y": 0,
+              "name": "Rectangle 187",
+              "fill": "#1b242dff",
+              "width": 375,
+              "height": 584,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1
+              }
+            },
+            {
+              "type": "ellipse",
+              "id": "wUt1B",
+              "x": 279,
+              "y": 40,
+              "name": "Avatar Bg",
+              "fill": "#25313dff",
+              "width": 72,
+              "height": 72,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1
+              }
+            },
+            {
+              "type": "text",
+              "id": "FHR8X",
+              "x": 24,
+              "y": 40,
+              "name": "Forgot\nPassword",
+              "fill": "#ffffffff",
+              "content": "Forgot\nPassword",
+              "lineHeight": 1.2,
+              "fontFamily": "Manrope",
+              "fontSize": 30,
+              "fontWeight": "700"
+            },
+            {
+              "type": "text",
+              "id": "kxKH8",
+              "x": 24,
+              "y": 136,
+              "name": "subtitle",
+              "fill": "#737b8cff",
+              "textGrowth": "fixed-width",
+              "width": 295,
+              "content": "Enter your email address and we'll send you a link to reset your password.",
+              "lineHeight": 1.5,
+              "fontFamily": "Manrope",
+              "fontSize": 14,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "ZoeI9",
+              "x": 24,
+              "y": 228,
+              "name": "Input Email",
+              "width": 327,
+              "fill": "#1b242dff",
+              "cornerRadius": 16,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "#314252ff"
+              },
+              "gap": 10,
+              "padding": [
+                17,
+                16
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "gbRQt",
+                  "name": "Email placeholder",
+                  "fill": "#737b8cff",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Email Address",
+                  "textAlignVertical": "middle",
+                  "fontFamily": "Manrope",
+                  "fontSize": 16,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "IiAqP",
+              "x": 24,
+              "y": 316,
+              "name": "Button",
+              "width": 327,
+              "fill": {
+                "type": "gradient",
+                "gradientType": "linear",
+                "enabled": true,
+                "rotation": -166.98,
+                "size": {
+                  "height": 1.12
+                },
+                "colors": [
+                  {
+                    "color": "#7773faff",
+                    "position": 0
+                  },
+                  {
+                    "color": "#5652e5ff",
+                    "position": 1
+                  }
+                ]
+              },
+              "cornerRadius": 16,
+              "gap": 6,
+              "padding": [
+                17,
+                16
+              ],
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "Oz61g",
+                  "name": "Txt",
+                  "fill": "#ffffffff",
+                  "content": "Send Reset Link",
+                  "textAlign": "center",
+                  "textAlignVertical": "middle",
+                  "fontFamily": "Manrope",
+                  "fontSize": 16,
+                  "fontWeight": "700"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "xikkS",
+              "x": 24,
+              "y": 396,
+              "name": "Back to Sign In",
+              "fill": "#737b8cff",
+              "textGrowth": "fixed-width",
+              "width": 327,
+              "content": "Remember your password? Sign In",
+              "textAlign": "center",
+              "fontFamily": "Manrope",
+              "fontSize": 16,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "Drw4N",
+              "x": 293,
+              "y": 56,
+              "name": "icon",
+              "width": 40,
+              "height": 40,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1.67
+              },
+              "layout": "none",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "D4kBW",
+                  "x": 2,
+                  "y": 2,
+                  "name": "lockIcon",
+                  "width": 36,
+                  "height": 36,
+                  "iconFontName": "lock-keyhole",
+                  "iconFontFamily": "lucide",
+                  "weight": 300,
+                  "fill": "#ffffffff"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
