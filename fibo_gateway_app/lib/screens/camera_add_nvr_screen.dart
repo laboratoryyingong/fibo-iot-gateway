@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
+import '../theme/app_decorations.dart';
 import '../theme/app_text_styles.dart';
+import '../widgets/header_action_button.dart';
 
 class CameraAddNvrScreen extends StatelessWidget {
   const CameraAddNvrScreen({super.key});
@@ -73,22 +75,16 @@ class _Header extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 0, 20, 8),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          InkWell(
-            onTap: onBack,
-            borderRadius: BorderRadius.circular(20),
-            child: Container(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                color: AppColors.secondary,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: const Icon(Icons.arrow_back, size: 22),
-            ),
+          Row(
+            children: [
+              HeaderActionButton(icon: Icons.arrow_back, onTap: onBack),
+              const SizedBox(width: 12),
+              Text('Add Zigbee NVR', style: AppTextStyles.heading20),
+            ],
           ),
-          const SizedBox(width: 12),
-          Text('Add Zigbee NVR', style: AppTextStyles.heading20),
+          const HeaderActionButton(icon: Icons.notifications),
         ],
       ),
     );
@@ -117,9 +113,16 @@ class _InputField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      obscureText: obscureText,
-      decoration: InputDecoration(hintText: hint),
+    return Container(
+      decoration: BoxDecoration(
+        color: AppColors.card,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: AppDecorations.softCardShadow,
+      ),
+      child: TextField(
+        obscureText: obscureText,
+        decoration: InputDecoration(hintText: hint),
+      ),
     );
   }
 }

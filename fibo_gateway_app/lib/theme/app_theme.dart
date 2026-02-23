@@ -51,6 +51,7 @@ class AppTheme {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
+          elevation: 0,
         ),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
@@ -72,6 +73,17 @@ class AppTheme {
               : AppColors.card,
         ),
         side: const BorderSide(color: AppColors.border, width: 1),
+      ),
+      bottomNavigationBarTheme: BottomNavigationBarThemeData(
+        backgroundColor: AppColors.card,
+        selectedItemColor: AppColors.primary,
+        unselectedItemColor: AppColors.mutedForeground,
+        selectedLabelStyle: AppTextStyles.body13Muted.copyWith(
+          color: AppColors.primary,
+          fontWeight: FontWeight.w600,
+        ),
+        unselectedLabelStyle: AppTextStyles.body13Muted,
+        elevation: 0,
       ),
     );
   }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
+import '../theme/app_decorations.dart';
 import '../theme/app_text_styles.dart';
+import '../widgets/header_action_button.dart';
 
 class CameraSettingsScreen extends StatelessWidget {
   const CameraSettingsScreen({super.key});
@@ -70,22 +72,16 @@ class _Header extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 0, 20, 8),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          InkWell(
-            onTap: onBack,
-            borderRadius: BorderRadius.circular(20),
-            child: Container(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                color: AppColors.secondary,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: const Icon(Icons.arrow_back, size: 22),
-            ),
+          Row(
+            children: [
+              HeaderActionButton(icon: Icons.arrow_back, onTap: onBack),
+              const SizedBox(width: 12),
+              Text('Camera Settings', style: AppTextStyles.heading20),
+            ],
           ),
-          const SizedBox(width: 12),
-          Text('Camera Settings', style: AppTextStyles.heading20),
+          const HeaderActionButton(icon: Icons.notifications),
         ],
       ),
     );
@@ -125,7 +121,7 @@ class _Card extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.card,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.border),
+        boxShadow: AppDecorations.softCardShadow,
       ),
       child: Column(children: children),
     );

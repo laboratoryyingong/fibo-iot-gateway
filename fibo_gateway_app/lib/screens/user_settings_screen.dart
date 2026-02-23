@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 import '../theme/app_colors.dart';
+import '../theme/app_decorations.dart';
 import '../theme/app_text_styles.dart';
+import '../widgets/header_action_button.dart';
 
 class UserSettingsScreen extends StatelessWidget {
   const UserSettingsScreen({super.key});
@@ -21,7 +23,13 @@ class UserSettingsScreen extends StatelessWidget {
         child: ListView(
           padding: const EdgeInsets.fromLTRB(20, 0, 20, 24),
           children: [
-            Text('Settings', style: AppTextStyles.heading28),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('Settings', style: AppTextStyles.heading28),
+                const HeaderActionButton(icon: Icons.notifications),
+              ],
+            ),
             const SizedBox(height: 12),
             const _SectionLabel('Profile'),
             const _Card(
@@ -55,7 +63,7 @@ class UserSettingsScreen extends StatelessWidget {
             ElevatedButton(
               onPressed: () => _logout(context),
               style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.colorError,
+                backgroundColor: AppColors.destructive,
                 foregroundColor: AppColors.white,
               ),
               child: const Text('Log Out'),
@@ -95,7 +103,7 @@ class _Card extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.card,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.border),
+        boxShadow: AppDecorations.softCardShadow,
       ),
       child: Column(children: children),
     );

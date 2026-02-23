@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
+import '../theme/app_decorations.dart';
 import '../theme/app_text_styles.dart';
+import '../widgets/header_action_button.dart';
 
 class UserDevicesScreen extends StatelessWidget {
   const UserDevicesScreen({super.key});
@@ -14,9 +16,12 @@ class UserDevicesScreen extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 0, 20, 8),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text('Devices', style: AppTextStyles.heading28),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Devices', style: AppTextStyles.heading28),
+                  const HeaderActionButton(icon: Icons.notifications),
+                ],
               ),
             ),
             const _SearchBar(),
@@ -182,7 +187,7 @@ class _DeviceCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: AppColors.card,
           borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: AppColors.border),
+          boxShadow: AppDecorations.softCardShadow,
         ),
         child: Row(
           children: [

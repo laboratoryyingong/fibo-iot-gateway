@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
+import '../theme/app_decorations.dart';
 import '../theme/app_text_styles.dart';
+import '../widgets/header_action_button.dart';
 
 class UserScenesScreen extends StatelessWidget {
   const UserScenesScreen({super.key});
@@ -55,9 +57,12 @@ class _Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.centerLeft,
-      child: Text('Scenes', style: AppTextStyles.heading28),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text('Scenes', style: AppTextStyles.heading28),
+        const HeaderActionButton(icon: Icons.notifications),
+      ],
     );
   }
 }
@@ -80,7 +85,7 @@ class _SceneCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.card,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AppColors.border),
+        boxShadow: AppDecorations.softCardShadow,
       ),
       child: Row(
         children: [
@@ -109,6 +114,11 @@ class _SceneCard extends StatelessWidget {
             style: ElevatedButton.styleFrom(
               minimumSize: const Size(84, 38),
               padding: const EdgeInsets.symmetric(horizontal: 10),
+              backgroundColor: AppColors.primary,
+              foregroundColor: AppColors.primaryForeground,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
             ),
             child: const Text('Activate'),
           ),

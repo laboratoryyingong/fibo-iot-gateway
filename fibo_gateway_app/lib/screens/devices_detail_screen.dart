@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
+import '../theme/app_decorations.dart';
 import '../theme/app_text_styles.dart';
+import '../widgets/header_action_button.dart';
 
 class DevicesDetailScreen extends StatelessWidget {
   const DevicesDetailScreen({super.key});
@@ -48,22 +50,9 @@ class _Header extends StatelessWidget {
         children: [
           Row(
             children: [
-              InkWell(
-                borderRadius: BorderRadius.circular(20),
+              HeaderActionButton(
+                icon: Icons.arrow_back,
                 onTap: () => Navigator.of(context).pop(),
-                child: Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    color: AppColors.secondary,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: const Icon(
-                    Icons.arrow_back,
-                    size: 22,
-                    color: AppColors.foreground,
-                  ),
-                ),
               ),
               const SizedBox(width: 16),
               Column(
@@ -76,19 +65,7 @@ class _Header extends StatelessWidget {
               ),
             ],
           ),
-          Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-              color: AppColors.secondary,
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: const Icon(
-              Icons.notifications,
-              size: 22,
-              color: AppColors.foreground,
-            ),
-          ),
+          const HeaderActionButton(icon: Icons.notifications),
         ],
       ),
     );
@@ -105,7 +82,7 @@ class _PowerCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.card,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.border, width: 1),
+        boxShadow: AppDecorations.softCardShadow,
       ),
       child: Column(
         children: [
@@ -167,7 +144,7 @@ class _BrightnessCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.card,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.border, width: 1),
+        boxShadow: AppDecorations.softCardShadow,
       ),
       child: Column(
         children: [
@@ -232,7 +209,7 @@ class _ColorTemperatureCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.card,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.border, width: 1),
+        boxShadow: AppDecorations.softCardShadow,
       ),
       child: Column(
         children: [
@@ -301,7 +278,7 @@ class _DeviceInfoCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.card,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.border, width: 1),
+        boxShadow: AppDecorations.softCardShadow,
       ),
       child: Column(
         children: [

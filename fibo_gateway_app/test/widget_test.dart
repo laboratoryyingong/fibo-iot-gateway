@@ -21,7 +21,9 @@ void main() {
 
     expect(find.text('Welcome Back'), findsOneWidget);
 
-    await tester.tap(find.text('Sign Up'));
+    final signUpCta = find.widgetWithText(TextButton, 'Sign Up');
+    await tester.ensureVisible(signUpCta);
+    await tester.tap(signUpCta, warnIfMissed: false);
     await tester.pumpAndSettle();
 
     expect(find.byType(SignUpScreen), findsOneWidget);

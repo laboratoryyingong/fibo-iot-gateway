@@ -1,12 +1,18 @@
 # Fibo Gateway App UI Progress Report
 
-Date: 2026-02-22  
+Date: 2026-02-23  
 Design Source: `fibo_gateway_app/design/fibo-gateway-app.pen`  
 Codebase Audited: `fibo_gateway_app/lib`
 
 ## 1. Executive Summary
 
 The project has been refactored to match the updated design package, including the new `Camera` module and `User Role` module.
+
+Latest refresh completed:
+- Updated global design tokens to current `.pen` light theme (primary/background/border/text semantics).
+- Applied new elevated card language (soft shadows + reduced hard borders) across key modules.
+- Updated header action button styling (white circular buttons with shadow) and bottom navigation container styling.
+- Synced Dashboard / Home with newly added room tabs and promo banner content from design.
 
 Current status:
 - Design screens defined: **35**

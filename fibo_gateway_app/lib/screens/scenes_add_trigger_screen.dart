@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
+import '../theme/app_decorations.dart';
 import '../theme/app_text_styles.dart';
+import '../widgets/header_action_button.dart';
 
 class ScenesAddTriggerScreen extends StatelessWidget {
   const ScenesAddTriggerScreen({super.key});
@@ -78,40 +80,12 @@ class _Header extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          InkWell(
-            borderRadius: BorderRadius.circular(20),
-            onTap: onBack,
-            child: Container(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                color: AppColors.secondary,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: const Icon(
-                Icons.arrow_back,
-                size: 22,
-                color: AppColors.foreground,
-              ),
-            ),
-          ),
+          HeaderActionButton(icon: Icons.arrow_back, onTap: onBack),
           Text(
             'Add Trigger',
-            style: AppTextStyles.body16.copyWith(fontWeight: FontWeight.w600),
+            style: AppTextStyles.body16.copyWith(fontWeight: FontWeight.w700),
           ),
-          Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-              color: AppColors.secondary,
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: const Icon(
-              Icons.notifications,
-              size: 22,
-              color: AppColors.foreground,
-            ),
-          ),
+          const HeaderActionButton(icon: Icons.notifications),
         ],
       ),
     );
@@ -129,7 +103,7 @@ class _TypeListCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.card,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.border, width: 1),
+        boxShadow: AppDecorations.softCardShadow,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

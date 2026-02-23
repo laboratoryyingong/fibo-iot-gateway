@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 import '../theme/app_colors.dart';
+import '../theme/app_decorations.dart';
 import '../theme/app_text_styles.dart';
 import '../widgets/app_menu_button.dart';
+import '../widgets/header_action_button.dart';
 
 class SettingsMainScreen extends StatelessWidget {
   const SettingsMainScreen({super.key});
@@ -127,19 +129,7 @@ class _Header extends StatelessWidget {
               Text('Settings', style: AppTextStyles.heading20),
             ],
           ),
-          Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-              color: AppColors.secondary,
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: const Icon(
-              Icons.notifications,
-              size: 22,
-              color: AppColors.foreground,
-            ),
-          ),
+          const HeaderActionButton(icon: Icons.notifications),
         ],
       ),
     );
@@ -181,7 +171,7 @@ class _Card extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.card,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.border, width: 1),
+        boxShadow: AppDecorations.softCardShadow,
       ),
       child: Column(children: children),
     );
@@ -200,6 +190,7 @@ class _DangerCard extends StatelessWidget {
         color: AppColors.card,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: AppColors.colorError, width: 1),
+        boxShadow: AppDecorations.softCardShadow,
       ),
       child: Column(children: children),
     );

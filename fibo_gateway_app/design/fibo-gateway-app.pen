@@ -39,7 +39,7 @@
                   "width": 40,
                   "height": 40,
                   "fill": "$--primary",
-                  "cornerRadius": 10,
+                  "cornerRadius": 14,
                   "layout": "none",
                   "children": [
                     {
@@ -63,8 +63,18 @@
                   "name": "mMenuBtn",
                   "width": 40,
                   "height": 40,
-                  "fill": "$--secondary",
+                  "fill": "#FFFFFF",
                   "cornerRadius": 20,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#1A233210",
+                    "offset": {
+                      "x": 0,
+                      "y": 1
+                    },
+                    "blur": 6
+                  },
                   "layout": "none",
                   "children": [
                     {
@@ -96,8 +106,8 @@
                       "fill": "$--foreground",
                       "content": "Zigbee Hub",
                       "fontFamily": "$--font-primary",
-                      "fontSize": 18,
-                      "fontWeight": "600"
+                      "fontSize": 20,
+                      "fontWeight": "700"
                     },
                     {
                       "type": "text",
@@ -106,7 +116,7 @@
                       "fill": "$--muted-foreground",
                       "content": "Welcome back, Admin",
                       "fontFamily": "$--font-secondary",
-                      "fontSize": 12,
+                      "fontSize": 13,
                       "fontWeight": "normal"
                     }
                   ]
@@ -125,8 +135,18 @@
                   "name": "mNotif",
                   "width": 40,
                   "height": 40,
-                  "fill": "$--secondary",
+                  "fill": "#FFFFFF",
                   "cornerRadius": 20,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#1A233210",
+                    "offset": {
+                      "x": 0,
+                      "y": 1
+                    },
+                    "blur": 6
+                  },
                   "layout": "none",
                   "children": [
                     {
@@ -167,11 +187,16 @@
               "name": "mStatusCard",
               "width": "fill_container",
               "fill": "$--card",
-              "cornerRadius": "$--radius-m",
-              "stroke": {
-                "align": "inside",
-                "thickness": 1,
-                "fill": "$--border"
+              "cornerRadius": 20,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1A233210",
+                "offset": {
+                  "x": 0,
+                  "y": 2
+                },
+                "blur": 12
               },
               "gap": 12,
               "padding": 16,
@@ -181,24 +206,24 @@
                   "type": "frame",
                   "id": "YyiPX",
                   "name": "mStatusIcon",
-                  "width": 48,
-                  "height": 48,
-                  "fill": "$--color-success",
-                  "cornerRadius": 24,
+                  "width": 44,
+                  "height": 44,
+                  "fill": "#E3F2FD",
+                  "cornerRadius": 16,
                   "layout": "none",
                   "children": [
                     {
                       "type": "icon_font",
                       "id": "HFjYk",
-                      "x": 12,
-                      "y": 12,
+                      "x": 11,
+                      "y": 11,
                       "name": "mStatusIconInner",
-                      "width": 24,
-                      "height": 24,
+                      "width": 22,
+                      "height": 22,
                       "iconFontName": "wifi",
                       "iconFontFamily": "Material Symbols Rounded",
                       "weight": 400,
-                      "fill": "$--color-success-foreground"
+                      "fill": "#4A90D9"
                     }
                   ]
                 },
@@ -217,7 +242,7 @@
                       "fill": "$--color-success-foreground",
                       "content": "Gateway Online",
                       "fontFamily": "$--font-primary",
-                      "fontSize": 16,
+                      "fontSize": 15,
                       "fontWeight": "600"
                     },
                     {
@@ -227,7 +252,7 @@
                       "fill": "$--muted-foreground",
                       "content": "Uptime: 14 days, 6 hours • 24 devices connected",
                       "fontFamily": "$--font-secondary",
-                      "fontSize": 12,
+                      "fontSize": 11,
                       "fontWeight": "normal"
                     }
                   ]
@@ -247,26 +272,46 @@
                   "name": "mMetric1",
                   "width": "fill_container",
                   "fill": "$--card",
-                  "cornerRadius": "$--radius-m",
-                  "stroke": {
-                    "align": "inside",
-                    "thickness": 1,
-                    "fill": "$--border"
+                  "cornerRadius": 16,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#1A233210",
+                    "offset": {
+                      "x": 0,
+                      "y": 2
+                    },
+                    "blur": 10
                   },
                   "layout": "vertical",
                   "gap": 8,
                   "padding": 16,
+                  "alignItems": "center",
                   "children": [
                     {
-                      "type": "icon_font",
-                      "id": "uUbFh",
-                      "name": "mMetric1Icon",
-                      "width": 24,
-                      "height": 24,
-                      "iconFontName": "devices",
-                      "iconFontFamily": "Material Symbols Rounded",
-                      "weight": 400,
-                      "fill": "$--primary"
+                      "type": "frame",
+                      "id": "DzMrN",
+                      "name": "mMetric1IconBg",
+                      "width": 40,
+                      "height": 40,
+                      "fill": "#E3F2FD",
+                      "cornerRadius": 16,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "cIf7Z",
+                          "x": 9,
+                          "y": 9,
+                          "name": "icon1",
+                          "width": 22,
+                          "height": 22,
+                          "iconFontName": "devices",
+                          "iconFontFamily": "Material Symbols Rounded",
+                          "weight": 400,
+                          "fill": "#4A90D9"
+                        }
+                      ]
                     },
                     {
                       "type": "text",
@@ -275,8 +320,8 @@
                       "fill": "$--foreground",
                       "content": "24",
                       "fontFamily": "$--font-primary",
-                      "fontSize": 24,
-                      "fontWeight": "600"
+                      "fontSize": 28,
+                      "fontWeight": "700"
                     },
                     {
                       "type": "text",
@@ -296,26 +341,46 @@
                   "name": "mMetric2",
                   "width": "fill_container",
                   "fill": "$--card",
-                  "cornerRadius": "$--radius-m",
-                  "stroke": {
-                    "align": "inside",
-                    "thickness": 1,
-                    "fill": "$--border"
+                  "cornerRadius": 16,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#1A233210",
+                    "offset": {
+                      "x": 0,
+                      "y": 2
+                    },
+                    "blur": 10
                   },
                   "layout": "vertical",
                   "gap": 8,
                   "padding": 16,
+                  "alignItems": "center",
                   "children": [
                     {
-                      "type": "icon_font",
-                      "id": "cc74O",
-                      "name": "mMetric2Icon",
-                      "width": 24,
-                      "height": 24,
-                      "iconFontName": "speed",
-                      "iconFontFamily": "Material Symbols Rounded",
-                      "weight": 400,
-                      "fill": "$--primary"
+                      "type": "frame",
+                      "id": "ol50y",
+                      "name": "mMetric2IconBg",
+                      "width": 40,
+                      "height": 40,
+                      "fill": "#E3F2FD",
+                      "cornerRadius": 16,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "91Hde",
+                          "x": 9,
+                          "y": 9,
+                          "name": "icon2",
+                          "width": 22,
+                          "height": 22,
+                          "iconFontName": "speed",
+                          "iconFontFamily": "Material Symbols Rounded",
+                          "weight": 400,
+                          "fill": "#4A90D9"
+                        }
+                      ]
                     },
                     {
                       "type": "text",
@@ -324,8 +389,8 @@
                       "fill": "$--foreground",
                       "content": "98%",
                       "fontFamily": "$--font-primary",
-                      "fontSize": 24,
-                      "fontWeight": "600"
+                      "fontSize": 28,
+                      "fontWeight": "700"
                     },
                     {
                       "type": "text",
@@ -345,26 +410,46 @@
                   "name": "mMetric3",
                   "width": "fill_container",
                   "fill": "$--card",
-                  "cornerRadius": "$--radius-m",
-                  "stroke": {
-                    "align": "inside",
-                    "thickness": 1,
-                    "fill": "$--border"
+                  "cornerRadius": 16,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#1A233210",
+                    "offset": {
+                      "x": 0,
+                      "y": 2
+                    },
+                    "blur": 10
                   },
                   "layout": "vertical",
                   "gap": 8,
                   "padding": 16,
+                  "alignItems": "center",
                   "children": [
                     {
-                      "type": "icon_font",
-                      "id": "GgNCG",
-                      "name": "mMetric3Icon",
-                      "width": 24,
-                      "height": 24,
-                      "iconFontName": "bolt",
-                      "iconFontFamily": "Material Symbols Rounded",
-                      "weight": 400,
-                      "fill": "$--primary"
+                      "type": "frame",
+                      "id": "ADIHX",
+                      "name": "mMetric3IconBg",
+                      "width": 40,
+                      "height": 40,
+                      "fill": "#E3F2FD",
+                      "cornerRadius": 16,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "dMMdQ",
+                          "x": 9,
+                          "y": 9,
+                          "name": "icon3",
+                          "width": 22,
+                          "height": 22,
+                          "iconFontName": "bolt",
+                          "iconFontFamily": "Material Symbols Rounded",
+                          "weight": 400,
+                          "fill": "#4A90D9"
+                        }
+                      ]
                     },
                     {
                       "type": "text",
@@ -373,8 +458,8 @@
                       "fill": "$--foreground",
                       "content": "12",
                       "fontFamily": "$--font-primary",
-                      "fontSize": 24,
-                      "fontWeight": "600"
+                      "fontSize": 28,
+                      "fontWeight": "700"
                     },
                     {
                       "type": "text",
@@ -384,6 +469,106 @@
                       "content": "Automations",
                       "fontFamily": "$--font-secondary",
                       "fontSize": 12,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "yxaNl",
+              "name": "mRoomTabs",
+              "width": "fill_container",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "T3gxQ",
+                  "name": "mRoomTab1",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 6,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "SMstF",
+                      "name": "tabText1",
+                      "fill": "#4A90D9",
+                      "content": "Living Room",
+                      "fontFamily": "$--font-secondary",
+                      "fontSize": 13,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "ellipse",
+                      "id": "3xrIO",
+                      "name": "tabDot1",
+                      "fill": "#4A90D9",
+                      "width": 5,
+                      "height": 5
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "5dql0",
+                  "name": "mRoomTab2",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 6,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "ptEGF",
+                      "name": "tabText2",
+                      "fill": "#7B8794",
+                      "content": "Kitchen",
+                      "fontFamily": "$--font-secondary",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "wgUnP",
+                  "name": "mRoomTab3",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 6,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "mGsbg",
+                      "name": "tabText3",
+                      "fill": "#7B8794",
+                      "content": "Bedroom",
+                      "fontFamily": "$--font-secondary",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "5o4Q4",
+                  "name": "mRoomTab4",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 6,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "jYHsX",
+                      "name": "tabText4",
+                      "fill": "#7B8794",
+                      "content": "Bathroom",
+                      "fontFamily": "$--font-secondary",
+                      "fontSize": 13,
                       "fontWeight": "normal"
                     }
                   ]
@@ -413,8 +598,8 @@
                       "fill": "$--foreground",
                       "content": "Quick Access",
                       "fontFamily": "$--font-primary",
-                      "fontSize": 16,
-                      "fontWeight": "600"
+                      "fontSize": 18,
+                      "fontWeight": "700"
                     },
                     {
                       "type": "text",
@@ -424,7 +609,7 @@
                       "content": "See all",
                       "fontFamily": "$--font-secondary",
                       "fontSize": 13,
-                      "fontWeight": "normal"
+                      "fontWeight": "500"
                     }
                   ]
                 },
@@ -435,11 +620,16 @@
                   "clip": true,
                   "width": "fill_container",
                   "fill": "$--card",
-                  "cornerRadius": "$--radius-m",
-                  "stroke": {
-                    "align": "inside",
-                    "thickness": 1,
-                    "fill": "$--border"
+                  "cornerRadius": 20,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#1A233210",
+                    "offset": {
+                      "x": 0,
+                      "y": 2
+                    },
+                    "blur": 12
                   },
                   "layout": "vertical",
                   "children": [
@@ -453,10 +643,10 @@
                         "thickness": {
                           "bottom": 1
                         },
-                        "fill": "$--border"
+                        "fill": "#EDF1F7"
                       },
                       "gap": 12,
-                      "padding": 14,
+                      "padding": 16,
                       "alignItems": "center",
                       "children": [
                         {
@@ -465,8 +655,8 @@
                           "name": "mDevice1Icon",
                           "width": 44,
                           "height": 44,
-                          "fill": "$--secondary",
-                          "cornerRadius": 10,
+                          "fill": "#E3F2FD",
+                          "cornerRadius": 14,
                           "layout": "none",
                           "children": [
                             {
@@ -480,7 +670,7 @@
                               "iconFontName": "lightbulb",
                               "iconFontFamily": "Material Symbols Rounded",
                               "weight": 400,
-                              "fill": "$--primary"
+                              "fill": "#4A90D9"
                             }
                           ]
                         },
@@ -549,10 +739,10 @@
                         "thickness": {
                           "bottom": 1
                         },
-                        "fill": "$--border"
+                        "fill": "#EDF1F7"
                       },
                       "gap": 12,
-                      "padding": 14,
+                      "padding": 16,
                       "alignItems": "center",
                       "children": [
                         {
@@ -561,8 +751,8 @@
                           "name": "mDevice2Icon",
                           "width": 44,
                           "height": 44,
-                          "fill": "$--secondary",
-                          "cornerRadius": 10,
+                          "fill": "#E3F2FD",
+                          "cornerRadius": 14,
                           "layout": "none",
                           "children": [
                             {
@@ -576,7 +766,7 @@
                               "iconFontName": "thermostat",
                               "iconFontFamily": "Material Symbols Rounded",
                               "weight": 400,
-                              "fill": "$--primary"
+                              "fill": "#4A90D9"
                             }
                           ]
                         },
@@ -645,10 +835,10 @@
                         "thickness": {
                           "bottom": 1
                         },
-                        "fill": "$--border"
+                        "fill": "#EDF1F7"
                       },
                       "gap": 12,
-                      "padding": 14,
+                      "padding": 16,
                       "alignItems": "center",
                       "children": [
                         {
@@ -657,8 +847,8 @@
                           "name": "mDevice3Icon",
                           "width": 44,
                           "height": 44,
-                          "fill": "$--secondary",
-                          "cornerRadius": 10,
+                          "fill": "#E3F2FD",
+                          "cornerRadius": 14,
                           "layout": "none",
                           "children": [
                             {
@@ -672,7 +862,7 @@
                               "iconFontName": "lock",
                               "iconFontFamily": "Material Symbols Rounded",
                               "weight": 400,
-                              "fill": "$--primary"
+                              "fill": "#4A90D9"
                             }
                           ]
                         },
@@ -737,7 +927,7 @@
                       "name": "mDevice4",
                       "width": "fill_container",
                       "gap": 12,
-                      "padding": 14,
+                      "padding": 16,
                       "alignItems": "center",
                       "children": [
                         {
@@ -746,8 +936,8 @@
                           "name": "mDevice4Icon",
                           "width": 44,
                           "height": 44,
-                          "fill": "$--secondary",
-                          "cornerRadius": 10,
+                          "fill": "#EDF1F7",
+                          "cornerRadius": 14,
                           "layout": "none",
                           "children": [
                             {
@@ -823,6 +1013,107 @@
                   ]
                 }
               ]
+            },
+            {
+              "type": "frame",
+              "id": "Q62or",
+              "name": "mPromoBanner",
+              "width": "fill_container",
+              "fill": {
+                "type": "gradient",
+                "gradientType": "linear",
+                "enabled": true,
+                "rotation": 90,
+                "size": {
+                  "height": 1
+                },
+                "colors": [
+                  {
+                    "color": "#4A90D9",
+                    "position": 0
+                  },
+                  {
+                    "color": "#5BA0E8",
+                    "position": 1
+                  }
+                ]
+              },
+              "cornerRadius": 20,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#4A90D930",
+                "offset": {
+                  "x": 0,
+                  "y": 4
+                },
+                "blur": 16
+              },
+              "padding": [
+                20,
+                24
+              ],
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "dnJ0Y",
+                  "name": "mBannerTextGroup",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 4,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "Qx1iK",
+                      "name": "bannerTitle",
+                      "fill": "#FFFFFF",
+                      "content": "Quick remote access",
+                      "fontFamily": "Geist",
+                      "fontSize": 16,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "QJHGV",
+                      "name": "bannerSub",
+                      "fill": "#FFFFFFCC",
+                      "textGrowth": "fixed-width",
+                      "width": 220,
+                      "content": "Turn right to get fast access to your wireless remote control",
+                      "fontFamily": "Geist",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "uFUD5",
+                  "name": "mBannerArrow",
+                  "width": 40,
+                  "height": 40,
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 20,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "YpNCt",
+                      "x": 9,
+                      "y": 9,
+                      "name": "arrowIcon",
+                      "width": 22,
+                      "height": 22,
+                      "iconFontName": "arrow_forward",
+                      "iconFontFamily": "Material Symbols Rounded",
+                      "weight": 400,
+                      "fill": "#4A90D9"
+                    }
+                  ]
+                }
+              ]
             }
           ]
         },
@@ -833,12 +1124,21 @@
           "width": "fill_container",
           "height": 84,
           "fill": "$--card",
-          "stroke": {
-            "align": "inside",
-            "thickness": {
-              "top": 1
+          "cornerRadius": [
+            20,
+            20,
+            0,
+            0
+          ],
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#1A233208",
+            "offset": {
+              "x": 0,
+              "y": -2
             },
-            "fill": "$--border"
+            "blur": 10
           },
           "padding": [
             12,
@@ -1014,8 +1314,18 @@
                   "name": "devMenuBtn",
                   "width": 40,
                   "height": 40,
-                  "fill": "$--secondary",
+                  "fill": "#FFFFFF",
                   "cornerRadius": 20,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#1A233210",
+                    "offset": {
+                      "x": 0,
+                      "y": 1
+                    },
+                    "blur": 6
+                  },
                   "layout": "none",
                   "children": [
                     {
@@ -1041,7 +1351,7 @@
                   "content": "Devices",
                   "fontFamily": "$--font-primary",
                   "fontSize": 28,
-                  "fontWeight": "600"
+                  "fontWeight": "700"
                 }
               ]
             },
@@ -1058,8 +1368,18 @@
                   "name": "devNotifBtn",
                   "width": 40,
                   "height": 40,
-                  "fill": "$--secondary",
+                  "fill": "#FFFFFF",
                   "cornerRadius": 20,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#1A233210",
+                    "offset": {
+                      "x": 0,
+                      "y": 1
+                    },
+                    "blur": 6
+                  },
                   "layout": "none",
                   "children": [
                     {
@@ -1085,6 +1405,16 @@
                   "height": 40,
                   "fill": "$--primary",
                   "cornerRadius": 20,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#4A90D930",
+                    "offset": {
+                      "x": 0,
+                      "y": 1
+                    },
+                    "blur": 6
+                  },
                   "layout": "none",
                   "children": [
                     {
@@ -1122,8 +1452,18 @@
               "id": "nWTba",
               "name": "mSearchInput",
               "width": "fill_container",
-              "fill": "$--secondary",
-              "cornerRadius": "$--radius-m",
+              "fill": "#FFFFFF",
+              "cornerRadius": 16,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1A233208",
+                "offset": {
+                  "x": 0,
+                  "y": 1
+                },
+                "blur": 6
+              },
               "gap": 10,
               "padding": [
                 12,
@@ -1173,6 +1513,16 @@
               "name": "mFilterAll",
               "fill": "$--primary",
               "cornerRadius": "$--radius-pill",
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#4A90D930",
+                "offset": {
+                  "x": 0,
+                  "y": 1
+                },
+                "blur": 4
+              },
               "padding": [
                 8,
                 16
@@ -1194,11 +1544,12 @@
               "type": "frame",
               "id": "A5j2y",
               "name": "mFilterOnline",
+              "fill": "#FFFFFF",
               "cornerRadius": "$--radius-pill",
               "stroke": {
                 "align": "inside",
                 "thickness": 1,
-                "fill": "$--border"
+                "fill": "#D8DFE8"
               },
               "padding": [
                 8,
@@ -1221,11 +1572,12 @@
               "type": "frame",
               "id": "YSWuP",
               "name": "mFilterOffline",
+              "fill": "#FFFFFF",
               "cornerRadius": "$--radius-pill",
               "stroke": {
                 "align": "inside",
                 "thickness": 1,
-                "fill": "$--border"
+                "fill": "#D8DFE8"
               },
               "padding": [
                 8,
@@ -1265,11 +1617,16 @@
               "name": "mDevCard1",
               "width": "fill_container",
               "fill": "$--card",
-              "cornerRadius": "$--radius-m",
-              "stroke": {
-                "align": "inside",
-                "thickness": 1,
-                "fill": "$--border"
+              "cornerRadius": 20,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1A233210",
+                "offset": {
+                  "x": 0,
+                  "y": 2
+                },
+                "blur": 12
               },
               "gap": 14,
               "padding": 16,
@@ -1281,8 +1638,8 @@
                   "name": "mDevCard1Icon",
                   "width": 50,
                   "height": 50,
-                  "fill": "$--secondary",
-                  "cornerRadius": 12,
+                  "fill": "#E3F2FD",
+                  "cornerRadius": 16,
                   "layout": "none",
                   "children": [
                     {
@@ -1381,11 +1738,16 @@
               "name": "mDevCard2",
               "width": "fill_container",
               "fill": "$--card",
-              "cornerRadius": "$--radius-m",
-              "stroke": {
-                "align": "inside",
-                "thickness": 1,
-                "fill": "$--border"
+              "cornerRadius": 20,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1A233210",
+                "offset": {
+                  "x": 0,
+                  "y": 2
+                },
+                "blur": 12
               },
               "gap": 14,
               "padding": 16,
@@ -1397,8 +1759,8 @@
                   "name": "mDevCard2Icon",
                   "width": 50,
                   "height": 50,
-                  "fill": "$--secondary",
-                  "cornerRadius": 12,
+                  "fill": "#E3F2FD",
+                  "cornerRadius": 16,
                   "layout": "none",
                   "children": [
                     {
@@ -1497,11 +1859,16 @@
               "name": "mDevCard3",
               "width": "fill_container",
               "fill": "$--card",
-              "cornerRadius": "$--radius-m",
-              "stroke": {
-                "align": "inside",
-                "thickness": 1,
-                "fill": "$--border"
+              "cornerRadius": 20,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1A233210",
+                "offset": {
+                  "x": 0,
+                  "y": 2
+                },
+                "blur": 12
               },
               "gap": 14,
               "padding": 16,
@@ -1513,8 +1880,8 @@
                   "name": "mDevCard3Icon",
                   "width": 50,
                   "height": 50,
-                  "fill": "$--secondary",
-                  "cornerRadius": 12,
+                  "fill": "#E3F2FD",
+                  "cornerRadius": 16,
                   "layout": "none",
                   "children": [
                     {
@@ -1613,11 +1980,16 @@
               "name": "mDevCard4",
               "width": "fill_container",
               "fill": "$--card",
-              "cornerRadius": "$--radius-m",
-              "stroke": {
-                "align": "inside",
-                "thickness": 1,
-                "fill": "$--border"
+              "cornerRadius": 20,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1A233210",
+                "offset": {
+                  "x": 0,
+                  "y": 2
+                },
+                "blur": 12
               },
               "gap": 14,
               "padding": 16,
@@ -1629,8 +2001,8 @@
                   "name": "mDevCard4Icon",
                   "width": 50,
                   "height": 50,
-                  "fill": "$--secondary",
-                  "cornerRadius": 12,
+                  "fill": "#E3F2FD",
+                  "cornerRadius": 16,
                   "layout": "none",
                   "children": [
                     {
@@ -1729,11 +2101,16 @@
               "name": "mDevCard5",
               "width": "fill_container",
               "fill": "$--card",
-              "cornerRadius": "$--radius-m",
-              "stroke": {
-                "align": "inside",
-                "thickness": 1,
-                "fill": "$--border"
+              "cornerRadius": 20,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1A233210",
+                "offset": {
+                  "x": 0,
+                  "y": 2
+                },
+                "blur": 12
               },
               "gap": 14,
               "padding": 16,
@@ -1745,8 +2122,8 @@
                   "name": "mDevCard5Icon",
                   "width": 50,
                   "height": 50,
-                  "fill": "$--secondary",
-                  "cornerRadius": 12,
+                  "fill": "#E3F2FD",
+                  "cornerRadius": 16,
                   "layout": "none",
                   "children": [
                     {
@@ -1848,12 +2225,21 @@
           "width": "fill_container",
           "height": 84,
           "fill": "$--card",
-          "stroke": {
-            "align": "inside",
-            "thickness": {
-              "top": 1
+          "cornerRadius": [
+            20,
+            20,
+            0,
+            0
+          ],
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#1A233208",
+            "offset": {
+              "x": 0,
+              "y": -2
             },
-            "fill": "$--border"
+            "blur": 10
           },
           "padding": [
             12,
@@ -2023,8 +2409,18 @@
               "name": "mBackBtn",
               "width": 40,
               "height": 40,
-              "fill": "$--secondary",
+              "fill": "#FFFFFF",
               "cornerRadius": 20,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1A233210",
+                "offset": {
+                  "x": 0,
+                  "y": 1
+                },
+                "blur": 6
+              },
               "layout": "none",
               "children": [
                 {
@@ -2058,7 +2454,7 @@
                   "content": "Living Room Light",
                   "fontFamily": "$--font-primary",
                   "fontSize": 20,
-                  "fontWeight": "600"
+                  "fontWeight": "700"
                 },
                 {
                   "type": "text",
@@ -2078,8 +2474,18 @@
               "name": "detailNotifBtn",
               "width": 40,
               "height": 40,
-              "fill": "$--secondary",
+              "fill": "#FFFFFF",
               "cornerRadius": 20,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1A233210",
+                "offset": {
+                  "x": 0,
+                  "y": 1
+                },
+                "blur": 6
+              },
               "layout": "none",
               "children": [
                 {
@@ -2118,11 +2524,16 @@
               "name": "mPowerCard",
               "width": "fill_container",
               "fill": "$--card",
-              "cornerRadius": "$--radius-m",
-              "stroke": {
-                "align": "inside",
-                "thickness": 1,
-                "fill": "$--border"
+              "cornerRadius": 20,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1A233210",
+                "offset": {
+                  "x": 0,
+                  "y": 2
+                },
+                "blur": 12
               },
               "layout": "vertical",
               "gap": 24,
@@ -2135,7 +2546,7 @@
                   "name": "mPowerIcon",
                   "width": 80,
                   "height": 80,
-                  "fill": "$--primary",
+                  "fill": "#E3F2FD",
                   "cornerRadius": 40,
                   "layout": "none",
                   "children": [
@@ -2150,7 +2561,7 @@
                       "iconFontName": "lightbulb",
                       "iconFontFamily": "Material Symbols Rounded",
                       "weight": 400,
-                      "fill": "$--white"
+                      "fill": "#4A90D9"
                     }
                   ]
                 },
@@ -2215,11 +2626,16 @@
               "name": "mBrightnessCard",
               "width": "fill_container",
               "fill": "$--card",
-              "cornerRadius": "$--radius-m",
-              "stroke": {
-                "align": "inside",
-                "thickness": 1,
-                "fill": "$--border"
+              "cornerRadius": 20,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1A233210",
+                "offset": {
+                  "x": 0,
+                  "y": 2
+                },
+                "blur": 12
               },
               "layout": "vertical",
               "gap": 16,
@@ -2303,11 +2719,16 @@
               "name": "mColorCard",
               "width": "fill_container",
               "fill": "$--card",
-              "cornerRadius": "$--radius-m",
-              "stroke": {
-                "align": "inside",
-                "thickness": 1,
-                "fill": "$--border"
+              "cornerRadius": 20,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1A233210",
+                "offset": {
+                  "x": 0,
+                  "y": 2
+                },
+                "blur": 12
               },
               "layout": "vertical",
               "gap": 16,
@@ -2437,11 +2858,16 @@
               "name": "mInfoCard",
               "width": "fill_container",
               "fill": "$--card",
-              "cornerRadius": "$--radius-m",
-              "stroke": {
-                "align": "inside",
-                "thickness": 1,
-                "fill": "$--border"
+              "cornerRadius": 20,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1A233210",
+                "offset": {
+                  "x": 0,
+                  "y": 2
+                },
+                "blur": 12
               },
               "layout": "vertical",
               "gap": 14,
@@ -2608,8 +3034,18 @@
                   "name": "netMenuBtn",
                   "width": 40,
                   "height": 40,
-                  "fill": "$--secondary",
+                  "fill": "#FFFFFF",
                   "cornerRadius": 20,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#1A233210",
+                    "offset": {
+                      "x": 0,
+                      "y": 1
+                    },
+                    "blur": 6
+                  },
                   "layout": "none",
                   "children": [
                     {
@@ -2635,7 +3071,7 @@
                   "content": "Network",
                   "fontFamily": "$--font-primary",
                   "fontSize": 28,
-                  "fontWeight": "600"
+                  "fontWeight": "700"
                 }
               ]
             },
@@ -2652,8 +3088,18 @@
                   "name": "netNotifBtn",
                   "width": 40,
                   "height": 40,
-                  "fill": "$--secondary",
+                  "fill": "#FFFFFF",
                   "cornerRadius": 20,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#1A233210",
+                    "offset": {
+                      "x": 0,
+                      "y": 1
+                    },
+                    "blur": 6
+                  },
                   "layout": "none",
                   "children": [
                     {
@@ -2677,8 +3123,18 @@
                   "name": "mRefreshBtn",
                   "width": 40,
                   "height": 40,
-                  "fill": "$--secondary",
+                  "fill": "#FFFFFF",
                   "cornerRadius": 20,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#1A233210",
+                    "offset": {
+                      "x": 0,
+                      "y": 1
+                    },
+                    "blur": 6
+                  },
                   "layout": "none",
                   "children": [
                     {
@@ -2726,11 +3182,16 @@
                   "name": "mNetStat1",
                   "width": "fill_container",
                   "fill": "$--card",
-                  "cornerRadius": "$--radius-m",
-                  "stroke": {
-                    "align": "inside",
-                    "thickness": 1,
-                    "fill": "$--border"
+                  "cornerRadius": 16,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#1A233210",
+                    "offset": {
+                      "x": 0,
+                      "y": 2
+                    },
+                    "blur": 12
                   },
                   "layout": "vertical",
                   "gap": 8,
@@ -2765,11 +3226,16 @@
                   "name": "mNetStat2",
                   "width": "fill_container",
                   "fill": "$--card",
-                  "cornerRadius": "$--radius-m",
-                  "stroke": {
-                    "align": "inside",
-                    "thickness": 1,
-                    "fill": "$--border"
+                  "cornerRadius": 16,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#1A233210",
+                    "offset": {
+                      "x": 0,
+                      "y": 2
+                    },
+                    "blur": 12
                   },
                   "layout": "vertical",
                   "gap": 8,
@@ -2807,11 +3273,16 @@
               "clip": true,
               "width": "fill_container",
               "fill": "$--card",
-              "cornerRadius": "$--radius-m",
-              "stroke": {
-                "align": "inside",
-                "thickness": 1,
-                "fill": "$--border"
+              "cornerRadius": 20,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1A233210",
+                "offset": {
+                  "x": 0,
+                  "y": 2
+                },
+                "blur": 12
               },
               "layout": "vertical",
               "children": [
@@ -2825,7 +3296,7 @@
                     "thickness": {
                       "bottom": 1
                     },
-                    "fill": "$--border"
+                    "fill": "#EDF1F7"
                   },
                   "padding": 16,
                   "justifyContent": "space_between",
@@ -3003,11 +3474,16 @@
               "clip": true,
               "width": "fill_container",
               "fill": "$--card",
-              "cornerRadius": "$--radius-m",
-              "stroke": {
-                "align": "inside",
-                "thickness": 1,
-                "fill": "$--border"
+              "cornerRadius": 20,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1A233210",
+                "offset": {
+                  "x": 0,
+                  "y": 2
+                },
+                "blur": 12
               },
               "layout": "vertical",
               "children": [
@@ -3021,7 +3497,7 @@
                     "thickness": {
                       "bottom": 1
                     },
-                    "fill": "$--border"
+                    "fill": "#EDF1F7"
                   },
                   "padding": 16,
                   "children": [
@@ -3175,12 +3651,21 @@
           "width": "fill_container",
           "height": 84,
           "fill": "$--card",
-          "stroke": {
-            "align": "inside",
-            "thickness": {
-              "top": 1
+          "cornerRadius": [
+            20,
+            20,
+            0,
+            0
+          ],
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#1A233208",
+            "offset": {
+              "x": 0,
+              "y": -2
             },
-            "fill": "$--border"
+            "blur": 10
           },
           "padding": [
             12,
@@ -3356,8 +3841,18 @@
                   "name": "settMenuBtn",
                   "width": 40,
                   "height": 40,
-                  "fill": "$--secondary",
+                  "fill": "#FFFFFF",
                   "cornerRadius": 20,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#1A233210",
+                    "offset": {
+                      "x": 0,
+                      "y": 1
+                    },
+                    "blur": 6
+                  },
                   "layout": "none",
                   "children": [
                     {
@@ -3381,9 +3876,9 @@
                   "name": "mHeaderTitle",
                   "fill": "$--foreground",
                   "content": "Settings",
-                  "fontFamily": "$--font-secondary",
-                  "fontSize": 20,
-                  "fontWeight": "600"
+                  "fontFamily": "$--font-primary",
+                  "fontSize": 28,
+                  "fontWeight": "700"
                 }
               ]
             },
@@ -3393,8 +3888,18 @@
               "name": "settNotifBtn",
               "width": 40,
               "height": 40,
-              "fill": "$--secondary",
+              "fill": "#FFFFFF",
               "cornerRadius": 20,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1A233210",
+                "offset": {
+                  "x": 0,
+                  "y": 1
+                },
+                "blur": 6
+              },
               "layout": "none",
               "children": [
                 {
@@ -3453,10 +3958,16 @@
                   "name": "mGatewayCard",
                   "width": "fill_container",
                   "fill": "$--card",
-                  "cornerRadius": "$--radius-m",
-                  "stroke": {
-                    "thickness": 1,
-                    "fill": "$--border"
+                  "cornerRadius": 20,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#1A233210",
+                    "offset": {
+                      "x": 0,
+                      "y": 2
+                    },
+                    "blur": 12
                   },
                   "layout": "vertical",
                   "children": [
@@ -3469,7 +3980,7 @@
                         "thickness": {
                           "bottom": 1
                         },
-                        "fill": "$--border"
+                        "fill": "#EDF1F7"
                       },
                       "padding": 16,
                       "justifyContent": "space_between",
@@ -3525,7 +4036,7 @@
                         "thickness": {
                           "bottom": 1
                         },
-                        "fill": "$--border"
+                        "fill": "#EDF1F7"
                       },
                       "padding": 16,
                       "justifyContent": "space_between",
@@ -3644,10 +4155,16 @@
                   "name": "mNetCard",
                   "width": "fill_container",
                   "fill": "$--card",
-                  "cornerRadius": "$--radius-m",
-                  "stroke": {
-                    "thickness": 1,
-                    "fill": "$--border"
+                  "cornerRadius": 20,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#1A233210",
+                    "offset": {
+                      "x": 0,
+                      "y": 2
+                    },
+                    "blur": 12
                   },
                   "layout": "vertical",
                   "children": [
@@ -3660,7 +4177,7 @@
                         "thickness": {
                           "bottom": 1
                         },
-                        "fill": "$--border"
+                        "fill": "#EDF1F7"
                       },
                       "padding": 16,
                       "justifyContent": "space_between",
@@ -3716,7 +4233,7 @@
                         "thickness": {
                           "bottom": 1
                         },
-                        "fill": "$--border"
+                        "fill": "#EDF1F7"
                       },
                       "padding": 16,
                       "justifyContent": "space_between",
@@ -3829,10 +4346,16 @@
                   "name": "mSysCard",
                   "width": "fill_container",
                   "fill": "$--card",
-                  "cornerRadius": "$--radius-m",
-                  "stroke": {
-                    "thickness": 1,
-                    "fill": "$--border"
+                  "cornerRadius": 20,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#1A233210",
+                    "offset": {
+                      "x": 0,
+                      "y": 2
+                    },
+                    "blur": 12
                   },
                   "layout": "vertical",
                   "children": [
@@ -3845,7 +4368,7 @@
                         "thickness": {
                           "bottom": 1
                         },
-                        "fill": "$--border"
+                        "fill": "#EDF1F7"
                       },
                       "padding": 16,
                       "justifyContent": "space_between",
@@ -3882,7 +4405,7 @@
                         "thickness": {
                           "bottom": 1
                         },
-                        "fill": "$--border"
+                        "fill": "#EDF1F7"
                       },
                       "padding": 16,
                       "justifyContent": "space_between",
@@ -3969,10 +4492,20 @@
                   "name": "mDangerCard",
                   "width": "fill_container",
                   "fill": "$--card",
-                  "cornerRadius": "$--radius-m",
+                  "cornerRadius": 20,
                   "stroke": {
                     "thickness": 1,
-                    "fill": "$--color-error"
+                    "fill": "#E25C5C30"
+                  },
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#1A233210",
+                    "offset": {
+                      "x": 0,
+                      "y": 2
+                    },
+                    "blur": 12
                   },
                   "layout": "vertical",
                   "children": [
@@ -4123,12 +4656,21 @@
           "width": "fill_container",
           "height": 84,
           "fill": "$--card",
-          "stroke": {
-            "align": "inside",
-            "thickness": {
-              "top": 1
+          "cornerRadius": [
+            20,
+            20,
+            0,
+            0
+          ],
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#1A233208",
+            "offset": {
+              "x": 0,
+              "y": -2
             },
-            "fill": "$--border"
+            "blur": 10
           },
           "padding": [
             12,
@@ -4312,9 +4854,9 @@
               "name": "pHeaderTitle",
               "fill": "$--foreground",
               "content": "Add Device",
-              "fontFamily": "$--font-secondary",
-              "fontSize": 18,
-              "fontWeight": "600"
+              "fontFamily": "$--font-primary",
+              "fontSize": 20,
+              "fontWeight": "700"
             },
             {
               "type": "frame",
@@ -4322,8 +4864,18 @@
               "name": "pairNotifBtn",
               "width": 40,
               "height": 40,
-              "fill": "$--secondary",
+              "fill": "#FFFFFF",
               "cornerRadius": 20,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1A233210",
+                "offset": {
+                  "x": 0,
+                  "y": 1
+                },
+                "blur": 6
+              },
               "layout": "none",
               "children": [
                 {
@@ -4363,7 +4915,7 @@
               "name": "pIllustration",
               "width": 200,
               "height": 200,
-              "fill": "$--secondary",
+              "fill": "#E3F2FD",
               "cornerRadius": 100,
               "justifyContent": "center",
               "alignItems": "center",
@@ -4421,10 +4973,16 @@
               "name": "pStepsCard",
               "width": "fill_container",
               "fill": "$--card",
-              "cornerRadius": "$--radius-m",
-              "stroke": {
-                "thickness": 1,
-                "fill": "$--border"
+              "cornerRadius": 20,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1A233210",
+                "offset": {
+                  "x": 0,
+                  "y": 2
+                },
+                "blur": 12
               },
               "layout": "vertical",
               "gap": 16,
@@ -4588,7 +5146,17 @@
               "width": "fill_container",
               "height": 52,
               "fill": "$--primary",
-              "cornerRadius": "$--radius-m",
+              "cornerRadius": 16,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#4A90D930",
+                "offset": {
+                  "x": 0,
+                  "y": 4
+                },
+                "blur": 16
+              },
               "justifyContent": "center",
               "alignItems": "center",
               "children": [
@@ -4657,9 +5225,9 @@
               "name": "sHeaderTitle",
               "fill": "$--foreground",
               "content": "Searching",
-              "fontFamily": "$--font-secondary",
-              "fontSize": 18,
-              "fontWeight": "600"
+              "fontFamily": "$--font-primary",
+              "fontSize": 20,
+              "fontWeight": "700"
             },
             {
               "type": "frame",
@@ -4667,8 +5235,18 @@
               "name": "searchNotifBtn",
               "width": 40,
               "height": 40,
-              "fill": "$--secondary",
+              "fill": "#FFFFFF",
               "cornerRadius": 20,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1A233210",
+                "offset": {
+                  "x": 0,
+                  "y": 1
+                },
+                "blur": 6
+              },
               "layout": "none",
               "children": [
                 {
@@ -4723,11 +5301,11 @@
                 },
                 "colors": [
                   {
-                    "color": "$--primary",
+                    "color": "#4A90D9",
                     "position": 0
                   },
                   {
-                    "color": "#F97316",
+                    "color": "#4A90D960",
                     "position": 0.3
                   },
                   {
@@ -4823,10 +5401,16 @@
               "name": "sProgressCard",
               "width": "fill_container",
               "fill": "$--card",
-              "cornerRadius": "$--radius-m",
-              "stroke": {
-                "thickness": 1,
-                "fill": "$--border"
+              "cornerRadius": 20,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1A233210",
+                "offset": {
+                  "x": 0,
+                  "y": 2
+                },
+                "blur": 12
               },
               "layout": "vertical",
               "gap": 12,
@@ -4885,7 +5469,7 @@
               "width": "fill_container",
               "height": 52,
               "fill": "$--secondary",
-              "cornerRadius": "$--radius-m",
+              "cornerRadius": 16,
               "justifyContent": "center",
               "alignItems": "center",
               "children": [
@@ -4954,9 +5538,9 @@
               "name": "fHeaderTitle",
               "fill": "$--foreground",
               "content": "Device Found",
-              "fontFamily": "$--font-secondary",
-              "fontSize": 18,
-              "fontWeight": "600"
+              "fontFamily": "$--font-primary",
+              "fontSize": 20,
+              "fontWeight": "700"
             },
             {
               "type": "frame",
@@ -4964,8 +5548,18 @@
               "name": "foundNotifBtn",
               "width": 40,
               "height": 40,
-              "fill": "$--secondary",
+              "fill": "#FFFFFF",
               "cornerRadius": 20,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1A233210",
+                "offset": {
+                  "x": 0,
+                  "y": 1
+                },
+                "blur": 6
+              },
               "layout": "none",
               "children": [
                 {
@@ -5005,8 +5599,8 @@
               "id": "P7PJt",
               "name": "fSuccessBanner",
               "width": "fill_container",
-              "fill": "#10B98120",
-              "cornerRadius": "$--radius-m",
+              "fill": "#4A90D915",
+              "cornerRadius": 16,
               "gap": 12,
               "padding": 16,
               "alignItems": "center",
@@ -5268,7 +5862,17 @@
               "width": "fill_container",
               "height": 52,
               "fill": "$--primary",
-              "cornerRadius": "$--radius-m",
+              "cornerRadius": 16,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#4A90D930",
+                "offset": {
+                  "x": 0,
+                  "y": 4
+                },
+                "blur": 16
+              },
               "justifyContent": "center",
               "alignItems": "center",
               "children": [
@@ -5323,7 +5927,7 @@
               "name": "suCheckCircle",
               "width": 120,
               "height": 120,
-              "fill": "#10B98120",
+              "fill": "#4A90D920",
               "cornerRadius": 60,
               "justifyContent": "center",
               "alignItems": "center",
@@ -5336,7 +5940,7 @@
                   "height": 64,
                   "iconFontName": "check_circle",
                   "iconFontFamily": "Material Symbols Rounded",
-                  "fill": "$--color-success"
+                  "fill": "#4A90D9"
                 }
               ]
             },
@@ -5381,10 +5985,16 @@
               "name": "suDeviceCard",
               "width": "fill_container",
               "fill": "$--card",
-              "cornerRadius": "$--radius-m",
-              "stroke": {
-                "thickness": 1,
-                "fill": "$--border"
+              "cornerRadius": 20,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1A233210",
+                "offset": {
+                  "x": 0,
+                  "y": 2
+                },
+                "blur": 12
               },
               "gap": 16,
               "padding": 20,
@@ -5574,7 +6184,7 @@
               "width": 120,
               "height": 120,
               "fill": "$--primary",
-              "cornerRadius": 28,
+              "cornerRadius": 32,
               "layout": "none",
               "children": [
                 {
@@ -5600,7 +6210,7 @@
               "content": "Fibo Gateway",
               "fontFamily": "$--font-primary",
               "fontSize": 32,
-              "fontWeight": "600"
+              "fontWeight": "700"
             },
             {
               "type": "text",
@@ -5719,7 +6329,7 @@
               "width": "fill_container",
               "height": 48,
               "fill": "$--secondary",
-              "cornerRadius": "$--radius-m",
+              "cornerRadius": 16,
               "gap": 12,
               "padding": 4,
               "children": [
@@ -5975,7 +6585,17 @@
               "width": "fill_container",
               "height": 52,
               "fill": "$--primary",
-              "cornerRadius": "$--radius-m",
+              "cornerRadius": 16,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#4A90D930",
+                "offset": {
+                  "x": 0,
+                  "y": 4
+                },
+                "blur": 16
+              },
               "justifyContent": "center",
               "alignItems": "center",
               "children": [
@@ -6185,8 +6805,18 @@
               "name": "backBtn",
               "width": 40,
               "height": 40,
-              "fill": "$--secondary",
+              "fill": "#FFFFFF",
               "cornerRadius": 20,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1A233210",
+                "offset": {
+                  "x": 0,
+                  "y": 1
+                },
+                "blur": 6
+              },
               "layout": "none",
               "children": [
                 {
@@ -6212,7 +6842,7 @@
               "content": "Create Account",
               "fontFamily": "$--font-primary",
               "fontSize": 20,
-              "fontWeight": "600"
+              "fontWeight": "700"
             }
           ]
         },
@@ -6243,7 +6873,7 @@
               "width": "fill_container",
               "height": 48,
               "fill": "$--secondary",
-              "cornerRadius": "$--radius-m",
+              "cornerRadius": 16,
               "gap": 12,
               "padding": 4,
               "children": [
@@ -6687,7 +7317,17 @@
               "width": "fill_container",
               "height": 52,
               "fill": "$--primary",
-              "cornerRadius": "$--radius-m",
+              "cornerRadius": 16,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#4A90D930",
+                "offset": {
+                  "x": 0,
+                  "y": 4
+                },
+                "blur": 16
+              },
               "padding": [
                 16,
                 0,
@@ -6780,8 +7420,18 @@
               "name": "forgotBackBtn",
               "width": 40,
               "height": 40,
-              "fill": "$--secondary",
+              "fill": "#FFFFFF",
               "cornerRadius": 20,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1A233210",
+                "offset": {
+                  "x": 0,
+                  "y": 1
+                },
+                "blur": 6
+              },
               "layout": "none",
               "children": [
                 {
@@ -6807,7 +7457,7 @@
               "content": "Forgot Password",
               "fontFamily": "$--font-primary",
               "fontSize": 20,
-              "fontWeight": "600"
+              "fontWeight": "700"
             }
           ]
         },
@@ -7070,8 +7720,18 @@
                   "name": "scenesMenuBtn",
                   "width": 40,
                   "height": 40,
-                  "fill": "$--secondary",
+                  "fill": "#FFFFFF",
                   "cornerRadius": 20,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#1A233210",
+                    "offset": {
+                      "x": 0,
+                      "y": 1
+                    },
+                    "blur": 6
+                  },
                   "layout": "none",
                   "children": [
                     {
@@ -7097,7 +7757,7 @@
                   "content": "Scenes",
                   "fontFamily": "$--font-primary",
                   "fontSize": 28,
-                  "fontWeight": "600"
+                  "fontWeight": "700"
                 }
               ]
             },
@@ -7114,8 +7774,18 @@
                   "name": "scenesNotifBtn",
                   "width": 40,
                   "height": 40,
-                  "fill": "$--secondary",
+                  "fill": "#FFFFFF",
                   "cornerRadius": 20,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#1A233210",
+                    "offset": {
+                      "x": 0,
+                      "y": 1
+                    },
+                    "blur": 6
+                  },
                   "layout": "none",
                   "children": [
                     {
@@ -7141,6 +7811,16 @@
                   "height": 40,
                   "fill": "$--primary",
                   "cornerRadius": 20,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#4A90D930",
+                    "offset": {
+                      "x": 0,
+                      "y": 1
+                    },
+                    "blur": 6
+                  },
                   "layout": "none",
                   "children": [
                     {
@@ -7179,6 +7859,16 @@
               "name": "filterAll",
               "fill": "$--primary",
               "cornerRadius": "$--radius-pill",
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#4A90D930",
+                "offset": {
+                  "x": 0,
+                  "y": 1
+                },
+                "blur": 4
+              },
               "padding": [
                 8,
                 16
@@ -7200,11 +7890,12 @@
               "type": "frame",
               "id": "RIK1P",
               "name": "filterActive",
+              "fill": "#FFFFFF",
               "cornerRadius": "$--radius-pill",
               "stroke": {
                 "align": "inside",
                 "thickness": 1,
-                "fill": "$--border"
+                "fill": "#D8DFE8"
               },
               "padding": [
                 8,
@@ -7227,11 +7918,12 @@
               "type": "frame",
               "id": "xz4CT",
               "name": "filterInactive",
+              "fill": "#FFFFFF",
               "cornerRadius": "$--radius-pill",
               "stroke": {
                 "align": "inside",
                 "thickness": 1,
-                "fill": "$--border"
+                "fill": "#D8DFE8"
               },
               "padding": [
                 8,
@@ -7271,11 +7963,16 @@
               "name": "sceneCard1",
               "width": "fill_container",
               "fill": "$--card",
-              "cornerRadius": "$--radius-m",
-              "stroke": {
-                "align": "inside",
-                "thickness": 1,
-                "fill": "$--border"
+              "cornerRadius": 20,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1A233210",
+                "offset": {
+                  "x": 0,
+                  "y": 2
+                },
+                "blur": 12
               },
               "layout": "vertical",
               "gap": 12,
@@ -7517,11 +8214,16 @@
               "name": "sceneCard2",
               "width": "fill_container",
               "fill": "$--card",
-              "cornerRadius": "$--radius-m",
-              "stroke": {
-                "align": "inside",
-                "thickness": 1,
-                "fill": "$--border"
+              "cornerRadius": 20,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1A233210",
+                "offset": {
+                  "x": 0,
+                  "y": 2
+                },
+                "blur": 12
               },
               "layout": "vertical",
               "gap": 12,
@@ -7763,11 +8465,16 @@
               "name": "sceneCard3",
               "width": "fill_container",
               "fill": "$--card",
-              "cornerRadius": "$--radius-m",
-              "stroke": {
-                "align": "inside",
-                "thickness": 1,
-                "fill": "$--border"
+              "cornerRadius": 20,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1A233210",
+                "offset": {
+                  "x": 0,
+                  "y": 2
+                },
+                "blur": 12
               },
               "layout": "vertical",
               "gap": 12,
@@ -8012,12 +8719,21 @@
           "width": "fill_container",
           "height": 84,
           "fill": "$--card",
-          "stroke": {
-            "align": "inside",
-            "thickness": {
-              "top": 1
+          "cornerRadius": [
+            20,
+            20,
+            0,
+            0
+          ],
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#1A233208",
+            "offset": {
+              "x": 0,
+              "y": -2
             },
-            "fill": "$--border"
+            "blur": 10
           },
           "padding": [
             12,
@@ -8193,8 +8909,18 @@
                   "name": "detailBackBtn",
                   "width": 40,
                   "height": 40,
-                  "fill": "$--secondary",
+                  "fill": "#FFFFFF",
                   "cornerRadius": 20,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#1A233210",
+                    "offset": {
+                      "x": 0,
+                      "y": 1
+                    },
+                    "blur": 6
+                  },
                   "layout": "none",
                   "children": [
                     {
@@ -8220,7 +8946,7 @@
                   "content": "Edit Scene",
                   "fontFamily": "$--font-primary",
                   "fontSize": 20,
-                  "fontWeight": "600"
+                  "fontWeight": "700"
                 }
               ]
             },
@@ -8229,7 +8955,17 @@
               "id": "l8aEk",
               "name": "detailSaveBtn",
               "fill": "$--primary",
-              "cornerRadius": "$--radius-m",
+              "cornerRadius": 12,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#4A90D930",
+                "offset": {
+                  "x": 0,
+                  "y": 2
+                },
+                "blur": 8
+              },
               "padding": [
                 10,
                 20
@@ -8255,8 +8991,18 @@
               "name": "sceneDetailNotifBtn",
               "width": 40,
               "height": 40,
-              "fill": "$--secondary",
+              "fill": "#FFFFFF",
               "cornerRadius": 20,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1A233210",
+                "offset": {
+                  "x": 0,
+                  "y": 1
+                },
+                "blur": 6
+              },
               "layout": "none",
               "children": [
                 {
@@ -8978,7 +9724,7 @@
               "width": "fill_container",
               "height": 52,
               "fill": "$--color-error",
-              "cornerRadius": "$--radius-m",
+              "cornerRadius": 16,
               "gap": 8,
               "justifyContent": "center",
               "alignItems": "center",
@@ -9047,8 +9793,18 @@
                   "name": "triggerBackBtn",
                   "width": 40,
                   "height": 40,
-                  "fill": "$--secondary",
+                  "fill": "#FFFFFF",
                   "cornerRadius": 20,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#1A233210",
+                    "offset": {
+                      "x": 0,
+                      "y": 1
+                    },
+                    "blur": 6
+                  },
                   "layout": "none",
                   "children": [
                     {
@@ -9074,7 +9830,7 @@
                   "content": "Add Trigger",
                   "fontFamily": "$--font-primary",
                   "fontSize": 20,
-                  "fontWeight": "600"
+                  "fontWeight": "700"
                 }
               ]
             },
@@ -9084,8 +9840,18 @@
               "name": "triggerNotifBtn",
               "width": 40,
               "height": 40,
-              "fill": "$--secondary",
+              "fill": "#FFFFFF",
               "cornerRadius": 20,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1A233210",
+                "offset": {
+                  "x": 0,
+                  "y": 1
+                },
+                "blur": 6
+              },
               "layout": "none",
               "children": [
                 {
@@ -9524,8 +10290,18 @@
                   "name": "actionBackBtn",
                   "width": 40,
                   "height": 40,
-                  "fill": "$--secondary",
+                  "fill": "#FFFFFF",
                   "cornerRadius": 20,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#1A233210",
+                    "offset": {
+                      "x": 0,
+                      "y": 1
+                    },
+                    "blur": 6
+                  },
                   "layout": "none",
                   "children": [
                     {
@@ -9551,7 +10327,7 @@
                   "content": "Add Action",
                   "fontFamily": "$--font-primary",
                   "fontSize": 20,
-                  "fontWeight": "600"
+                  "fontWeight": "700"
                 }
               ]
             },
@@ -9561,8 +10337,18 @@
               "name": "actionNotifBtn",
               "width": 40,
               "height": 40,
-              "fill": "$--secondary",
+              "fill": "#FFFFFF",
               "cornerRadius": 20,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1A233210",
+                "offset": {
+                  "x": 0,
+                  "y": 1
+                },
+                "blur": 6
+              },
               "layout": "none",
               "children": [
                 {
@@ -10001,8 +10787,18 @@
                   "name": "selectBackBtn",
                   "width": 40,
                   "height": 40,
-                  "fill": "$--secondary",
+                  "fill": "#FFFFFF",
                   "cornerRadius": 20,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#1A233210",
+                    "offset": {
+                      "x": 0,
+                      "y": 1
+                    },
+                    "blur": 6
+                  },
                   "layout": "none",
                   "children": [
                     {
@@ -10028,7 +10824,7 @@
                   "content": "Select Device",
                   "fontFamily": "$--font-primary",
                   "fontSize": 20,
-                  "fontWeight": "600"
+                  "fontWeight": "700"
                 }
               ]
             },
@@ -10038,8 +10834,18 @@
               "name": "selectNotifBtn",
               "width": 40,
               "height": 40,
-              "fill": "$--secondary",
+              "fill": "#FFFFFF",
               "cornerRadius": 20,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1A233210",
+                "offset": {
+                  "x": 0,
+                  "y": 1
+                },
+                "blur": 6
+              },
               "layout": "none",
               "children": [
                 {
@@ -10074,8 +10880,18 @@
               "id": "CvyRD",
               "name": "selectSearchInput",
               "width": "fill_container",
-              "fill": "$--secondary",
-              "cornerRadius": "$--radius-m",
+              "fill": "#FFFFFF",
+              "cornerRadius": 16,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1A233208",
+                "offset": {
+                  "x": 0,
+                  "y": 1
+                },
+                "blur": 6
+              },
               "gap": 10,
               "padding": [
                 12,
@@ -10546,12 +11362,15 @@
           "name": "selectFooter",
           "width": "fill_container",
           "fill": "$--card",
-          "stroke": {
-            "align": "inside",
-            "thickness": {
-              "top": 1
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#1A233208",
+            "offset": {
+              "x": 0,
+              "y": -2
             },
-            "fill": "$--border"
+            "blur": 10
           },
           "layout": "vertical",
           "padding": [
@@ -10568,7 +11387,17 @@
               "width": "fill_container",
               "height": 52,
               "fill": "$--primary",
-              "cornerRadius": "$--radius-m",
+              "cornerRadius": 16,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#4A90D930",
+                "offset": {
+                  "x": 0,
+                  "y": 4
+                },
+                "blur": 16
+              },
               "justifyContent": "center",
               "alignItems": "center",
               "children": [
@@ -10793,8 +11622,18 @@
                   "name": "camMenuBtn",
                   "width": 40,
                   "height": 40,
-                  "fill": "$--secondary",
+                  "fill": "#FFFFFF",
                   "cornerRadius": 20,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#1A233210",
+                    "offset": {
+                      "x": 0,
+                      "y": 1
+                    },
+                    "blur": 6
+                  },
                   "layout": "none",
                   "children": [
                     {
@@ -10820,7 +11659,7 @@
                   "content": "Cameras",
                   "fontFamily": "$--font-primary",
                   "fontSize": 28,
-                  "fontWeight": "600"
+                  "fontWeight": "700"
                 }
               ]
             },
@@ -10837,8 +11676,18 @@
                   "name": "camNotifBtn",
                   "width": 40,
                   "height": 40,
-                  "fill": "$--secondary",
+                  "fill": "#FFFFFF",
                   "cornerRadius": 20,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#1A233210",
+                    "offset": {
+                      "x": 0,
+                      "y": 1
+                    },
+                    "blur": 6
+                  },
                   "layout": "none",
                   "children": [
                     {
@@ -10864,6 +11713,16 @@
                   "height": 40,
                   "fill": "$--primary",
                   "cornerRadius": 20,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#4A90D930",
+                    "offset": {
+                      "x": 0,
+                      "y": 1
+                    },
+                    "blur": 6
+                  },
                   "layout": "none",
                   "children": [
                     {
@@ -10901,8 +11760,18 @@
               "id": "V1PvO",
               "name": "camSearchInput",
               "width": "fill_container",
-              "fill": "$--secondary",
-              "cornerRadius": "$--radius-m",
+              "fill": "#FFFFFF",
+              "cornerRadius": 16,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1A233208",
+                "offset": {
+                  "x": 0,
+                  "y": 1
+                },
+                "blur": 6
+              },
               "gap": 10,
               "padding": [
                 12,
@@ -10952,6 +11821,16 @@
               "name": "camFilterAll",
               "fill": "$--primary",
               "cornerRadius": "$--radius-pill",
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#4A90D930",
+                "offset": {
+                  "x": 0,
+                  "y": 1
+                },
+                "blur": 4
+              },
               "padding": [
                 8,
                 16
@@ -10973,11 +11852,12 @@
               "type": "frame",
               "id": "XycYw",
               "name": "camFilterOnline",
+              "fill": "#FFFFFF",
               "cornerRadius": "$--radius-pill",
               "stroke": {
                 "align": "inside",
                 "thickness": 1,
-                "fill": "$--border"
+                "fill": "#D8DFE8"
               },
               "padding": [
                 8,
@@ -11000,11 +11880,12 @@
               "type": "frame",
               "id": "rmp8f",
               "name": "camFilterNVR",
+              "fill": "#FFFFFF",
               "cornerRadius": "$--radius-pill",
               "stroke": {
                 "align": "inside",
                 "thickness": 1,
-                "fill": "$--border"
+                "fill": "#D8DFE8"
               },
               "padding": [
                 8,
@@ -11044,11 +11925,16 @@
               "name": "camNVRCard",
               "width": "fill_container",
               "fill": "$--card",
-              "cornerRadius": "$--radius-m",
-              "stroke": {
-                "align": "inside",
-                "thickness": 1,
-                "fill": "$--border"
+              "cornerRadius": 20,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1A233210",
+                "offset": {
+                  "x": 0,
+                  "y": 2
+                },
+                "blur": 12
               },
               "layout": "vertical",
               "gap": 12,
@@ -11311,11 +12197,16 @@
               "name": "camCard1",
               "width": "fill_container",
               "fill": "$--card",
-              "cornerRadius": "$--radius-m",
-              "stroke": {
-                "align": "inside",
-                "thickness": 1,
-                "fill": "$--border"
+              "cornerRadius": 20,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1A233210",
+                "offset": {
+                  "x": 0,
+                  "y": 2
+                },
+                "blur": 12
               },
               "gap": 14,
               "padding": 16,
@@ -11413,11 +12304,16 @@
               "name": "camCard2",
               "width": "fill_container",
               "fill": "$--card",
-              "cornerRadius": "$--radius-m",
-              "stroke": {
-                "align": "inside",
-                "thickness": 1,
-                "fill": "$--border"
+              "cornerRadius": 20,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1A233210",
+                "offset": {
+                  "x": 0,
+                  "y": 2
+                },
+                "blur": 12
               },
               "gap": 14,
               "padding": 16,
@@ -11518,12 +12414,21 @@
           "width": "fill_container",
           "height": 84,
           "fill": "$--card",
-          "stroke": {
-            "align": "inside",
-            "thickness": {
-              "top": 1
+          "cornerRadius": [
+            20,
+            20,
+            0,
+            0
+          ],
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#1A233208",
+            "offset": {
+              "x": 0,
+              "y": -2
             },
-            "fill": "$--border"
+            "blur": 10
           },
           "padding": [
             12,
@@ -12190,8 +13095,18 @@
               "name": "addNVRBackBtn",
               "width": 40,
               "height": 40,
-              "fill": "$--secondary",
+              "fill": "#FFFFFF",
               "cornerRadius": 20,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1A233210",
+                "offset": {
+                  "x": 0,
+                  "y": 1
+                },
+                "blur": 6
+              },
               "layout": "none",
               "children": [
                 {
@@ -12217,7 +13132,7 @@
               "content": "Add Zigbee NVR",
               "fontFamily": "$--font-primary",
               "fontSize": 20,
-              "fontWeight": "600"
+              "fontWeight": "700"
             },
             {
               "type": "frame",
@@ -12225,8 +13140,18 @@
               "name": "addNVRNotifBtn",
               "width": 40,
               "height": 40,
-              "fill": "$--secondary",
+              "fill": "#FFFFFF",
               "cornerRadius": 20,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1A233210",
+                "offset": {
+                  "x": 0,
+                  "y": 1
+                },
+                "blur": 6
+              },
               "layout": "none",
               "children": [
                 {
@@ -12537,7 +13462,17 @@
               "width": "fill_container",
               "height": 52,
               "fill": "$--primary",
-              "cornerRadius": "$--radius-m",
+              "cornerRadius": 16,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#4A90D930",
+                "offset": {
+                  "x": 0,
+                  "y": 4
+                },
+                "blur": 16
+              },
               "justifyContent": "center",
               "alignItems": "center",
               "children": [
@@ -12623,8 +13558,18 @@
               "name": "chBackBtn",
               "width": 40,
               "height": 40,
-              "fill": "$--secondary",
+              "fill": "#FFFFFF",
               "cornerRadius": 20,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1A233210",
+                "offset": {
+                  "x": 0,
+                  "y": 1
+                },
+                "blur": 6
+              },
               "layout": "none",
               "children": [
                 {
@@ -12678,8 +13623,18 @@
               "name": "chSettingsBtn",
               "width": 40,
               "height": 40,
-              "fill": "$--secondary",
+              "fill": "#FFFFFF",
               "cornerRadius": 20,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1A233210",
+                "offset": {
+                  "x": 0,
+                  "y": 1
+                },
+                "blur": 6
+              },
               "layout": "none",
               "children": [
                 {
@@ -12704,7 +13659,7 @@
           "id": "1qA9S",
           "name": "chNVRInfo",
           "width": "fill_container",
-          "fill": "$--secondary",
+          "fill": "#EDF1F7",
           "gap": 8,
           "padding": [
             12,
@@ -14076,8 +15031,18 @@
               "name": "csBackBtn",
               "width": 40,
               "height": 40,
-              "fill": "$--secondary",
+              "fill": "#FFFFFF",
               "cornerRadius": 20,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1A233210",
+                "offset": {
+                  "x": 0,
+                  "y": 1
+                },
+                "blur": 6
+              },
               "layout": "none",
               "children": [
                 {
@@ -14103,7 +15068,7 @@
               "content": "Camera Settings",
               "fontFamily": "$--font-primary",
               "fontSize": 20,
-              "fontWeight": "600"
+              "fontWeight": "700"
             },
             {
               "type": "frame",
@@ -14111,8 +15076,18 @@
               "name": "csNotifBtn",
               "width": 40,
               "height": 40,
-              "fill": "$--secondary",
+              "fill": "#FFFFFF",
               "cornerRadius": 20,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1A233210",
+                "offset": {
+                  "x": 0,
+                  "y": 1
+                },
+                "blur": 6
+              },
               "layout": "none",
               "children": [
                 {
@@ -14807,7 +15782,7 @@
                   "width": 40,
                   "height": 40,
                   "fill": "$--primary",
-                  "cornerRadius": 10,
+                  "cornerRadius": 14,
                   "layout": "none",
                   "children": [
                     {
@@ -14838,8 +15813,8 @@
                       "fill": "$--foreground",
                       "content": "My Home",
                       "fontFamily": "$--font-primary",
-                      "fontSize": 18,
-                      "fontWeight": "600"
+                      "fontSize": 20,
+                      "fontWeight": "700"
                     },
                     {
                       "type": "text",
@@ -14867,8 +15842,18 @@
                   "name": "uNotifBtn",
                   "width": 40,
                   "height": 40,
-                  "fill": "$--secondary",
+                  "fill": "#FFFFFF",
                   "cornerRadius": 20,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#1A233210",
+                    "offset": {
+                      "x": 0,
+                      "y": 1
+                    },
+                    "blur": 6
+                  },
                   "layout": "none",
                   "children": [
                     {
@@ -15607,11 +16592,21 @@
           "width": "fill_container",
           "height": 84,
           "fill": "$--card",
-          "stroke": {
-            "thickness": {
-              "top": 1
+          "cornerRadius": [
+            20,
+            20,
+            0,
+            0
+          ],
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#1A233208",
+            "offset": {
+              "x": 0,
+              "y": -2
             },
-            "fill": "$--border"
+            "blur": 10
           },
           "padding": [
             12,
@@ -15783,8 +16778,18 @@
                   "name": "uDevBackBtn",
                   "width": 40,
                   "height": 40,
-                  "fill": "$--secondary",
+                  "fill": "#FFFFFF",
                   "cornerRadius": 20,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#1A233210",
+                    "offset": {
+                      "x": 0,
+                      "y": 1
+                    },
+                    "blur": 6
+                  },
                   "layout": "none",
                   "children": [
                     {
@@ -15809,7 +16814,7 @@
                   "content": "Devices",
                   "fontFamily": "$--font-primary",
                   "fontSize": 28,
-                  "fontWeight": "600"
+                  "fontWeight": "700"
                 }
               ]
             },
@@ -15825,8 +16830,18 @@
                   "name": "uDevNotifBtn",
                   "width": 40,
                   "height": 40,
-                  "fill": "$--secondary",
+                  "fill": "#FFFFFF",
                   "cornerRadius": 20,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#1A233210",
+                    "offset": {
+                      "x": 0,
+                      "y": 1
+                    },
+                    "blur": 6
+                  },
                   "layout": "none",
                   "children": [
                     {
@@ -15863,8 +16878,18 @@
               "id": "u47gE",
               "name": "uDevSearchInput",
               "width": "fill_container",
-              "fill": "$--secondary",
-              "cornerRadius": "$--radius-m",
+              "fill": "#FFFFFF",
+              "cornerRadius": 16,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1A233208",
+                "offset": {
+                  "x": 0,
+                  "y": 1
+                },
+                "blur": 6
+              },
               "gap": 10,
               "padding": [
                 12,
@@ -15913,6 +16938,16 @@
               "name": "uDevFilterAll",
               "fill": "$--primary",
               "cornerRadius": "$--radius-pill",
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#4A90D930",
+                "offset": {
+                  "x": 0,
+                  "y": 1
+                },
+                "blur": 4
+              },
               "padding": [
                 8,
                 16
@@ -15934,10 +16969,11 @@
               "type": "frame",
               "id": "UAaUh",
               "name": "uDevFilterOnline",
+              "fill": "#FFFFFF",
               "cornerRadius": "$--radius-pill",
               "stroke": {
                 "thickness": 1,
-                "fill": "$--border"
+                "fill": "#D8DFE8"
               },
               "padding": [
                 8,
@@ -15960,10 +16996,11 @@
               "type": "frame",
               "id": "8ysHD",
               "name": "uDevFilterOffline",
+              "fill": "#FFFFFF",
               "cornerRadius": "$--radius-pill",
               "stroke": {
                 "thickness": 1,
-                "fill": "$--border"
+                "fill": "#D8DFE8"
               },
               "padding": [
                 8,
@@ -16003,10 +17040,16 @@
               "name": "uDevCard1",
               "width": "fill_container",
               "fill": "$--card",
-              "cornerRadius": "$--radius-m",
-              "stroke": {
-                "thickness": 1,
-                "fill": "$--border"
+              "cornerRadius": 20,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1A233210",
+                "offset": {
+                  "x": 0,
+                  "y": 2
+                },
+                "blur": 12
               },
               "gap": 14,
               "padding": 16,
@@ -16102,10 +17145,16 @@
               "name": "uDevCard2",
               "width": "fill_container",
               "fill": "$--card",
-              "cornerRadius": "$--radius-m",
-              "stroke": {
-                "thickness": 1,
-                "fill": "$--border"
+              "cornerRadius": 20,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1A233210",
+                "offset": {
+                  "x": 0,
+                  "y": 2
+                },
+                "blur": 12
               },
               "gap": 14,
               "padding": 16,
@@ -16201,10 +17250,16 @@
               "name": "uDevCard3",
               "width": "fill_container",
               "fill": "$--card",
-              "cornerRadius": "$--radius-m",
-              "stroke": {
-                "thickness": 1,
-                "fill": "$--border"
+              "cornerRadius": 20,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1A233210",
+                "offset": {
+                  "x": 0,
+                  "y": 2
+                },
+                "blur": 12
               },
               "gap": 14,
               "padding": 16,
@@ -16300,10 +17355,16 @@
               "name": "uDevCard4",
               "width": "fill_container",
               "fill": "$--card",
-              "cornerRadius": "$--radius-m",
-              "stroke": {
-                "thickness": 1,
-                "fill": "$--border"
+              "cornerRadius": 20,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1A233210",
+                "offset": {
+                  "x": 0,
+                  "y": 2
+                },
+                "blur": 12
               },
               "gap": 14,
               "padding": 16,
@@ -16399,10 +17460,16 @@
               "name": "uDevCard5",
               "width": "fill_container",
               "fill": "$--card",
-              "cornerRadius": "$--radius-m",
-              "stroke": {
-                "thickness": 1,
-                "fill": "$--border"
+              "cornerRadius": 20,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1A233210",
+                "offset": {
+                  "x": 0,
+                  "y": 2
+                },
+                "blur": 12
               },
               "gap": 14,
               "padding": 16,
@@ -16501,11 +17568,21 @@
           "width": "fill_container",
           "height": 84,
           "fill": "$--card",
-          "stroke": {
-            "thickness": {
-              "top": 1
+          "cornerRadius": [
+            20,
+            20,
+            0,
+            0
+          ],
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#1A233208",
+            "offset": {
+              "x": 0,
+              "y": -2
             },
-            "fill": "$--border"
+            "blur": 10
           },
           "padding": [
             12,
@@ -16671,8 +17748,18 @@
               "name": "uDetailBackBtn",
               "width": 40,
               "height": 40,
-              "fill": "$--secondary",
+              "fill": "#FFFFFF",
               "cornerRadius": 20,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1A233210",
+                "offset": {
+                  "x": 0,
+                  "y": 1
+                },
+                "blur": 6
+              },
               "layout": "none",
               "children": [
                 {
@@ -16725,8 +17812,18 @@
               "name": "uDetailNotifBtn",
               "width": 40,
               "height": 40,
-              "fill": "$--secondary",
+              "fill": "#FFFFFF",
               "cornerRadius": 20,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1A233210",
+                "offset": {
+                  "x": 0,
+                  "y": 1
+                },
+                "blur": 6
+              },
               "layout": "none",
               "children": [
                 {
@@ -16764,10 +17861,16 @@
               "name": "uDetailPowerCard",
               "width": "fill_container",
               "fill": "$--card",
-              "cornerRadius": "$--radius-m",
-              "stroke": {
-                "thickness": 1,
-                "fill": "$--border"
+              "cornerRadius": 20,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1A233210",
+                "offset": {
+                  "x": 0,
+                  "y": 2
+                },
+                "blur": 12
               },
               "layout": "vertical",
               "gap": 24,
@@ -16859,10 +17962,16 @@
               "name": "uDetailBrightnessCard",
               "width": "fill_container",
               "fill": "$--card",
-              "cornerRadius": "$--radius-m",
-              "stroke": {
-                "thickness": 1,
-                "fill": "$--border"
+              "cornerRadius": 20,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1A233210",
+                "offset": {
+                  "x": 0,
+                  "y": 2
+                },
+                "blur": 12
               },
               "layout": "vertical",
               "gap": 16,
@@ -16945,10 +18054,16 @@
               "name": "uDetailColorCard",
               "width": "fill_container",
               "fill": "$--card",
-              "cornerRadius": "$--radius-m",
-              "stroke": {
-                "thickness": 1,
-                "fill": "$--border"
+              "cornerRadius": 20,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1A233210",
+                "offset": {
+                  "x": 0,
+                  "y": 2
+                },
+                "blur": 12
               },
               "layout": "vertical",
               "gap": 16,
@@ -17108,8 +18223,18 @@
                   "name": "uScenesBackBtn",
                   "width": 40,
                   "height": 40,
-                  "fill": "$--secondary",
+                  "fill": "#FFFFFF",
                   "cornerRadius": 20,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#1A233210",
+                    "offset": {
+                      "x": 0,
+                      "y": 1
+                    },
+                    "blur": 6
+                  },
                   "layout": "none",
                   "children": [
                     {
@@ -17134,7 +18259,7 @@
                   "content": "Scenes",
                   "fontFamily": "$--font-primary",
                   "fontSize": 28,
-                  "fontWeight": "600"
+                  "fontWeight": "700"
                 }
               ]
             },
@@ -17150,8 +18275,18 @@
                   "name": "uScenesNotifBtn",
                   "width": 40,
                   "height": 40,
-                  "fill": "$--secondary",
+                  "fill": "#FFFFFF",
                   "cornerRadius": 20,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#1A233210",
+                    "offset": {
+                      "x": 0,
+                      "y": 1
+                    },
+                    "blur": 6
+                  },
                   "layout": "none",
                   "children": [
                     {
@@ -17213,10 +18348,16 @@
               "name": "uSceneCard1",
               "width": "fill_container",
               "fill": "$--card",
-              "cornerRadius": "$--radius-m",
-              "stroke": {
-                "thickness": 1,
-                "fill": "$--border"
+              "cornerRadius": 20,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1A233210",
+                "offset": {
+                  "x": 0,
+                  "y": 2
+                },
+                "blur": 12
               },
               "gap": 16,
               "padding": 16,
@@ -17309,10 +18450,16 @@
               "name": "uSceneCard2",
               "width": "fill_container",
               "fill": "$--card",
-              "cornerRadius": "$--radius-m",
-              "stroke": {
-                "thickness": 1,
-                "fill": "$--border"
+              "cornerRadius": 20,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1A233210",
+                "offset": {
+                  "x": 0,
+                  "y": 2
+                },
+                "blur": 12
               },
               "gap": 16,
               "padding": 16,
@@ -17405,10 +18552,16 @@
               "name": "uSceneCard3",
               "width": "fill_container",
               "fill": "$--card",
-              "cornerRadius": "$--radius-m",
-              "stroke": {
-                "thickness": 1,
-                "fill": "$--border"
+              "cornerRadius": 20,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1A233210",
+                "offset": {
+                  "x": 0,
+                  "y": 2
+                },
+                "blur": 12
               },
               "gap": 16,
               "padding": 16,
@@ -17501,10 +18654,16 @@
               "name": "uSceneCard4",
               "width": "fill_container",
               "fill": "$--card",
-              "cornerRadius": "$--radius-m",
-              "stroke": {
-                "thickness": 1,
-                "fill": "$--border"
+              "cornerRadius": 20,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1A233210",
+                "offset": {
+                  "x": 0,
+                  "y": 2
+                },
+                "blur": 12
               },
               "gap": 16,
               "padding": 16,
@@ -17600,11 +18759,21 @@
           "width": "fill_container",
           "height": 84,
           "fill": "$--card",
-          "stroke": {
-            "thickness": {
-              "top": 1
+          "cornerRadius": [
+            20,
+            20,
+            0,
+            0
+          ],
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#1A233208",
+            "offset": {
+              "x": 0,
+              "y": -2
             },
-            "fill": "$--border"
+            "blur": 10
           },
           "padding": [
             12,
@@ -17776,8 +18945,18 @@
                   "name": "uSettBackBtn",
                   "width": 40,
                   "height": 40,
-                  "fill": "$--secondary",
+                  "fill": "#FFFFFF",
                   "cornerRadius": 20,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#1A233210",
+                    "offset": {
+                      "x": 0,
+                      "y": 1
+                    },
+                    "blur": 6
+                  },
                   "layout": "none",
                   "children": [
                     {
@@ -17800,9 +18979,9 @@
                   "name": "uSettHeaderTitle",
                   "fill": "$--foreground",
                   "content": "Settings",
-                  "fontFamily": "$--font-secondary",
-                  "fontSize": 20,
-                  "fontWeight": "600"
+                  "fontFamily": "$--font-primary",
+                  "fontSize": 28,
+                  "fontWeight": "700"
                 }
               ]
             },
@@ -17812,8 +18991,18 @@
               "name": "uSettNotifBtn",
               "width": 40,
               "height": 40,
-              "fill": "$--secondary",
+              "fill": "#FFFFFF",
               "cornerRadius": 20,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1A233210",
+                "offset": {
+                  "x": 0,
+                  "y": 1
+                },
+                "blur": 6
+              },
               "layout": "none",
               "children": [
                 {
@@ -17872,10 +19061,16 @@
                   "clip": true,
                   "width": "fill_container",
                   "fill": "$--card",
-                  "cornerRadius": "$--radius-m",
-                  "stroke": {
-                    "thickness": 1,
-                    "fill": "$--border"
+                  "cornerRadius": 20,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#1A233210",
+                    "offset": {
+                      "x": 0,
+                      "y": 2
+                    },
+                    "blur": 12
                   },
                   "layout": "vertical",
                   "children": [
@@ -17983,10 +19178,16 @@
                   "clip": true,
                   "width": "fill_container",
                   "fill": "$--card",
-                  "cornerRadius": "$--radius-m",
-                  "stroke": {
-                    "thickness": 1,
-                    "fill": "$--border"
+                  "cornerRadius": 20,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#1A233210",
+                    "offset": {
+                      "x": 0,
+                      "y": 2
+                    },
+                    "blur": 12
                   },
                   "layout": "vertical",
                   "children": [
@@ -17999,7 +19200,7 @@
                         "thickness": {
                           "bottom": 1
                         },
-                        "fill": "$--border"
+                        "fill": "#EDF1F7"
                       },
                       "padding": 16,
                       "justifyContent": "space_between",
@@ -18068,7 +19269,7 @@
                         "thickness": {
                           "bottom": 1
                         },
-                        "fill": "$--border"
+                        "fill": "#EDF1F7"
                       },
                       "padding": 16,
                       "justifyContent": "space_between",
@@ -18226,10 +19427,16 @@
                   "clip": true,
                   "width": "fill_container",
                   "fill": "$--card",
-                  "cornerRadius": "$--radius-m",
-                  "stroke": {
-                    "thickness": 1,
-                    "fill": "$--border"
+                  "cornerRadius": 20,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#1A233210",
+                    "offset": {
+                      "x": 0,
+                      "y": 2
+                    },
+                    "blur": 12
                   },
                   "layout": "vertical",
                   "children": [
@@ -18242,7 +19449,7 @@
                         "thickness": {
                           "bottom": 1
                         },
-                        "fill": "$--border"
+                        "fill": "#EDF1F7"
                       },
                       "padding": 16,
                       "justifyContent": "space_between",
@@ -18298,7 +19505,7 @@
                         "thickness": {
                           "bottom": 1
                         },
-                        "fill": "$--border"
+                        "fill": "#EDF1F7"
                       },
                       "padding": 16,
                       "justifyContent": "space_between",
@@ -18406,7 +19613,7 @@
               "width": "fill_container",
               "height": 52,
               "fill": "$--color-error",
-              "cornerRadius": "$--radius-m",
+              "cornerRadius": 16,
               "gap": 8,
               "justifyContent": "center",
               "alignItems": "center",
@@ -18442,11 +19649,21 @@
           "width": "fill_container",
           "height": 84,
           "fill": "$--card",
-          "stroke": {
-            "thickness": {
-              "top": 1
+          "cornerRadius": [
+            20,
+            20,
+            0,
+            0
+          ],
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#1A233208",
+            "offset": {
+              "x": 0,
+              "y": -2
             },
-            "fill": "$--border"
+            "blur": 10
           },
           "padding": [
             12,
@@ -18618,6 +19835,15 @@
           "theme": {
             "Mode": "Dark"
           }
+        },
+        {
+          "value": "#FFFFFF"
+        },
+        {
+          "value": "#18181b",
+          "theme": {
+            "Mode": "Dark"
+          }
         }
       ]
     },
@@ -18644,6 +19870,15 @@
         },
         {
           "value": "#FFFFFF"
+        },
+        {
+          "value": "#fafafa",
+          "theme": {
+            "Mode": "Dark"
+          }
+        },
+        {
+          "value": "#7B8794"
         },
         {
           "value": "#fafafa",
@@ -18682,6 +19917,15 @@
           "theme": {
             "Mode": "Dark"
           }
+        },
+        {
+          "value": "#4A90D9"
+        },
+        {
+          "value": "#5BA0E8",
+          "theme": {
+            "Mode": "Dark"
+          }
         }
       ]
     },
@@ -18714,6 +19958,15 @@
           "theme": {
             "Mode": "Dark"
           }
+        },
+        {
+          "value": "#FFFFFF"
+        },
+        {
+          "value": "#FFFFFF",
+          "theme": {
+            "Mode": "Dark"
+          }
         }
       ]
     },
@@ -18740,6 +19993,15 @@
         },
         {
           "value": "#6A9E4E"
+        },
+        {
+          "value": "#ffffff1a",
+          "theme": {
+            "Mode": "Dark"
+          }
+        },
+        {
+          "value": "#D8DFE8"
         },
         {
           "value": "#ffffff1a",
@@ -18778,6 +20040,15 @@
           "theme": {
             "Mode": "Dark"
           }
+        },
+        {
+          "value": "#EDF1F7"
+        },
+        {
+          "value": "#2a2a30",
+          "theme": {
+            "Mode": "Dark"
+          }
         }
       ]
     },
@@ -18804,6 +20075,15 @@
         },
         {
           "value": "#FFFFFF"
+        },
+        {
+          "value": "#fafafa",
+          "theme": {
+            "Mode": "Dark"
+          }
+        },
+        {
+          "value": "#1A2332"
         },
         {
           "value": "#fafafa",
@@ -18842,6 +20122,15 @@
           "theme": {
             "Mode": "Dark"
           }
+        },
+        {
+          "value": "#4A90D9"
+        },
+        {
+          "value": "#5BA0E8",
+          "theme": {
+            "Mode": "Dark"
+          }
         }
       ]
     },
@@ -18868,6 +20157,15 @@
         },
         {
           "value": "#F2F2EA"
+        },
+        {
+          "value": "#111111",
+          "theme": {
+            "Mode": "Dark"
+          }
+        },
+        {
+          "value": "#E8EEF4"
         },
         {
           "value": "#111111",
@@ -18906,12 +20204,30 @@
           "theme": {
             "Mode": "Dark"
           }
+        },
+        {
+          "value": "#1A2332"
+        },
+        {
+          "value": "#FFFFFF",
+          "theme": {
+            "Mode": "Dark"
+          }
         }
       ]
     },
     "--card": {
       "type": "color",
       "value": [
+        {
+          "value": "#FFFFFF"
+        },
+        {
+          "value": "#1A1A1A",
+          "theme": {
+            "Mode": "Dark"
+          }
+        },
         {
           "value": "#FFFFFF"
         },
@@ -18970,12 +20286,30 @@
           "theme": {
             "Mode": "Dark"
           }
+        },
+        {
+          "value": "#1A2332"
+        },
+        {
+          "value": "#FFFFFF",
+          "theme": {
+            "Mode": "Dark"
+          }
         }
       ]
     },
     "--popover": {
       "type": "color",
       "value": [
+        {
+          "value": "#FFFFFF"
+        },
+        {
+          "value": "#1A1A1A",
+          "theme": {
+            "Mode": "Dark"
+          }
+        },
         {
           "value": "#FFFFFF"
         },
@@ -19034,6 +20368,15 @@
           "theme": {
             "Mode": "Dark"
           }
+        },
+        {
+          "value": "#1A2332"
+        },
+        {
+          "value": "#FFFFFF",
+          "theme": {
+            "Mode": "Dark"
+          }
         }
       ]
     },
@@ -19066,6 +20409,15 @@
           "theme": {
             "Mode": "Dark"
           }
+        },
+        {
+          "value": "#4A90D9"
+        },
+        {
+          "value": "#5BA0E8",
+          "theme": {
+            "Mode": "Dark"
+          }
         }
       ]
     },
@@ -19077,6 +20429,15 @@
         },
         {
           "value": "#111111",
+          "theme": {
+            "Mode": "Dark"
+          }
+        },
+        {
+          "value": "#FFFFFF"
+        },
+        {
+          "value": "#FFFFFF",
           "theme": {
             "Mode": "Dark"
           }
@@ -19130,6 +20491,15 @@
           "theme": {
             "Mode": "Dark"
           }
+        },
+        {
+          "value": "#EDF1F7"
+        },
+        {
+          "value": "#2E2E2E",
+          "theme": {
+            "Mode": "Dark"
+          }
         }
       ]
     },
@@ -19156,6 +20526,15 @@
         },
         {
           "value": "#2D2D2D"
+        },
+        {
+          "value": "#FFFFFF",
+          "theme": {
+            "Mode": "Dark"
+          }
+        },
+        {
+          "value": "#1A2332"
         },
         {
           "value": "#FFFFFF",
@@ -19194,6 +20573,15 @@
           "theme": {
             "Mode": "Dark"
           }
+        },
+        {
+          "value": "#EDF1F7"
+        },
+        {
+          "value": "#2E2E2E",
+          "theme": {
+            "Mode": "Dark"
+          }
         }
       ]
     },
@@ -19220,6 +20608,15 @@
         },
         {
           "value": "#8A8A80"
+        },
+        {
+          "value": "#B8B9B6",
+          "theme": {
+            "Mode": "Dark"
+          }
+        },
+        {
+          "value": "#7B8794"
         },
         {
           "value": "#B8B9B6",
@@ -19258,6 +20655,15 @@
           "theme": {
             "Mode": "Dark"
           }
+        },
+        {
+          "value": "#EDF1F7"
+        },
+        {
+          "value": "#111111",
+          "theme": {
+            "Mode": "Dark"
+          }
         }
       ]
     },
@@ -19290,6 +20696,15 @@
           "theme": {
             "Mode": "Dark"
           }
+        },
+        {
+          "value": "#1A2332"
+        },
+        {
+          "value": "#F2F3F0",
+          "theme": {
+            "Mode": "Dark"
+          }
         }
       ]
     },
@@ -19307,6 +20722,15 @@
         },
         {
           "value": "#D93C15"
+        },
+        {
+          "value": "#FF5C33",
+          "theme": {
+            "Mode": "Dark"
+          }
+        },
+        {
+          "value": "#E25C5C"
         },
         {
           "value": "#FF5C33",
@@ -19345,6 +20769,15 @@
           "theme": {
             "Mode": "Dark"
           }
+        },
+        {
+          "value": "#D8DFE8"
+        },
+        {
+          "value": "#2E2E2E",
+          "theme": {
+            "Mode": "Dark"
+          }
         }
       ]
     },
@@ -19371,6 +20804,15 @@
         },
         {
           "value": "#DDDDD4"
+        },
+        {
+          "value": "#2E2E2E",
+          "theme": {
+            "Mode": "Dark"
+          }
+        },
+        {
+          "value": "#D8DFE8"
         },
         {
           "value": "#2E2E2E",
@@ -19409,6 +20851,15 @@
           "theme": {
             "Mode": "Dark"
           }
+        },
+        {
+          "value": "#4A90D9"
+        },
+        {
+          "value": "#5BA0E8",
+          "theme": {
+            "Mode": "Dark"
+          }
         }
       ]
     },
@@ -19422,19 +20873,47 @@
     },
     "--font-primary": {
       "type": "string",
-      "value": "JetBrains Mono"
+      "value": [
+        {
+          "value": "JetBrains Mono"
+        },
+        {
+          "value": "SF Pro Display"
+        }
+      ]
     },
     "--font-secondary": {
       "type": "string",
-      "value": "Geist"
+      "value": [
+        {
+          "value": "Geist"
+        },
+        {
+          "value": "SF Pro Text"
+        }
+      ]
     },
     "--radius-none": {
       "type": "number",
-      "value": 0
+      "value": [
+        {
+          "value": 0
+        },
+        {
+          "value": 0
+        }
+      ]
     },
     "--radius-pill": {
       "type": "number",
-      "value": 999
+      "value": [
+        {
+          "value": 999
+        },
+        {
+          "value": 999
+        }
+      ]
     },
     "--color-success": {
       "type": "color",
@@ -19459,6 +20938,15 @@
         },
         {
           "value": "#E8F0E4"
+        },
+        {
+          "value": "#222924",
+          "theme": {
+            "Mode": "Dark"
+          }
+        },
+        {
+          "value": "#E8F5E9"
         },
         {
           "value": "#222924",
@@ -19497,6 +20985,15 @@
           "theme": {
             "Mode": "Dark"
           }
+        },
+        {
+          "value": "#4CAF50"
+        },
+        {
+          "value": "#B6FFCE",
+          "theme": {
+            "Mode": "Dark"
+          }
         }
       ]
     },
@@ -19514,6 +21011,15 @@
         },
         {
           "value": "#F5EDD8"
+        },
+        {
+          "value": "#291C0F",
+          "theme": {
+            "Mode": "Dark"
+          }
+        },
+        {
+          "value": "#FFF8E1"
         },
         {
           "value": "#291C0F",
@@ -19561,6 +21067,15 @@
           "theme": {
             "Mode": "Dark"
           }
+        },
+        {
+          "value": "#F59E0B"
+        },
+        {
+          "value": "#FF8400",
+          "theme": {
+            "Mode": "Dark"
+          }
         }
       ]
     },
@@ -19569,6 +21084,15 @@
       "value": [
         {
           "value": "#E5DCDA"
+        },
+        {
+          "value": "#24100B",
+          "theme": {
+            "Mode": "Dark"
+          }
+        },
+        {
+          "value": "#FDE8E8"
         },
         {
           "value": "#24100B",
@@ -19589,6 +21113,15 @@
           "theme": {
             "Mode": "Dark"
           }
+        },
+        {
+          "value": "#E25C5C"
+        },
+        {
+          "value": "#FF5C33",
+          "theme": {
+            "Mode": "Dark"
+          }
         }
       ]
     },
@@ -19597,6 +21130,15 @@
       "value": [
         {
           "value": "#DFDFE6"
+        },
+        {
+          "value": "#222229",
+          "theme": {
+            "Mode": "Dark"
+          }
+        },
+        {
+          "value": "#E3F2FD"
         },
         {
           "value": "#222229",
@@ -19617,12 +21159,28 @@
           "theme": {
             "Mode": "Dark"
           }
+        },
+        {
+          "value": "#4A90D9"
+        },
+        {
+          "value": "#B2B2FF",
+          "theme": {
+            "Mode": "Dark"
+          }
         }
       ]
     },
     "--radius-m": {
       "type": "number",
-      "value": 16
+      "value": [
+        {
+          "value": 16
+        },
+        {
+          "value": 20
+        }
+      ]
     }
   }
 }

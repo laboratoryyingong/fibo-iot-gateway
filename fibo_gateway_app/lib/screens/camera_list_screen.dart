@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
+import '../theme/app_decorations.dart';
 import '../theme/app_text_styles.dart';
 import '../widgets/app_menu_button.dart';
+import '../widgets/header_action_button.dart';
 
 class CameraListScreen extends StatelessWidget {
   const CameraListScreen({super.key});
@@ -92,32 +94,14 @@ class _Header extends StatelessWidget {
           ),
           Row(
             children: [
-              Container(
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(
-                  color: AppColors.secondary,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: const Icon(Icons.notifications, size: 22),
-              ),
+              const HeaderActionButton(icon: Icons.notifications),
               const SizedBox(width: 8),
-              InkWell(
-                borderRadius: BorderRadius.circular(20),
+              HeaderActionButton(
+                icon: Icons.add,
+                backgroundColor: AppColors.primary,
+                iconColor: AppColors.primaryForeground,
+                shadow: false,
                 onTap: () => Navigator.of(context).pushNamed('/camera/add-nvr'),
-                child: Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    color: AppColors.primary,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: const Icon(
-                    Icons.add,
-                    size: 22,
-                    color: AppColors.primaryForeground,
-                  ),
-                ),
               ),
             ],
           ),
@@ -223,7 +207,7 @@ class _NvrCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: AppColors.card,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: AppColors.border, width: 1),
+          boxShadow: AppDecorations.softCardShadow,
         ),
         child: Row(
           children: [
@@ -305,6 +289,7 @@ class _CameraCard extends StatelessWidget {
           color: cardColor,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(color: cardBorderColor, width: 1),
+          boxShadow: dark ? null : AppDecorations.softCardShadow,
         ),
         child: Row(
           children: [
@@ -409,7 +394,17 @@ class _CameraBottomNav extends StatelessWidget {
     return Container(
       decoration: const BoxDecoration(
         color: AppColors.card,
-        border: Border(top: BorderSide(color: AppColors.border, width: 1)),
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.shadowBar,
+            offset: Offset(0, -2),
+            blurRadius: 10,
+          ),
+        ],
       ),
       padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
       child: Row(

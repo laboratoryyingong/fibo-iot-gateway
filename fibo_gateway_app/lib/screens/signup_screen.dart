@@ -4,6 +4,7 @@ import '../services/user_role_resolver.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_text_styles.dart';
 import '../widgets/auth_text_field.dart';
+import '../widgets/header_action_button.dart';
 import '../widgets/password_field.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -129,22 +130,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     children: [
                       Row(
                         children: [
-                          InkWell(
+                          HeaderActionButton(
+                            icon: Icons.arrow_back,
                             onTap: () => Navigator.of(context).pop(),
-                            borderRadius: BorderRadius.circular(20),
-                            child: Container(
-                              width: 40,
-                              height: 40,
-                              decoration: BoxDecoration(
-                                color: AppColors.secondary,
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: const Icon(
-                                Icons.arrow_back,
-                                size: 22,
-                                color: AppColors.foreground,
-                              ),
-                            ),
                           ),
                           const SizedBox(width: 16),
                           Text(

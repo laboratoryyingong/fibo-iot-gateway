@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
+import '../theme/app_decorations.dart';
 import '../theme/app_text_styles.dart';
 
 class PairingSuccessScreen extends StatelessWidget {
@@ -19,13 +20,13 @@ class PairingSuccessScreen extends StatelessWidget {
                   width: 120,
                   height: 120,
                   decoration: BoxDecoration(
-                    color: AppColors.successStrong.withValues(alpha: 0.12),
+                    color: const Color(0x204A90D9),
                     borderRadius: BorderRadius.circular(60),
                   ),
                   child: const Icon(
                     Icons.check_circle,
                     size: 64,
-                    color: AppColors.successStrong,
+                    color: AppColors.accentBlue,
                   ),
                 ),
                 const SizedBox(height: 24),
@@ -46,7 +47,7 @@ class PairingSuccessScreen extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: AppColors.card,
                     borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: AppColors.border, width: 1),
+                    boxShadow: AppDecorations.softCardShadow,
                   ),
                   child: Row(
                     children: [
@@ -54,13 +55,13 @@ class PairingSuccessScreen extends StatelessWidget {
                         width: 56,
                         height: 56,
                         decoration: BoxDecoration(
-                          color: AppColors.secondary,
+                          color: AppColors.accentBlueSurface,
                           borderRadius: BorderRadius.circular(16),
                         ),
                         child: const Icon(
                           Icons.lightbulb,
                           size: 28,
-                          color: AppColors.primary,
+                          color: AppColors.accentBlue,
                         ),
                       ),
                       const SizedBox(width: 12),

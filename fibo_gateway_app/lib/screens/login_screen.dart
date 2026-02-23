@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 import '../services/user_role_resolver.dart';
+import '../theme/app_colors.dart';
 import '../theme/app_text_styles.dart';
 import '../widgets/auth_text_field.dart';
 import '../widgets/password_field.dart';
@@ -16,6 +17,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  String _selectedRole = kUserTypeUser;
   bool _isLoading = false;
 
   @override
@@ -114,6 +116,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         'Sign in to continue',
                         style: AppTextStyles.body15Muted,
                       ),
+                      const SizedBox(height: 20),
+                      _RoleSelector(
+                        selectedRole: _selectedRole,
+                        onChanged: (role) =>
+                            setState(() => _selectedRole = role),
+                      ),
                       const SizedBox(height: 32),
                       AuthTextField(
                         label: 'Email',
@@ -159,17 +167,17 @@ class _LoginScreenState extends State<LoginScreen> {
                             : const Text('Sign In'),
                       ),
                       const SizedBox(height: 24),
-                      // Social sign-in options are intentionally hidden for now.
-                      // Uncomment this block when enabling Google/Apple sign-in.
-                      /*
-                      const SizedBox(height: 24),
                       Row(
                         children: [
-                          const Expanded(child: Divider(color: AppColors.border, height: 1)),
+                          const Expanded(
+                            child: Divider(color: AppColors.border, height: 1),
+                          ),
                           const SizedBox(width: 16),
                           Text('or', style: AppTextStyles.body14Muted),
                           const SizedBox(width: 16),
-                          const Expanded(child: Divider(color: AppColors.border, height: 1)),
+                          const Expanded(
+                            child: Divider(color: AppColors.border, height: 1),
+                          ),
                         ],
                       ),
                       const SizedBox(height: 16),
@@ -184,8 +192,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         icon: const Icon(Icons.apple, size: 20),
                         label: const Text('Apple'),
                       ),
-                      const SizedBox(height: 24),
-                      */
+                      const SizedBox(height: 16),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -204,6 +211,93 @@ class _LoginScreenState extends State<LoginScreen> {
                     ],
                   ),
                 ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _RoleSelector extends StatelessWidget {
+  const _RoleSelector({required this.selectedRole, required this.onChanged});
+
+  final String selectedRole;
+  final ValueChanged<String> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: _RoleTab(
+            icon: Icons.person_outline,
+            label: 'User',
+            selected: selectedRole == kUserTypeUser,
+            onTap: () => onChanged(kUserTypeUser),
+          ),
+        ),
+        const SizedBox(width: 8),
+        Expanded(
+          child: _RoleTab(
+            icon: Icons.engineering_outlined,
+            label: 'Installer',
+            selected: selectedRole == kUserTypeInstaller,
+            onTap: () => onChanged(kUserTypeInstaller),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _RoleTab extends StatelessWidget {
+  const _RoleTab({
+    required this.icon,
+    required this.label,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final IconData icon;
+  final String label;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(12),
+      child: Container(
+        height: 44,
+        decoration: BoxDecoration(
+          color: selected ? AppColors.primary : AppColors.card,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: selected ? AppColors.primary : AppColors.border,
+            width: 1,
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              icon,
+              size: 18,
+              color: selected
+                  ? AppColors.primaryForeground
+                  : AppColors.foreground,
+            ),
+            const SizedBox(width: 6),
+            Text(
+              label,
+              style: AppTextStyles.body14.copyWith(
+                color: selected
+                    ? AppColors.primaryForeground
+                    : AppColors.foreground,
+                fontWeight: FontWeight.w600,
               ),
             ),
           ],

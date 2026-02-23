@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
+import '../theme/app_decorations.dart';
 import '../theme/app_text_styles.dart';
+import '../widgets/header_action_button.dart';
 
 class CameraNvrChannelsScreen extends StatelessWidget {
   const CameraNvrChannelsScreen({super.key});
@@ -82,19 +84,7 @@ class _Header extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(20, 0, 20, 8),
       child: Row(
         children: [
-          InkWell(
-            onTap: onBack,
-            borderRadius: BorderRadius.circular(20),
-            child: Container(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                color: AppColors.secondary,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: const Icon(Icons.arrow_back, size: 22),
-            ),
-          ),
+          HeaderActionButton(icon: Icons.arrow_back, onTap: onBack),
           const SizedBox(width: 12),
           Expanded(
             child: Column(
@@ -106,19 +96,9 @@ class _Header extends StatelessWidget {
               ],
             ),
           ),
-          Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-              color: AppColors.secondary,
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: IconButton(
-              onPressed: () =>
-                  Navigator.of(context).pushNamed('/camera/settings'),
-              icon: const Icon(Icons.settings, size: 20),
-              splashRadius: 20,
-            ),
+          HeaderActionButton(
+            icon: Icons.settings,
+            onTap: () => Navigator.of(context).pushNamed('/camera/settings'),
           ),
         ],
       ),
@@ -195,6 +175,7 @@ class _ChannelCard extends StatelessWidget {
           color: cardColor,
           borderRadius: BorderRadius.circular(14),
           border: Border.all(color: borderColor),
+          boxShadow: dark ? null : AppDecorations.softCardShadow,
         ),
         child: Row(
           children: [
@@ -283,6 +264,7 @@ class _RecordingStatusSection extends StatelessWidget {
             color: AppColors.card,
             borderRadius: BorderRadius.circular(14),
             border: Border.all(color: AppColors.border),
+            boxShadow: AppDecorations.softCardShadow,
           ),
           child: Column(
             children: const [

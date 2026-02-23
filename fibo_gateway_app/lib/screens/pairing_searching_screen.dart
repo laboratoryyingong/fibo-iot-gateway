@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
+import '../theme/app_decorations.dart';
 import '../theme/app_text_styles.dart';
+import '../widgets/header_action_button.dart';
 
 class PairingSearchingScreen extends StatelessWidget {
   const PairingSearchingScreen({super.key});
@@ -80,31 +82,15 @@ class _Header extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           InkWell(
+            borderRadius: BorderRadius.circular(20),
             onTap: onClose,
-            borderRadius: BorderRadius.circular(16),
-            child: const Icon(
-              Icons.close,
-              size: 24,
-              color: AppColors.foreground,
-            ),
+            child: const HeaderActionButton(icon: Icons.close),
           ),
           Text(
             title,
-            style: AppTextStyles.body16.copyWith(fontWeight: FontWeight.w600),
+            style: AppTextStyles.body16.copyWith(fontWeight: FontWeight.w700),
           ),
-          Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-              color: AppColors.secondary,
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: const Icon(
-              Icons.notifications,
-              size: 22,
-              color: AppColors.foreground,
-            ),
-          ),
+          const HeaderActionButton(icon: Icons.notifications),
         ],
       ),
     );
@@ -121,8 +107,8 @@ class _Radar extends StatelessWidget {
         shape: BoxShape.circle,
         gradient: RadialGradient(
           colors: [
-            AppColors.primary.withValues(alpha: 0.35),
-            AppColors.primary.withValues(alpha: 0.2),
+            AppColors.accentBlue.withValues(alpha: 0.35),
+            AppColors.accentBlue.withValues(alpha: 0.2),
             Colors.transparent,
           ],
           stops: const [0.0, 0.3, 1.0],
@@ -135,7 +121,7 @@ class _Radar extends StatelessWidget {
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             border: Border.all(
-              color: AppColors.primary.withValues(alpha: 0.6),
+              color: AppColors.accentBlue.withValues(alpha: 0.6),
               width: 2,
             ),
           ),
@@ -145,7 +131,7 @@ class _Radar extends StatelessWidget {
               height: 80,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: AppColors.primary,
+                color: AppColors.accentBlue,
               ),
               child: const Icon(
                 Icons.radar,
@@ -168,7 +154,7 @@ class _ProgressCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.card,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.border, width: 1),
+        boxShadow: AppDecorations.softCardShadow,
       ),
       child: Column(
         children: [

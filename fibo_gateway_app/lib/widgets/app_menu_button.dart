@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_text_styles.dart';
+import '../theme/app_decorations.dart';
 
 class AppMenuButton extends StatelessWidget {
   const AppMenuButton({
@@ -23,7 +24,8 @@ class AppMenuButton extends StatelessWidget {
     return PopupMenuButton<int>(
       tooltip: 'Menu',
       offset: const Offset(0, 48),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      color: AppColors.card,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       itemBuilder: (context) => [
         PopupMenuItem<int>(
           value: 0,
@@ -105,8 +107,9 @@ class AppMenuButton extends StatelessWidget {
         width: 40,
         height: 40,
         decoration: BoxDecoration(
-          color: AppColors.secondary,
+          color: AppColors.white,
           borderRadius: BorderRadius.circular(20),
+          boxShadow: AppDecorations.iconButtonShadow,
         ),
         child: const Icon(Icons.menu, size: 22, color: AppColors.foreground),
       ),
