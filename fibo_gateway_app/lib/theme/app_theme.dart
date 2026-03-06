@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'app_colors.dart';
+import 'auth_tokens.dart';
 import 'app_text_styles.dart';
 
 class AppTheme {
@@ -112,55 +113,19 @@ class AppTheme {
     );
 
     const textTheme = TextTheme(
-      headlineMedium: TextStyle(
-        fontFamily: 'Manrope',
-        fontSize: 30,
-        fontWeight: FontWeight.w700,
-        color: AppColors.authTextPrimary,
-        height: 1.2,
-      ),
-      titleLarge: TextStyle(
-        fontFamily: 'Inter',
-        fontSize: 22,
-        fontWeight: FontWeight.w600,
-        color: AppColors.authTextPrimary,
-      ),
-      bodyLarge: TextStyle(
-        fontFamily: 'Manrope',
-        fontSize: 16,
-        fontWeight: FontWeight.w400,
-        color: AppColors.authTextPrimary,
-      ),
-      bodyMedium: TextStyle(
-        fontFamily: 'Manrope',
-        fontSize: 14,
-        fontWeight: FontWeight.w400,
-        color: AppColors.authTextMuted,
-      ),
-      bodySmall: TextStyle(
-        fontFamily: 'Manrope',
-        fontSize: 13,
-        fontWeight: FontWeight.w400,
-        color: AppColors.authTextMuted,
-      ),
-      labelLarge: TextStyle(
-        fontFamily: 'Manrope',
-        fontSize: 16,
-        fontWeight: FontWeight.w700,
-        color: AppColors.authTextPrimary,
-      ),
+      headlineMedium: AuthTextStyles.heading,
+      titleLarge: AuthTextStyles.title,
+      bodyLarge: AuthTextStyles.body,
+      bodyMedium: AuthTextStyles.subtitle,
+      bodySmall: AuthTextStyles.caption,
+      labelLarge: AuthTextStyles.button,
       labelMedium: TextStyle(
         fontFamily: 'Manrope',
         fontSize: 14,
         fontWeight: FontWeight.w700,
         color: AppColors.authTextPrimary,
       ),
-      labelSmall: TextStyle(
-        fontFamily: 'Manrope',
-        fontSize: 10,
-        fontWeight: FontWeight.w400,
-        color: AppColors.authTextMuted,
-      ),
+      labelSmall: AuthTextStyles.tinyCaption,
     );
 
     return base.copyWith(
@@ -174,6 +139,10 @@ class AppTheme {
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 17,
           vertical: 16,
+        ),
+        suffixIconConstraints: const BoxConstraints(
+          minHeight: 24,
+          minWidth: 24,
         ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
@@ -201,7 +170,7 @@ class AppTheme {
         style: ElevatedButton.styleFrom(
           foregroundColor: AppColors.authTextPrimary,
           minimumSize: const Size.fromHeight(52),
-          textStyle: textTheme.labelLarge,
+          textStyle: AuthTextStyles.button,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),

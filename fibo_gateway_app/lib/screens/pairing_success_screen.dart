@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import '../theme/app_colors.dart';
-import '../theme/app_decorations.dart';
-import '../theme/app_text_styles.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+
+import '../theme/pairing_tokens.dart';
+import '../widgets/pairing_action_button.dart';
 
 class PairingSuccessScreen extends StatelessWidget {
   const PairingSuccessScreen({super.key});
@@ -9,126 +10,105 @@ class PairingSuccessScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
-      body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.fromLTRB(24, 40, 24, 40),
-            child: Column(
-              children: [
-                Container(
-                  width: 120,
-                  height: 120,
-                  decoration: BoxDecoration(
-                    color: const Color(0x204A90D9),
-                    borderRadius: BorderRadius.circular(60),
-                  ),
-                  child: const Icon(
-                    Icons.check_circle,
-                    size: 64,
-                    color: AppColors.accentBlue,
+      backgroundColor: PairingTokens.bgBase,
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          final widthScale = constraints.maxWidth / 375;
+          final heightScale = constraints.maxHeight / 812;
+          final contentWidth = 327 * widthScale;
+          return Stack(
+            children: [
+              Positioned(
+                left: 69 * widthScale,
+                top: 125 * heightScale,
+                child: Transform.scale(
+                  alignment: Alignment.topLeft,
+                  scale: widthScale,
+                  child: const SizedBox(
+                    width: 240,
+                    height: 240,
+                    child: _SuccessIllustration(),
                   ),
                 ),
-                const SizedBox(height: 24),
-                Text(
-                  'Device Paired Successfully!',
-                  style: AppTextStyles.heading24,
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 12),
-                Text(
-                  'Your device is now connected to the Zigbee network and ready to use',
-                  style: AppTextStyles.body15Muted,
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 24),
-                Container(
-                  padding: const EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    color: AppColors.card,
-                    borderRadius: BorderRadius.circular(16),
-                    boxShadow: AppDecorations.softCardShadow,
+              ),
+              Positioned(
+                left: 0,
+                right: 0,
+                top: 417 * heightScale,
+                child: Container(
+                  height: 395 * heightScale,
+                  decoration: const BoxDecoration(
+                    color: PairingTokens.bgSurface,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(24),
+                      topRight: Radius.circular(24),
+                    ),
                   ),
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 56,
-                        height: 56,
-                        decoration: BoxDecoration(
-                          color: AppColors.accentBlueSurface,
-                          borderRadius: BorderRadius.circular(16),
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(
+                      24 * widthScale,
+                      40 * heightScale,
+                      24 * widthScale,
+                      24 * heightScale,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Congrats,\ndevice is added!',
+                          style: PairingTextStyles.title2,
                         ),
-                        child: const Icon(
-                          Icons.lightbulb,
-                          size: 28,
-                          color: AppColors.accentBlue,
+                        SizedBox(height: 16 * heightScale),
+                        Text(
+                          'Your device is ready to go, let’s set up \nwhere to use it.',
+                          style: PairingTextStyles.caption,
                         ),
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Living Room Light',
-                              style: AppTextStyles.body16,
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              'Living Room',
-                              style: AppTextStyles.body14Muted,
-                            ),
-                            const SizedBox(height: 6),
-                            Row(
-                              children: [
-                                Container(
-                                  width: 8,
-                                  height: 8,
-                                  decoration: const BoxDecoration(
-                                    color: AppColors.successStrong,
-                                    shape: BoxShape.circle,
-                                  ),
+                        SizedBox(height: 32 * heightScale),
+                        SizedBox(
+                          width: contentWidth,
+                          child: PairingActionButton(
+                            text: 'Control Device',
+                            onPressed: () => Navigator.of(
+                              context,
+                            ).pushNamed('/device-detail'),
+                          ),
+                        ),
+                        SizedBox(height: 12 * heightScale),
+                        SizedBox(
+                          width: contentWidth,
+                          child: PairingActionButton(
+                            text: 'Back to Home',
+                            onPressed: () =>
+                                Navigator.of(context).pushNamedAndRemoveUntil(
+                                  '/home',
+                                  (route) => false,
                                 ),
-                                const SizedBox(width: 6),
-                                Text(
-                                  'Online',
-                                  style: AppTextStyles.body13Muted,
-                                ),
-                              ],
-                            ),
-                          ],
+                            variant: PairingActionButtonVariant.neutral,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-                const SizedBox(height: 24),
-                SizedBox(
-                  width: double.infinity,
-                  height: 52,
-                  child: ElevatedButton.icon(
-                    onPressed: () =>
-                        Navigator.of(context).pushNamed('/device-detail'),
-                    icon: const Icon(Icons.tune, size: 20),
-                    label: const Text('Control Device'),
-                  ),
-                ),
-                const SizedBox(height: 12),
-                SizedBox(
-                  width: double.infinity,
-                  height: 52,
-                  child: OutlinedButton(
-                    onPressed: () => Navigator.of(
-                      context,
-                    ).pushNamedAndRemoveUntil('/home', (route) => false),
-                    child: const Text('Back to Home'),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
+              ),
+            ],
+          );
+        },
       ),
+    );
+  }
+}
+
+class _SuccessIllustration extends StatelessWidget {
+  const _SuccessIllustration();
+
+  @override
+  Widget build(BuildContext context) {
+    return SvgPicture.asset(
+      'assets/images/pairing/success-illustration.svg',
+      width: 240,
+      height: 240,
+      fit: BoxFit.contain,
     );
   }
 }

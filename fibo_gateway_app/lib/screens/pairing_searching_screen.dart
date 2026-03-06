@@ -1,61 +1,88 @@
-import 'package:flutter/material.dart';
-import '../theme/app_colors.dart';
-import '../theme/app_decorations.dart';
-import '../theme/app_text_styles.dart';
-import '../widgets/header_action_button.dart';
+import 'dart:async';
 
-class PairingSearchingScreen extends StatelessWidget {
+import 'package:flutter/material.dart';
+
+import 'pairing_flow_navigation.dart';
+import '../theme/app_decorations.dart';
+import '../theme/pairing_tokens.dart';
+import '../widgets/pairing_action_button.dart';
+import '../widgets/pairing_gradient_panel.dart';
+import '../widgets/pairing_header.dart';
+
+class PairingSearchingScreen extends StatefulWidget {
   const PairingSearchingScreen({super.key});
+
+  @override
+  State<PairingSearchingScreen> createState() => _PairingSearchingScreenState();
+}
+
+class _PairingSearchingScreenState extends State<PairingSearchingScreen> {
+  Timer? _autoContinueTimer;
+
+  @override
+  void initState() {
+    super.initState();
+    _autoContinueTimer = Timer(const Duration(seconds: 4), _goToDeviceFound);
+  }
+
+  @override
+  void dispose() {
+    _autoContinueTimer?.cancel();
+    super.dispose();
+  }
+
+  void _goToDeviceFound() {
+    if (!mounted) return;
+    Navigator.of(context).pushNamed('/pairing/found');
+  }
+
+  void _dismissPairing() {
+    _autoContinueTimer?.cancel();
+    dismissPairingFlow(context);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: PairingTokens.bgBase,
       body: SafeArea(
+        bottom: false,
         child: Column(
           children: [
-            _Header(
+            PairingHeader(
               title: 'Searching',
-              onClose: () => Navigator.of(context).pop(),
+              onBack: _dismissPairing,
+              onClose: _dismissPairing,
             ),
             Expanded(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.fromLTRB(24, 40, 24, 24),
+                padding: const EdgeInsets.fromLTRB(24, 56, 24, 24),
                 child: Column(
                   children: [
-                    _Radar(),
-                    const SizedBox(height: 24),
+                    const _Radar(),
                     Text(
                       'Searching for devices...',
-                      style: AppTextStyles.heading24.copyWith(fontSize: 22),
+                      style: PairingTextStyles.headline.copyWith(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w600,
+                      ),
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 12),
                     Text(
                       'Make sure your device is in pairing mode and close to the gateway',
-                      style: AppTextStyles.body14Muted,
+                      style: PairingTextStyles.caption.copyWith(
+                        color: PairingTokens.textMuted,
+                      ),
                       textAlign: TextAlign.center,
                     ),
-                    const SizedBox(height: 24),
-                    _ProgressCard(),
-                    const SizedBox(height: 24),
-                    SizedBox(
-                      width: double.infinity,
-                      height: 52,
-                      child: OutlinedButton(
-                        onPressed: () => Navigator.of(context).pop(),
-                        child: const Text('Cancel'),
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                    SizedBox(
-                      width: double.infinity,
-                      height: 52,
-                      child: ElevatedButton(
-                        onPressed: () =>
-                            Navigator.of(context).pushNamed('/pairing/found'),
-                        child: const Text('Simulate Device Found'),
-                      ),
+                    const SizedBox(height: 58),
+                    const _ProgressCard(),
+                    const SizedBox(height: 122),
+                    PairingActionButton(
+                      text: 'Cancel',
+                      onPressed: _dismissPairing,
+                      variant: PairingActionButtonVariant.neutral,
                     ),
                   ],
                 ),
@@ -68,36 +95,9 @@ class PairingSearchingScreen extends StatelessWidget {
   }
 }
 
-class _Header extends StatelessWidget {
-  const _Header({required this.title, required this.onClose});
-
-  final String title;
-  final VoidCallback onClose;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 0, 20, 8),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          InkWell(
-            borderRadius: BorderRadius.circular(20),
-            onTap: onClose,
-            child: const HeaderActionButton(icon: Icons.close),
-          ),
-          Text(
-            title,
-            style: AppTextStyles.body16.copyWith(fontWeight: FontWeight.w700),
-          ),
-          const HeaderActionButton(icon: Icons.notifications),
-        ],
-      ),
-    );
-  }
-}
-
 class _Radar extends StatelessWidget {
+  const _Radar();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -107,8 +107,8 @@ class _Radar extends StatelessWidget {
         shape: BoxShape.circle,
         gradient: RadialGradient(
           colors: [
-            AppColors.accentBlue.withValues(alpha: 0.35),
-            AppColors.accentBlue.withValues(alpha: 0.2),
+            const Color(0xFF4A90D9).withValues(alpha: 0.2),
+            const Color(0xFF4A90D9).withValues(alpha: 0.12),
             Colors.transparent,
           ],
           stops: const [0.0, 0.3, 1.0],
@@ -121,7 +121,7 @@ class _Radar extends StatelessWidget {
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             border: Border.all(
-              color: AppColors.accentBlue.withValues(alpha: 0.6),
+              color: PairingTokens.accentPrimary.withValues(alpha: 0.5),
               width: 2,
             ),
           ),
@@ -129,14 +129,14 @@ class _Radar extends StatelessWidget {
             child: Container(
               width: 80,
               height: 80,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 shape: BoxShape.circle,
-                color: AppColors.accentBlue,
+                color: PairingTokens.accentPrimary,
               ),
               child: const Icon(
                 Icons.radar,
-                size: 32,
-                color: AppColors.primaryForeground,
+                size: 40,
+                color: PairingTokens.textPrimary,
               ),
             ),
           ),
@@ -147,43 +147,55 @@ class _Radar extends StatelessWidget {
 }
 
 class _ProgressCard extends StatelessWidget {
+  const _ProgressCard();
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: AppColors.card,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: AppDecorations.softCardShadow,
-      ),
-      child: Column(
-        children: [
-          Text('Scanning Zigbee network...', style: AppTextStyles.body14Muted),
-          const SizedBox(height: 12),
-          Container(
-            height: 6,
-            decoration: BoxDecoration(
-              color: AppColors.secondary,
-              borderRadius: BorderRadius.circular(3),
+    return PairingGradientPanel(
+      width: double.infinity,
+      padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+      child: Container(
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: AppDecorations.softCardShadow,
+        ),
+        child: Column(
+          children: [
+            Text(
+              'Scanning Zigbee network...',
+              style: PairingTextStyles.caption.copyWith(
+                color: PairingTokens.textMuted,
+              ),
             ),
-            child: Align(
-              alignment: Alignment.centerLeft,
+            const SizedBox(height: 12),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(3),
               child: Container(
-                width: 180,
                 height: 6,
-                decoration: BoxDecoration(
-                  color: AppColors.primary,
-                  borderRadius: BorderRadius.circular(3),
+                color: PairingTokens.bgElevated,
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: FractionallySizedBox(
+                    widthFactor: 0.62,
+                    child: Container(
+                      height: 6,
+                      color: PairingTokens.accentPrimary,
+                    ),
+                  ),
                 ),
               ),
             ),
-          ),
-          const SizedBox(height: 12),
-          Text(
-            'This may take up to 60 seconds',
-            style: AppTextStyles.body13Muted,
-          ),
-        ],
+            const SizedBox(height: 12),
+            Text(
+              'This may take up to 60 seconds',
+              style: PairingTextStyles.small.copyWith(
+                fontSize: 12,
+                color: PairingTokens.textMuted,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

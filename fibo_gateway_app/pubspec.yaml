@@ -36,6 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   parse_server_sdk_flutter: ^10.0.0
   image_picker: ^1.2.1
+  flutter_svg: ^2.2.1
 
 dev_dependencies:
   flutter_test:
@@ -60,6 +61,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/auth/
+    - assets/images/pairing/
 
   # To add assets to your application, add an assets section, like this:
   # assets:
@@ -109,6 +111,22 @@ flutter:
           weight: 600
         - asset: assets/fonts/geist/Geist-Bold.ttf
           weight: 700
+    - family: Manrope
+      fonts:
+        - asset: assets/fonts/manrope/Manrope-ExtraLight.ttf
+          weight: 200
+        - asset: assets/fonts/manrope/Manrope-Light.ttf
+          weight: 300
+        - asset: assets/fonts/manrope/Manrope-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/manrope/Manrope-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/manrope/Manrope-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/manrope/Manrope-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/manrope/Manrope-ExtraBold.ttf
+          weight: 800
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package

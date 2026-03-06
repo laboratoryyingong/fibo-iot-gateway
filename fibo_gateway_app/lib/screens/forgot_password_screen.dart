@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
+
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
+import '../theme/auth_tokens.dart';
 import '../widgets/auth_background_image.dart';
+import '../widgets/auth_gradient_button.dart';
+import '../widgets/auth_input_field.dart';
+import '../widgets/auth_top_badges.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
@@ -74,13 +79,17 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       child: Scaffold(
         body: LayoutBuilder(
           builder: (context, constraints) {
-            final panelTop = constraints.maxHeight * (228 / 812);
-            final textTheme = Theme.of(context).textTheme;
+            final panelTop =
+                constraints.maxHeight *
+                (AuthTokens.panelTopForgot / AuthTokens.designHeight);
 
             return Stack(
               children: [
-                Container(color: AppColors.authBgBase),
-                const AuthBackgroundImage(),
+                const AuthBackgroundImage(
+                  showImage: true,
+                  showGlowBlobs: true,
+                  overlayOpacity: 0,
+                ),
                 Positioned(
                   left: 0,
                   right: 0,
@@ -90,12 +99,17 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     decoration: const BoxDecoration(
                       color: AppColors.authBgBase,
                       borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(24),
-                        topRight: Radius.circular(24),
+                        topLeft: Radius.circular(AuthTokens.panelRadius),
+                        topRight: Radius.circular(AuthTokens.panelRadius),
                       ),
                     ),
                     child: SingleChildScrollView(
-                      padding: const EdgeInsets.fromLTRB(24, 40, 24, 24),
+                      padding: const EdgeInsets.fromLTRB(
+                        AuthTokens.panelHorizontalPadding,
+                        AuthTokens.panelContentTop,
+                        AuthTokens.panelHorizontalPadding,
+                        AuthTokens.panelContentBottom,
+                      ),
                       child: Form(
                         key: _formKey,
                         child: Column(
@@ -103,24 +117,27 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           children: [
                             Text(
                               'Forgot\nPassword',
-                              style: textTheme.headlineMedium,
+                              style: Theme.of(context).textTheme.headlineMedium,
                             ),
                             const SizedBox(height: 24),
-                            Text(
-                              "Enter your email address and we'll send you a link to reset your password.",
-                              style: textTheme.bodyMedium,
+                            const SizedBox(
+                              width: 295,
+                              child: Text(
+                                "Enter your email address and we'll send you a link to reset your password.",
+                                style: AuthTextStyles.subtitle,
+                              ),
                             ),
-                            const SizedBox(height: 24),
-                            _AuthField(
+                            const SizedBox(height: 30),
+                            AuthInputField(
                               controller: _emailController,
                               hint: 'Email Address',
                               keyboardType: TextInputType.emailAddress,
                               validator: _emailValidator,
                             ),
-                            const SizedBox(height: 32),
+                            const SizedBox(height: 36),
                             SizedBox(
                               width: double.infinity,
-                              child: _GradientActionButton(
+                              child: AuthGradientButton(
                                 text: 'Send Reset Link',
                                 isLoading: _isLoading,
                                 onPressed: _isLoading ? null : _handleReset,
@@ -133,17 +150,15 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                   context,
                                 ).pushReplacementNamed('/login'),
                                 borderRadius: BorderRadius.circular(8),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
+                                child: const Padding(
+                                  padding: EdgeInsets.symmetric(
                                     horizontal: 8,
                                     vertical: 4,
                                   ),
                                   child: Text(
                                     'Remember your password? Sign In',
                                     textAlign: TextAlign.center,
-                                    style: textTheme.bodyLarge?.copyWith(
-                                      color: AppColors.authTextMuted,
-                                    ),
+                                    style: AuthTextStyles.bodyMuted,
                                   ),
                                 ),
                               ),
@@ -155,34 +170,13 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   ),
                 ),
                 Positioned(
-                  right: 24,
+                  right: AuthTokens.badgeRight,
                   top: panelTop + 40,
-                  child: IgnorePointer(
-                    child: Container(
-                      width: 72,
-                      height: 72,
-                      decoration: const BoxDecoration(
-                        color: AppColors.authBgSurface,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Center(
-                        child: Container(
-                          width: 40,
-                          height: 40,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              color: AppColors.authBgElevated,
-                              width: 1.67,
-                            ),
-                          ),
-                          child: const Icon(
-                            Icons.lock_outline,
-                            size: 22,
-                            color: AppColors.authTextPrimary,
-                          ),
-                        ),
-                      ),
+                  child: const AuthPanelIconBadge(
+                    child: Icon(
+                      Icons.lock_outline_rounded,
+                      size: 22,
+                      color: Colors.white,
                     ),
                   ),
                 ),
@@ -190,74 +184,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             );
           },
         ),
-      ),
-    );
-  }
-}
-
-class _AuthField extends StatelessWidget {
-  const _AuthField({
-    required this.controller,
-    required this.hint,
-    this.validator,
-    this.keyboardType,
-  });
-
-  final TextEditingController controller;
-  final String hint;
-  final String? Function(String?)? validator;
-  final TextInputType? keyboardType;
-
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      controller: controller,
-      keyboardType: keyboardType,
-      validator: validator,
-      style: Theme.of(context).textTheme.bodyLarge,
-      decoration: InputDecoration(hintText: hint),
-    );
-  }
-}
-
-class _GradientActionButton extends StatelessWidget {
-  const _GradientActionButton({
-    required this.text,
-    required this.isLoading,
-    required this.onPressed,
-  });
-
-  final String text;
-  final bool isLoading;
-  final VoidCallback? onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [AppColors.authButtonStart, AppColors.authButtonEnd],
-        ),
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: ElevatedButton(
-        onPressed: onPressed,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.transparent,
-          shadowColor: Colors.transparent,
-        ),
-        child: isLoading
-            ? const SizedBox(
-                width: 20,
-                height: 20,
-                child: CircularProgressIndicator(
-                  strokeWidth: 2,
-                  color: AppColors.authTextPrimary,
-                ),
-              )
-            : Text(text),
       ),
     );
   }

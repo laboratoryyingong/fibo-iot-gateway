@@ -3,10 +3,16 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
+
 import '../services/user_role_resolver.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
+import '../theme/auth_tokens.dart';
 import '../widgets/auth_background_image.dart';
+import '../widgets/auth_gradient_button.dart';
+import '../widgets/auth_input_field.dart';
+import '../widgets/auth_top_badges.dart';
+import '../widgets/auth_user_type_selector.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -180,7 +186,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
 
     final response = await user.signUp();
-
     setState(() => _isLoading = false);
 
     if (response.success) {
@@ -206,13 +211,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
       child: Scaffold(
         body: LayoutBuilder(
           builder: (context, constraints) {
-            final panelTop = constraints.maxHeight * (160 / 812);
-            final textTheme = Theme.of(context).textTheme;
+            final panelTop =
+                constraints.maxHeight *
+                (AuthTokens.panelTopSignUp / AuthTokens.designHeight);
 
             return Stack(
               children: [
-                Container(color: AppColors.authBgBase),
-                const AuthBackgroundImage(),
+                const AuthBackgroundImage(showImage: true, overlayOpacity: 0),
                 Positioned(
                   left: 0,
                   right: 0,
@@ -222,23 +227,28 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     decoration: const BoxDecoration(
                       color: AppColors.authBgBase,
                       borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(24),
-                        topRight: Radius.circular(24),
+                        topLeft: Radius.circular(AuthTokens.panelRadius),
+                        topRight: Radius.circular(AuthTokens.panelRadius),
                       ),
                     ),
                     child: SingleChildScrollView(
-                      padding: const EdgeInsets.fromLTRB(24, 40, 24, 24),
+                      padding: const EdgeInsets.fromLTRB(
+                        AuthTokens.panelHorizontalPadding,
+                        AuthTokens.panelContentTop,
+                        AuthTokens.panelHorizontalPadding,
+                        AuthTokens.panelContentBottom,
+                      ),
                       child: Form(
                         key: _formKey,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'New\nAccount',
-                              style: textTheme.headlineMedium,
+                              'New \nAccount',
+                              style: Theme.of(context).textTheme.headlineMedium,
                             ),
-                            const SizedBox(height: 16),
-                            _UserTypeSelector(
+                            const SizedBox(height: 20),
+                            AuthUserTypeSelector(
                               isInstaller: _isInstaller,
                               onChanged: (isInstaller) {
                                 setState(() {
@@ -249,25 +259,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 });
                               },
                             ),
-                            const SizedBox(height: 24),
-                            _AuthField(
+                            const SizedBox(height: 20),
+                            AuthInputField(
                               controller: _emailController,
                               hint: 'Email',
                               keyboardType: TextInputType.emailAddress,
                               validator: _emailValidator,
                             ),
-                            const SizedBox(height: 16),
-                            _AuthField(
+                            const SizedBox(height: AuthTokens.fieldGap),
+                            AuthInputField(
                               controller: _firstNameController,
-                              hint: 'Full Name',
+                              hint: 'First Name',
                               validator: (value) => _requiredValidator(
                                 value,
                                 'Please enter your full name',
                               ),
                             ),
-                            const SizedBox(height: 16),
-                            if (_isInstaller)
-                              _AuthField(
+                            if (_isInstaller) ...[
+                              const SizedBox(height: AuthTokens.fieldGap),
+                              AuthInputField(
                                 controller: _businessInfoController,
                                 hint: 'Business Info',
                                 validator: (value) => _requiredValidator(
@@ -275,8 +285,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   'Please enter your business info',
                                 ),
                               ),
-                            if (_isInstaller) const SizedBox(height: 16),
-                            _AuthField(
+                            ],
+                            const SizedBox(height: AuthTokens.fieldGap),
+                            AuthInputField(
                               controller: _passwordController,
                               hint: 'Password',
                               obscureText: _obscurePassword,
@@ -287,17 +298,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     _obscurePassword = !_obscurePassword;
                                   });
                                 },
+                                padding: EdgeInsets.zero,
+                                constraints: const BoxConstraints(
+                                  minWidth: 24,
+                                  minHeight: 24,
+                                ),
                                 icon: Icon(
                                   _obscurePassword
-                                      ? Icons.visibility_outlined
-                                      : Icons.visibility_off_outlined,
+                                      ? Icons.visibility_off_outlined
+                                      : Icons.visibility_outlined,
                                   size: 18,
                                   color: AppColors.authTextMuted,
                                 ),
                               ),
                             ),
-                            const SizedBox(height: 16),
-                            _AuthField(
+                            const SizedBox(height: AuthTokens.fieldGap),
+                            AuthInputField(
                               controller: _confirmController,
                               hint: 'Confirm Password',
                               obscureText: _obscureConfirmPassword,
@@ -309,24 +325,53 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         !_obscureConfirmPassword;
                                   });
                                 },
+                                padding: EdgeInsets.zero,
+                                constraints: const BoxConstraints(
+                                  minWidth: 24,
+                                  minHeight: 24,
+                                ),
                                 icon: Icon(
                                   _obscureConfirmPassword
-                                      ? Icons.visibility_outlined
-                                      : Icons.visibility_off_outlined,
+                                      ? Icons.visibility_off_outlined
+                                      : Icons.visibility_outlined,
                                   size: 18,
                                   color: AppColors.authTextMuted,
                                 ),
                               ),
                             ),
-                            const SizedBox(height: 12),
+                            const SizedBox(height: AuthTokens.fieldGap),
                             Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 1),
-                                  child: SizedBox(
-                                    width: 20,
-                                    height: 20,
+                                SizedBox(
+                                  width: 20,
+                                  height: 20,
+                                  child: Theme(
+                                    data: Theme.of(context).copyWith(
+                                      checkboxTheme: CheckboxThemeData(
+                                        side: const BorderSide(
+                                          color: AppColors.authButtonEnd,
+                                          width: 2,
+                                        ),
+                                        fillColor:
+                                            WidgetStateProperty.resolveWith(
+                                              (states) =>
+                                                  states.contains(
+                                                    WidgetState.selected,
+                                                  )
+                                                  ? AppColors.authBgBase
+                                                  : AppColors.authBgBase,
+                                            ),
+                                        checkColor:
+                                            WidgetStateProperty.all<Color>(
+                                              AppColors.authButtonEnd,
+                                            ),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                            4,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
                                     child: Checkbox(
                                       value: _agreeToTerms,
                                       onChanged: (value) {
@@ -338,43 +383,38 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   ),
                                 ),
                                 const SizedBox(width: 10),
-                                Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(top: 2),
-                                    child: Text(
-                                      'I agree to the Terms & Conditions',
-                                      style: textTheme.bodySmall,
-                                    ),
+                                const Expanded(
+                                  child: Text(
+                                    'I agree to the Terms & Conditions',
+                                    style: AuthTextStyles.caption,
                                   ),
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 20),
+                            const SizedBox(height: 32),
                             SizedBox(
                               width: double.infinity,
-                              child: _GradientActionButton(
+                              child: AuthGradientButton(
                                 text: 'Get Started',
                                 isLoading: _isLoading,
                                 onPressed: _isLoading ? null : _handleSignUp,
                               ),
                             ),
-                            const SizedBox(height: 24),
+                            const SizedBox(height: 34),
                             Center(
                               child: InkWell(
                                 onTap: () => Navigator.of(
                                   context,
                                 ).pushReplacementNamed('/login'),
                                 borderRadius: BorderRadius.circular(8),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
+                                child: const Padding(
+                                  padding: EdgeInsets.symmetric(
                                     horizontal: 8,
                                     vertical: 4,
                                   ),
                                   child: Text(
                                     'Already have an account? Sign In',
-                                    style: textTheme.bodyLarge?.copyWith(
-                                      color: AppColors.authTextMuted,
-                                    ),
+                                    style: AuthTextStyles.bodyMuted,
                                     textAlign: TextAlign.center,
                                   ),
                                 ),
@@ -387,9 +427,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                 ),
                 Positioned(
-                  right: 24,
+                  right: AuthTokens.badgeRight,
                   top: panelTop + 40,
-                  child: _AvatarUploadButton(
+                  child: AuthAvatarUploadBadge(
                     imageFile: _avatarImage,
                     isLoading: _isPickingAvatar || _isLoading,
                     onTap: _showAvatarSourceSheet,
@@ -399,270 +439,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
             );
           },
         ),
-      ),
-    );
-  }
-}
-
-class _AvatarUploadButton extends StatelessWidget {
-  const _AvatarUploadButton({
-    required this.imageFile,
-    required this.isLoading,
-    required this.onTap,
-  });
-
-  final File? imageFile;
-  final bool isLoading;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: isLoading ? null : onTap,
-        customBorder: const CircleBorder(),
-        child: Container(
-          width: 72,
-          height: 72,
-          decoration: const BoxDecoration(
-            color: AppColors.authBgSurface,
-            shape: BoxShape.circle,
-          ),
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              if (imageFile != null)
-                ClipOval(
-                  child: Image.file(
-                    imageFile!,
-                    width: 72,
-                    height: 72,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              Container(
-                width: 40,
-                height: 40,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    color: AppColors.authBgElevated,
-                    width: 1.67,
-                  ),
-                  color: imageFile == null
-                      ? Colors.transparent
-                      : AppColors.authBgBase.withValues(alpha: 0.5),
-                ),
-                child: isLoading
-                    ? const SizedBox(
-                        width: 16,
-                        height: 16,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2,
-                          color: AppColors.authTextPrimary,
-                        ),
-                      )
-                    : const Icon(
-                        Icons.person_add_alt_1_outlined,
-                        size: 20,
-                        color: AppColors.authTextPrimary,
-                      ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _UserTypeSelector extends StatelessWidget {
-  const _UserTypeSelector({required this.isInstaller, required this.onChanged});
-
-  final bool isInstaller;
-  final ValueChanged<bool> onChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-
-    return Container(
-      height: 42,
-      padding: EdgeInsets.zero,
-      clipBehavior: Clip.antiAlias,
-      decoration: BoxDecoration(
-        color: AppColors.authTabBg,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Row(
-        children: [
-          Expanded(
-            child: _RoleTab(
-              isLeft: true,
-              active: !isInstaller,
-              icon: Icons.person_outline,
-              label: 'User',
-              textTheme: textTheme,
-              onTap: () => onChanged(false),
-            ),
-          ),
-          Expanded(
-            child: _RoleTab(
-              isLeft: false,
-              active: isInstaller,
-              icon: Icons.engineering_outlined,
-              label: 'Installer',
-              textTheme: textTheme,
-              onTap: () => onChanged(true),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _RoleTab extends StatelessWidget {
-  const _RoleTab({
-    required this.isLeft,
-    required this.active,
-    required this.icon,
-    required this.label,
-    required this.textTheme,
-    required this.onTap,
-  });
-
-  final bool isLeft;
-  final bool active;
-  final IconData icon;
-  final String label;
-  final TextTheme textTheme;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final radius = BorderRadius.only(
-      topLeft: Radius.circular(isLeft ? 12 : 0),
-      bottomLeft: Radius.circular(isLeft ? 12 : 0),
-      topRight: Radius.circular(isLeft ? 0 : 12),
-      bottomRight: Radius.circular(isLeft ? 0 : 12),
-    );
-
-    return InkWell(
-      borderRadius: radius,
-      onTap: onTap,
-      child: SizedBox.expand(
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            borderRadius: radius,
-            gradient: active
-                ? const LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [
-                      AppColors.authButtonStart,
-                      AppColors.authButtonEnd,
-                    ],
-                  )
-                : null,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                icon,
-                size: 16,
-                color: active
-                    ? AppColors.authTextPrimary
-                    : AppColors.authTextMuted,
-              ),
-              const SizedBox(width: 6),
-              Text(
-                label,
-                style: textTheme.labelMedium?.copyWith(
-                  color: active
-                      ? AppColors.authTextPrimary
-                      : AppColors.authTextMuted,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _AuthField extends StatelessWidget {
-  const _AuthField({
-    required this.controller,
-    required this.hint,
-    this.validator,
-    this.keyboardType,
-    this.obscureText = false,
-    this.suffix,
-  });
-
-  final TextEditingController controller;
-  final String hint;
-  final String? Function(String?)? validator;
-  final TextInputType? keyboardType;
-  final bool obscureText;
-  final Widget? suffix;
-
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      controller: controller,
-      keyboardType: keyboardType,
-      obscureText: obscureText,
-      validator: validator,
-      style: Theme.of(context).textTheme.bodyLarge,
-      decoration: InputDecoration(hintText: hint, suffixIcon: suffix),
-    );
-  }
-}
-
-class _GradientActionButton extends StatelessWidget {
-  const _GradientActionButton({
-    required this.text,
-    required this.isLoading,
-    required this.onPressed,
-  });
-
-  final String text;
-  final bool isLoading;
-  final VoidCallback? onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [AppColors.authButtonStart, AppColors.authButtonEnd],
-        ),
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: ElevatedButton(
-        onPressed: onPressed,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.transparent,
-          shadowColor: Colors.transparent,
-        ),
-        child: isLoading
-            ? const SizedBox(
-                width: 20,
-                height: 20,
-                child: CircularProgressIndicator(
-                  strokeWidth: 2,
-                  color: AppColors.authTextPrimary,
-                ),
-              )
-            : Text(text),
       ),
     );
   }

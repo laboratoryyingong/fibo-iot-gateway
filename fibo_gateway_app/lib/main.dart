@@ -22,6 +22,12 @@ import 'screens/camera_playback_screen.dart';
 import 'screens/camera_settings_screen.dart';
 import 'screens/user_device_detail_screen.dart';
 import 'screens/user_home_shell.dart';
+import 'screens/spaces_all_devices_screen.dart';
+import 'screens/spaces_all_rooms_screen.dart';
+import 'screens/spaces_device_control_screen.dart';
+import 'screens/spaces_new_room_screen.dart';
+import 'screens/spaces_overview_screen.dart';
+import 'screens/spaces_room_detail_screen.dart';
 import 'services/parse_config.dart';
 import 'theme/app_theme.dart';
 
@@ -70,6 +76,13 @@ class FiboGatewayApp extends StatelessWidget {
         '/camera/settings': (context) => const CameraSettingsScreen(),
         '/user/home': (context) => const UserHomeShell(),
         '/user/device-detail': (context) => const UserDeviceDetailScreen(),
+        '/spaces': (context) => const SpacesOverviewScreen(),
+        '/spaces/devices': (context) => const SpacesAllDevicesScreen(),
+        '/spaces/device-control': (context) =>
+            const SpacesDeviceControlScreen(),
+        '/spaces/new-room': (context) => const SpacesNewRoomScreen(),
+        '/spaces/rooms': (context) => const SpacesAllRoomsScreen(),
+        '/spaces/room-detail': (context) => const SpacesRoomDetailScreen(),
       },
     );
   }

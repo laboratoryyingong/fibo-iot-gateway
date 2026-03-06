@@ -18,6 +18,7 @@ This file defines how coding agents should work in this repository so delivery s
 - `fibo_gateway_app/lib/services/`: service/config bridge (Parse config).
 - `fibo_gateway_app/design/`: `.pen` design source.
 - `fibo_gateway_app/docs/`: internal progress and design-implementation audit docs.
+- `fibo_gateway_app/scripts/`: token export and design helper scripts.
 - `Parse/`: Parse-related scripts and deployment notes.
 
 ## 3. Local Setup Rules
@@ -34,6 +35,7 @@ Do not commit `parse_config.local.dart` (already ignored).
 
 - Never commit secrets, credentials, API keys, dashboard passwords, or database auth.
 - Never place Parse `MASTER_KEY` in Flutter client code.
+- Never copy values from `Parse/.env` into Flutter app source.
 - Any file containing plaintext secrets must be redacted immediately and rotated outside git.
 - If a secret leak is detected, stop feature work and raise it as a priority security incident.
 
@@ -46,14 +48,15 @@ Do not commit `parse_config.local.dart` (already ignored).
 2. Make minimal scoped changes only for the requested task.
 3. Preserve existing visual language:
    - Colors from `AppColors`
-   - Typography from `AppTextStyles`
-   - Theme wiring in `AppTheme`
+   - Typography from `AppTextStyles` / `AuthTextStyles` / pairing tokens
+   - Theme wiring in `AppTheme` and dedicated token files (`auth_tokens.dart`, `pairing_tokens.dart`)
 4. If adding screen:
    - Create `*_screen.dart` in `lib/screens`
    - Register route in `lib/main.dart`
    - Ensure navigation paths are valid from existing flows
 5. If adding shared UI:
    - Prefer `lib/widgets` reusable component over duplicated screen code
+   - For auth/pairing, prefer shared widgets in `lib/widgets/auth_*` and `lib/widgets/pairing_*`
 6. Keep business logic out of build trees as much as possible; extract helpers/services when complexity grows.
 
 ## 6. Coding Standards
@@ -65,6 +68,7 @@ Do not commit `parse_config.local.dart` (already ignored).
   - Constants/tokens: centralized under `lib/theme`
 - Avoid hardcoded design values when a token/style exists.
 - Keep files focused; avoid mixing routing, data access, and presentation in one place.
+- For pixel-calibration work, put constants in token files instead of inline literal values.
 
 ## 7. Quality Gates (Required Before Finalizing Work)
 
@@ -75,28 +79,45 @@ flutter analyze
 flutter test
 ```
 
-Current known baseline issue (must be handled when touching tests):
-- `test/widget_test.dart` references `MyApp`, but app root is `FiboGatewayApp`.
-
 Do not claim green quality checks unless command output is verified in current branch.
 
 ## 8. UI and Product Consistency
 
-- The project is design-driven from `fibo_gateway_app/design/fibo-gateway-app.pen`.
+- The project is design-driven from:
+  - `fibo_gateway_app/design/fibo-gateway-app.pen`
+  - `fibo_gateway_app/design/auth.pen`
+  - `fibo_gateway_app/design/device-pairing.pen`
+  - `fibo_gateway_app/design/token.pen`
 - Keep style consistency with existing implementation:
   - Primary color `#FF8400`
   - Background `#F2F3F0`
-  - Font families: `JetBrains Mono`, `Geist`
+  - General app fonts: `JetBrains Mono`, `Geist`
+  - Auth/Pairing flow fonts: `Manrope` (and `Inter` where explicitly specified)
 - When implementing new modules, match spacing/radius/typography conventions already used in current screens.
 
-## 9. Documentation Maintenance
+## 9. Pixel Calibration Workflow
+
+When asked for "像素级校准" or design parity:
+
+1. Use the relevant `.pen` source under `fibo_gateway_app/design/`.
+2. Update token files under `lib/theme/` first.
+3. Reuse or extract shared widgets under `lib/widgets/`.
+4. If token data needs refresh, run:
+   - `cd fibo_gateway_app`
+   - `./scripts/export_token_pen_tokens.sh`
+5. Validate with:
+   - `flutter analyze`
+   - `flutter test`
+
+## 10. Documentation Maintenance
 
 When scope changes materially, update:
 
 - `fibo_gateway_app/README.md` for architecture or setup changes.
 - `fibo_gateway_app/docs/ui-progress-report.md` when screen coverage changes.
+- Token export docs in `fibo_gateway_app/docs/` when token source changes.
 
-## 10. Commit and Review Expectations
+## 11. Commit and Review Expectations
 
 - Prefer small, reviewable commits grouped by feature/fix.
 - Commit messages should be explicit (`feat:`, `fix:`, `refactor:`, `test:`, `docs:`).

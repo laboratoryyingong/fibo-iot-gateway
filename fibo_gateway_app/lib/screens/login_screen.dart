@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
+
 import '../services/user_role_resolver.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
+import '../theme/auth_tokens.dart';
 import '../widgets/auth_background_image.dart';
+import '../widgets/auth_gradient_button.dart';
+import '../widgets/auth_input_field.dart';
+import '../widgets/auth_top_badges.dart';
+import '../widgets/auth_user_type_selector.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -28,6 +34,11 @@ class _LoginScreenState extends State<LoginScreen> {
     _licenseController.dispose();
     _passwordController.dispose();
     super.dispose();
+  }
+
+  String? _requiredValidator(String? value, String message) {
+    if ((value ?? '').trim().isEmpty) return message;
+    return null;
   }
 
   String? _emailValidator(String? value) {
@@ -96,9 +107,7 @@ class _LoginScreenState extends State<LoginScreen> {
         return;
       }
       if (!mounted) return;
-      Navigator.of(
-        context,
-      ).pushReplacementNamed(resolveHomeRoute(loggedInUser));
+      Navigator.of(context).pushReplacementNamed('/spaces');
       return;
     }
 
@@ -107,7 +116,7 @@ class _LoginScreenState extends State<LoginScreen> {
       await _showMessage(
         'Sign-in failed',
         _isInstaller
-            ? 'Email or password is incorrect.'
+            ? 'License key or password is incorrect.'
             : 'Email or password is incorrect, or your email is not verified yet. Please verify your email and try again.',
       );
       return;
@@ -126,14 +135,13 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Scaffold(
         body: LayoutBuilder(
           builder: (context, constraints) {
-            final panelTop = constraints.maxHeight * (228 / 812);
-            final theme = Theme.of(context);
-            final textTheme = theme.textTheme;
+            final panelTop =
+                constraints.maxHeight *
+                (AuthTokens.panelTopSignIn / AuthTokens.designHeight);
 
             return Stack(
               children: [
-                Container(color: AppColors.authBgBase),
-                const AuthBackgroundImage(),
+                const AuthBackgroundImage(showImage: true, overlayOpacity: 0),
                 Positioned(
                   left: 0,
                   right: 0,
@@ -143,12 +151,17 @@ class _LoginScreenState extends State<LoginScreen> {
                     decoration: const BoxDecoration(
                       color: AppColors.authBgBase,
                       borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(24),
-                        topRight: Radius.circular(24),
+                        topLeft: Radius.circular(AuthTokens.panelRadius),
+                        topRight: Radius.circular(AuthTokens.panelRadius),
                       ),
                     ),
                     child: SingleChildScrollView(
-                      padding: const EdgeInsets.fromLTRB(24, 40, 24, 24),
+                      padding: const EdgeInsets.fromLTRB(
+                        AuthTokens.panelHorizontalPadding,
+                        AuthTokens.panelContentTop,
+                        AuthTokens.panelHorizontalPadding,
+                        AuthTokens.panelContentBottom,
+                      ),
                       child: Form(
                         key: _formKey,
                         child: Column(
@@ -156,32 +169,34 @@ class _LoginScreenState extends State<LoginScreen> {
                           children: [
                             Text(
                               'Welcome\nBack',
-                              style: textTheme.headlineMedium,
+                              style: Theme.of(context).textTheme.headlineMedium,
                             ),
-                            const SizedBox(height: 16),
-                            _UserTypeSelector(
+                            const SizedBox(height: 20),
+                            AuthUserTypeSelector(
                               isInstaller: _isInstaller,
                               onChanged: (isInstaller) {
                                 setState(() => _isInstaller = isInstaller);
                               },
                             ),
-                            const SizedBox(height: 24),
+                            const SizedBox(height: 28),
                             if (_isInstaller)
-                              _AuthField(
+                              AuthInputField(
                                 controller: _licenseController,
-                                hint: 'Email',
-                                keyboardType: TextInputType.emailAddress,
-                                validator: _emailValidator,
+                                hint: 'License Key',
+                                validator: (value) => _requiredValidator(
+                                  value,
+                                  'Please enter your license key',
+                                ),
                               )
                             else
-                              _AuthField(
+                              AuthInputField(
                                 controller: _emailController,
                                 hint: 'Email',
                                 keyboardType: TextInputType.emailAddress,
                                 validator: _emailValidator,
                               ),
-                            const SizedBox(height: 16),
-                            _AuthField(
+                            const SizedBox(height: AuthTokens.fieldGap),
+                            AuthInputField(
                               controller: _passwordController,
                               hint: 'Password',
                               obscureText: _obscurePassword,
@@ -192,55 +207,70 @@ class _LoginScreenState extends State<LoginScreen> {
                                     _obscurePassword = !_obscurePassword;
                                   });
                                 },
+                                padding: EdgeInsets.zero,
+                                constraints: const BoxConstraints(
+                                  minWidth: 24,
+                                  minHeight: 24,
+                                ),
                                 icon: Icon(
                                   _obscurePassword
-                                      ? Icons.visibility_outlined
-                                      : Icons.visibility_off_outlined,
+                                      ? Icons.visibility_off_outlined
+                                      : Icons.visibility_outlined,
                                   size: 18,
                                   color: AppColors.authTextMuted,
                                 ),
                               ),
                             ),
-                            const SizedBox(height: 16),
-                            Align(
-                              alignment: Alignment.center,
-                              child: TextButton(
-                                onPressed: () => Navigator.of(
-                                  context,
-                                ).pushNamed('/forgot-password'),
-                                style: TextButton.styleFrom(
-                                  foregroundColor: AppColors.authLinkSoft,
-                                  textStyle: textTheme.labelMedium,
+                            const SizedBox(height: 36),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 16),
+                              child: SizedBox(
+                                width: 295,
+                                child: Align(
+                                  alignment: Alignment.centerRight,
+                                  child: TextButton(
+                                    onPressed: () => Navigator.of(
+                                      context,
+                                    ).pushNamed('/forgot-password'),
+                                    style: TextButton.styleFrom(
+                                      padding: EdgeInsets.zero,
+                                      minimumSize: Size.zero,
+                                      tapTargetSize:
+                                          MaterialTapTargetSize.shrinkWrap,
+                                    ),
+                                    child: const Text(
+                                      'Forgot Password?',
+                                      style: AuthTextStyles.subtitleBold,
+                                      textAlign: TextAlign.right,
+                                    ),
+                                  ),
                                 ),
-                                child: const Text('Forgot Password?'),
                               ),
                             ),
-                            const SizedBox(height: 8),
+                            const SizedBox(height: 44),
                             SizedBox(
                               width: double.infinity,
-                              child: _GradientActionButton(
+                              child: AuthGradientButton(
                                 text: 'Sign In',
                                 isLoading: _isLoading,
                                 onPressed: _isLoading ? null : _handleLogin,
                               ),
                             ),
-                            const SizedBox(height: 24),
+                            const SizedBox(height: 28),
                             Center(
                               child: InkWell(
                                 onTap: () =>
                                     Navigator.of(context).pushNamed('/signup'),
                                 borderRadius: BorderRadius.circular(8),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
+                                child: const Padding(
+                                  padding: EdgeInsets.symmetric(
                                     horizontal: 8,
                                     vertical: 4,
                                   ),
                                   child: Text(
                                     'Don’t have an account? Get Started',
                                     textAlign: TextAlign.center,
-                                    style: textTheme.bodyLarge?.copyWith(
-                                      color: AppColors.authTextMuted,
-                                    ),
+                                    style: AuthTextStyles.bodyMuted,
                                   ),
                                 ),
                               ),
@@ -252,236 +282,16 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 Positioned(
-                  right: 24,
+                  right: AuthTokens.badgeRight,
                   top: panelTop + 40,
-                  child: IgnorePointer(
-                    child: Container(
-                      width: 72,
-                      height: 72,
-                      decoration: const BoxDecoration(
-                        color: AppColors.authBgSurface,
-                        shape: BoxShape.circle,
-                      ),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  right: 40,
-                  top: panelTop + 56,
-                  child: IgnorePointer(
-                    child: Container(
-                      width: 40,
-                      height: 40,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: AppColors.authBgElevated,
-                          width: 1.67,
-                        ),
-                      ),
-                      child: const Icon(
-                        Icons.waving_hand_outlined,
-                        size: 20,
-                        color: AppColors.authTextPrimary,
-                      ),
-                    ),
+                  child: const AuthPanelIconBadge(
+                    child: Text('👋', style: TextStyle(fontSize: 30)),
                   ),
                 ),
               ],
             );
           },
         ),
-      ),
-    );
-  }
-}
-
-class _UserTypeSelector extends StatelessWidget {
-  const _UserTypeSelector({required this.isInstaller, required this.onChanged});
-
-  final bool isInstaller;
-  final ValueChanged<bool> onChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-
-    return Container(
-      height: 42,
-      padding: EdgeInsets.zero,
-      clipBehavior: Clip.antiAlias,
-      decoration: BoxDecoration(
-        color: AppColors.authTabBg,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Row(
-        children: [
-          Expanded(
-            child: _RoleTab(
-              isLeft: true,
-              active: !isInstaller,
-              icon: Icons.person_outline,
-              label: 'User',
-              textTheme: textTheme,
-              onTap: () => onChanged(false),
-            ),
-          ),
-          Expanded(
-            child: _RoleTab(
-              isLeft: false,
-              active: isInstaller,
-              icon: Icons.engineering_outlined,
-              label: 'Installer',
-              textTheme: textTheme,
-              onTap: () => onChanged(true),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _RoleTab extends StatelessWidget {
-  const _RoleTab({
-    required this.isLeft,
-    required this.active,
-    required this.icon,
-    required this.label,
-    required this.textTheme,
-    required this.onTap,
-  });
-
-  final bool isLeft;
-  final bool active;
-  final IconData icon;
-  final String label;
-  final TextTheme textTheme;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final radius = BorderRadius.only(
-      topLeft: Radius.circular(isLeft ? 12 : 0),
-      bottomLeft: Radius.circular(isLeft ? 12 : 0),
-      topRight: Radius.circular(isLeft ? 0 : 12),
-      bottomRight: Radius.circular(isLeft ? 0 : 12),
-    );
-
-    return InkWell(
-      borderRadius: radius,
-      onTap: onTap,
-      child: SizedBox.expand(
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            borderRadius: radius,
-            gradient: active
-                ? const LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [
-                      AppColors.authButtonStart,
-                      AppColors.authButtonEnd,
-                    ],
-                  )
-                : null,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                icon,
-                size: 16,
-                color: active
-                    ? AppColors.authTextPrimary
-                    : AppColors.authTextMuted,
-              ),
-              const SizedBox(width: 6),
-              Text(
-                label,
-                style: textTheme.labelMedium?.copyWith(
-                  color: active
-                      ? AppColors.authTextPrimary
-                      : AppColors.authTextMuted,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _AuthField extends StatelessWidget {
-  const _AuthField({
-    required this.controller,
-    required this.hint,
-    this.validator,
-    this.keyboardType,
-    this.obscureText = false,
-    this.suffix,
-  });
-
-  final TextEditingController controller;
-  final String hint;
-  final String? Function(String?)? validator;
-  final TextInputType? keyboardType;
-  final bool obscureText;
-  final Widget? suffix;
-
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      controller: controller,
-      keyboardType: keyboardType,
-      obscureText: obscureText,
-      validator: validator,
-      style: Theme.of(context).textTheme.bodyLarge,
-      decoration: InputDecoration(hintText: hint, suffixIcon: suffix),
-    );
-  }
-}
-
-class _GradientActionButton extends StatelessWidget {
-  const _GradientActionButton({
-    required this.text,
-    required this.isLoading,
-    required this.onPressed,
-  });
-
-  final String text;
-  final bool isLoading;
-  final VoidCallback? onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [AppColors.authButtonStart, AppColors.authButtonEnd],
-        ),
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: ElevatedButton(
-        onPressed: onPressed,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.transparent,
-          shadowColor: Colors.transparent,
-        ),
-        child: isLoading
-            ? const SizedBox(
-                width: 20,
-                height: 20,
-                child: CircularProgressIndicator(
-                  strokeWidth: 2,
-                  color: AppColors.authTextPrimary,
-                ),
-              )
-            : Text(text),
       ),
     );
   }

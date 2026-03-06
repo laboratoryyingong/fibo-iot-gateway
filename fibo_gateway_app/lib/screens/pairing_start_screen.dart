@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import '../theme/app_colors.dart';
+
+import 'pairing_flow_navigation.dart';
 import '../theme/app_decorations.dart';
-import '../theme/app_text_styles.dart';
-import '../widgets/header_action_button.dart';
+import '../theme/pairing_tokens.dart';
+import '../widgets/pairing_action_button.dart';
+import '../widgets/pairing_gradient_panel.dart';
+import '../widgets/pairing_header.dart';
 
 class PairingStartScreen extends StatelessWidget {
   const PairingStartScreen({super.key});
@@ -10,59 +13,67 @@ class PairingStartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: PairingTokens.bgBase,
       body: SafeArea(
+        bottom: false,
         child: Column(
           children: [
-            _Header(
+            PairingHeader(
               title: 'Add Device',
-              onBack: () => Navigator.of(context).pop(),
+              onBack: () => dismissPairingFlow(context),
+              onClose: () => dismissPairingFlow(context),
             ),
             Expanded(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.fromLTRB(24, 24, 24, 24),
+                padding: const EdgeInsets.fromLTRB(24, 90, 24, 24),
                 child: Column(
                   children: [
                     Container(
-                      width: 200,
-                      height: 200,
+                      width: 162,
+                      height: 162,
                       decoration: BoxDecoration(
-                        color: AppColors.accentBlueSurface,
-                        borderRadius: BorderRadius.circular(100),
+                        color: const Color(0xFFE3E5FC),
+                        borderRadius: BorderRadius.circular(81),
                       ),
                       child: const Icon(
                         Icons.add_circle,
                         size: 80,
-                        color: AppColors.primary,
+                        color: PairingTokens.accentPrimary,
                       ),
                     ),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 44),
                     Text(
                       'Add New Zigbee Device',
-                      style: AppTextStyles.heading24,
+                      style: PairingTextStyles.headline.copyWith(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w600,
+                      ),
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 12),
                     Text(
-                      'Make sure your device is in pairing mode before continuing',
-                      style: AppTextStyles.body15Muted,
+                      'Make Sure your device is in Pairing mode\nbefore continuing',
+                      style: PairingTextStyles.caption.copyWith(
+                        color: PairingTokens.textMuted,
+                      ),
                       textAlign: TextAlign.center,
                     ),
-                    const SizedBox(height: 24),
-                    _StepsCard(),
-                    const SizedBox(height: 32),
-                    SizedBox(
+                    const SizedBox(height: 28),
+                    const PairingGradientPanel(
                       width: double.infinity,
-                      height: 52,
-                      child: ElevatedButton(
-                        onPressed: () => Navigator.of(
-                          context,
-                        ).pushNamed('/pairing/searching'),
-                        child: const Text('Start Searching'),
-                      ),
+                      padding: EdgeInsets.fromLTRB(16, 16, 16, 14),
+                      child: _StepsCard(),
                     ),
                   ],
                 ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(24, 8, 24, 24),
+              child: PairingActionButton(
+                text: 'Start Searching',
+                onPressed: () =>
+                    Navigator.of(context).pushNamed('/pairing/searching'),
               ),
             ),
           ],
@@ -72,58 +83,41 @@ class PairingStartScreen extends StatelessWidget {
   }
 }
 
-class _Header extends StatelessWidget {
-  const _Header({required this.title, required this.onBack});
-
-  final String title;
-  final VoidCallback onBack;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 0, 20, 8),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          HeaderActionButton(icon: Icons.arrow_back, onTap: onBack),
-          Text(
-            title,
-            style: AppTextStyles.body16.copyWith(fontWeight: FontWeight.w700),
-          ),
-          const HeaderActionButton(icon: Icons.notifications),
-        ],
-      ),
-    );
-  }
-}
-
 class _StepsCard extends StatelessWidget {
+  const _StepsCard();
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(20),
+    return DecoratedBox(
       decoration: BoxDecoration(
-        color: AppColors.card,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(20),
         boxShadow: AppDecorations.softCardShadow,
       ),
-      child: Column(
+      child: const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
-          Text('Before you start:', style: AppTextStyles.body16),
-          SizedBox(height: 16),
+        children: [
+          Text(
+            'Before you start:',
+            style: TextStyle(
+              fontFamily: PairingTokens.fontPrimary,
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: PairingTokens.textPrimary,
+            ),
+          ),
+          SizedBox(height: 12),
           _StepRow(
             index: '1',
             text:
                 'Put your Zigbee device close to the gateway (within 2 meters)',
           ),
-          SizedBox(height: 12),
+          SizedBox(height: 10),
           _StepRow(
             index: '2',
             text:
                 'Enable pairing mode on your device (usually by pressing and holding the reset button for 5 seconds)',
           ),
-          SizedBox(height: 12),
+          SizedBox(height: 10),
           _StepRow(
             index: '3',
             text:
@@ -150,21 +144,22 @@ class _StepRow extends StatelessWidget {
           width: 24,
           height: 24,
           decoration: BoxDecoration(
-            color: AppColors.primary,
+            color: PairingTokens.accentPrimary,
             borderRadius: BorderRadius.circular(12),
           ),
           child: Center(
             child: Text(
               index,
-              style: AppTextStyles.body13Muted.copyWith(
-                color: AppColors.white,
+              style: PairingTextStyles.small.copyWith(
+                color: PairingTokens.textPrimary,
                 fontWeight: FontWeight.w600,
+                fontSize: 13,
               ),
             ),
           ),
         ),
-        const SizedBox(width: 12),
-        Expanded(child: Text(text, style: AppTextStyles.body14)),
+        const SizedBox(width: 6),
+        Expanded(child: Text(text, style: PairingTextStyles.caption)),
       ],
     );
   }

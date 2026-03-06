@@ -298,6 +298,14 @@ class _QuickAccessSection extends StatelessWidget {
           child: Column(
             children: [
               _QuickDeviceRow(
+                icon: Icons.space_dashboard_outlined,
+                title: 'My Spaces',
+                subtitle: '4 rooms • 25 devices',
+                enabled: true,
+                showDivider: true,
+                onTap: () => Navigator.of(context).pushNamed('/spaces'),
+              ),
+              _QuickDeviceRow(
                 icon: Icons.videocam,
                 title: 'Camera Center',
                 subtitle: '6 online streams',

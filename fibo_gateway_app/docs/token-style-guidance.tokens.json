@@ -1,0 +1,381 @@
+{
+  "meta": {
+    "source_file": "/Users/yingong/Desktop/fibo-iot-gateway/fibo_gateway_app/design/token.pen",
+    "generated_for": "pixel-perfect calibration",
+    "generated_at_utc_epoch": 1772246357.818993
+  },
+  "tokens": {
+    "colors": {
+      "palette_from_colors_frame": [
+        {
+          "id": "LTtmS",
+          "name": "Rectangle 93",
+          "fill": "#505edcff",
+          "x": 50,
+          "y": 38,
+          "width": 1340,
+          "height": 165,
+          "slot": "header_band"
+        },
+        {
+          "id": "jyK6X",
+          "name": "Rectangle 141",
+          "fill": "#505edcff",
+          "x": 50,
+          "y": 267,
+          "width": 160,
+          "height": 160,
+          "slot": "brand_primary"
+        },
+        {
+          "id": "0b52a",
+          "name": "Rectangle 142",
+          "fill": "#24b898ff",
+          "x": 250,
+          "y": 267,
+          "width": 160,
+          "height": 160,
+          "slot": "brand_success"
+        },
+        {
+          "id": "90OEI",
+          "name": "Rectangle 143",
+          "fill": "#fad000ff",
+          "x": 450,
+          "y": 267,
+          "width": 160,
+          "height": 160,
+          "slot": "brand_warning"
+        },
+        {
+          "id": "7ucSM",
+          "name": "Rectangle 123",
+          "fill": "#ff8a5dff",
+          "x": 650,
+          "y": 267,
+          "width": 160,
+          "height": 160,
+          "slot": "brand_accent_orange"
+        },
+        {
+          "id": "wl2av",
+          "name": "Rectangle 12",
+          "fill": "#ff454bff",
+          "x": 850,
+          "y": 267,
+          "width": 160,
+          "height": 160,
+          "slot": "brand_danger"
+        },
+        {
+          "id": "oCWn5",
+          "name": "Rectangle 140",
+          "fill": "#1b242dff",
+          "x": 50,
+          "y": 507,
+          "width": 160,
+          "height": 160,
+          "slot": "neutral_bg_base"
+        },
+        {
+          "id": "RCDoR",
+          "name": "Rectangle 136",
+          "fill": "#25313dff",
+          "x": 250,
+          "y": 507,
+          "width": 160,
+          "height": 160,
+          "slot": "neutral_bg_surface"
+        },
+        {
+          "id": "zh8VV",
+          "name": "Rectangle 137",
+          "fill": "#314252ff",
+          "x": 450,
+          "y": 507,
+          "width": 160,
+          "height": 160,
+          "slot": "neutral_bg_elevated"
+        },
+        {
+          "id": "OPetk",
+          "name": "Rectangle 124",
+          "fill": "#737b8cff",
+          "x": 650,
+          "y": 507,
+          "width": 160,
+          "height": 160,
+          "slot": "neutral_text_muted"
+        },
+        {
+          "id": "i0EZE",
+          "name": "Rectangle 138",
+          "fill": "#eff3f6ff",
+          "x": 850,
+          "y": 507,
+          "width": 160,
+          "height": 160,
+          "slot": "neutral_text_soft"
+        },
+        {
+          "id": "n8PjX",
+          "name": "Rectangle 139",
+          "fill": "#ffffffff",
+          "x": 1050,
+          "y": 507,
+          "width": 160,
+          "height": 160,
+          "slot": "neutral_white"
+        }
+      ],
+      "all_unique_fill_values": [
+        "#000000ff",
+        "#1b242dff",
+        "#24b898ff",
+        "#25313dff",
+        "#314252ff",
+        "#505edcff",
+        "#737b8cff",
+        "#7b61ffff",
+        "#8a8cb2ff",
+        "#eff3f6ff",
+        "#f9f9faff",
+        "#fad000ff",
+        "#ff454bff",
+        "#ff8a5dff",
+        "#ffffffff"
+      ],
+      "all_unique_stroke_fill_values": [
+        "#1b242dff",
+        "#25313dff",
+        "#314252ff",
+        "#505edcff",
+        "#737b8cff",
+        "#7b61ffff",
+        "#8a8cb2ff",
+        "#ffffffff"
+      ]
+    },
+    "typography": {
+      "primary_font_family": "Manrope",
+      "secondary_font_family": "Poppins",
+      "section_label_font_family": "Ubuntu",
+      "scale": [
+        {
+          "token": "title_1",
+          "label": "Title 1 / Manrope / Bold / 40 px",
+          "font_family": "Manrope",
+          "font_size": 40,
+          "font_weight_source": "700",
+          "font_weight_intended": 700,
+          "line_height": 1.2000000476837158,
+          "letter_spacing": null,
+          "color": "#ffffffff"
+        },
+        {
+          "token": "title_2",
+          "label": "Title 2 / Manrope / Bold / 30 px",
+          "font_family": "Manrope",
+          "font_size": 30,
+          "font_weight_source": "700",
+          "font_weight_intended": 700,
+          "line_height": 1.2000000476837158,
+          "letter_spacing": null,
+          "color": "#ffffffff"
+        },
+        {
+          "token": "title_3",
+          "label": "Title 3 / Manrope / Bold / 26 px",
+          "font_family": "Manrope",
+          "font_size": 26,
+          "font_weight_source": "700",
+          "font_weight_intended": 700,
+          "line_height": 1.2307692307692308,
+          "letter_spacing": null,
+          "color": "#ffffffff"
+        },
+        {
+          "token": "headline",
+          "label": "Headline / Manrope / Medium / 20 px",
+          "font_family": "Manrope",
+          "font_size": 20,
+          "font_weight_source": "normal",
+          "font_weight_intended": 500,
+          "line_height": 1.399999976158142,
+          "letter_spacing": null,
+          "color": "#ffffffff"
+        },
+        {
+          "token": "body",
+          "label": "Body / Manrope / Regular / 16 px",
+          "font_family": "Manrope",
+          "font_size": 16,
+          "font_weight_source": "normal",
+          "font_weight_intended": 400,
+          "line_height": null,
+          "letter_spacing": null,
+          "color": "#ffffffff"
+        },
+        {
+          "token": "body_bold",
+          "label": "Body Bold / Manrope / Bold / 16 px",
+          "font_family": "Manrope",
+          "font_size": 16,
+          "font_weight_source": "700",
+          "font_weight_intended": 700,
+          "line_height": null,
+          "letter_spacing": null,
+          "color": "#ffffffff"
+        },
+        {
+          "token": "caption_bold",
+          "label": "Caption Bold / Manrope / Bold / 14 px",
+          "font_family": "Manrope",
+          "font_size": 14,
+          "font_weight_source": "700",
+          "font_weight_intended": 700,
+          "line_height": 1.399999976158142,
+          "letter_spacing": null,
+          "color": "#ffffffff"
+        },
+        {
+          "token": "caption",
+          "label": "Caption / Manrope / Regular / 14 px",
+          "font_family": "Manrope",
+          "font_size": 14,
+          "font_weight_source": "normal",
+          "font_weight_intended": 400,
+          "line_height": 1.399999976158142,
+          "letter_spacing": null,
+          "color": "#ffffffff"
+        },
+        {
+          "token": "small_body",
+          "label": "Small Body / Manrope / Regular / 12 px",
+          "font_family": "Manrope",
+          "font_size": 12,
+          "font_weight_source": "normal",
+          "font_weight_intended": 400,
+          "line_height": null,
+          "letter_spacing": null,
+          "color": "#ffffffff"
+        },
+        {
+          "token": "footnotes",
+          "label": "Footnotes / Manrope / Medium / 10 px",
+          "font_family": "Manrope",
+          "font_size": 10,
+          "font_weight_source": "normal",
+          "font_weight_intended": 500,
+          "line_height": 1.6,
+          "letter_spacing": null,
+          "color": "#ffffffff"
+        }
+      ],
+      "all_font_families_used": [
+        "Manrope",
+        "Poppins",
+        "Ubuntu"
+      ],
+      "all_font_sizes_used": [
+        10,
+        12,
+        14,
+        16,
+        18,
+        20,
+        26,
+        30,
+        36,
+        40,
+        48
+      ]
+    },
+    "radius": {
+      "core": {
+        "xs": 5,
+        "sm": 6,
+        "md": 16,
+        "lg": 24,
+        "xl": 40,
+        "capsule": 43,
+        "full": 100
+      },
+      "all_unique_corner_radius_values": [
+        5,
+        6,
+        16,
+        17.166667938232422,
+        24,
+        40,
+        43,
+        100
+      ]
+    },
+    "spacing": {
+      "gap_values": [
+        2,
+        4,
+        6,
+        8,
+        10,
+        16,
+        20,
+        24,
+        40,
+        56,
+        80
+      ],
+      "padding_values_numeric": [
+        12,
+        14,
+        16,
+        20,
+        24
+      ],
+      "padding_values_array": [
+        [
+          0,
+          2
+        ],
+        [
+          10,
+          16
+        ],
+        [
+          16,
+          8
+        ],
+        [
+          16,
+          13
+        ],
+        [
+          17,
+          16
+        ],
+        [
+          44,
+          0,
+          0,
+          0
+        ]
+      ],
+      "recommended_scale": [
+        2,
+        4,
+        6,
+        8,
+        10,
+        12,
+        14,
+        16,
+        20,
+        24,
+        40,
+        56,
+        80
+      ]
+    }
+  }
+}

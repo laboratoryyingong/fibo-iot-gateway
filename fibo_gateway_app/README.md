@@ -3,19 +3,23 @@
 Flutter app for a Zigbee gateway dashboard with device management, pairing flow, and basic account authentication.
 
 **Modules**
-- Auth: splash, login, sign up, forgot password
+- Auth: splash, login, sign up, forgot password (pixel-calibrated against `design/auth.pen`)
 - Dashboard: home overview, quick access, metrics
 - Devices: list, detail
 - Network: status overview
 - Settings: gateway and system sections
-- Pairing: start, searching, device found, success
+- Pairing: start, searching, device found, success (pixel-calibrated against `design/device-pairing.pen`)
 - Scenes: list, detail, trigger/action builder
 - Camera: list, live view, add NVR, channels, playback, settings
 - User Role: user dashboard, devices, device detail, scenes, settings
+- Spaces (WIP): spaces overview, all rooms, room detail, all devices, new room, device control (`design/space.pen` - 300/301/304/305/306/307/308/309/310/313/314/315)
+  - Current state source: in-memory interactive mock store (`lib/screens/space_models.dart`, `SpaceMockStore`)
 
 **Tech Stack**
 - Flutter
 - Parse Server SDK (`parse_server_sdk_flutter`)
+- image picker (`image_picker`)
+- SVG rendering (`flutter_svg`)
 
 **Project Structure**
 - `fibo_gateway_app/lib/screens/`: UI screens
@@ -23,6 +27,34 @@ Flutter app for a Zigbee gateway dashboard with device management, pairing flow,
 - `fibo_gateway_app/lib/theme/`: colors and typography
 - `fibo_gateway_app/lib/widgets/`: shared components
 - `fibo_gateway_app/design/`: `.pen` design source
+- `fibo_gateway_app/docs/`: token exports and UI calibration references
+- `fibo_gateway_app/scripts/`: helper scripts (token export)
+
+**Design Sources**
+- `design/fibo-gateway-app.pen`: baseline app pages
+- `design/auth.pen`: auth flow UI
+- `design/device-pairing.pen`: pairing flow UI
+- `design/token.pen`: style guidance and token extraction source
+
+**Design Tokens**
+- Auth tokens: `lib/theme/auth_tokens.dart`
+- Pairing tokens: `lib/theme/pairing_tokens.dart`
+- Exported token docs:
+  - `docs/token-style-guidance.tokens.json`
+  - `docs/token-style-guidance.tokens.md`
+  - `docs/device-pairing.tokens.json`
+
+**Token Export (for pixel calibration)**
+```bash
+cd fibo_gateway_app
+./scripts/export_token_pen_tokens.sh
+```
+
+Optional custom input/output:
+```bash
+cd fibo_gateway_app
+./scripts/export_token_pen_tokens.sh design/token.pen docs/token-style-guidance.tokens.json
+```
 
 **Local Parse Config**
 This project expects a local-only Parse config file that is ignored by git.
@@ -31,6 +63,7 @@ This project expects a local-only Parse config file that is ignored by git.
 2. Fill in your real `serverUrl`, `appId`, and `clientKey` values
 
 Note: `parse_config.local.dart` is gitignored on purpose.
+Security: never copy Parse `MASTER_KEY` or dashboard credentials into Flutter client code.
 
 **Parse Dashboard (redacted)**
 - URL: `<REDACTED_DASHBOARD_URL>`
@@ -44,6 +77,13 @@ flutter pub get
 flutter run
 ```
 
+**Quality Checks**
+```bash
+cd fibo_gateway_app
+flutter analyze
+flutter test
+```
+
 **Navigation**
 - `/home` -> bottom tabs: Home, Devices, Scenes, Network, Settings
 - `/user/home` -> user bottom tabs: Home, Devices, Scenes, Settings
@@ -51,7 +91,14 @@ flutter run
 - `/pairing/*` -> pairing flow screens
 - `/scenes/*` -> scenes flow screens
 - `/camera/*` -> camera center screens
+- `/spaces` -> spaces overview screen (WIP)
+- `/spaces/devices` -> all devices screen (WIP)
+- `/spaces/device-control` -> device control screen by type (WIP)
+- `/spaces/new-room` -> new room screen (WIP)
+- `/spaces/rooms` -> all rooms screen (WIP)
+- `/spaces/room-detail` -> room detail screen (WIP)
 
 **Security**
 - Do not commit secrets or credentials
 - Use `parse_config.local.dart` for local-only settings
+- Never use Parse `MASTER_KEY` in mobile app code
