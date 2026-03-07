@@ -149,8 +149,57 @@ class _TopBar extends StatelessWidget {
               child: Text('My Spaces', style: SpaceTextStyles.navTitle),
             ),
           ),
-          const SizedBox(width: 44),
+          const _TopMenuButton(),
         ],
+      ),
+    );
+  }
+}
+
+class _TopMenuButton extends StatelessWidget {
+  const _TopMenuButton();
+
+  @override
+  Widget build(BuildContext context) {
+    return PopupMenuButton<String>(
+      color: SpaceColors.bgElevated,
+      offset: const Offset(0, 44),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+      onSelected: (value) {
+        if (value == 'new-room') {
+          Navigator.of(context).pushNamed('/spaces/new-room');
+          return;
+        }
+        if (value == 'new-device') {
+          Navigator.of(context).pushNamed('/pairing/start');
+        }
+      },
+      itemBuilder: (_) => [
+        PopupMenuItem<String>(
+          value: 'new-room',
+          child: Text(
+            'New Room',
+            style: SpaceTextStyles.pillTitle.copyWith(
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ),
+        PopupMenuItem<String>(
+          value: 'new-device',
+          child: Text(
+            'New Device',
+            style: SpaceTextStyles.pillTitle.copyWith(
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ),
+      ],
+      child: SizedBox(
+        width: 44,
+        height: 44,
+        child: Icon(Icons.menu, color: SpaceColors.textPrimary, size: 22),
       ),
     );
   }

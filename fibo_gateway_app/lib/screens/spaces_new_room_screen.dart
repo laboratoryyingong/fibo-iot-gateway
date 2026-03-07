@@ -59,7 +59,11 @@ class _SpacesNewRoomScreenState extends State<SpacesNewRoomScreen> {
                         decoration: const InputDecoration(
                           hintText: 'Room Name',
                           hintStyle: SpaceTextStyles.cardMeta,
+                          filled: false,
+                          fillColor: Colors.transparent,
                           border: InputBorder.none,
+                          enabledBorder: InputBorder.none,
+                          focusedBorder: InputBorder.none,
                           isCollapsed: true,
                         ),
                       ),

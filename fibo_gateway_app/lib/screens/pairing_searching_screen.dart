@@ -95,53 +95,101 @@ class _PairingSearchingScreenState extends State<PairingSearchingScreen> {
   }
 }
 
-class _Radar extends StatelessWidget {
+class _Radar extends StatefulWidget {
   const _Radar();
 
   @override
+  State<_Radar> createState() => _RadarState();
+}
+
+class _RadarState extends State<_Radar> with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+  late final Animation<double> _pulse;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1500),
+    )..repeat(reverse: true);
+    _pulse = CurvedAnimation(parent: _controller, curve: Curves.easeInOut);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 240,
-      height: 240,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        gradient: RadialGradient(
-          colors: [
-            const Color(0xFF4A90D9).withValues(alpha: 0.2),
-            const Color(0xFF4A90D9).withValues(alpha: 0.12),
-            Colors.transparent,
-          ],
-          stops: const [0.0, 0.3, 1.0],
-        ),
-      ),
-      child: Center(
-        child: Container(
-          width: 160,
-          height: 160,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.all(
-              color: PairingTokens.accentPrimary.withValues(alpha: 0.5),
-              width: 2,
-            ),
-          ),
-          child: Center(
-            child: Container(
-              width: 80,
-              height: 80,
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                color: PairingTokens.accentPrimary,
+    return AnimatedBuilder(
+      animation: _pulse,
+      builder: (context, child) {
+        final glowScale = 0.94 + (_pulse.value * 0.1);
+        final glowAlpha = 0.12 + (_pulse.value * 0.18);
+        final coreScale = 0.95 + (_pulse.value * 0.08);
+
+        return SizedBox(
+          width: 240,
+          height: 240,
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              Transform.scale(
+                scale: glowScale,
+                child: Container(
+                  width: 240,
+                  height: 240,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    gradient: RadialGradient(
+                      colors: [
+                        PairingTokens.accentPrimary.withValues(
+                          alpha: glowAlpha,
+                        ),
+                        PairingTokens.accentPrimary.withValues(
+                          alpha: glowAlpha * 0.6,
+                        ),
+                        Colors.transparent,
+                      ],
+                      stops: const [0.0, 0.35, 1.0],
+                    ),
+                  ),
+                ),
               ),
-              child: const Icon(
-                Icons.radar,
-                size: 40,
-                color: PairingTokens.textPrimary,
+              Transform.scale(
+                scale: coreScale,
+                child: Container(
+                  width: 80,
+                  height: 80,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: PairingTokens.accentPrimary.withValues(
+                      alpha: 0.88 + (_pulse.value * 0.12),
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: PairingTokens.accentPrimary.withValues(
+                          alpha: 0.2 + (_pulse.value * 0.28),
+                        ),
+                        blurRadius: 24,
+                        spreadRadius: 2 + (_pulse.value * 4),
+                      ),
+                    ],
+                  ),
+                  child: const Icon(
+                    Icons.radar,
+                    size: 40,
+                    color: PairingTokens.textPrimary,
+                  ),
+                ),
               ),
-            ),
+            ],
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

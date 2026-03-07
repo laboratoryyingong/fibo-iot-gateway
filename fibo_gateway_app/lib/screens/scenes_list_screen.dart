@@ -195,7 +195,7 @@ class _Header extends StatelessWidget {
         height: 44,
         child: Row(
           children: [
-            const SizedBox(width: 68),
+            const SizedBox(width: 40),
             const Expanded(
               child: Center(
                 child: Text('Scenes', style: ScenesTextStyles.navTitle),
@@ -220,19 +220,14 @@ class _CreateButton extends StatelessWidget {
       onTap: onTap,
       borderRadius: BorderRadius.circular(14),
       child: Container(
-        width: 68,
+        width: 40,
         height: 30,
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: ScenesColors.bgElevated,
           borderRadius: BorderRadius.circular(14),
         ),
-        child: Text(
-          '+ New',
-          style: ScenesTextStyles.buttonSmall.copyWith(
-            color: ScenesColors.accentStart,
-          ),
-        ),
+        child: Icon(Icons.add, size: 22, color: ScenesColors.accentStart),
       ),
     );
   }

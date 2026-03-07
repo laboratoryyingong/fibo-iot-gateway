@@ -32,13 +32,30 @@ class PairingStartScreen extends StatelessWidget {
                       width: 162,
                       height: 162,
                       decoration: BoxDecoration(
-                        color: const Color(0xFFE3E5FC),
+                        gradient: const LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [Color(0x55314252), Color(0x2A314252)],
+                        ),
+                        border: Border.all(
+                          color: const Color(0x66314252),
+                          width: 1.2,
+                        ),
                         borderRadius: BorderRadius.circular(81),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Color(0x33111A22),
+                            blurRadius: 12,
+                            offset: Offset(0, 6),
+                          ),
+                        ],
                       ),
-                      child: const Icon(
-                        Icons.add_circle,
-                        size: 80,
-                        color: PairingTokens.accentPrimary,
+                      child: const Center(
+                        child: Icon(
+                          Icons.add_rounded,
+                          size: 78,
+                          color: PairingTokens.accentPrimary,
+                        ),
                       ),
                     ),
                     const SizedBox(height: 44),
