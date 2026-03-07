@@ -350,22 +350,28 @@ class _BottomBar extends StatelessWidget {
       color: SpaceColors.bgBase,
       padding: const EdgeInsets.fromLTRB(24, 12, 24, 20),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           const _BottomMenuButton(),
-          Container(
-            width: 116,
-            height: 36,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(100),
-              gradient: const LinearGradient(
-                colors: [SpaceColors.accentStart, SpaceColors.accentEnd],
-              ),
-            ),
-            child: const Center(
-              child: Text('Spaces', style: SpaceTextStyles.pillTitle),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Row(
+              children: [
+                const Expanded(
+                  child: _BottomTabPill(label: 'Spaces', selected: true),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: _BottomTabPill(
+                    label: 'Scenes',
+                    selected: false,
+                    onTap: () =>
+                        Navigator.of(context).pushNamed('/home/scenes'),
+                  ),
+                ),
+              ],
             ),
           ),
+          const SizedBox(width: 12),
           const Icon(
             Icons.notifications,
             color: SpaceColors.textMuted,
@@ -373,6 +379,50 @@ class _BottomBar extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _BottomTabPill extends StatelessWidget {
+  const _BottomTabPill({
+    required this.label,
+    required this.selected,
+    this.onTap,
+  });
+
+  final String label;
+  final bool selected;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final tab = Container(
+      height: 36,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(100),
+        gradient: selected
+            ? const LinearGradient(
+                colors: [SpaceColors.accentStart, SpaceColors.accentEnd],
+              )
+            : null,
+        color: selected ? null : SpaceColors.bgElevated,
+        border: selected ? null : Border.all(color: SpaceColors.stroke),
+      ),
+      child: Center(
+        child: Text(
+          label,
+          style: SpaceTextStyles.pillTitle.copyWith(
+            color: selected ? SpaceColors.textPrimary : SpaceColors.textMuted,
+          ),
+        ),
+      ),
+    );
+
+    if (onTap == null) return tab;
+    return InkWell(
+      borderRadius: BorderRadius.circular(100),
+      onTap: onTap,
+      child: tab,
     );
   }
 }

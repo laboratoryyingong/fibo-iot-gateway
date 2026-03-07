@@ -1,63 +1,148 @@
 import 'package:flutter/material.dart';
-import '../theme/app_colors.dart';
-import '../theme/app_decorations.dart';
-import '../theme/app_text_styles.dart';
-import '../widgets/header_action_button.dart';
 
-class ScenesSelectDeviceScreen extends StatelessWidget {
+import '../theme/scenes_tokens.dart';
+import 'scenes_models.dart';
+
+class ScenesSelectDeviceScreen extends StatefulWidget {
   const ScenesSelectDeviceScreen({super.key});
 
   @override
+  State<ScenesSelectDeviceScreen> createState() =>
+      _ScenesSelectDeviceScreenState();
+}
+
+class _ScenesSelectDeviceScreenState extends State<ScenesSelectDeviceScreen> {
+  final TextEditingController _searchController = TextEditingController();
+  String? _selectedDeviceId;
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final store = ScenesMockStore.instance;
+    final rawArgs = ModalRoute.of(context)?.settings.arguments;
+    final args = rawArgs is SceneSelectDeviceArgs ? rawArgs : null;
+
+    final query = _searchController.text.trim().toLowerCase();
+    final filtered = store.devices.where((device) {
+      if (query.isEmpty) return true;
+      return device.name.toLowerCase().contains(query) ||
+          device.room.toLowerCase().contains(query);
+    }).toList();
+
+    final grouped = <String, List<SceneDevice>>{};
+    for (final device in filtered) {
+      grouped.putIfAbsent(device.room, () => []).add(device);
+    }
+
+    final rooms = grouped.keys.toList()..sort();
+
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: ScenesColors.bgBase,
       body: SafeArea(
         child: Column(
           children: [
             _Header(onBack: () => Navigator.of(context).pop()),
-            const _SearchBar(),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(23, 12, 24, 0),
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                decoration: BoxDecoration(
+                  color: ScenesColors.bgSurface,
+                  borderRadius: BorderRadius.circular(ScenesRadii.card),
+                ),
+                child: Row(
+                  children: [
+                    const Icon(
+                      Icons.search,
+                      color: ScenesColors.textMuted,
+                      size: 20,
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: TextField(
+                        controller: _searchController,
+                        onChanged: (_) => setState(() {}),
+                        style: ScenesTextStyles.body,
+                        decoration: const InputDecoration(
+                          border: InputBorder.none,
+                          hintText: 'Search devices...',
+                          hintStyle: ScenesTextStyles.caption,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
             Expanded(
               child: ListView(
-                padding: const EdgeInsets.fromLTRB(20, 8, 20, 12),
-                children: const [
-                  _RoomLabel('Living Room'),
-                  SizedBox(height: 8),
-                  _DeviceCard(
-                    devices: [
-                      _DeviceRow(
-                        icon: Icons.thermostat,
-                        name: 'Temperature Sensor',
-                        status: '24°C • Online',
-                        selected: true,
+                padding: const EdgeInsets.fromLTRB(23, 12, 24, 16),
+                children: [
+                  for (final room in rooms) ...[
+                    Text(room, style: ScenesTextStyles.caption),
+                    const SizedBox(height: 8),
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(ScenesRadii.card),
+                        gradient: ScenesGradients.surface,
                       ),
-                      _DeviceRow(
-                        icon: Icons.ac_unit,
-                        name: 'Air Conditioner',
-                        status: 'Off • Online',
+                      child: Column(
+                        children: [
+                          for (final entry
+                              in grouped[room]!.asMap().entries) ...[
+                            _DeviceRow(
+                              device: entry.value,
+                              selected: _selectedDeviceId == entry.value.id,
+                              onTap: () {
+                                setState(() {
+                                  _selectedDeviceId = entry.value.id;
+                                });
+                              },
+                            ),
+                            if (entry.key != grouped[room]!.length - 1)
+                              const Divider(
+                                height: 1,
+                                color: Color(0x22314252),
+                              ),
+                          ],
+                        ],
                       ),
-                    ],
-                  ),
-                  SizedBox(height: 16),
-                  _RoomLabel('Bedroom'),
-                  SizedBox(height: 8),
-                  _DeviceCard(
-                    devices: [
-                      _DeviceRow(
-                        icon: Icons.lightbulb,
-                        name: 'Bedroom Light',
-                        status: 'On • 80% brightness',
-                      ),
-                      _DeviceRow(
-                        icon: Icons.sensors,
-                        name: 'Door Sensor',
-                        status: 'Closed • Online',
-                      ),
-                    ],
-                  ),
+                    ),
+                    const SizedBox(height: 16),
+                  ],
                 ],
               ),
             ),
-            _Footer(onConfirm: () => Navigator.of(context).pop()),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(23, 12, 24, 24),
+              child: _ConfirmButton(
+                enabled: _selectedDeviceId != null,
+                label:
+                    'Confirm Selection (${_selectedDeviceId == null ? 0 : 1})',
+                onTap: () {
+                  if (args == null || _selectedDeviceId == null) {
+                    Navigator.of(context).pop();
+                    return;
+                  }
+                  store.addStepFromTemplate(
+                    sceneId: args.sceneId,
+                    type: args.type,
+                    templateId: args.templateId,
+                    deviceId: _selectedDeviceId,
+                  );
+                  final navigator = Navigator.of(context);
+                  navigator.pop();
+                  if (navigator.canPop()) {
+                    navigator.pop();
+                  }
+                },
+              ),
+            ),
           ],
         ),
       ),
@@ -73,44 +158,23 @@ class _Header extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 0, 20, 8),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          HeaderActionButton(icon: Icons.arrow_back, onTap: onBack),
-          Text(
-            'Select Device',
-            style: AppTextStyles.body16.copyWith(fontWeight: FontWeight.w700),
-          ),
-          const HeaderActionButton(icon: Icons.notifications),
-        ],
+      padding: const EdgeInsets.fromLTRB(
+        ScenesLayout.horizontalPadding,
+        ScenesLayout.navTopPadding,
+        ScenesLayout.horizontalPadding,
+        0,
       ),
-    );
-  }
-}
-
-class _SearchBar extends StatelessWidget {
-  const _SearchBar();
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 0, 20, 12),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        decoration: BoxDecoration(
-          color: AppColors.secondary,
-          borderRadius: BorderRadius.circular(16),
-        ),
+      child: SizedBox(
+        height: 44,
         child: Row(
           children: [
-            const Icon(
-              Icons.search,
-              size: 20,
-              color: AppColors.mutedForeground,
+            _IconButton(icon: Icons.arrow_back, onTap: onBack),
+            const Expanded(
+              child: Center(
+                child: Text('Select Device', style: ScenesTextStyles.navTitle),
+              ),
             ),
-            const SizedBox(width: 10),
-            Text('Search devices...', style: AppTextStyles.body14Muted),
+            const SizedBox(width: 24, height: 24),
           ],
         ),
       ),
@@ -118,48 +182,21 @@ class _SearchBar extends StatelessWidget {
   }
 }
 
-class _RoomLabel extends StatelessWidget {
-  const _RoomLabel(this.text);
+class _IconButton extends StatelessWidget {
+  const _IconButton({required this.icon, required this.onTap});
 
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      text,
-      style: AppTextStyles.body13Muted.copyWith(fontWeight: FontWeight.w600),
-    );
-  }
-}
-
-class _DeviceCard extends StatelessWidget {
-  const _DeviceCard({required this.devices});
-
-  final List<Widget> devices;
+  final IconData icon;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: AppColors.card,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.border, width: 1),
-        boxShadow: AppDecorations.softCardShadow,
-      ),
-      child: Column(
-        children: [
-          ...devices.asMap().entries.map((entry) {
-            final index = entry.key;
-            final widget = entry.value;
-            return Column(
-              children: [
-                widget,
-                if (index != devices.length - 1)
-                  const Divider(height: 1, color: AppColors.border),
-              ],
-            );
-          }),
-        ],
+    return InkWell(
+      borderRadius: BorderRadius.circular(12),
+      onTap: onTap,
+      child: SizedBox(
+        width: 24,
+        height: 24,
+        child: Icon(icon, color: ScenesColors.textPrimary, size: 20),
       ),
     );
   }
@@ -167,97 +204,104 @@ class _DeviceCard extends StatelessWidget {
 
 class _DeviceRow extends StatelessWidget {
   const _DeviceRow({
-    required this.icon,
-    required this.name,
-    required this.status,
-    this.selected = false,
+    required this.device,
+    required this.selected,
+    required this.onTap,
   });
 
-  final IconData icon;
-  final String name;
-  final String status;
+  final SceneDevice device;
   final bool selected;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(14),
-      child: Row(
-        children: [
-          Container(
-            width: 44,
-            height: 44,
-            decoration: BoxDecoration(
-              color: AppColors.secondary,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Icon(icon, size: 22, color: AppColors.primary),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(name, style: AppTextStyles.body14),
-                const SizedBox(height: 3),
-                Text(status, style: AppTextStyles.body13Muted),
-              ],
-            ),
-          ),
-          if (selected)
+    return InkWell(
+      borderRadius: BorderRadius.circular(ScenesRadii.card),
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.all(14),
+        child: Row(
+          children: [
             Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                color: ScenesColors.bgElevated,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Icon(
+                device.icon,
+                color: ScenesColors.textPrimary,
+                size: 20,
+              ),
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(device.name, style: ScenesTextStyles.buttonSmall),
+                  const SizedBox(height: 2),
+                  Text(device.status, style: ScenesTextStyles.caption),
+                ],
+              ),
+            ),
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 140),
               width: 22,
               height: 22,
               decoration: BoxDecoration(
-                color: AppColors.primary,
-                borderRadius: BorderRadius.circular(11),
+                shape: BoxShape.circle,
+                color: selected ? ScenesColors.accentStart : Colors.transparent,
+                border: Border.all(
+                  color: selected
+                      ? ScenesColors.accentStart
+                      : ScenesColors.textMuted,
+                  width: 1.4,
+                ),
               ),
-              child: const Icon(
-                Icons.check,
-                size: 14,
-                color: AppColors.primaryForeground,
-              ),
-            )
-          else
-            Container(
-              width: 22,
-              height: 22,
-              decoration: BoxDecoration(
-                color: AppColors.card,
-                borderRadius: BorderRadius.circular(11),
-                border: Border.all(color: AppColors.border, width: 1.5),
-              ),
+              child: selected
+                  ? const Icon(
+                      Icons.check,
+                      size: 14,
+                      color: ScenesColors.textPrimary,
+                    )
+                  : null,
             ),
-        ],
+          ],
+        ),
       ),
     );
   }
 }
 
-class _Footer extends StatelessWidget {
-  const _Footer({required this.onConfirm});
+class _ConfirmButton extends StatelessWidget {
+  const _ConfirmButton({
+    required this.enabled,
+    required this.label,
+    required this.onTap,
+  });
 
-  final VoidCallback onConfirm;
+  final bool enabled;
+  final String label;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.fromLTRB(20, 12, 20, 20),
-      decoration: const BoxDecoration(
-        color: AppColors.background,
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.shadowBar,
-            offset: Offset(0, -2),
-            blurRadius: 10,
+    return InkWell(
+      onTap: enabled ? onTap : null,
+      borderRadius: BorderRadius.circular(ScenesRadii.card),
+      child: Opacity(
+        opacity: enabled ? 1 : 0.5,
+        child: Container(
+          width: double.infinity,
+          padding: const EdgeInsets.symmetric(vertical: 16),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(ScenesRadii.card),
+            gradient: ScenesGradients.primaryButton,
           ),
-        ],
-      ),
-      child: SizedBox(
-        width: double.infinity,
-        child: ElevatedButton(
-          onPressed: onConfirm,
-          child: const Text('Confirm Selection (1)'),
+          alignment: Alignment.center,
+          child: Text(label, style: ScenesTextStyles.button),
         ),
       ),
     );

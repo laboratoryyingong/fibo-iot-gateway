@@ -1,53 +1,58 @@
 import 'package:flutter/material.dart';
-import '../theme/app_colors.dart';
-import '../theme/app_decorations.dart';
-import '../theme/app_text_styles.dart';
-import '../widgets/header_action_button.dart';
+
+import '../theme/scenes_tokens.dart';
+import 'scenes_models.dart';
 
 class ScenesAddTriggerScreen extends StatelessWidget {
   const ScenesAddTriggerScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final store = ScenesMockStore.instance;
+    final rawArgs = ModalRoute.of(context)?.settings.arguments;
+    final sceneId = rawArgs is SceneFlowArgs ? rawArgs.sceneId : null;
+
+    final templates = store.triggerTemplates.toList()
+      ..sort((a, b) {
+        const order = <String, int>{
+          'trigger-device-state': 0,
+          'trigger-schedule': 1,
+          'trigger-location': 2,
+          'trigger-manual': 3,
+        };
+        return (order[a.id] ?? 99).compareTo(order[b.id] ?? 99);
+      });
+
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: ScenesColors.bgBase,
       body: SafeArea(
         child: Column(
           children: [
             _Header(onBack: () => Navigator.of(context).pop()),
             Expanded(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
-                child: _TypeListCard(
+                padding: const EdgeInsets.fromLTRB(23, 24, 24, 24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _TypeItem(
-                      icon: Icons.devices_other,
-                      title: 'Device State',
-                      description: 'Trigger when a device state changes',
-                      onTap: () => Navigator.of(
-                        context,
-                      ).pushNamed('/scenes/select-device'),
+                    const Text(
+                      'Select Trigger Type',
+                      style: ScenesTextStyles.sectionTitle,
                     ),
-                    const Divider(height: 1, color: AppColors.border),
-                    _TypeItem(
-                      icon: Icons.schedule,
-                      title: 'Schedule',
-                      description: 'Trigger at a specific time or interval',
-                      onTap: () => _showComingSoon(context),
-                    ),
-                    const Divider(height: 1, color: AppColors.border),
-                    _TypeItem(
-                      icon: Icons.location_on_outlined,
-                      title: 'Location',
-                      description: 'Trigger when entering or leaving an area',
-                      onTap: () => _showComingSoon(context),
-                    ),
-                    const Divider(height: 1, color: AppColors.border),
-                    _TypeItem(
-                      icon: Icons.touch_app_outlined,
-                      title: 'Manual',
-                      description: 'Trigger manually with a button tap',
-                      onTap: () => _showComingSoon(context),
+                    const SizedBox(height: 12),
+                    ...templates.map(
+                      (template) => Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: _TypeCard(
+                          template: template,
+                          onTap: () => _onSelectTemplate(
+                            context,
+                            store,
+                            sceneId,
+                            template,
+                          ),
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -59,12 +64,33 @@ class ScenesAddTriggerScreen extends StatelessWidget {
     );
   }
 
-  static void _showComingSoon(BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('This trigger type will be implemented next.'),
-      ),
+  void _onSelectTemplate(
+    BuildContext context,
+    ScenesMockStore store,
+    String? sceneId,
+    SceneTemplate template,
+  ) {
+    if (sceneId == null) {
+      Navigator.of(context).pop();
+      return;
+    }
+    if (template.requiresDevice) {
+      Navigator.of(context).pushNamed(
+        '/scenes/select-device',
+        arguments: SceneSelectDeviceArgs(
+          sceneId: sceneId,
+          type: SceneFlowType.trigger,
+          templateId: template.id,
+        ),
+      );
+      return;
+    }
+    store.addStepFromTemplate(
+      sceneId: sceneId,
+      type: SceneFlowType.trigger,
+      templateId: template.id,
     );
+    Navigator.of(context).pop();
   }
 }
 
@@ -76,98 +102,100 @@ class _Header extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 0, 20, 8),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          HeaderActionButton(icon: Icons.arrow_back, onTap: onBack),
-          Text(
-            'Add Trigger',
-            style: AppTextStyles.body16.copyWith(fontWeight: FontWeight.w700),
-          ),
-          const HeaderActionButton(icon: Icons.notifications),
-        ],
+      padding: const EdgeInsets.fromLTRB(
+        ScenesLayout.horizontalPadding,
+        0,
+        ScenesLayout.horizontalPadding,
+        0,
+      ),
+      child: SizedBox(
+        height: 44,
+        child: Row(
+          children: [
+            _IconButton(icon: Icons.arrow_back, onTap: onBack),
+            const Expanded(
+              child: Center(
+                child: Text('Add Trigger', style: ScenesTextStyles.navTitle),
+              ),
+            ),
+            const SizedBox(width: 24, height: 24),
+          ],
+        ),
       ),
     );
   }
 }
 
-class _TypeListCard extends StatelessWidget {
-  const _TypeListCard({required this.children});
+class _IconButton extends StatelessWidget {
+  const _IconButton({required this.icon, required this.onTap});
 
-  final List<Widget> children;
+  final IconData icon;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: AppColors.card,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: AppDecorations.softCardShadow,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
-            child: Text(
-              'Select Trigger Type',
-              style: AppTextStyles.body16.copyWith(fontWeight: FontWeight.w600),
-            ),
-          ),
-          const Divider(height: 1, color: AppColors.border),
-          ...children,
-        ],
+    return InkWell(
+      borderRadius: BorderRadius.circular(12),
+      onTap: onTap,
+      child: SizedBox(
+        width: 24,
+        height: 24,
+        child: Icon(icon, color: ScenesColors.textPrimary, size: 20),
       ),
     );
   }
 }
 
-class _TypeItem extends StatelessWidget {
-  const _TypeItem({
-    required this.icon,
-    required this.title,
-    required this.description,
-    required this.onTap,
-  });
+class _TypeCard extends StatelessWidget {
+  const _TypeCard({required this.template, required this.onTap});
 
-  final IconData icon;
-  final String title;
-  final String description;
+  final SceneTemplate template;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.all(16),
+      borderRadius: BorderRadius.circular(ScenesRadii.panel),
+      child: Container(
+        constraints: const BoxConstraints(
+          minHeight: ScenesLayout.flowCardHeight,
+        ),
+        padding: const EdgeInsets.fromLTRB(
+          ScenesLayout.flowCardHorizontalPadding,
+          ScenesLayout.flowCardVerticalPadding,
+          ScenesLayout.flowCardHorizontalPadding,
+          ScenesLayout.flowCardVerticalPadding,
+        ),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(ScenesRadii.panel),
+          gradient: ScenesGradients.surface,
+        ),
         child: Row(
           children: [
             Container(
-              width: 44,
-              height: 44,
+              width: 40,
+              height: 40,
               decoration: BoxDecoration(
-                color: AppColors.secondary,
-                borderRadius: BorderRadius.circular(12),
+                color: ScenesColors.bgElevated,
+                borderRadius: BorderRadius.circular(20),
               ),
-              child: Icon(icon, size: 22, color: AppColors.primary),
+              child: Icon(
+                template.icon,
+                color: ScenesColors.textPrimary,
+                size: 20,
+              ),
             ),
-            const SizedBox(width: 12),
+            const SizedBox(width: 8),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(title, style: AppTextStyles.body14),
-                  const SizedBox(height: 3),
-                  Text(description, style: AppTextStyles.body13Muted),
+                  Text(template.title, style: ScenesTextStyles.buttonSmall),
+                  const SizedBox(height: 2),
+                  Text(template.description, style: ScenesTextStyles.caption),
                 ],
               ),
-            ),
-            const Icon(
-              Icons.chevron_right,
-              size: 22,
-              color: AppColors.mutedForeground,
             ),
           ],
         ),

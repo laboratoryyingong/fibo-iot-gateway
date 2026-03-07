@@ -3,6 +3,1195 @@
   "children": [
     {
       "type": "frame",
+      "id": "B3CnB",
+      "x": 0,
+      "y": 4400,
+      "name": "Scenes / List",
+      "clip": true,
+      "width": 430,
+      "height": 932,
+      "fill": "$--background",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "z7IRd",
+          "name": "scenesHeader",
+          "width": "fill_container",
+          "padding": [
+            8,
+            20
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "6Gw31",
+              "name": "scenesHeaderLeft",
+              "gap": 16,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "QvtF5",
+                  "name": "scenesMenuBtn",
+                  "width": 40,
+                  "height": 40,
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 20,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#1A233210",
+                    "offset": {
+                      "x": 0,
+                      "y": 1
+                    },
+                    "blur": 6
+                  },
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "3uth0",
+                      "x": 9,
+                      "y": 9,
+                      "name": "scenesMenuIcon",
+                      "width": 22,
+                      "height": 22,
+                      "iconFontName": "menu",
+                      "iconFontFamily": "Material Symbols Rounded",
+                      "weight": 400,
+                      "fill": "$--foreground"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "BZNrn",
+                  "name": "scenesTitle",
+                  "fill": "$--foreground",
+                  "content": "Scenes",
+                  "fontFamily": "$--font-primary",
+                  "fontSize": 28,
+                  "fontWeight": "700"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "kjCdc",
+              "name": "scenesHeaderRight",
+              "gap": 8,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "gF8qn",
+                  "name": "scenesNotifBtn",
+                  "width": 40,
+                  "height": 40,
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 20,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#1A233210",
+                    "offset": {
+                      "x": 0,
+                      "y": 1
+                    },
+                    "blur": 6
+                  },
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "oTkMo",
+                      "x": 9,
+                      "y": 9,
+                      "name": "scenesNotifIcon",
+                      "width": 22,
+                      "height": 22,
+                      "iconFontName": "notifications",
+                      "iconFontFamily": "Material Symbols Rounded",
+                      "weight": 400,
+                      "fill": "$--foreground"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "AMj9M",
+                  "name": "scenesAddBtn",
+                  "width": 40,
+                  "height": 40,
+                  "fill": "$--primary",
+                  "cornerRadius": 20,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#4A90D930",
+                    "offset": {
+                      "x": 0,
+                      "y": 1
+                    },
+                    "blur": 6
+                  },
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "tzj6m",
+                      "x": 8,
+                      "y": 8,
+                      "name": "scenesAddIcon",
+                      "width": 24,
+                      "height": 24,
+                      "iconFontName": "add",
+                      "iconFontFamily": "Material Symbols Rounded",
+                      "weight": 400,
+                      "fill": "$--white"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "Z4VVK",
+          "name": "scenesFilterTabs",
+          "width": "fill_container",
+          "gap": 8,
+          "padding": [
+            12,
+            20
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "VphTS",
+              "name": "filterAll",
+              "fill": "$--primary",
+              "cornerRadius": "$--radius-pill",
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#4A90D930",
+                "offset": {
+                  "x": 0,
+                  "y": 1
+                },
+                "blur": 4
+              },
+              "padding": [
+                8,
+                16
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "IsYCw",
+                  "name": "filterAllText",
+                  "fill": "$--primary-foreground",
+                  "content": "All (5)",
+                  "fontFamily": "$--font-secondary",
+                  "fontSize": 13,
+                  "fontWeight": "500"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "RIK1P",
+              "name": "filterActive",
+              "fill": "#FFFFFF",
+              "cornerRadius": "$--radius-pill",
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "#D8DFE8"
+              },
+              "padding": [
+                8,
+                16
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "nYWUt",
+                  "name": "filterActiveText",
+                  "fill": "$--foreground",
+                  "content": "Active (3)",
+                  "fontFamily": "$--font-secondary",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "xz4CT",
+              "name": "filterInactive",
+              "fill": "#FFFFFF",
+              "cornerRadius": "$--radius-pill",
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "#D8DFE8"
+              },
+              "padding": [
+                8,
+                16
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "82hu8",
+                  "name": "filterInactiveText",
+                  "fill": "$--foreground",
+                  "content": "Inactive (2)",
+                  "fontFamily": "$--font-secondary",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "ao9iV",
+          "name": "scenesScroll",
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "gap": 12,
+          "padding": [
+            8,
+            20
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "r1LQ3",
+              "name": "sceneCard1",
+              "width": "fill_container",
+              "fill": "$--card",
+              "cornerRadius": 20,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1A233210",
+                "offset": {
+                  "x": 0,
+                  "y": 2
+                },
+                "blur": 12
+              },
+              "layout": "vertical",
+              "gap": 12,
+              "padding": 16,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "XMFqd",
+                  "name": "sceneCard1Header",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "g6C8j",
+                      "name": "sceneCard1Left",
+                      "gap": 12,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "17ldu",
+                          "name": "sceneCard1IconFrame",
+                          "width": 44,
+                          "height": 44,
+                          "fill": "$--primary",
+                          "cornerRadius": 12,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "icon_font",
+                              "id": "vZBGd",
+                              "x": 10,
+                              "y": 10,
+                              "name": "sceneCard1Icon",
+                              "width": 24,
+                              "height": 24,
+                              "iconFontName": "thermostat",
+                              "iconFontFamily": "Material Symbols Rounded",
+                              "weight": 400,
+                              "fill": "$--primary-foreground"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "QkHbg",
+                          "name": "sceneCard1Info",
+                          "layout": "vertical",
+                          "gap": 2,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "MG0Au",
+                              "name": "sceneCard1Name",
+                              "fill": "$--foreground",
+                              "content": "Temperature Control",
+                              "fontFamily": "$--font-secondary",
+                              "fontSize": 16,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "XgPbP",
+                              "name": "sceneCard1Status",
+                              "gap": 6,
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "ellipse",
+                                  "id": "QE0Mr",
+                                  "name": "sceneCard1Dot",
+                                  "fill": "$--color-success-foreground",
+                                  "width": 8,
+                                  "height": 8
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "kqVNv",
+                                  "name": "sceneCard1StatusText",
+                                  "fill": "$--color-success-foreground",
+                                  "content": "Active",
+                                  "fontFamily": "$--font-secondary",
+                                  "fontSize": 12,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "myUCv",
+                      "name": "sceneCard1Toggle",
+                      "width": 52,
+                      "height": 32,
+                      "fill": "$--primary",
+                      "cornerRadius": 16,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "S1vRB",
+                          "x": 24,
+                          "y": 4,
+                          "name": "sceneCard1ToggleKnob",
+                          "fill": "$--white",
+                          "width": 24,
+                          "height": 24
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "1wVT0",
+                  "name": "sceneCard1Details",
+                  "width": "fill_container",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": {
+                      "top": 1
+                    },
+                    "fill": "$--border"
+                  },
+                  "layout": "vertical",
+                  "gap": 8,
+                  "padding": [
+                    12,
+                    0,
+                    0,
+                    0
+                  ],
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "9K5j3",
+                      "name": "sceneCard1Trigger",
+                      "width": "fill_container",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "ehaqd",
+                          "name": "sceneCard1TriggerIcon",
+                          "width": 18,
+                          "height": 18,
+                          "iconFontName": "sensors",
+                          "iconFontFamily": "Material Symbols Rounded",
+                          "weight": 400,
+                          "fill": "$--muted-foreground"
+                        },
+                        {
+                          "type": "text",
+                          "id": "01TYL",
+                          "name": "sceneCard1TriggerText",
+                          "fill": "$--muted-foreground",
+                          "content": "When temperature < 24°C",
+                          "fontFamily": "$--font-secondary",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "0xgjB",
+                      "name": "sceneCard1Action",
+                      "width": "fill_container",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "LxkW2",
+                          "name": "sceneCard1ActionIcon",
+                          "width": 18,
+                          "height": 18,
+                          "iconFontName": "play_arrow",
+                          "iconFontFamily": "Material Symbols Rounded",
+                          "weight": 400,
+                          "fill": "$--primary"
+                        },
+                        {
+                          "type": "text",
+                          "id": "MoVsv",
+                          "name": "sceneCard1ActionText",
+                          "fill": "$--foreground",
+                          "content": "Turn on AC → Heat mode 26°C",
+                          "fontFamily": "$--font-secondary",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "EclO6",
+                  "name": "sceneCard1Devices",
+                  "width": "fill_container",
+                  "gap": 8,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "BwMwB",
+                      "name": "sceneCard1DeviceLabel",
+                      "fill": "$--muted-foreground",
+                      "content": "2 devices",
+                      "fontFamily": "$--font-secondary",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "icon_font",
+                      "id": "3t3e7",
+                      "name": "sceneCard1Arrow",
+                      "width": 18,
+                      "height": 18,
+                      "iconFontName": "chevron_right",
+                      "iconFontFamily": "Material Symbols Rounded",
+                      "weight": 400,
+                      "fill": "$--muted-foreground"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "WJ41x",
+              "name": "sceneCard2",
+              "width": "fill_container",
+              "fill": "$--card",
+              "cornerRadius": 20,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1A233210",
+                "offset": {
+                  "x": 0,
+                  "y": 2
+                },
+                "blur": 12
+              },
+              "layout": "vertical",
+              "gap": 12,
+              "padding": 16,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "lyvdW",
+                  "name": "sceneCard2Header",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "lo3ZU",
+                      "name": "sceneCard2Left",
+                      "gap": 12,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "8jqwO",
+                          "name": "sceneCard2IconFrame",
+                          "width": 44,
+                          "height": 44,
+                          "fill": "$--secondary",
+                          "cornerRadius": 12,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "icon_font",
+                              "id": "NDYY4",
+                              "x": 10,
+                              "y": 10,
+                              "name": "sceneCard2Icon",
+                              "width": 24,
+                              "height": 24,
+                              "iconFontName": "lightbulb",
+                              "iconFontFamily": "Material Symbols Rounded",
+                              "weight": 400,
+                              "fill": "$--foreground"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "W7gj0",
+                          "name": "sceneCard2Info",
+                          "layout": "vertical",
+                          "gap": 2,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "A5U3u",
+                              "name": "sceneCard2Name",
+                              "fill": "$--foreground",
+                              "content": "Night Mode",
+                              "fontFamily": "$--font-secondary",
+                              "fontSize": 16,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "7nXGx",
+                              "name": "sceneCard2Status",
+                              "gap": 6,
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "ellipse",
+                                  "id": "8ny39",
+                                  "name": "sceneCard2Dot",
+                                  "fill": "$--color-success-foreground",
+                                  "width": 8,
+                                  "height": 8
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "s0YLa",
+                                  "name": "sceneCard2StatusText",
+                                  "fill": "$--color-success-foreground",
+                                  "content": "Active",
+                                  "fontFamily": "$--font-secondary",
+                                  "fontSize": 12,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "lHGuy",
+                      "name": "sceneCard2Toggle",
+                      "width": 52,
+                      "height": 32,
+                      "fill": "$--primary",
+                      "cornerRadius": 16,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "Wxt2f",
+                          "x": 24,
+                          "y": 4,
+                          "name": "sceneCard2ToggleKnob",
+                          "fill": "$--white",
+                          "width": 24,
+                          "height": 24
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "zQ4Jx",
+                  "name": "sceneCard2Details",
+                  "width": "fill_container",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": {
+                      "top": 1
+                    },
+                    "fill": "$--border"
+                  },
+                  "layout": "vertical",
+                  "gap": 8,
+                  "padding": [
+                    12,
+                    0,
+                    0,
+                    0
+                  ],
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "3dKBT",
+                      "name": "sceneCard2Trigger",
+                      "width": "fill_container",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "m5xhM",
+                          "name": "sceneCard2TriggerIcon",
+                          "width": 18,
+                          "height": 18,
+                          "iconFontName": "schedule",
+                          "iconFontFamily": "Material Symbols Rounded",
+                          "weight": 400,
+                          "fill": "$--muted-foreground"
+                        },
+                        {
+                          "type": "text",
+                          "id": "IFjne",
+                          "name": "sceneCard2TriggerText",
+                          "fill": "$--muted-foreground",
+                          "content": "Every day at 10:00 PM",
+                          "fontFamily": "$--font-secondary",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "a5UvN",
+                      "name": "sceneCard2Action",
+                      "width": "fill_container",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "t4mRX",
+                          "name": "sceneCard2ActionIcon",
+                          "width": 18,
+                          "height": 18,
+                          "iconFontName": "play_arrow",
+                          "iconFontFamily": "Material Symbols Rounded",
+                          "weight": 400,
+                          "fill": "$--primary"
+                        },
+                        {
+                          "type": "text",
+                          "id": "GYswm",
+                          "name": "sceneCard2ActionText",
+                          "fill": "$--foreground",
+                          "content": "Dim all lights to 20%",
+                          "fontFamily": "$--font-secondary",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "BeEel",
+                  "name": "sceneCard2Devices",
+                  "width": "fill_container",
+                  "gap": 8,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "oX4Aw",
+                      "name": "sceneCard2DeviceLabel",
+                      "fill": "$--muted-foreground",
+                      "content": "5 devices",
+                      "fontFamily": "$--font-secondary",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "icon_font",
+                      "id": "Pxi22",
+                      "name": "sceneCard2Arrow",
+                      "width": 18,
+                      "height": 18,
+                      "iconFontName": "chevron_right",
+                      "iconFontFamily": "Material Symbols Rounded",
+                      "weight": 400,
+                      "fill": "$--muted-foreground"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "MADlh",
+              "name": "sceneCard3",
+              "width": "fill_container",
+              "fill": "$--card",
+              "cornerRadius": 20,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1A233210",
+                "offset": {
+                  "x": 0,
+                  "y": 2
+                },
+                "blur": 12
+              },
+              "layout": "vertical",
+              "gap": 12,
+              "padding": 16,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "35njM",
+                  "name": "sceneCard3Header",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "XFehT",
+                      "name": "sceneCard3Left",
+                      "gap": 12,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "7JodB",
+                          "name": "sceneCard3IconFrame",
+                          "width": 44,
+                          "height": 44,
+                          "fill": "$--secondary",
+                          "cornerRadius": 12,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "icon_font",
+                              "id": "iF4kW",
+                              "x": 10,
+                              "y": 10,
+                              "name": "sceneCard3Icon",
+                              "width": 24,
+                              "height": 24,
+                              "iconFontName": "security",
+                              "iconFontFamily": "Material Symbols Rounded",
+                              "weight": 400,
+                              "fill": "$--foreground"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "KS2Zb",
+                          "name": "sceneCard3Info",
+                          "layout": "vertical",
+                          "gap": 2,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "ukkrB",
+                              "name": "sceneCard3Name",
+                              "fill": "$--foreground",
+                              "content": "Security Alert",
+                              "fontFamily": "$--font-secondary",
+                              "fontSize": 16,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "Y7Dw1",
+                              "name": "sceneCard3Status",
+                              "gap": 6,
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "ellipse",
+                                  "id": "pJkby",
+                                  "name": "sceneCard3Dot",
+                                  "fill": "$--muted-foreground",
+                                  "width": 8,
+                                  "height": 8
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "E36vF",
+                                  "name": "sceneCard3StatusText",
+                                  "fill": "$--muted-foreground",
+                                  "content": "Inactive",
+                                  "fontFamily": "$--font-secondary",
+                                  "fontSize": 12,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "xfQ6b",
+                      "name": "sceneCard3Toggle",
+                      "width": 52,
+                      "height": 32,
+                      "fill": "$--secondary",
+                      "cornerRadius": 16,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "L0kWj",
+                          "x": 4,
+                          "y": 4,
+                          "name": "sceneCard3ToggleKnob",
+                          "fill": "$--white",
+                          "width": 24,
+                          "height": 24
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "RR7vg",
+                  "name": "sceneCard3Details",
+                  "width": "fill_container",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": {
+                      "top": 1
+                    },
+                    "fill": "$--border"
+                  },
+                  "layout": "vertical",
+                  "gap": 8,
+                  "padding": [
+                    12,
+                    0,
+                    0,
+                    0
+                  ],
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "mSV3t",
+                      "name": "sceneCard3Trigger",
+                      "width": "fill_container",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "i1giG",
+                          "name": "sceneCard3TriggerIcon",
+                          "width": 18,
+                          "height": 18,
+                          "iconFontName": "door_open",
+                          "iconFontFamily": "Material Symbols Rounded",
+                          "weight": 400,
+                          "fill": "$--muted-foreground"
+                        },
+                        {
+                          "type": "text",
+                          "id": "zyfoO",
+                          "name": "sceneCard3TriggerText",
+                          "fill": "$--muted-foreground",
+                          "content": "When door sensor triggered",
+                          "fontFamily": "$--font-secondary",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "XSyaU",
+                      "name": "sceneCard3Action",
+                      "width": "fill_container",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "DxnNr",
+                          "name": "sceneCard3ActionIcon",
+                          "width": 18,
+                          "height": 18,
+                          "iconFontName": "play_arrow",
+                          "iconFontFamily": "Material Symbols Rounded",
+                          "weight": 400,
+                          "fill": "$--muted-foreground"
+                        },
+                        {
+                          "type": "text",
+                          "id": "YPpDC",
+                          "name": "sceneCard3ActionText",
+                          "fill": "$--muted-foreground",
+                          "content": "Send notification + Turn on lights",
+                          "fontFamily": "$--font-secondary",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "BHyp7",
+                  "name": "sceneCard3Devices",
+                  "width": "fill_container",
+                  "gap": 8,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "cT4zk",
+                      "name": "sceneCard3DeviceLabel",
+                      "fill": "$--muted-foreground",
+                      "content": "3 devices",
+                      "fontFamily": "$--font-secondary",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "icon_font",
+                      "id": "xUdZq",
+                      "name": "sceneCard3Arrow",
+                      "width": 18,
+                      "height": 18,
+                      "iconFontName": "chevron_right",
+                      "iconFontFamily": "Material Symbols Rounded",
+                      "weight": 400,
+                      "fill": "$--muted-foreground"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "3MOM5",
+          "name": "scenesNavBar",
+          "width": "fill_container",
+          "height": 84,
+          "fill": "$--card",
+          "cornerRadius": [
+            20,
+            20,
+            0,
+            0
+          ],
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#1A233208",
+            "offset": {
+              "x": 0,
+              "y": -2
+            },
+            "blur": 10
+          },
+          "padding": [
+            12,
+            24,
+            32,
+            24
+          ],
+          "justifyContent": "space_around",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "QtJGn",
+              "name": "scenesNavHome",
+              "layout": "vertical",
+              "gap": 4,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "tt2hn",
+                  "name": "scenesNavHomeIcon",
+                  "width": 26,
+                  "height": 26,
+                  "iconFontName": "home",
+                  "iconFontFamily": "Material Symbols Rounded",
+                  "weight": 400,
+                  "fill": "$--muted-foreground"
+                },
+                {
+                  "type": "text",
+                  "id": "uiakY",
+                  "name": "scenesNavHomeText",
+                  "fill": "$--muted-foreground",
+                  "content": "Home",
+                  "fontFamily": "$--font-secondary",
+                  "fontSize": 11,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "mRJan",
+              "name": "scenesNavDevices",
+              "layout": "vertical",
+              "gap": 4,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "cdh3j",
+                  "name": "scenesNavDevicesIcon",
+                  "width": 26,
+                  "height": 26,
+                  "iconFontName": "devices",
+                  "iconFontFamily": "Material Symbols Rounded",
+                  "weight": 400,
+                  "fill": "$--muted-foreground"
+                },
+                {
+                  "type": "text",
+                  "id": "U6zrY",
+                  "name": "scenesNavDevicesText",
+                  "fill": "$--muted-foreground",
+                  "content": "Devices",
+                  "fontFamily": "$--font-secondary",
+                  "fontSize": 11,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "if9Cm",
+              "name": "scenesNavScenes",
+              "layout": "vertical",
+              "gap": 4,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "bCrwK",
+                  "name": "scenesNavScenesIcon",
+                  "width": 26,
+                  "height": 26,
+                  "iconFontName": "auto_awesome",
+                  "iconFontFamily": "Material Symbols Rounded",
+                  "weight": 400,
+                  "fill": "$--primary"
+                },
+                {
+                  "type": "text",
+                  "id": "AHUDC",
+                  "name": "scenesNavScenesText",
+                  "fill": "$--primary",
+                  "content": "Scenes",
+                  "fontFamily": "$--font-secondary",
+                  "fontSize": 11,
+                  "fontWeight": "500"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "IPZqE",
+              "name": "scenesNavSettings",
+              "layout": "vertical",
+              "gap": 4,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "lHMz9",
+                  "name": "scenesNavSettingsIcon",
+                  "width": 26,
+                  "height": 26,
+                  "iconFontName": "settings",
+                  "iconFontFamily": "Material Symbols Rounded",
+                  "weight": 400,
+                  "fill": "$--muted-foreground"
+                },
+                {
+                  "type": "text",
+                  "id": "BopPU",
+                  "name": "scenesNavSettingsText",
+                  "fill": "$--muted-foreground",
+                  "content": "Settings",
+                  "fontFamily": "$--font-secondary",
+                  "fontSize": 11,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
       "id": "gTitG",
       "x": 0,
       "y": 1100,
@@ -7676,1195 +8865,6 @@
                   "fontFamily": "$--font-secondary",
                   "fontSize": 14,
                   "fontWeight": "600"
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "type": "frame",
-      "id": "B3CnB",
-      "x": 0,
-      "y": 4400,
-      "name": "Scenes / List",
-      "clip": true,
-      "width": 430,
-      "height": 932,
-      "fill": "$--background",
-      "layout": "vertical",
-      "children": [
-        {
-          "type": "frame",
-          "id": "z7IRd",
-          "name": "scenesHeader",
-          "width": "fill_container",
-          "padding": [
-            8,
-            20
-          ],
-          "justifyContent": "space_between",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "frame",
-              "id": "6Gw31",
-              "name": "scenesHeaderLeft",
-              "gap": 16,
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "frame",
-                  "id": "QvtF5",
-                  "name": "scenesMenuBtn",
-                  "width": 40,
-                  "height": 40,
-                  "fill": "#FFFFFF",
-                  "cornerRadius": 20,
-                  "effect": {
-                    "type": "shadow",
-                    "shadowType": "outer",
-                    "color": "#1A233210",
-                    "offset": {
-                      "x": 0,
-                      "y": 1
-                    },
-                    "blur": 6
-                  },
-                  "layout": "none",
-                  "children": [
-                    {
-                      "type": "icon_font",
-                      "id": "3uth0",
-                      "x": 9,
-                      "y": 9,
-                      "name": "scenesMenuIcon",
-                      "width": 22,
-                      "height": 22,
-                      "iconFontName": "menu",
-                      "iconFontFamily": "Material Symbols Rounded",
-                      "weight": 400,
-                      "fill": "$--foreground"
-                    }
-                  ]
-                },
-                {
-                  "type": "text",
-                  "id": "BZNrn",
-                  "name": "scenesTitle",
-                  "fill": "$--foreground",
-                  "content": "Scenes",
-                  "fontFamily": "$--font-primary",
-                  "fontSize": 28,
-                  "fontWeight": "700"
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "kjCdc",
-              "name": "scenesHeaderRight",
-              "gap": 8,
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "frame",
-                  "id": "gF8qn",
-                  "name": "scenesNotifBtn",
-                  "width": 40,
-                  "height": 40,
-                  "fill": "#FFFFFF",
-                  "cornerRadius": 20,
-                  "effect": {
-                    "type": "shadow",
-                    "shadowType": "outer",
-                    "color": "#1A233210",
-                    "offset": {
-                      "x": 0,
-                      "y": 1
-                    },
-                    "blur": 6
-                  },
-                  "layout": "none",
-                  "children": [
-                    {
-                      "type": "icon_font",
-                      "id": "oTkMo",
-                      "x": 9,
-                      "y": 9,
-                      "name": "scenesNotifIcon",
-                      "width": 22,
-                      "height": 22,
-                      "iconFontName": "notifications",
-                      "iconFontFamily": "Material Symbols Rounded",
-                      "weight": 400,
-                      "fill": "$--foreground"
-                    }
-                  ]
-                },
-                {
-                  "type": "frame",
-                  "id": "AMj9M",
-                  "name": "scenesAddBtn",
-                  "width": 40,
-                  "height": 40,
-                  "fill": "$--primary",
-                  "cornerRadius": 20,
-                  "effect": {
-                    "type": "shadow",
-                    "shadowType": "outer",
-                    "color": "#4A90D930",
-                    "offset": {
-                      "x": 0,
-                      "y": 1
-                    },
-                    "blur": 6
-                  },
-                  "layout": "none",
-                  "children": [
-                    {
-                      "type": "icon_font",
-                      "id": "tzj6m",
-                      "x": 8,
-                      "y": 8,
-                      "name": "scenesAddIcon",
-                      "width": 24,
-                      "height": 24,
-                      "iconFontName": "add",
-                      "iconFontFamily": "Material Symbols Rounded",
-                      "weight": 400,
-                      "fill": "$--white"
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "Z4VVK",
-          "name": "scenesFilterTabs",
-          "width": "fill_container",
-          "gap": 8,
-          "padding": [
-            12,
-            20
-          ],
-          "children": [
-            {
-              "type": "frame",
-              "id": "VphTS",
-              "name": "filterAll",
-              "fill": "$--primary",
-              "cornerRadius": "$--radius-pill",
-              "effect": {
-                "type": "shadow",
-                "shadowType": "outer",
-                "color": "#4A90D930",
-                "offset": {
-                  "x": 0,
-                  "y": 1
-                },
-                "blur": 4
-              },
-              "padding": [
-                8,
-                16
-              ],
-              "children": [
-                {
-                  "type": "text",
-                  "id": "IsYCw",
-                  "name": "filterAllText",
-                  "fill": "$--primary-foreground",
-                  "content": "All (5)",
-                  "fontFamily": "$--font-secondary",
-                  "fontSize": 13,
-                  "fontWeight": "500"
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "RIK1P",
-              "name": "filterActive",
-              "fill": "#FFFFFF",
-              "cornerRadius": "$--radius-pill",
-              "stroke": {
-                "align": "inside",
-                "thickness": 1,
-                "fill": "#D8DFE8"
-              },
-              "padding": [
-                8,
-                16
-              ],
-              "children": [
-                {
-                  "type": "text",
-                  "id": "nYWUt",
-                  "name": "filterActiveText",
-                  "fill": "$--foreground",
-                  "content": "Active (3)",
-                  "fontFamily": "$--font-secondary",
-                  "fontSize": 13,
-                  "fontWeight": "normal"
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "xz4CT",
-              "name": "filterInactive",
-              "fill": "#FFFFFF",
-              "cornerRadius": "$--radius-pill",
-              "stroke": {
-                "align": "inside",
-                "thickness": 1,
-                "fill": "#D8DFE8"
-              },
-              "padding": [
-                8,
-                16
-              ],
-              "children": [
-                {
-                  "type": "text",
-                  "id": "82hu8",
-                  "name": "filterInactiveText",
-                  "fill": "$--foreground",
-                  "content": "Inactive (2)",
-                  "fontFamily": "$--font-secondary",
-                  "fontSize": 13,
-                  "fontWeight": "normal"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "ao9iV",
-          "name": "scenesScroll",
-          "width": "fill_container",
-          "height": "fill_container",
-          "layout": "vertical",
-          "gap": 12,
-          "padding": [
-            8,
-            20
-          ],
-          "children": [
-            {
-              "type": "frame",
-              "id": "r1LQ3",
-              "name": "sceneCard1",
-              "width": "fill_container",
-              "fill": "$--card",
-              "cornerRadius": 20,
-              "effect": {
-                "type": "shadow",
-                "shadowType": "outer",
-                "color": "#1A233210",
-                "offset": {
-                  "x": 0,
-                  "y": 2
-                },
-                "blur": 12
-              },
-              "layout": "vertical",
-              "gap": 12,
-              "padding": 16,
-              "children": [
-                {
-                  "type": "frame",
-                  "id": "XMFqd",
-                  "name": "sceneCard1Header",
-                  "width": "fill_container",
-                  "justifyContent": "space_between",
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "frame",
-                      "id": "g6C8j",
-                      "name": "sceneCard1Left",
-                      "gap": 12,
-                      "alignItems": "center",
-                      "children": [
-                        {
-                          "type": "frame",
-                          "id": "17ldu",
-                          "name": "sceneCard1IconFrame",
-                          "width": 44,
-                          "height": 44,
-                          "fill": "$--primary",
-                          "cornerRadius": 12,
-                          "layout": "none",
-                          "children": [
-                            {
-                              "type": "icon_font",
-                              "id": "vZBGd",
-                              "x": 10,
-                              "y": 10,
-                              "name": "sceneCard1Icon",
-                              "width": 24,
-                              "height": 24,
-                              "iconFontName": "thermostat",
-                              "iconFontFamily": "Material Symbols Rounded",
-                              "weight": 400,
-                              "fill": "$--primary-foreground"
-                            }
-                          ]
-                        },
-                        {
-                          "type": "frame",
-                          "id": "QkHbg",
-                          "name": "sceneCard1Info",
-                          "layout": "vertical",
-                          "gap": 2,
-                          "children": [
-                            {
-                              "type": "text",
-                              "id": "MG0Au",
-                              "name": "sceneCard1Name",
-                              "fill": "$--foreground",
-                              "content": "Temperature Control",
-                              "fontFamily": "$--font-secondary",
-                              "fontSize": 16,
-                              "fontWeight": "600"
-                            },
-                            {
-                              "type": "frame",
-                              "id": "XgPbP",
-                              "name": "sceneCard1Status",
-                              "gap": 6,
-                              "alignItems": "center",
-                              "children": [
-                                {
-                                  "type": "ellipse",
-                                  "id": "QE0Mr",
-                                  "name": "sceneCard1Dot",
-                                  "fill": "$--color-success-foreground",
-                                  "width": 8,
-                                  "height": 8
-                                },
-                                {
-                                  "type": "text",
-                                  "id": "kqVNv",
-                                  "name": "sceneCard1StatusText",
-                                  "fill": "$--color-success-foreground",
-                                  "content": "Active",
-                                  "fontFamily": "$--font-secondary",
-                                  "fontSize": 12,
-                                  "fontWeight": "normal"
-                                }
-                              ]
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "frame",
-                      "id": "myUCv",
-                      "name": "sceneCard1Toggle",
-                      "width": 52,
-                      "height": 32,
-                      "fill": "$--primary",
-                      "cornerRadius": 16,
-                      "layout": "none",
-                      "children": [
-                        {
-                          "type": "ellipse",
-                          "id": "S1vRB",
-                          "x": 24,
-                          "y": 4,
-                          "name": "sceneCard1ToggleKnob",
-                          "fill": "$--white",
-                          "width": 24,
-                          "height": 24
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "frame",
-                  "id": "1wVT0",
-                  "name": "sceneCard1Details",
-                  "width": "fill_container",
-                  "stroke": {
-                    "align": "inside",
-                    "thickness": {
-                      "top": 1
-                    },
-                    "fill": "$--border"
-                  },
-                  "layout": "vertical",
-                  "gap": 8,
-                  "padding": [
-                    12,
-                    0,
-                    0,
-                    0
-                  ],
-                  "children": [
-                    {
-                      "type": "frame",
-                      "id": "9K5j3",
-                      "name": "sceneCard1Trigger",
-                      "width": "fill_container",
-                      "gap": 10,
-                      "alignItems": "center",
-                      "children": [
-                        {
-                          "type": "icon_font",
-                          "id": "ehaqd",
-                          "name": "sceneCard1TriggerIcon",
-                          "width": 18,
-                          "height": 18,
-                          "iconFontName": "sensors",
-                          "iconFontFamily": "Material Symbols Rounded",
-                          "weight": 400,
-                          "fill": "$--muted-foreground"
-                        },
-                        {
-                          "type": "text",
-                          "id": "01TYL",
-                          "name": "sceneCard1TriggerText",
-                          "fill": "$--muted-foreground",
-                          "content": "When temperature < 24°C",
-                          "fontFamily": "$--font-secondary",
-                          "fontSize": 13,
-                          "fontWeight": "normal"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "frame",
-                      "id": "0xgjB",
-                      "name": "sceneCard1Action",
-                      "width": "fill_container",
-                      "gap": 10,
-                      "alignItems": "center",
-                      "children": [
-                        {
-                          "type": "icon_font",
-                          "id": "LxkW2",
-                          "name": "sceneCard1ActionIcon",
-                          "width": 18,
-                          "height": 18,
-                          "iconFontName": "play_arrow",
-                          "iconFontFamily": "Material Symbols Rounded",
-                          "weight": 400,
-                          "fill": "$--primary"
-                        },
-                        {
-                          "type": "text",
-                          "id": "MoVsv",
-                          "name": "sceneCard1ActionText",
-                          "fill": "$--foreground",
-                          "content": "Turn on AC → Heat mode 26°C",
-                          "fontFamily": "$--font-secondary",
-                          "fontSize": 13,
-                          "fontWeight": "normal"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "frame",
-                  "id": "EclO6",
-                  "name": "sceneCard1Devices",
-                  "width": "fill_container",
-                  "gap": 8,
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "text",
-                      "id": "BwMwB",
-                      "name": "sceneCard1DeviceLabel",
-                      "fill": "$--muted-foreground",
-                      "content": "2 devices",
-                      "fontFamily": "$--font-secondary",
-                      "fontSize": 12,
-                      "fontWeight": "normal"
-                    },
-                    {
-                      "type": "icon_font",
-                      "id": "3t3e7",
-                      "name": "sceneCard1Arrow",
-                      "width": 18,
-                      "height": 18,
-                      "iconFontName": "chevron_right",
-                      "iconFontFamily": "Material Symbols Rounded",
-                      "weight": 400,
-                      "fill": "$--muted-foreground"
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "WJ41x",
-              "name": "sceneCard2",
-              "width": "fill_container",
-              "fill": "$--card",
-              "cornerRadius": 20,
-              "effect": {
-                "type": "shadow",
-                "shadowType": "outer",
-                "color": "#1A233210",
-                "offset": {
-                  "x": 0,
-                  "y": 2
-                },
-                "blur": 12
-              },
-              "layout": "vertical",
-              "gap": 12,
-              "padding": 16,
-              "children": [
-                {
-                  "type": "frame",
-                  "id": "lyvdW",
-                  "name": "sceneCard2Header",
-                  "width": "fill_container",
-                  "justifyContent": "space_between",
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "frame",
-                      "id": "lo3ZU",
-                      "name": "sceneCard2Left",
-                      "gap": 12,
-                      "alignItems": "center",
-                      "children": [
-                        {
-                          "type": "frame",
-                          "id": "8jqwO",
-                          "name": "sceneCard2IconFrame",
-                          "width": 44,
-                          "height": 44,
-                          "fill": "$--secondary",
-                          "cornerRadius": 12,
-                          "layout": "none",
-                          "children": [
-                            {
-                              "type": "icon_font",
-                              "id": "NDYY4",
-                              "x": 10,
-                              "y": 10,
-                              "name": "sceneCard2Icon",
-                              "width": 24,
-                              "height": 24,
-                              "iconFontName": "lightbulb",
-                              "iconFontFamily": "Material Symbols Rounded",
-                              "weight": 400,
-                              "fill": "$--foreground"
-                            }
-                          ]
-                        },
-                        {
-                          "type": "frame",
-                          "id": "W7gj0",
-                          "name": "sceneCard2Info",
-                          "layout": "vertical",
-                          "gap": 2,
-                          "children": [
-                            {
-                              "type": "text",
-                              "id": "A5U3u",
-                              "name": "sceneCard2Name",
-                              "fill": "$--foreground",
-                              "content": "Night Mode",
-                              "fontFamily": "$--font-secondary",
-                              "fontSize": 16,
-                              "fontWeight": "600"
-                            },
-                            {
-                              "type": "frame",
-                              "id": "7nXGx",
-                              "name": "sceneCard2Status",
-                              "gap": 6,
-                              "alignItems": "center",
-                              "children": [
-                                {
-                                  "type": "ellipse",
-                                  "id": "8ny39",
-                                  "name": "sceneCard2Dot",
-                                  "fill": "$--color-success-foreground",
-                                  "width": 8,
-                                  "height": 8
-                                },
-                                {
-                                  "type": "text",
-                                  "id": "s0YLa",
-                                  "name": "sceneCard2StatusText",
-                                  "fill": "$--color-success-foreground",
-                                  "content": "Active",
-                                  "fontFamily": "$--font-secondary",
-                                  "fontSize": 12,
-                                  "fontWeight": "normal"
-                                }
-                              ]
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "frame",
-                      "id": "lHGuy",
-                      "name": "sceneCard2Toggle",
-                      "width": 52,
-                      "height": 32,
-                      "fill": "$--primary",
-                      "cornerRadius": 16,
-                      "layout": "none",
-                      "children": [
-                        {
-                          "type": "ellipse",
-                          "id": "Wxt2f",
-                          "x": 24,
-                          "y": 4,
-                          "name": "sceneCard2ToggleKnob",
-                          "fill": "$--white",
-                          "width": 24,
-                          "height": 24
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "frame",
-                  "id": "zQ4Jx",
-                  "name": "sceneCard2Details",
-                  "width": "fill_container",
-                  "stroke": {
-                    "align": "inside",
-                    "thickness": {
-                      "top": 1
-                    },
-                    "fill": "$--border"
-                  },
-                  "layout": "vertical",
-                  "gap": 8,
-                  "padding": [
-                    12,
-                    0,
-                    0,
-                    0
-                  ],
-                  "children": [
-                    {
-                      "type": "frame",
-                      "id": "3dKBT",
-                      "name": "sceneCard2Trigger",
-                      "width": "fill_container",
-                      "gap": 10,
-                      "alignItems": "center",
-                      "children": [
-                        {
-                          "type": "icon_font",
-                          "id": "m5xhM",
-                          "name": "sceneCard2TriggerIcon",
-                          "width": 18,
-                          "height": 18,
-                          "iconFontName": "schedule",
-                          "iconFontFamily": "Material Symbols Rounded",
-                          "weight": 400,
-                          "fill": "$--muted-foreground"
-                        },
-                        {
-                          "type": "text",
-                          "id": "IFjne",
-                          "name": "sceneCard2TriggerText",
-                          "fill": "$--muted-foreground",
-                          "content": "Every day at 10:00 PM",
-                          "fontFamily": "$--font-secondary",
-                          "fontSize": 13,
-                          "fontWeight": "normal"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "frame",
-                      "id": "a5UvN",
-                      "name": "sceneCard2Action",
-                      "width": "fill_container",
-                      "gap": 10,
-                      "alignItems": "center",
-                      "children": [
-                        {
-                          "type": "icon_font",
-                          "id": "t4mRX",
-                          "name": "sceneCard2ActionIcon",
-                          "width": 18,
-                          "height": 18,
-                          "iconFontName": "play_arrow",
-                          "iconFontFamily": "Material Symbols Rounded",
-                          "weight": 400,
-                          "fill": "$--primary"
-                        },
-                        {
-                          "type": "text",
-                          "id": "GYswm",
-                          "name": "sceneCard2ActionText",
-                          "fill": "$--foreground",
-                          "content": "Dim all lights to 20%",
-                          "fontFamily": "$--font-secondary",
-                          "fontSize": 13,
-                          "fontWeight": "normal"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "frame",
-                  "id": "BeEel",
-                  "name": "sceneCard2Devices",
-                  "width": "fill_container",
-                  "gap": 8,
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "text",
-                      "id": "oX4Aw",
-                      "name": "sceneCard2DeviceLabel",
-                      "fill": "$--muted-foreground",
-                      "content": "5 devices",
-                      "fontFamily": "$--font-secondary",
-                      "fontSize": 12,
-                      "fontWeight": "normal"
-                    },
-                    {
-                      "type": "icon_font",
-                      "id": "Pxi22",
-                      "name": "sceneCard2Arrow",
-                      "width": 18,
-                      "height": 18,
-                      "iconFontName": "chevron_right",
-                      "iconFontFamily": "Material Symbols Rounded",
-                      "weight": 400,
-                      "fill": "$--muted-foreground"
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "MADlh",
-              "name": "sceneCard3",
-              "width": "fill_container",
-              "fill": "$--card",
-              "cornerRadius": 20,
-              "effect": {
-                "type": "shadow",
-                "shadowType": "outer",
-                "color": "#1A233210",
-                "offset": {
-                  "x": 0,
-                  "y": 2
-                },
-                "blur": 12
-              },
-              "layout": "vertical",
-              "gap": 12,
-              "padding": 16,
-              "children": [
-                {
-                  "type": "frame",
-                  "id": "35njM",
-                  "name": "sceneCard3Header",
-                  "width": "fill_container",
-                  "justifyContent": "space_between",
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "frame",
-                      "id": "XFehT",
-                      "name": "sceneCard3Left",
-                      "gap": 12,
-                      "alignItems": "center",
-                      "children": [
-                        {
-                          "type": "frame",
-                          "id": "7JodB",
-                          "name": "sceneCard3IconFrame",
-                          "width": 44,
-                          "height": 44,
-                          "fill": "$--secondary",
-                          "cornerRadius": 12,
-                          "layout": "none",
-                          "children": [
-                            {
-                              "type": "icon_font",
-                              "id": "iF4kW",
-                              "x": 10,
-                              "y": 10,
-                              "name": "sceneCard3Icon",
-                              "width": 24,
-                              "height": 24,
-                              "iconFontName": "security",
-                              "iconFontFamily": "Material Symbols Rounded",
-                              "weight": 400,
-                              "fill": "$--foreground"
-                            }
-                          ]
-                        },
-                        {
-                          "type": "frame",
-                          "id": "KS2Zb",
-                          "name": "sceneCard3Info",
-                          "layout": "vertical",
-                          "gap": 2,
-                          "children": [
-                            {
-                              "type": "text",
-                              "id": "ukkrB",
-                              "name": "sceneCard3Name",
-                              "fill": "$--foreground",
-                              "content": "Security Alert",
-                              "fontFamily": "$--font-secondary",
-                              "fontSize": 16,
-                              "fontWeight": "600"
-                            },
-                            {
-                              "type": "frame",
-                              "id": "Y7Dw1",
-                              "name": "sceneCard3Status",
-                              "gap": 6,
-                              "alignItems": "center",
-                              "children": [
-                                {
-                                  "type": "ellipse",
-                                  "id": "pJkby",
-                                  "name": "sceneCard3Dot",
-                                  "fill": "$--muted-foreground",
-                                  "width": 8,
-                                  "height": 8
-                                },
-                                {
-                                  "type": "text",
-                                  "id": "E36vF",
-                                  "name": "sceneCard3StatusText",
-                                  "fill": "$--muted-foreground",
-                                  "content": "Inactive",
-                                  "fontFamily": "$--font-secondary",
-                                  "fontSize": 12,
-                                  "fontWeight": "normal"
-                                }
-                              ]
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "frame",
-                      "id": "xfQ6b",
-                      "name": "sceneCard3Toggle",
-                      "width": 52,
-                      "height": 32,
-                      "fill": "$--secondary",
-                      "cornerRadius": 16,
-                      "layout": "none",
-                      "children": [
-                        {
-                          "type": "ellipse",
-                          "id": "L0kWj",
-                          "x": 4,
-                          "y": 4,
-                          "name": "sceneCard3ToggleKnob",
-                          "fill": "$--white",
-                          "width": 24,
-                          "height": 24
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "frame",
-                  "id": "RR7vg",
-                  "name": "sceneCard3Details",
-                  "width": "fill_container",
-                  "stroke": {
-                    "align": "inside",
-                    "thickness": {
-                      "top": 1
-                    },
-                    "fill": "$--border"
-                  },
-                  "layout": "vertical",
-                  "gap": 8,
-                  "padding": [
-                    12,
-                    0,
-                    0,
-                    0
-                  ],
-                  "children": [
-                    {
-                      "type": "frame",
-                      "id": "mSV3t",
-                      "name": "sceneCard3Trigger",
-                      "width": "fill_container",
-                      "gap": 10,
-                      "alignItems": "center",
-                      "children": [
-                        {
-                          "type": "icon_font",
-                          "id": "i1giG",
-                          "name": "sceneCard3TriggerIcon",
-                          "width": 18,
-                          "height": 18,
-                          "iconFontName": "door_open",
-                          "iconFontFamily": "Material Symbols Rounded",
-                          "weight": 400,
-                          "fill": "$--muted-foreground"
-                        },
-                        {
-                          "type": "text",
-                          "id": "zyfoO",
-                          "name": "sceneCard3TriggerText",
-                          "fill": "$--muted-foreground",
-                          "content": "When door sensor triggered",
-                          "fontFamily": "$--font-secondary",
-                          "fontSize": 13,
-                          "fontWeight": "normal"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "frame",
-                      "id": "XSyaU",
-                      "name": "sceneCard3Action",
-                      "width": "fill_container",
-                      "gap": 10,
-                      "alignItems": "center",
-                      "children": [
-                        {
-                          "type": "icon_font",
-                          "id": "DxnNr",
-                          "name": "sceneCard3ActionIcon",
-                          "width": 18,
-                          "height": 18,
-                          "iconFontName": "play_arrow",
-                          "iconFontFamily": "Material Symbols Rounded",
-                          "weight": 400,
-                          "fill": "$--muted-foreground"
-                        },
-                        {
-                          "type": "text",
-                          "id": "YPpDC",
-                          "name": "sceneCard3ActionText",
-                          "fill": "$--muted-foreground",
-                          "content": "Send notification + Turn on lights",
-                          "fontFamily": "$--font-secondary",
-                          "fontSize": 13,
-                          "fontWeight": "normal"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "frame",
-                  "id": "BHyp7",
-                  "name": "sceneCard3Devices",
-                  "width": "fill_container",
-                  "gap": 8,
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "text",
-                      "id": "cT4zk",
-                      "name": "sceneCard3DeviceLabel",
-                      "fill": "$--muted-foreground",
-                      "content": "3 devices",
-                      "fontFamily": "$--font-secondary",
-                      "fontSize": 12,
-                      "fontWeight": "normal"
-                    },
-                    {
-                      "type": "icon_font",
-                      "id": "xUdZq",
-                      "name": "sceneCard3Arrow",
-                      "width": 18,
-                      "height": 18,
-                      "iconFontName": "chevron_right",
-                      "iconFontFamily": "Material Symbols Rounded",
-                      "weight": 400,
-                      "fill": "$--muted-foreground"
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "3MOM5",
-          "name": "scenesNavBar",
-          "width": "fill_container",
-          "height": 84,
-          "fill": "$--card",
-          "cornerRadius": [
-            20,
-            20,
-            0,
-            0
-          ],
-          "effect": {
-            "type": "shadow",
-            "shadowType": "outer",
-            "color": "#1A233208",
-            "offset": {
-              "x": 0,
-              "y": -2
-            },
-            "blur": 10
-          },
-          "padding": [
-            12,
-            24,
-            32,
-            24
-          ],
-          "justifyContent": "space_around",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "frame",
-              "id": "QtJGn",
-              "name": "scenesNavHome",
-              "layout": "vertical",
-              "gap": 4,
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "icon_font",
-                  "id": "tt2hn",
-                  "name": "scenesNavHomeIcon",
-                  "width": 26,
-                  "height": 26,
-                  "iconFontName": "home",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "weight": 400,
-                  "fill": "$--muted-foreground"
-                },
-                {
-                  "type": "text",
-                  "id": "uiakY",
-                  "name": "scenesNavHomeText",
-                  "fill": "$--muted-foreground",
-                  "content": "Home",
-                  "fontFamily": "$--font-secondary",
-                  "fontSize": 11,
-                  "fontWeight": "normal"
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "mRJan",
-              "name": "scenesNavDevices",
-              "layout": "vertical",
-              "gap": 4,
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "icon_font",
-                  "id": "cdh3j",
-                  "name": "scenesNavDevicesIcon",
-                  "width": 26,
-                  "height": 26,
-                  "iconFontName": "devices",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "weight": 400,
-                  "fill": "$--muted-foreground"
-                },
-                {
-                  "type": "text",
-                  "id": "U6zrY",
-                  "name": "scenesNavDevicesText",
-                  "fill": "$--muted-foreground",
-                  "content": "Devices",
-                  "fontFamily": "$--font-secondary",
-                  "fontSize": 11,
-                  "fontWeight": "normal"
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "if9Cm",
-              "name": "scenesNavScenes",
-              "layout": "vertical",
-              "gap": 4,
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "icon_font",
-                  "id": "bCrwK",
-                  "name": "scenesNavScenesIcon",
-                  "width": 26,
-                  "height": 26,
-                  "iconFontName": "auto_awesome",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "weight": 400,
-                  "fill": "$--primary"
-                },
-                {
-                  "type": "text",
-                  "id": "AHUDC",
-                  "name": "scenesNavScenesText",
-                  "fill": "$--primary",
-                  "content": "Scenes",
-                  "fontFamily": "$--font-secondary",
-                  "fontSize": 11,
-                  "fontWeight": "500"
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "IPZqE",
-              "name": "scenesNavSettings",
-              "layout": "vertical",
-              "gap": 4,
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "icon_font",
-                  "id": "lHMz9",
-                  "name": "scenesNavSettingsIcon",
-                  "width": 26,
-                  "height": 26,
-                  "iconFontName": "settings",
-                  "iconFontFamily": "Material Symbols Rounded",
-                  "weight": 400,
-                  "fill": "$--muted-foreground"
-                },
-                {
-                  "type": "text",
-                  "id": "BopPU",
-                  "name": "scenesNavSettingsText",
-                  "fill": "$--muted-foreground",
-                  "content": "Settings",
-                  "fontFamily": "$--font-secondary",
-                  "fontSize": 11,
-                  "fontWeight": "normal"
                 }
               ]
             }

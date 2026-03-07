@@ -13,6 +13,8 @@ import 'screens/pairing_success_screen.dart';
 import 'screens/scenes_add_action_screen.dart';
 import 'screens/scenes_add_trigger_screen.dart';
 import 'screens/scenes_detail_screen.dart';
+import 'screens/scenes_list_screen.dart';
+import 'screens/scenes_new_screen.dart';
 import 'screens/scenes_select_device_screen.dart';
 import 'screens/camera_add_nvr_screen.dart';
 import 'screens/camera_list_screen.dart';
@@ -59,11 +61,14 @@ class FiboGatewayApp extends StatelessWidget {
         '/signup': (context) => const SignUpScreen(),
         '/forgot-password': (context) => const ForgotPasswordScreen(),
         '/home': (context) => const HomeShell(),
+        '/home/scenes': (context) =>
+            const ScenesListScreen(showSpacesBottomTabs: true),
         '/device-detail': (context) => const DevicesDetailScreen(),
         '/pairing/start': (context) => const PairingStartScreen(),
         '/pairing/searching': (context) => const PairingSearchingScreen(),
         '/pairing/found': (context) => const PairingDeviceFoundScreen(),
         '/pairing/success': (context) => const PairingSuccessScreen(),
+        '/scenes/new': (context) => const ScenesNewScreen(),
         '/scenes/detail': (context) => const ScenesDetailScreen(),
         '/scenes/add-trigger': (context) => const ScenesAddTriggerScreen(),
         '/scenes/add-action': (context) => const ScenesAddActionScreen(),

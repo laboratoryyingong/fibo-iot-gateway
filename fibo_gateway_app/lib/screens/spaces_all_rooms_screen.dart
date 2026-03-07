@@ -133,7 +133,7 @@ class _RoomCard extends StatelessWidget {
               ),
             ),
             Container(
-              height: 86,
+              constraints: const BoxConstraints(minHeight: 86),
               width: double.infinity,
               padding: const EdgeInsets.fromLTRB(16, 10, 16, 12),
               decoration: const BoxDecoration(
