@@ -107,7 +107,7 @@ class _LoginScreenState extends State<LoginScreen> {
         return;
       }
       if (!mounted) return;
-      Navigator.of(context).pushReplacementNamed('/spaces');
+      Navigator.of(context).pushReplacementNamed('/home/profile');
       return;
     }
 

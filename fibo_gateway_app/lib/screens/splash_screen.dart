@@ -32,7 +32,7 @@ class _SplashScreenState extends State<SplashScreen> {
         Navigator.of(context).pushReplacementNamed('/login');
         return;
       }
-      Navigator.of(context).pushReplacementNamed('/spaces');
+      Navigator.of(context).pushReplacementNamed('/home/profile');
       return;
     }
 

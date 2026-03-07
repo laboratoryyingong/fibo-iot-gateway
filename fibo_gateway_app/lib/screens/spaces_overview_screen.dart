@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 
 import '../theme/space_tokens.dart';
 import 'space_device_types.dart';
@@ -400,31 +399,24 @@ class _BottomBar extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(24, 12, 24, 20),
       child: Row(
         children: [
-          const _BottomMenuButton(),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Row(
-              children: [
-                const Expanded(
-                  child: _BottomTabPill(label: 'Spaces', selected: true),
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: _BottomTabPill(
-                    label: 'Scenes',
-                    selected: false,
-                    onTap: () =>
-                        Navigator.of(context).pushNamed('/home/scenes'),
-                  ),
-                ),
-              ],
-            ),
+          _BottomIconButton(
+            icon: Icons.home_filled,
+            onTap: () =>
+                Navigator.of(context).pushReplacementNamed('/home/profile'),
           ),
-          const SizedBox(width: 12),
-          const Icon(
-            Icons.notifications,
-            color: SpaceColors.textMuted,
-            size: 22,
+          const SizedBox(width: 8),
+          _BottomIconButton(
+            icon: Icons.bolt_outlined,
+            onTap: () =>
+                Navigator.of(context).pushReplacementNamed('/home/scenes'),
+          ),
+          const SizedBox(width: 10),
+          const Expanded(
+            child: _BottomTabPill(
+              label: 'Spaces',
+              selected: true,
+              icon: Icons.space_dashboard_outlined,
+            ),
           ),
         ],
       ),
@@ -436,12 +428,12 @@ class _BottomTabPill extends StatelessWidget {
   const _BottomTabPill({
     required this.label,
     required this.selected,
-    this.onTap,
+    this.icon,
   });
 
   final String label;
   final bool selected;
-  final VoidCallback? onTap;
+  final IconData? icon;
 
   @override
   Widget build(BuildContext context) {
@@ -457,51 +449,51 @@ class _BottomTabPill extends StatelessWidget {
         color: selected ? null : SpaceColors.bgElevated,
         border: selected ? null : Border.all(color: SpaceColors.stroke),
       ),
-      child: Center(
-        child: Text(
-          label,
-          style: SpaceTextStyles.pillTitle.copyWith(
-            color: selected ? SpaceColors.textPrimary : SpaceColors.textMuted,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          if (icon != null) ...[
+            Icon(
+              icon,
+              color: selected ? SpaceColors.textPrimary : SpaceColors.textMuted,
+              size: 20,
+            ),
+            const SizedBox(width: 8),
+          ],
+          Text(
+            label,
+            style: SpaceTextStyles.pillTitle.copyWith(
+              color: selected ? SpaceColors.textPrimary : SpaceColors.textMuted,
+            ),
           ),
-        ),
+        ],
       ),
     );
 
-    if (onTap == null) return tab;
-    return InkWell(
-      borderRadius: BorderRadius.circular(100),
-      onTap: onTap,
-      child: tab,
-    );
+    return tab;
   }
 }
 
-class _BottomMenuButton extends StatelessWidget {
-  const _BottomMenuButton();
+class _BottomIconButton extends StatelessWidget {
+  const _BottomIconButton({required this.icon, required this.onTap});
+
+  final IconData icon;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    return PopupMenuButton<String>(
-      color: SpaceColors.bgElevated,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-      onSelected: (selected) async {
-        if (selected == 'logout') {
-          final user = await ParseUser.currentUser() as ParseUser?;
-          await user?.logout();
-          if (!context.mounted) return;
-          Navigator.of(context).pushReplacementNamed('/login');
-        }
-      },
-      itemBuilder: (_) => const [
-        PopupMenuItem<String>(
-          value: 'logout',
-          child: Text('Logout', style: SpaceTextStyles.pillTitle),
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(14),
+      child: Container(
+        width: 40,
+        height: 40,
+        decoration: BoxDecoration(
+          color: SpaceColors.bgElevated,
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(color: SpaceColors.stroke),
         ),
-      ],
-      child: const SizedBox(
-        width: 28,
-        height: 28,
-        child: Icon(Icons.home_filled, color: SpaceColors.textMuted, size: 22),
+        child: Icon(icon, color: SpaceColors.textMuted, size: 20),
       ),
     );
   }

@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 import 'screens/forgot_password_screen.dart';
 import 'screens/home_shell.dart';
+import 'screens/home_profile_edit_screen.dart';
+import 'screens/home_profile_home_screen.dart';
+import 'screens/home_profile_members_screen.dart';
+import 'screens/home_profile_menu_screen.dart';
 import 'screens/login_screen.dart';
 import 'screens/signup_screen.dart';
 import 'screens/splash_screen.dart';
@@ -61,6 +65,10 @@ class FiboGatewayApp extends StatelessWidget {
         '/signup': (context) => const SignUpScreen(),
         '/forgot-password': (context) => const ForgotPasswordScreen(),
         '/home': (context) => const HomeShell(),
+        '/home/profile': (context) => const HomeProfileHomeScreen(),
+        '/home/profile/menu': (context) => const HomeProfileMenuScreen(),
+        '/home/profile/edit': (context) => const HomeProfileEditScreen(),
+        '/home/profile/members': (context) => const HomeProfileMembersScreen(),
         '/home/scenes': (context) =>
             const ScenesListScreen(showSpacesBottomTabs: true),
         '/device-detail': (context) => const DevicesDetailScreen(),
