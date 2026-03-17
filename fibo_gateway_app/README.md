@@ -4,14 +4,11 @@ Flutter app for a Zigbee gateway dashboard with device management, pairing flow,
 
 **Modules**
 - Auth: splash, login, sign up, forgot password (pixel-calibrated against `design/auth.pen`)
-- Dashboard: home overview, quick access, metrics
-- Devices: list, detail
-- Network: status overview
-- Settings: gateway and system sections
+- Gateway Onboarding: onboarding entry, discovery, bind, list, detail, status
+- Home Profile: home, menu, edit profile, members
 - Pairing: start, searching, device found, success (pixel-calibrated against `design/device-pairing.pen`)
 - Scenes: list, detail, trigger/action builder
 - Camera: list, live view, add NVR, channels, playback, settings
-- User Role: user dashboard, devices, device detail, scenes, settings
 - Spaces (WIP): spaces overview, all rooms, room detail, all devices, new room, device control (`design/space.pen` - 300/301/304/305/306/307/308/309/310/313/314/315)
   - Current state source: in-memory interactive mock store (`lib/screens/space_models.dart`, `SpaceMockStore`)
 
@@ -85,9 +82,11 @@ flutter test
 ```
 
 **Navigation**
-- `/home` -> bottom tabs: Home, Devices, Scenes, Network, Settings
-- `/user/home` -> user bottom tabs: Home, Devices, Scenes, Settings
-- `/device-detail` -> device detail page (no footer)
+- `/gateway/*` -> gateway onboarding and management flow
+- `/home` -> unified purple home/profile entry
+- `/home/profile/*` -> profile menu, edit, and members flow
+- `/home/scenes` -> scenes list from the new home flow
+- `/device-detail` -> device control alias to the purple spaces control page
 - `/pairing/*` -> pairing flow screens
 - `/scenes/*` -> scenes flow screens
 - `/camera/*` -> camera center screens
@@ -97,6 +96,12 @@ flutter test
 - `/spaces/new-room` -> new room screen (WIP)
 - `/spaces/rooms` -> all rooms screen (WIP)
 - `/spaces/room-detail` -> room detail screen (WIP)
+
+**Post-login Entry**
+- After splash/login, the app now checks whether the current Parse user has a linked gateway.
+- If no gateway is linked, the app routes to `/gateway/onboarding`.
+- If a gateway is linked, the app routes to the unified purple home at `/home`.
+- Legacy aliases `/user/home` and `/user/device-detail` still resolve to the new purple pages for compatibility.
 
 **Security**
 - Do not commit secrets or credentials

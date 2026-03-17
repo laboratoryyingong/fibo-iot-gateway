@@ -21,7 +21,7 @@ AppUserRole resolveUserRole(ParseUser user) {
 }
 
 String resolveHomeRoute(ParseUser user) {
-  return resolveUserRole(user) == AppUserRole.user ? '/user/home' : '/home';
+  return '/home';
 }
 
 String _resolveRawUserType(ParseUser user) {

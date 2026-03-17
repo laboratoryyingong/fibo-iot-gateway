@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 import 'screens/forgot_password_screen.dart';
-import 'screens/home_shell.dart';
+import 'screens/gateway_binding_screen.dart';
+import 'screens/gateway_detail_screen.dart';
+import 'screens/gateway_discovery_screen.dart';
+import 'screens/gateway_list_screen.dart';
+import 'screens/gateway_onboarding_entry_screen.dart';
+import 'screens/gateway_status_screen.dart';
 import 'screens/home_profile_edit_screen.dart';
 import 'screens/home_profile_home_screen.dart';
 import 'screens/home_profile_members_screen.dart';
@@ -9,7 +14,6 @@ import 'screens/home_profile_menu_screen.dart';
 import 'screens/login_screen.dart';
 import 'screens/signup_screen.dart';
 import 'screens/splash_screen.dart';
-import 'screens/devices_detail_screen.dart';
 import 'screens/pairing_start_screen.dart';
 import 'screens/pairing_searching_screen.dart';
 import 'screens/pairing_device_found_screen.dart';
@@ -26,8 +30,6 @@ import 'screens/camera_live_view_screen.dart';
 import 'screens/camera_nvr_channels_screen.dart';
 import 'screens/camera_playback_screen.dart';
 import 'screens/camera_settings_screen.dart';
-import 'screens/user_device_detail_screen.dart';
-import 'screens/user_home_shell.dart';
 import 'screens/spaces_all_devices_screen.dart';
 import 'screens/spaces_all_rooms_screen.dart';
 import 'screens/spaces_device_control_screen.dart';
@@ -64,14 +66,21 @@ class FiboGatewayApp extends StatelessWidget {
         '/login': (context) => const LoginScreen(),
         '/signup': (context) => const SignUpScreen(),
         '/forgot-password': (context) => const ForgotPasswordScreen(),
-        '/home': (context) => const HomeShell(),
+        '/gateway/onboarding': (context) =>
+            const GatewayOnboardingEntryScreen(),
+        '/gateway/discovery': (context) => const GatewayDiscoveryScreen(),
+        '/gateway/binding': (context) => const GatewayBindingScreen(),
+        '/gateway/list': (context) => const GatewayListScreen(),
+        '/gateway/detail': (context) => const GatewayDetailScreen(),
+        '/gateway/status': (context) => const GatewayStatusScreen(),
+        '/home': (context) => const HomeProfileHomeScreen(),
         '/home/profile': (context) => const HomeProfileHomeScreen(),
         '/home/profile/menu': (context) => const HomeProfileMenuScreen(),
         '/home/profile/edit': (context) => const HomeProfileEditScreen(),
         '/home/profile/members': (context) => const HomeProfileMembersScreen(),
         '/home/scenes': (context) =>
             const ScenesListScreen(showSpacesBottomTabs: true),
-        '/device-detail': (context) => const DevicesDetailScreen(),
+        '/device-detail': (context) => const SpacesDeviceControlScreen(),
         '/pairing/start': (context) => const PairingStartScreen(),
         '/pairing/searching': (context) => const PairingSearchingScreen(),
         '/pairing/found': (context) => const PairingDeviceFoundScreen(),
@@ -87,8 +96,8 @@ class FiboGatewayApp extends StatelessWidget {
         '/camera/nvr-channels': (context) => const CameraNvrChannelsScreen(),
         '/camera/playback': (context) => const CameraPlaybackScreen(),
         '/camera/settings': (context) => const CameraSettingsScreen(),
-        '/user/home': (context) => const UserHomeShell(),
-        '/user/device-detail': (context) => const UserDeviceDetailScreen(),
+        '/user/home': (context) => const HomeProfileHomeScreen(),
+        '/user/device-detail': (context) => const SpacesDeviceControlScreen(),
         '/spaces': (context) => const SpacesOverviewScreen(),
         '/spaces/devices': (context) => const SpacesAllDevicesScreen(),
         '/spaces/device-control': (context) =>

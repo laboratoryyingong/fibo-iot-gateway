@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../theme/space_tokens.dart';
+import '../widgets/room_image_cover.dart';
 import 'space_models.dart';
 
 class SpacesAllRoomsScreen extends StatelessWidget {
@@ -114,22 +115,23 @@ class _RoomCard extends StatelessWidget {
         child: Column(
           children: [
             Expanded(
-              child: Container(
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [Color(0x55314252), Color(0x33314252)],
-                  ),
+              child: RoomImageCover(
+                imageUrl: room.imageUrl,
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(24),
                 ),
-                child: const Center(
-                  child: Icon(
-                    Icons.image_outlined,
-                    color: SpaceColors.textMuted,
-                    size: 30,
-                  ),
+                backgroundGradient: const LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [Color(0x55314252), Color(0x33314252)],
                 ),
+                overlayGradient: const LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [Color(0x08000000), Color(0x4A000000)],
+                ),
+                placeholderIconColor: SpaceColors.textMuted,
+                placeholderIconSize: 30,
               ),
             ),
             Container(

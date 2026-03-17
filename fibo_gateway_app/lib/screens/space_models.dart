@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../services/mock_room_photo_catalog.dart';
 import 'space_device_types.dart';
 
 class SpaceRoom {
@@ -7,11 +8,13 @@ class SpaceRoom {
     required this.id,
     required this.name,
     required this.devices,
+    this.imageUrl,
   });
 
   final String id;
   final String name;
   final List<SpaceDeviceState> devices;
+  final String? imageUrl;
 
   int get onCount => devices.where((device) => device.isOn).length;
   int get totalCount => devices.length;
@@ -21,11 +24,13 @@ class SpaceRoom {
     String? id,
     String? name,
     List<SpaceDeviceState>? devices,
+    String? imageUrl,
   }) {
     return SpaceRoom(
       id: id ?? this.id,
       name: name ?? this.name,
       devices: devices ?? this.devices,
+      imageUrl: imageUrl ?? this.imageUrl,
     );
   }
 }
@@ -271,6 +276,7 @@ class SpaceMockStore extends ChangeNotifier {
       id: 'room-${_nextRoomId++}',
       name: trimmedName,
       devices: devices,
+      imageUrl: roomPhotoUrlForName(trimmedName),
     );
     _rooms = [..._rooms, newRoom];
     notifyListeners();
@@ -282,6 +288,7 @@ class SpaceMockStore extends ChangeNotifier {
       SpaceRoom(
         id: 'room-1',
         name: 'Living Room',
+        imageUrl: kLivingRoomPhotoUrl,
         devices: [
           _createDeviceFromTemplateById(
             'tpl-climate',
@@ -301,6 +308,7 @@ class SpaceMockStore extends ChangeNotifier {
       SpaceRoom(
         id: 'room-2',
         name: 'Bedroom',
+        imageUrl: kBedroomPhotoUrl,
         devices: [
           _createDeviceFromTemplateById('tpl-ceiling', isOn: false),
           _createDeviceFromTemplateById('tpl-tv', isOn: false),
@@ -315,6 +323,7 @@ class SpaceMockStore extends ChangeNotifier {
       SpaceRoom(
         id: 'room-3',
         name: 'Kitchen',
+        imageUrl: kKitchenPhotoUrl,
         devices: [
           _createDeviceFromTemplateById('tpl-ceiling', isOn: true),
           _createDeviceFromTemplateById('tpl-oven', isOn: false),
@@ -335,6 +344,7 @@ class SpaceMockStore extends ChangeNotifier {
       SpaceRoom(
         id: 'room-4',
         name: 'Office',
+        imageUrl: kOfficePhotoUrl,
         devices: [
           _createDeviceFromTemplateById('tpl-ceiling', isOn: true),
           _createDeviceFromTemplateById('tpl-speaker', isOn: false),

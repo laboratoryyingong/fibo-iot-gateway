@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 
+import '../services/gateway_linking_service.dart';
 import '../services/user_role_resolver.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
@@ -107,7 +108,11 @@ class _LoginScreenState extends State<LoginScreen> {
         return;
       }
       if (!mounted) return;
-      Navigator.of(context).pushReplacementNamed('/home/profile');
+      final nextRoute = await GatewayLinkingService.resolvePostAuthRoute(
+        loggedInUser,
+      );
+      if (!mounted) return;
+      Navigator.of(context).pushReplacementNamed(nextRoute);
       return;
     }
 

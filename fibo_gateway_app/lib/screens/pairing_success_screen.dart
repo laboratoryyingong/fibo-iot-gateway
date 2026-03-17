@@ -70,7 +70,7 @@ class PairingSuccessScreen extends StatelessWidget {
                             text: 'Control Device',
                             onPressed: () => Navigator.of(
                               context,
-                            ).pushNamed('/device-detail'),
+                            ).pushNamed('/spaces/device-control'),
                           ),
                         ),
                         SizedBox(height: 12 * heightScale),

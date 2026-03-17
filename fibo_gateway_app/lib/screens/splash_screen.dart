@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 
+import '../services/gateway_linking_service.dart';
 import '../theme/app_theme.dart';
 import '../theme/auth_tokens.dart';
 import '../widgets/auth_background_image.dart';
@@ -32,7 +33,11 @@ class _SplashScreenState extends State<SplashScreen> {
         Navigator.of(context).pushReplacementNamed('/login');
         return;
       }
-      Navigator.of(context).pushReplacementNamed('/home/profile');
+      final nextRoute = await GatewayLinkingService.resolvePostAuthRoute(
+        currentUser,
+      );
+      if (!mounted) return;
+      Navigator.of(context).pushReplacementNamed(nextRoute);
       return;
     }
 

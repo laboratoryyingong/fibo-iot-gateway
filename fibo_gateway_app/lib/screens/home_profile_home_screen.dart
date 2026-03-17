@@ -1,10 +1,41 @@
 import 'package:flutter/material.dart';
 
+import '../services/gateway_linking_service.dart';
 import '../theme/space_tokens.dart';
+import '../widgets/room_image_cover.dart';
 import 'home_profile_models.dart';
 
-class HomeProfileHomeScreen extends StatelessWidget {
+class HomeProfileHomeScreen extends StatefulWidget {
   const HomeProfileHomeScreen({super.key});
+
+  @override
+  State<HomeProfileHomeScreen> createState() => _HomeProfileHomeScreenState();
+}
+
+class _HomeProfileHomeScreenState extends State<HomeProfileHomeScreen> {
+  GatewayProfile? _selectedGateway;
+  bool _loadingGateway = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadSelectedGateway();
+  }
+
+  Future<void> _loadSelectedGateway() async {
+    final gateway = await GatewayLinkingService.getSelectedGateway();
+    if (!mounted) return;
+    setState(() {
+      _selectedGateway = gateway;
+      _loadingGateway = false;
+    });
+  }
+
+  Future<void> _openGatewayManagement() async {
+    await Navigator.of(context).pushNamed(GatewayLinkingService.listRoute);
+    if (!mounted) return;
+    await _loadSelectedGateway();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +65,12 @@ class HomeProfileHomeScreen extends StatelessWidget {
                           profiles: store.profiles,
                           selectedId: store.selectedProfileId,
                           onTap: store.selectProfile,
+                        ),
+                        const SizedBox(height: 14),
+                        _GatewaySummaryCard(
+                          gateway: _selectedGateway,
+                          loading: _loadingGateway,
+                          onTap: _openGatewayManagement,
                         ),
                         const SizedBox(height: 18),
                         _SectionHeader(
@@ -95,6 +132,154 @@ class HomeProfileHomeScreen extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class _GatewaySummaryCard extends StatelessWidget {
+  const _GatewaySummaryCard({
+    required this.gateway,
+    required this.loading,
+    required this.onTap,
+  });
+
+  final GatewayProfile? gateway;
+  final bool loading;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final subtitle = gateway == null
+        ? 'Link a gateway to manage your home network.'
+        : '${gateway!.location ?? gateway!.model} · ${gateway!.firmwareVersion}';
+
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(22),
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(22),
+          gradient: const LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [Color(0xFF314351), Color(0xFF253540)],
+          ),
+          border: Border.all(color: const Color(0xFF435766)),
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 44,
+              height: 44,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(14),
+                gradient: const LinearGradient(
+                  colors: [SpaceColors.accentStart, SpaceColors.accentEnd],
+                ),
+              ),
+              child: const Icon(
+                Icons.router_outlined,
+                color: SpaceColors.textPrimary,
+                size: 24,
+              ),
+            ),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Current Gateway',
+                    style: SpaceTextStyles.pillMeta.copyWith(
+                      color: SpaceColors.textMuted,
+                      fontSize: 12,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  if (loading)
+                    const SizedBox(
+                      height: 20,
+                      width: 20,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                  else
+                    Text(
+                      gateway?.name ?? 'No Gateway Linked',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: SpaceTextStyles.pillTitle.copyWith(fontSize: 17),
+                    ),
+                  const SizedBox(height: 2),
+                  Text(
+                    subtitle,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: SpaceTextStyles.pillMeta,
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 10),
+            if (!loading && gateway != null) ...[
+              _GatewayStatusPill(gateway: gateway!),
+              const SizedBox(width: 8),
+            ],
+            Container(
+              width: 34,
+              height: 34,
+              decoration: BoxDecoration(
+                color: const Color(0x1AFFFFFF),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: const Icon(
+                Icons.chevron_right,
+                color: SpaceColors.textPrimary,
+                size: 22,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _GatewayStatusPill extends StatelessWidget {
+  const _GatewayStatusPill({required this.gateway});
+
+  final GatewayProfile gateway;
+
+  @override
+  Widget build(BuildContext context) {
+    final color = switch (gateway.connectionState) {
+      GatewayConnectionState.online => const Color(0xFF59D08A),
+      GatewayConnectionState.offline => SpaceColors.textMuted,
+      GatewayConnectionState.updating => const Color(0xFFF4B740),
+      GatewayConnectionState.error => const Color(0xFFF56A6A),
+    };
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.14),
+        borderRadius: BorderRadius.circular(999),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(Icons.circle, color: color, size: 8),
+          const SizedBox(width: 5),
+          Text(
+            gateway.statusLabel,
+            style: SpaceTextStyles.pillMeta.copyWith(
+              color: color,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -350,12 +535,25 @@ class _SpaceCard extends StatelessWidget {
         child: Column(
           children: [
             Expanded(
-              child: Center(
-                child: Icon(
-                  Icons.image_outlined,
-                  color: SpaceColors.textMuted.withValues(alpha: 0.7),
-                  size: 36,
+              child: RoomImageCover(
+                imageUrl: space.imageUrl,
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(24),
                 ),
+                backgroundGradient: const LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [Color(0xFF2C3C4A), Color(0xFF22313C)],
+                ),
+                overlayGradient: const LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [Color(0x12000000), Color(0x66000000)],
+                ),
+                placeholderIconColor: SpaceColors.textMuted.withValues(
+                  alpha: 0.7,
+                ),
+                placeholderIconSize: 36,
               ),
             ),
             Container(

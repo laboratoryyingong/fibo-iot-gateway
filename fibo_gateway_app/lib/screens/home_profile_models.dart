@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../services/mock_room_photo_catalog.dart';
+
 @immutable
 class HomeProfileScene {
   const HomeProfileScene({
@@ -23,6 +25,7 @@ class HomeProfileSpace {
     required this.onDevices,
     required this.totalDevices,
     required this.icons,
+    this.imageUrl,
   });
 
   final String id;
@@ -30,6 +33,7 @@ class HomeProfileSpace {
   final int onDevices;
   final int totalDevices;
   final List<IconData> icons;
+  final String? imageUrl;
 }
 
 @immutable
@@ -215,6 +219,7 @@ class HomeProfileMockStore extends ChangeNotifier {
             name: 'Living Room',
             onDevices: 2,
             totalDevices: 5,
+            imageUrl: kLivingRoomPhotoUrl,
             icons: [
               Icons.lightbulb_outline,
               Icons.router_outlined,
@@ -227,6 +232,7 @@ class HomeProfileMockStore extends ChangeNotifier {
             name: 'Bedroom',
             onDevices: 0,
             totalDevices: 4,
+            imageUrl: kBedroomPhotoUrl,
             icons: [
               Icons.bed_outlined,
               Icons.air_outlined,
@@ -239,6 +245,7 @@ class HomeProfileMockStore extends ChangeNotifier {
             name: 'Kitchen',
             onDevices: 3,
             totalDevices: 6,
+            imageUrl: kKitchenPhotoUrl,
             icons: [
               Icons.kitchen_outlined,
               Icons.microwave_outlined,
@@ -296,6 +303,7 @@ class HomeProfileMockStore extends ChangeNotifier {
             name: 'Studio',
             onDevices: 4,
             totalDevices: 7,
+            imageUrl: kOfficePhotoUrl,
             icons: [
               Icons.lightbulb_outline,
               Icons.speaker_outlined,
@@ -308,6 +316,7 @@ class HomeProfileMockStore extends ChangeNotifier {
             name: 'Balcony',
             onDevices: 1,
             totalDevices: 2,
+            imageUrl: kBalconyPhotoUrl,
             icons: [Icons.wb_sunny_outlined, Icons.camera_outlined],
           ),
         ],
@@ -354,6 +363,7 @@ class HomeProfileMockStore extends ChangeNotifier {
             name: 'Outdoor Patio',
             onDevices: 2,
             totalDevices: 3,
+            imageUrl: kPatioPhotoUrl,
             icons: [
               Icons.deck_outlined,
               Icons.lightbulb_outline,
@@ -365,6 +375,7 @@ class HomeProfileMockStore extends ChangeNotifier {
             name: 'Guest Room',
             onDevices: 0,
             totalDevices: 2,
+            imageUrl: kBedroomPhotoUrl,
             icons: [Icons.bed_outlined, Icons.thermostat_outlined],
           ),
         ],

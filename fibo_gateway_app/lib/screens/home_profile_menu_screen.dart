@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 
+import '../services/gateway_linking_service.dart';
 import '../theme/space_tokens.dart';
 import 'home_profile_models.dart';
 
@@ -47,6 +48,14 @@ class HomeProfileMenuScreen extends StatelessWidget {
                       onTap: () => Navigator.of(context).pushNamed(
                         '/home/profile/members',
                         arguments: profile.id,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    _MenuTile(
+                      icon: Icons.router_outlined,
+                      title: 'Gateway Management',
+                      onTap: () => Navigator.of(context).pushNamed(
+                        GatewayLinkingService.listRoute,
                       ),
                     ),
                     const SizedBox(height: 12),
