@@ -47,7 +47,7 @@
 | P5-03 | Mobile Core | Implement ACK subscription + 1s timeout alert | Mobile | P3-02,P5-02 | ACK listener/UI alert | [ ] |
 | P5-04 | Mobile Core | Subscribe and render final state from shadow reported | Mobile | P3-03,P5-01 | Shadow state store | [ ] |
 | P5-05 | Mobile Core | Ensure app reconnect restores final state only | Mobile | P5-04 | Reconnect behavior test | [ ] |
-| P6-01 | Scenes | Model scenes as target-state sets in backend/domain layer | Backend | P3-03 | Scene schema | [ ] |
+| P6-01 | Scenes | Model app-domain entities in Parse: `Space`, `DeviceEndpoint`, `Scene`, `SceneAction` | Backend | P3-03 | `Parse/AWS-IoT-App-Domain-Model.md` | [x] |
 | P6-02 | Scenes | Implement scene execution -> deterministic desired writes | Backend | P6-01 | Scene executor service | [ ] |
 | P6-03 | Scenes | Enforce role rule: user execute only, installer create/update | Backend | P6-01 | Scene ACL tests | [ ] |
 | P7-01 | OTA | Define `gw_ota` desired/reported schema | Firmware | P3-03 | OTA schema file | [ ] |

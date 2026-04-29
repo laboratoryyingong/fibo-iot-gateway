@@ -1,0 +1,58 @@
+{
+  "state": {
+    "desired": {
+      "state": {
+        "target_lift_percent": 65
+      }
+    },
+    "reported": {
+      "schema_version": 1,
+      "identity": {
+        "ieee": "00158d0001dddddd",
+        "ep": 1,
+        "nwk": "0x4411",
+        "mfr": "_TZ3000_xxx",
+        "model": "WindowCovering",
+        "device_id": "0x0202",
+        "in_clusters": [
+          "0102"
+        ],
+        "out_clusters": []
+      },
+      "match": {
+        "profile": "curtain",
+        "confidence": "high",
+        "reasons": [
+          "cluster:0102"
+        ]
+      },
+      "capabilities": {
+        "lift_control": true,
+        "stop": true
+      },
+      "connectivity": {
+        "online": true,
+        "last_seen_ts": "2026-04-05T10:30:00Z"
+      },
+      "state": {
+        "lift_percent": 65,
+        "target_lift_percent": 65
+      },
+      "telemetry": {},
+      "last_event": {
+        "type": "position_reached",
+        "lift_percent": 65,
+        "ts": "2026-04-05T10:29:59Z"
+      },
+      "last_command": {
+        "id": "cmd-20260405-stop-001",
+        "op": "stop",
+        "status": "succeeded",
+        "completed_at": "2026-04-05T10:30:02Z",
+        "error": null
+      }
+    }
+  },
+  "version": 14,
+  "timestamp": 1775385005
+}

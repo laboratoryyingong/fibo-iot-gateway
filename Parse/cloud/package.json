@@ -1,0 +1,6 @@
+{
+  "name": "fibo-parse-cloud-code",
+  "private": true,
+  "version": "0.1.0",
+  "main": "main.js"
+}

@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
+import '../services/mock_shadow_repository.dart';
 import '../services/mock_room_photo_catalog.dart';
 import 'space_device_types.dart';
 
@@ -43,6 +46,9 @@ class SpaceDeviceState {
     required this.controlType,
     required this.isOn,
     this.valueLabel,
+    this.online = true,
+    this.syncStatus = SpaceDeviceSyncStatus.localOnly,
+    this.shadowBinding,
   });
 
   final String id;
@@ -51,6 +57,13 @@ class SpaceDeviceState {
   final SpaceDeviceControlType controlType;
   final bool isOn;
   final String? valueLabel;
+  final bool online;
+  final SpaceDeviceSyncStatus syncStatus;
+  final ShadowEndpointBinding? shadowBinding;
+
+  bool get isShadowBacked => shadowBinding != null;
+  bool get supportsLevel => shadowBinding?.supportsLevel ?? false;
+  double? get levelFraction => shadowBinding?.levelFraction;
 
   SpaceDeviceState copyWith({
     String? id,
@@ -59,6 +72,10 @@ class SpaceDeviceState {
     SpaceDeviceControlType? controlType,
     bool? isOn,
     String? valueLabel,
+    bool? online,
+    SpaceDeviceSyncStatus? syncStatus,
+    ShadowEndpointBinding? shadowBinding,
+    bool clearShadowBinding = false,
   }) {
     return SpaceDeviceState(
       id: id ?? this.id,
@@ -67,9 +84,16 @@ class SpaceDeviceState {
       controlType: controlType ?? this.controlType,
       isOn: isOn ?? this.isOn,
       valueLabel: valueLabel ?? this.valueLabel,
+      online: online ?? this.online,
+      syncStatus: syncStatus ?? this.syncStatus,
+      shadowBinding: clearShadowBinding
+          ? null
+          : (shadowBinding ?? this.shadowBinding),
     );
   }
 }
+
+enum SpaceDeviceSyncStatus { localOnly, synced, pending }
 
 class SpaceDeviceTemplate {
   const SpaceDeviceTemplate({
@@ -90,9 +114,25 @@ class SpaceDeviceTemplate {
 class SpaceMockStore extends ChangeNotifier {
   SpaceMockStore._() {
     _rooms = _buildInitialRooms();
+    _loadShadowFixtures();
   }
 
   static final SpaceMockStore instance = SpaceMockStore._();
+  static const _shadowHydrationDelay = Duration(milliseconds: 450);
+  static const Map<String, _ShadowUiSeed> _shadowUiSeeds = {
+    'dev_00158d0001aaaaaa_ep1': _ShadowUiSeed(
+      roomName: 'Living Room',
+      deviceName: 'Ceiling Light',
+      controlType: SpaceDeviceControlType.ceilingLight,
+      icon: Icons.lightbulb_outline,
+    ),
+    'dev_00158d0001bbbbbb_ep1': _ShadowUiSeed(
+      roomName: 'Bedroom',
+      deviceName: 'Bulb',
+      controlType: SpaceDeviceControlType.bulb,
+      icon: Icons.tungsten_outlined,
+    ),
+  };
 
   final List<SpaceDeviceTemplate> _templates = const [
     SpaceDeviceTemplate(
@@ -160,6 +200,8 @@ class SpaceMockStore extends ChangeNotifier {
   ];
 
   late List<SpaceRoom> _rooms;
+  final MockShadowRepository _shadowRepository = const MockShadowRepository();
+  final Map<String, Timer> _pendingTimers = <String, Timer>{};
   int _nextRoomId = 5;
   int _nextDeviceId = 1;
 
@@ -235,23 +277,88 @@ class SpaceMockStore extends ChangeNotifier {
     required String deviceId,
     bool? value,
   }) {
-    final roomIndex = _rooms.indexWhere((room) => room.id == roomId);
-    if (roomIndex < 0) return;
-    final room = _rooms[roomIndex];
-    final deviceIndex = room.devices.indexWhere(
-      (device) => device.id == deviceId,
-    );
-    if (deviceIndex < 0) return;
+    final target = findDeviceByIds(roomId: roomId, deviceId: deviceId);
+    if (target == null) return;
 
-    final device = room.devices[deviceIndex];
+    final device = target.device;
     final nextValue = value ?? !device.isOn;
     if (nextValue == device.isOn) return;
 
-    final updatedDevice = device.copyWith(isOn: nextValue);
-    final updatedDevices = [...room.devices]..[deviceIndex] = updatedDevice;
-    final updatedRoom = room.copyWith(devices: updatedDevices);
-    _rooms = [..._rooms]..[roomIndex] = updatedRoom;
-    notifyListeners();
+    if (device.shadowBinding != null) {
+      final updatedBinding = device.shadowBinding!.copyWith(
+        reportedState: {
+          ...device.shadowBinding!.reportedState,
+          'power': nextValue ? 1 : 0,
+        },
+        desiredState: {
+          ...device.shadowBinding!.desiredState,
+          'power': nextValue ? 1 : 0,
+        },
+      );
+
+      _updateDevice(
+        roomId: roomId,
+        deviceId: deviceId,
+        transform: (current) => current.copyWith(
+          isOn: nextValue,
+          syncStatus: SpaceDeviceSyncStatus.pending,
+          shadowBinding: updatedBinding,
+        ),
+      );
+      _scheduleShadowAck(roomId: roomId, deviceId: deviceId);
+      return;
+    }
+
+    _updateDevice(
+      roomId: roomId,
+      deviceId: deviceId,
+      transform: (current) => current.copyWith(isOn: nextValue),
+    );
+  }
+
+  void setDeviceLevel({
+    required String roomId,
+    required String deviceId,
+    required double value,
+  }) {
+    final target = findDeviceByIds(roomId: roomId, deviceId: deviceId);
+    if (target == null) return;
+
+    final clampedValue = value.clamp(0.0, 1.0);
+    final nextLevel = (clampedValue * 255).round();
+    final levelLabel = '${(clampedValue * 100).round()}%';
+    final device = target.device;
+
+    if (device.shadowBinding != null) {
+      final updatedBinding = device.shadowBinding!.copyWith(
+        reportedState: {
+          ...device.shadowBinding!.reportedState,
+          'level': nextLevel,
+        },
+        desiredState: {
+          ...device.shadowBinding!.desiredState,
+          'level': nextLevel,
+        },
+      );
+
+      _updateDevice(
+        roomId: roomId,
+        deviceId: deviceId,
+        transform: (current) => current.copyWith(
+          valueLabel: levelLabel,
+          syncStatus: SpaceDeviceSyncStatus.pending,
+          shadowBinding: updatedBinding,
+        ),
+      );
+      _scheduleShadowAck(roomId: roomId, deviceId: deviceId);
+      return;
+    }
+
+    _updateDevice(
+      roomId: roomId,
+      deviceId: deviceId,
+      transform: (current) => current.copyWith(valueLabel: levelLabel),
+    );
   }
 
   SpaceRoom? addRoom({
@@ -386,8 +493,126 @@ class SpaceMockStore extends ChangeNotifier {
       valueLabel: valueLabel ?? template.valueLabel,
     );
   }
+
+  Future<void> _loadShadowFixtures() async {
+    try {
+      final snapshot = await _shadowRepository.loadStageOneSnapshot();
+      if (snapshot.endpoints.isEmpty) return;
+      _applyShadowBindings(snapshot.endpoints);
+    } catch (_) {
+      // Keep the fallback mock layout if the fixture is unavailable.
+    }
+  }
+
+  void _applyShadowBindings(List<ShadowEndpointBinding> endpoints) {
+    var changed = false;
+
+    for (final endpoint in endpoints) {
+      final seed = _shadowUiSeeds[endpoint.shadowName];
+      if (seed == null) continue;
+
+      final roomIndex = _rooms.indexWhere((room) => room.name == seed.roomName);
+      if (roomIndex < 0) continue;
+
+      final room = _rooms[roomIndex];
+      final deviceIndex = room.devices.indexWhere(
+        (device) =>
+            device.name == seed.deviceName && device.shadowBinding == null,
+      );
+
+      final nextDevice = SpaceDeviceState(
+        id: deviceIndex >= 0
+            ? room.devices[deviceIndex].id
+            : 'device-${_nextDeviceId++}',
+        name: seed.deviceName,
+        icon: seed.icon,
+        controlType: seed.controlType,
+        isOn: endpoint.isOn,
+        valueLabel: _valueLabelForBinding(endpoint),
+        online: endpoint.online,
+        syncStatus: endpoint.hasPendingWrite
+            ? SpaceDeviceSyncStatus.pending
+            : SpaceDeviceSyncStatus.synced,
+        shadowBinding: endpoint,
+      );
+
+      final nextDevices = [...room.devices];
+      if (deviceIndex >= 0) {
+        nextDevices[deviceIndex] = nextDevice;
+      } else {
+        nextDevices.add(nextDevice);
+      }
+
+      _rooms = [..._rooms]..[roomIndex] = room.copyWith(devices: nextDevices);
+      changed = true;
+    }
+
+    if (changed) {
+      notifyListeners();
+    }
+  }
+
+  String? _valueLabelForBinding(ShadowEndpointBinding binding) {
+    final level = binding.levelFraction;
+    if (level == null) return null;
+    return '${(level * 100).round()}%';
+  }
+
+  void _scheduleShadowAck({required String roomId, required String deviceId}) {
+    _pendingTimers[deviceId]?.cancel();
+    _pendingTimers[deviceId] = Timer(_shadowHydrationDelay, () {
+      final target = findDeviceByIds(roomId: roomId, deviceId: deviceId);
+      if (target == null || target.device.shadowBinding == null) return;
+
+      _updateDevice(
+        roomId: roomId,
+        deviceId: deviceId,
+        transform: (current) => current.copyWith(
+          syncStatus: SpaceDeviceSyncStatus.synced,
+          shadowBinding: current.shadowBinding!.copyWith(
+            desiredState: const <String, dynamic>{},
+          ),
+        ),
+      );
+      _pendingTimers.remove(deviceId);
+    });
+  }
+
+  void _updateDevice({
+    required String roomId,
+    required String deviceId,
+    required SpaceDeviceState Function(SpaceDeviceState current) transform,
+  }) {
+    final roomIndex = _rooms.indexWhere((room) => room.id == roomId);
+    if (roomIndex < 0) return;
+    final room = _rooms[roomIndex];
+    final deviceIndex = room.devices.indexWhere(
+      (device) => device.id == deviceId,
+    );
+    if (deviceIndex < 0) return;
+
+    final updatedDevice = transform(room.devices[deviceIndex]);
+    final updatedDevices = [...room.devices]..[deviceIndex] = updatedDevice;
+    final updatedRoom = room.copyWith(devices: updatedDevices);
+    _rooms = [..._rooms]..[roomIndex] = updatedRoom;
+    notifyListeners();
+  }
 }
 
 extension _FirstWhereOrNullExtension<T> on Iterable<T> {
   T? get firstOrNull => isEmpty ? null : first;
+}
+
+class _ShadowUiSeed {
+  const _ShadowUiSeed({
+    required this.roomName,
+    required this.deviceName,
+    required this.controlType,
+    required this.icon,
+  });
+
+  final String roomName;
+  final String deviceName;
+  final SpaceDeviceControlType controlType;
+  final IconData icon;
 }

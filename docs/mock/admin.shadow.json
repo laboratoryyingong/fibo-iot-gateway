@@ -1,0 +1,12 @@
+{
+  "state": {
+    "reported": {
+      "schema_version": 1,
+      "pairing": {
+        "open": false
+      }
+    }
+  },
+  "version": 5,
+  "timestamp": 1775385005
+}

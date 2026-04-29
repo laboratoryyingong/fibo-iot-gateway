@@ -38,6 +38,8 @@ class _SpacesDeviceControlScreenState extends State<SpacesDeviceControlScreen> {
         final target = _resolveTarget(store, args);
         final type = target?.device.controlType ?? args.type;
         final title = target?.device.name ?? args.deviceName ?? type.title;
+        final powerStatus = _powerStatusLabel(target?.device);
+        final brightness = _resolvedBrightness(type: type, target: target);
 
         return Scaffold(
           backgroundColor: SpaceColors.bgSurface,
@@ -59,6 +61,8 @@ class _SpacesDeviceControlScreenState extends State<SpacesDeviceControlScreen> {
                     child: _PowerStateCard(
                       name: target.device.name,
                       isOn: target.device.isOn,
+                      statusLabel: powerStatus,
+                      enabled: target.device.online,
                       onChanged: (value) => store.toggleDevicePower(
                         roomId: target.room.id,
                         deviceId: target.device.id,
@@ -69,7 +73,12 @@ class _SpacesDeviceControlScreenState extends State<SpacesDeviceControlScreen> {
                 Expanded(
                   child: SingleChildScrollView(
                     padding: const EdgeInsets.fromLTRB(24, 20, 24, 24),
-                    child: _buildBody(type),
+                    child: _buildBody(
+                      type: type,
+                      target: target,
+                      store: store,
+                      brightness: brightness,
+                    ),
                   ),
                 ),
               ],
@@ -98,7 +107,12 @@ class _SpacesDeviceControlScreenState extends State<SpacesDeviceControlScreen> {
     return store.findFirstDeviceByType(args.type);
   }
 
-  Widget _buildBody(SpaceDeviceControlType type) {
+  Widget _buildBody({
+    required SpaceDeviceControlType type,
+    required ({SpaceRoom room, SpaceDeviceState device})? target,
+    required SpaceMockStore store,
+    required double brightness,
+  }) {
     switch (type) {
       case SpaceDeviceControlType.climate:
         return _ClimatePanel(
@@ -141,21 +155,66 @@ class _SpacesDeviceControlScreenState extends State<SpacesDeviceControlScreen> {
         );
       case SpaceDeviceControlType.ceilingLight:
         return _CeilingLightPanel(
-          brightness: _lightBrightness,
+          brightness: brightness,
           warmth: _lightWarmth,
           onBrightnessChanged: (value) =>
-              setState(() => _lightBrightness = value),
+              _handleBrightnessChanged(target, store, value, isBulb: false),
           onWarmthChanged: (value) => setState(() => _lightWarmth = value),
         );
       case SpaceDeviceControlType.bulb:
         return _BulbPanel(
-          brightness: _bulbBrightness,
+          brightness: brightness,
           warmth: _bulbWarmth,
           onBrightnessChanged: (value) =>
-              setState(() => _bulbBrightness = value),
+              _handleBrightnessChanged(target, store, value, isBulb: true),
           onWarmthChanged: (value) => setState(() => _bulbWarmth = value),
         );
     }
+  }
+
+  double _resolvedBrightness({
+    required SpaceDeviceControlType type,
+    required ({SpaceRoom room, SpaceDeviceState device})? target,
+  }) {
+    final shadowLevel = target?.device.levelFraction;
+    if (shadowLevel != null) return shadowLevel;
+    return type == SpaceDeviceControlType.bulb
+        ? _bulbBrightness
+        : _lightBrightness;
+  }
+
+  String? _powerStatusLabel(SpaceDeviceState? device) {
+    if (device == null || !device.isShadowBacked) return null;
+    if (!device.online) return 'Offline';
+    return switch (device.syncStatus) {
+      SpaceDeviceSyncStatus.pending => 'Syncing',
+      SpaceDeviceSyncStatus.synced => 'Shadow synced',
+      SpaceDeviceSyncStatus.localOnly => 'Local only',
+    };
+  }
+
+  void _handleBrightnessChanged(
+    ({SpaceRoom room, SpaceDeviceState device})? target,
+    SpaceMockStore store,
+    double value, {
+    required bool isBulb,
+  }) {
+    if (target != null && target.device.supportsLevel) {
+      store.setDeviceLevel(
+        roomId: target.room.id,
+        deviceId: target.device.id,
+        value: value,
+      );
+      return;
+    }
+
+    setState(() {
+      if (isBulb) {
+        _bulbBrightness = value;
+      } else {
+        _lightBrightness = value;
+      }
+    });
   }
 }
 
@@ -214,11 +273,15 @@ class _PowerStateCard extends StatelessWidget {
     required this.name,
     required this.isOn,
     required this.onChanged,
+    this.statusLabel,
+    this.enabled = true,
   });
 
   final String name;
   final bool isOn;
   final ValueChanged<bool> onChanged;
+  final String? statusLabel;
+  final bool enabled;
 
   @override
   Widget build(BuildContext context) {
@@ -233,14 +296,25 @@ class _PowerStateCard extends StatelessWidget {
       child: Row(
         children: [
           Expanded(
-            child: Text(
-              '$name Power',
-              style: SpaceTextStyles.pillTitle.copyWith(fontSize: 15),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  '$name Power',
+                  style: SpaceTextStyles.pillTitle.copyWith(fontSize: 15),
+                ),
+                if (statusLabel != null)
+                  Text(
+                    statusLabel!,
+                    style: SpaceTextStyles.pillMeta.copyWith(fontSize: 12),
+                  ),
+              ],
             ),
           ),
           Switch(
             value: isOn,
-            onChanged: onChanged,
+            onChanged: enabled ? onChanged : null,
             activeThumbColor: SpaceColors.accentStart,
             activeTrackColor: const Color(0x887773FA),
             inactiveThumbColor: SpaceColors.textPrimary,

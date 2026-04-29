@@ -21,3 +21,16 @@ Required variables:
 - `MONGO_PARSE_PASS=REPLACE_WITH_MONGO_PARSE_PASS`
 - `DASHBOARD_USER=REPLACE_WITH_DASHBOARD_USER`
 - `DASHBOARD_PASS=REPLACE_WITH_DASHBOARD_PASS`
+
+Cloud Code AWS bootstrap variables:
+
+- `FIBO_AWS_REGION=us-east-1`
+- `FIBO_AWS_IDENTITY_POOL_ID=REPLACE_WITH_COGNITO_IDENTITY_POOL_ID`
+- `FIBO_AWS_IDENTITY_PROVIDER=parse.fibo.user`
+- `FIBO_AWS_DEVELOPER_TOKEN_MODE=todo`
+- `FIBO_IOT_TOPIC_PREFIX_BASE=fibo/v1`
+
+Notes:
+
+1. `FIBO_AWS_DEVELOPER_TOKEN_MODE=todo` means the current Cloud Code only returns the identity bootstrap shape and authorization scope; it does not yet mint real Cognito developer tokens or temporary AWS credentials.
+2. When Cognito developer-authenticated identities are wired in, replace the placeholder mode with a real token issuance path in `getAwsIotSession`.

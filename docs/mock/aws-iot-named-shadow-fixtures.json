@@ -1,0 +1,669 @@
+{
+  "thing_name": "fibo-hub-001",
+  "generated_at": "2026-04-05T10:30:05Z",
+  "named_shadows": [
+    {
+      "shadow_name": "hub",
+      "kind": "hub",
+      "document": {
+        "state": {
+          "desired": {
+            "permit_join_open": false,
+            "logging": {
+              "uart": true
+            }
+          },
+          "reported": {
+            "schema_version": 1,
+            "fw_version": "s3-0.1.0-mock",
+            "eth": {
+              "link": true,
+              "ip": "192.168.1.10"
+            },
+            "cloud": {
+              "connected": true,
+              "last_connect_ts": "2026-04-05T10:30:00Z"
+            },
+            "h2": {
+              "connected": true,
+              "protocol_version": 2
+            },
+            "zigbee": {
+              "coordinator_ready": true,
+              "device_count": 8,
+              "permit_join_open": false
+            },
+            "last_error": null
+          }
+        },
+        "version": 3,
+        "timestamp": 1775385005
+      }
+    },
+    {
+      "shadow_name": "admin",
+      "kind": "admin",
+      "document": {
+        "state": {
+          "reported": {
+            "schema_version": 1,
+            "pairing": {
+              "open": false
+            }
+          }
+        },
+        "version": 5,
+        "timestamp": 1775385005
+      }
+    },
+    {
+      "shadow_name": "dev_00158d0001aaaaaa_ep1",
+      "kind": "endpoint",
+      "profile": "onoff_actuator",
+      "document": {
+        "state": {
+          "reported": {
+            "schema_version": 1,
+            "identity": {
+              "ieee": "00158d0001aaaaaa",
+              "ep": 1,
+              "model": "TS0001"
+            },
+            "connectivity": {
+              "online": true
+            },
+            "state": {
+              "power": 1
+            }
+          }
+        },
+        "version": 11,
+        "timestamp": 1775385005
+      }
+    },
+    {
+      "shadow_name": "dev_00158d0001bbbbbb_ep1",
+      "kind": "endpoint",
+      "profile": "dimmable_light",
+      "document": {
+        "state": {
+          "reported": {
+            "schema_version": 1,
+            "identity": {
+              "ieee": "00158d0001bbbbbb",
+              "ep": 1,
+              "model": "TS0601_dimmer"
+            },
+            "connectivity": {
+              "online": true
+            },
+            "state": {
+              "power": 1,
+              "level": 128
+            }
+          }
+        },
+        "version": 12,
+        "timestamp": 1775385005
+      }
+    },
+    {
+      "shadow_name": "dev_00158d0001cccccc_ep1",
+      "kind": "endpoint",
+      "profile": "color_light",
+      "document": {
+        "state": {
+          "desired": {
+            "state": {
+              "power": 1,
+              "level": 180,
+              "color": {
+                "mode": "temp_mireds",
+                "temp_mireds": 370
+              }
+            }
+          },
+          "reported": {
+            "schema_version": 1,
+            "identity": {
+              "ieee": "00158d0001cccccc",
+              "ep": 1,
+              "nwk": "0x31AF",
+              "mfr": "_TZ3000_xxx",
+              "model": "TS0505B",
+              "device_id": "0x0102",
+              "in_clusters": [
+                "0006",
+                "0008",
+                "0300"
+              ],
+              "out_clusters": []
+            },
+            "match": {
+              "profile": "color_light",
+              "confidence": "high",
+              "reasons": [
+                "cluster:0300"
+              ]
+            },
+            "capabilities": {
+              "onoff": true,
+              "level": true,
+              "color_hs": true,
+              "color_xy": true,
+              "color_temp": true
+            },
+            "connectivity": {
+              "online": true,
+              "last_seen_ts": "2026-04-05T10:30:00Z"
+            },
+            "state": {
+              "power": 1,
+              "level": 180,
+              "color": {
+                "mode": "temp_mireds",
+                "hue": null,
+                "saturation": null,
+                "x": null,
+                "y": null,
+                "temp_mireds": 370
+              }
+            },
+            "telemetry": {},
+            "last_event": {
+              "type": "color_changed",
+              "mode": "temp_mireds",
+              "temp_mireds": 370,
+              "ts": "2026-04-05T10:29:58Z"
+            },
+            "last_command": null
+          }
+        },
+        "version": 13,
+        "timestamp": 1775385005
+      }
+    },
+    {
+      "shadow_name": "dev_00158d0001dddddd_ep1",
+      "kind": "endpoint",
+      "profile": "curtain",
+      "document": {
+        "state": {
+          "desired": {
+            "state": {
+              "target_lift_percent": 65
+            }
+          },
+          "reported": {
+            "schema_version": 1,
+            "identity": {
+              "ieee": "00158d0001dddddd",
+              "ep": 1,
+              "nwk": "0x4411",
+              "mfr": "_TZ3000_xxx",
+              "model": "WindowCovering",
+              "device_id": "0x0202",
+              "in_clusters": [
+                "0102"
+              ],
+              "out_clusters": []
+            },
+            "match": {
+              "profile": "curtain",
+              "confidence": "high",
+              "reasons": [
+                "cluster:0102"
+              ]
+            },
+            "capabilities": {
+              "lift_control": true,
+              "stop": true
+            },
+            "connectivity": {
+              "online": true,
+              "last_seen_ts": "2026-04-05T10:30:00Z"
+            },
+            "state": {
+              "lift_percent": 65,
+              "target_lift_percent": 65
+            },
+            "telemetry": {},
+            "last_event": {
+              "type": "position_reached",
+              "lift_percent": 65,
+              "ts": "2026-04-05T10:29:59Z"
+            },
+            "last_command": {
+              "id": "cmd-20260405-stop-001",
+              "op": "stop",
+              "status": "succeeded",
+              "completed_at": "2026-04-05T10:30:02Z",
+              "error": null
+            }
+          }
+        },
+        "version": 14,
+        "timestamp": 1775385005
+      }
+    },
+    {
+      "shadow_name": "dev_00158d0001eeeeee_ep1",
+      "kind": "endpoint",
+      "profile": "door_lock",
+      "document": {
+        "state": {
+          "desired": {
+            "state": {
+              "locked": true
+            }
+          },
+          "reported": {
+            "schema_version": 1,
+            "identity": {
+              "ieee": "00158d0001eeeeee",
+              "ep": 1,
+              "nwk": "0x1288",
+              "mfr": "_TZ3000_xxx",
+              "model": "DoorLock",
+              "device_id": "0x000A",
+              "in_clusters": [
+                "0101"
+              ],
+              "out_clusters": []
+            },
+            "match": {
+              "profile": "door_lock",
+              "confidence": "high",
+              "reasons": [
+                "cluster:0101"
+              ]
+            },
+            "capabilities": {
+              "lock": true
+            },
+            "connectivity": {
+              "online": true,
+              "last_seen_ts": "2026-04-05T10:30:00Z"
+            },
+            "state": {
+              "locked": true
+            },
+            "telemetry": {},
+            "last_event": {
+              "type": "lock_state_change",
+              "locked": true,
+              "ts": "2026-04-05T10:29:52Z"
+            },
+            "last_command": null
+          }
+        },
+        "version": 15,
+        "timestamp": 1775385005
+      }
+    },
+    {
+      "shadow_name": "dev_00158d0001ffffff_ep1",
+      "kind": "endpoint",
+      "profile": "ias_sensor",
+      "document": {
+        "state": {
+          "desired": {
+            "state": {}
+          },
+          "reported": {
+            "schema_version": 1,
+            "identity": {
+              "ieee": "00158d0001ffffff",
+              "ep": 1,
+              "nwk": "0x61BC",
+              "mfr": "_TZ3000_xxx",
+              "model": "IASSensor",
+              "device_id": "0x0402",
+              "in_clusters": [
+                "0500",
+                "0001"
+              ],
+              "out_clusters": []
+            },
+            "match": {
+              "profile": "ias_sensor",
+              "confidence": "high",
+              "reasons": [
+                "cluster:0500"
+              ]
+            },
+            "capabilities": {
+              "ias_zone": true,
+              "battery": true
+            },
+            "connectivity": {
+              "online": true,
+              "last_seen_ts": "2026-04-05T10:30:00Z"
+            },
+            "state": {},
+            "telemetry": {
+              "zone_status": 1,
+              "extended_status": 0,
+              "zone_id": 0,
+              "delay_qs": 0,
+              "battery_voltage_100mv": 28,
+              "battery_percentage_half_pct": 160
+            },
+            "last_event": {
+              "type": "ias_zone_change",
+              "ts": "2026-04-05T10:30:00Z",
+              "active": true
+            },
+            "last_command": null
+          }
+        },
+        "version": 16,
+        "timestamp": 1775385005
+      }
+    },
+    {
+      "shadow_name": "dev_00158d0001222222_ep1",
+      "kind": "endpoint",
+      "profile": "multi_sensor",
+      "document": {
+        "state": {
+          "desired": {
+            "state": {}
+          },
+          "reported": {
+            "schema_version": 1,
+            "identity": {
+              "ieee": "00158d0001222222",
+              "ep": 1,
+              "nwk": "0x7188",
+              "mfr": "_TZ3000_xxx",
+              "model": "MultiSensor",
+              "device_id": "0x0402",
+              "in_clusters": [
+                "0402",
+                "0405",
+                "0400",
+                "0001",
+                "0500"
+              ],
+              "out_clusters": []
+            },
+            "match": {
+              "profile": "multi_sensor",
+              "confidence": "high",
+              "reasons": [
+                "cluster:0402",
+                "cluster:0405",
+                "cluster:0400",
+                "cluster:0001",
+                "cluster:0500"
+              ]
+            },
+            "capabilities": {
+              "temperature": true,
+              "humidity": true,
+              "illuminance": true,
+              "battery": true,
+              "ias_zone": true
+            },
+            "connectivity": {
+              "online": false,
+              "last_seen_ts": "2026-04-05T09:42:11Z"
+            },
+            "state": {},
+            "telemetry": {
+              "temperature_centi_c": 2350,
+              "humidity_centi_pct": 5025,
+              "illuminance_raw": 12345,
+              "battery_voltage_100mv": 29,
+              "battery_percentage_half_pct": 180,
+              "zone_status": 0
+            },
+            "last_event": null,
+            "last_command": null
+          }
+        },
+        "version": 17,
+        "timestamp": 1775385005
+      }
+    },
+    {
+      "shadow_name": "dev_00158d0001333333_ep2",
+      "kind": "endpoint",
+      "profile": "button_remote",
+      "document": {
+        "state": {
+          "desired": {
+            "state": {}
+          },
+          "reported": {
+            "schema_version": 1,
+            "identity": {
+              "ieee": "00158d0001333333",
+              "ep": 2,
+              "nwk": "0x2301",
+              "mfr": "_TZ3000_aj4etlbk",
+              "model": "TS0044",
+              "device_id": "0x0000",
+              "in_clusters": [
+                "0006",
+                "E000"
+              ],
+              "out_clusters": []
+            },
+            "match": {
+              "profile": "button_remote",
+              "confidence": "high",
+              "reasons": [
+                "model:TS0044"
+              ]
+            },
+            "capabilities": {
+              "button_events": true,
+              "bindings": true
+            },
+            "connectivity": {
+              "online": true,
+              "last_seen_ts": "2026-04-05T10:30:00Z"
+            },
+            "state": {},
+            "telemetry": {},
+            "last_event": {
+              "type": "button_action",
+              "action": "double",
+              "ts": "2026-04-05T10:30:00Z"
+            },
+            "last_command": {
+              "id": "bind-20260405-001",
+              "op": "bind",
+              "status": "succeeded",
+              "completed_at": "2026-04-05T10:30:01Z",
+              "error": null
+            }
+          }
+        },
+        "version": 18,
+        "timestamp": 1775385005
+      }
+    }
+  ],
+  "update_payloads": [
+    {
+      "shadow_name": "admin",
+      "description": "Open pairing window through admin shadow",
+      "payload": {
+        "state": {
+          "desired": {
+            "command": {
+              "id": "admin-20260405-001",
+              "op": "permit_join",
+              "args": {
+                "seconds": 60
+              },
+              "issued_at": "2026-04-05T10:31:00Z"
+            }
+          }
+        }
+      }
+    },
+    {
+      "shadow_name": "admin",
+      "description": "Remove paired device by stable identity",
+      "payload": {
+        "state": {
+          "desired": {
+            "command": {
+              "id": "admin-20260405-002",
+              "op": "remove_device",
+              "args": {
+                "target_ieee": "00158d0001aaaaaa"
+              },
+              "issued_at": "2026-04-05T10:32:00Z"
+            }
+          }
+        }
+      }
+    },
+    {
+      "shadow_name": "admin",
+      "description": "Reboot the S3 bridge through admin shadow",
+      "payload": {
+        "state": {
+          "desired": {
+            "command": {
+              "id": "admin-20260405-003",
+              "op": "reboot",
+              "args": {
+                "target": "s3"
+              },
+              "issued_at": "2026-04-05T10:33:00Z"
+            }
+          }
+        }
+      }
+    },
+    {
+      "shadow_name": "admin",
+      "description": "Start H2 OTA through admin shadow using a compact artifact id",
+      "payload": {
+        "state": {
+          "desired": {
+            "command": {
+              "id": "admin-20260405-004",
+              "op": "ota_start",
+              "args": {
+                "target": "h2",
+                "artifact_id": "h2-0.2.0"
+              },
+              "issued_at": "2026-04-05T10:34:00Z"
+            }
+          }
+        }
+      }
+    },
+    {
+      "shadow_name": "admin",
+      "description": "Abort in-progress H2 OTA",
+      "payload": {
+        "state": {
+          "desired": {
+            "command": {
+              "id": "admin-20260405-005",
+              "op": "ota_abort",
+              "args": {
+                "target": "h2"
+              },
+              "issued_at": "2026-04-05T10:35:00Z"
+            }
+          }
+        }
+      }
+    },
+    {
+      "shadow_name": "admin",
+      "description": "Run bulk maintenance inventory refresh",
+      "payload": {
+        "state": {
+          "desired": {
+            "command": {
+              "id": "admin-20260405-006",
+              "op": "bulk_maintenance",
+              "args": {
+                "action": "refresh_inventory"
+              },
+              "issued_at": "2026-04-05T10:36:00Z"
+            }
+          }
+        }
+      }
+    },
+    {
+      "shadow_name": "dev_00158d0001bbbbbb_ep1",
+      "description": "Dimmable light target state write",
+      "payload": {
+        "state": {
+          "desired": {
+            "state": {
+              "power": 1,
+              "level": 64
+            }
+          }
+        }
+      }
+    },
+    {
+      "shadow_name": "dev_00158d0001cccccc_ep1",
+      "description": "Color light target state write",
+      "payload": {
+        "state": {
+          "desired": {
+            "state": {
+              "power": 1,
+              "level": 200,
+              "color": {
+                "mode": "hs",
+                "hue": 120,
+                "saturation": 80
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "shadow_name": "dev_00158d0001dddddd_ep1",
+      "description": "Curtain one-shot stop command",
+      "payload": {
+        "state": {
+          "desired": {
+            "command": {
+              "id": "cmd-20260405-stop-002",
+              "op": "stop",
+              "args": {},
+              "issued_at": "2026-04-05T10:31:00Z"
+            }
+          }
+        }
+      }
+    },
+    {
+      "shadow_name": "dev_00158d0001333333_ep2",
+      "description": "Button remote binding command",
+      "payload": {
+        "state": {
+          "desired": {
+            "command": {
+              "id": "bind-20260405-002",
+              "op": "bind",
+              "args": {
+                "cluster": "onoff",
+                "target_shadow": "dev_00158d0001bbbbbb_ep1"
+              },
+              "issued_at": "2026-04-05T10:31:00Z"
+            }
+          }
+        }
+      }
+    }
+  ]
+}

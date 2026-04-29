@@ -1,7 +1,7 @@
 # Fibo IoT Gateway: AWS IoT Architecture Specification (V1)
 
 **Status:** Approved for implementation  
-**Last Updated:** 2026-02-22  
+**Last Updated:** 2026-04-05  
 **Scope:** Mobile App, Parse backend integration, AWS IoT Core, Gateway firmware, Cloud persistence
 
 ## 1. Objective
@@ -11,7 +11,7 @@ Define the production architecture for communication between the mobile app and 
 ## 2. Locked Decisions
 
 1. App connects directly to AWS IoT Core (MQTT over WebSocket).
-2. Parse remains as a thin backend for auth/session validation and identity mapping.
+2. Parse owns auth/session validation, app-domain metadata, and backend scene execution orchestration.
 3. AWS temporary credentials are issued via Cognito Identity (developer-authenticated identities).
 4. Device model is one gateway with up to 100 sub-devices.
 5. Shadow model is one gateway Thing with named shadows for sub-devices.
@@ -33,7 +33,7 @@ Define the production architecture for communication between the mobile app and 
 ## 3.1 Components
 
 1. Mobile App (Flutter)
-2. Parse Backend (Cloud Functions + user/account/gateway authorization mapping)
+2. Parse Backend (Cloud Functions + app-domain metadata + user/account/gateway authorization mapping)
 3. Cognito Identity (temporary credentials)
 4. AWS IoT Core (MQTT broker + Shadow service)
 5. Gateway Firmware (command executor and shadow reporter)
@@ -42,7 +42,7 @@ Define the production architecture for communication between the mobile app and 
 ## 3.2 Data Responsibility
 
 1. App: initiates user actions, subscribes to ACK and state updates.
-2. Parse: validates user/session and returns AWS identity context.
+2. Parse: validates user/session, serves app-domain metadata, and returns AWS identity context.
 3. IoT Core: routes messages and stores current shadow state.
 4. Gateway: executes device actions, publishes ACK/events, writes reported state.
 5. DynamoDB: stores operation/state/alert/ota/audit history with TTL.
@@ -205,7 +205,7 @@ Status enum:
 
 ## 10. Scenes Model
 
-Scenes are persisted as target-state sets.  
+Scenes are authored in Parse and persisted as target-state sets.  
 Execution writes deterministic desired states to affected `ctrl` shadows.
 
 Benefits:
@@ -290,4 +290,3 @@ Benefits:
 ## 16. Versioning
 
 Any contract changes to topics, payload schema, or permission behavior must increment a documented architecture version and migration note.
-

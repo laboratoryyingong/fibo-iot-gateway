@@ -1,0 +1,250 @@
+{
+  "thing_name": "fibo-hub-001",
+  "generated_at": "2026-04-05T10:30:05Z",
+  "named_shadows": [
+    {
+      "shadow_name": "hub",
+      "kind": "hub",
+      "document": {
+        "state": {
+          "desired": {
+            "permit_join_open": false,
+            "logging": {
+              "uart": true
+            }
+          },
+          "reported": {
+            "schema_version": 1,
+            "fw_version": "s3-0.1.0-mock",
+            "eth": {
+              "link": true,
+              "ip": "192.168.1.10"
+            },
+            "cloud": {
+              "connected": true,
+              "last_connect_ts": "2026-04-05T10:30:00Z"
+            },
+            "h2": {
+              "connected": true,
+              "protocol_version": 2
+            },
+            "zigbee": {
+              "coordinator_ready": true,
+              "device_count": 8,
+              "permit_join_open": false
+            },
+            "last_error": null
+          }
+        },
+        "version": 3,
+        "timestamp": 1775385005
+      }
+    },
+    {
+      "shadow_name": "admin",
+      "kind": "admin",
+      "document": {
+        "state": {
+          "reported": {
+            "schema_version": 1,
+            "pairing": {
+              "open": false
+            }
+          }
+        },
+        "version": 5,
+        "timestamp": 1775385005
+      }
+    },
+    {
+      "shadow_name": "dev_00158d0001aaaaaa_ep1",
+      "kind": "endpoint",
+      "profile": "onoff_actuator",
+      "document": {
+        "state": {
+          "reported": {
+            "schema_version": 1,
+            "identity": {
+              "ieee": "00158d0001aaaaaa",
+              "ep": 1,
+              "model": "TS0001"
+            },
+            "connectivity": {
+              "online": true
+            },
+            "state": {
+              "power": 1
+            }
+          }
+        },
+        "version": 11,
+        "timestamp": 1775385005
+      }
+    },
+    {
+      "shadow_name": "dev_00158d0001bbbbbb_ep1",
+      "kind": "endpoint",
+      "profile": "dimmable_light",
+      "document": {
+        "state": {
+          "reported": {
+            "schema_version": 1,
+            "identity": {
+              "ieee": "00158d0001bbbbbb",
+              "ep": 1,
+              "model": "TS0601_dimmer"
+            },
+            "connectivity": {
+              "online": true
+            },
+            "state": {
+              "power": 1,
+              "level": 128
+            }
+          }
+        },
+        "version": 12,
+        "timestamp": 1775385005
+      }
+    },
+    {
+      "shadow_name": "dev_00158d0001cccccc_ep1",
+      "kind": "endpoint",
+      "profile": "color_light",
+      "document": {
+        "state": {
+          "desired": {
+            "state": {
+              "power": 1,
+              "level": 180,
+              "color": {
+                "mode": "temp_mireds",
+                "temp_mireds": 370
+              }
+            }
+          },
+          "reported": {
+            "schema_version": 1,
+            "identity": {
+              "ieee": "00158d0001cccccc",
+              "ep": 1,
+              "nwk": "0x31AF",
+              "mfr": "_TZ3000_xxx",
+              "model": "TS0505B",
+              "device_id": "0x0102",
+              "in_clusters": [
+                "0006",
+                "0008",
+                "0300"
+              ],
+              "out_clusters": []
+            },
+            "match": {
+              "profile": "color_light",
+              "confidence": "high",
+              "reasons": [
+                "cluster:0300"
+              ]
+            },
+            "capabilities": {
+              "onoff": true,
+              "level": true,
+              "color_hs": true,
+              "color_xy": true,
+              "color_temp": true
+            },
+            "connectivity": {
+              "online": true,
+              "last_seen_ts": "2026-04-05T10:30:00Z"
+            },
+            "state": {
+              "power": 1,
+              "level": 180,
+              "color": {
+                "mode": "temp_mireds",
+                "hue": null,
+                "saturation": null,
+                "x": null,
+                "y": null,
+                "temp_mireds": 370
+              }
+            },
+            "telemetry": {},
+            "last_event": {
+              "type": "color_changed",
+              "mode": "temp_mireds",
+              "temp_mireds": 370,
+              "ts": "2026-04-05T10:29:58Z"
+            },
+            "last_command": null
+          }
+        },
+        "version": 13,
+        "timestamp": 1775385005
+      }
+    },
+    {
+      "shadow_name": "dev_00158d0001dddddd_ep1",
+      "kind": "endpoint",
+      "profile": "curtain",
+      "document": {
+        "state": {
+          "desired": {
+            "state": {
+              "target_lift_percent": 65
+            }
+          },
+          "reported": {
+            "schema_version": 1,
+            "identity": {
+              "ieee": "00158d0001dddddd",
+              "ep": 1,
+              "nwk": "0x4411",
+              "mfr": "_TZ3000_xxx",
+              "model": "WindowCovering",
+              "device_id": "0x0202",
+              "in_clusters": [
+                "0102"
+              ],
+              "out_clusters": []
+            },
+            "match": {
+              "profile": "curtain",
+              "confidence": "high",
+              "reasons": [
+                "cluster:0102"
+              ]
+            },
+            "capabilities": {
+              "lift_control": true,
+              "stop": true
+            },
+            "connectivity": {
+              "online": true,
+              "last_seen_ts": "2026-04-05T10:30:00Z"
+            },
+            "state": {
+              "lift_percent": 65,
+              "target_lift_percent": 65
+            },
+            "telemetry": {},
+            "last_event": {
+              "type": "position_reached",
+              "lift_percent": 65,
+              "ts": "2026-04-05T10:29:59Z"
+            },
+            "last_command": {
+              "id": "cmd-20260405-stop-001",
+              "op": "stop",
+              "status": "succeeded",
+              "completed_at": "2026-04-05T10:30:02Z",
+              "error": null
+            }
+          }
+        },
+        "version": 14,
+        "timestamp": 1775385005
+      }
+    }
+  ]
+}
