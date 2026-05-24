@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../theme/space_tokens.dart';
 import '../widgets/room_image_cover.dart';
+import '../widgets/space_bottom_bar.dart';
 import 'space_device_types.dart';
 import 'space_models.dart';
 
@@ -97,7 +98,7 @@ class SpacesOverviewScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                const _BottomBar(),
+                const SpaceBottomBar(active: SpaceTab.spaces),
               ],
             ),
           ),
@@ -386,117 +387,6 @@ class _DeviceCategoryCard extends StatelessWidget {
       onTap: onTap,
       borderRadius: BorderRadius.circular(24),
       child: card,
-    );
-  }
-}
-
-class _BottomBar extends StatelessWidget {
-  const _BottomBar();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 86,
-      color: SpaceColors.bgBase,
-      padding: const EdgeInsets.fromLTRB(24, 12, 24, 20),
-      child: Row(
-        children: [
-          _BottomIconButton(
-            icon: Icons.home_filled,
-            onTap: () =>
-                Navigator.of(context).pushReplacementNamed('/home/profile'),
-          ),
-          const SizedBox(width: 8),
-          _BottomIconButton(
-            icon: Icons.bolt_outlined,
-            onTap: () =>
-                Navigator.of(context).pushReplacementNamed('/home/scenes'),
-          ),
-          const SizedBox(width: 10),
-          const Expanded(
-            child: _BottomTabPill(
-              label: 'Spaces',
-              selected: true,
-              icon: Icons.space_dashboard_outlined,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _BottomTabPill extends StatelessWidget {
-  const _BottomTabPill({
-    required this.label,
-    required this.selected,
-    this.icon,
-  });
-
-  final String label;
-  final bool selected;
-  final IconData? icon;
-
-  @override
-  Widget build(BuildContext context) {
-    final tab = Container(
-      height: 36,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(100),
-        gradient: selected
-            ? const LinearGradient(
-                colors: [SpaceColors.accentStart, SpaceColors.accentEnd],
-              )
-            : null,
-        color: selected ? null : SpaceColors.bgElevated,
-        border: selected ? null : Border.all(color: SpaceColors.stroke),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          if (icon != null) ...[
-            Icon(
-              icon,
-              color: selected ? SpaceColors.textPrimary : SpaceColors.textMuted,
-              size: 20,
-            ),
-            const SizedBox(width: 8),
-          ],
-          Text(
-            label,
-            style: SpaceTextStyles.pillTitle.copyWith(
-              color: selected ? SpaceColors.textPrimary : SpaceColors.textMuted,
-            ),
-          ),
-        ],
-      ),
-    );
-
-    return tab;
-  }
-}
-
-class _BottomIconButton extends StatelessWidget {
-  const _BottomIconButton({required this.icon, required this.onTap});
-
-  final IconData icon;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(14),
-      child: Container(
-        width: 40,
-        height: 40,
-        decoration: BoxDecoration(
-          color: SpaceColors.bgElevated,
-          borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: SpaceColors.stroke),
-        ),
-        child: Icon(icon, color: SpaceColors.textMuted, size: 20),
-      ),
     );
   }
 }

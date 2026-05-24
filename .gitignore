@@ -113,6 +113,9 @@ Parse/.env
 Parse/.env.*
 !Parse/.env.example
 
+# Local-only Claude agent config
+fibo_gateway_app/lib/services/agent_config.local.dart
+
 # Symbols
 app.*.symbols
 

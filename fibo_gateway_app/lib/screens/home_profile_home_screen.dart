@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../services/gateway_linking_service.dart';
 import '../theme/space_tokens.dart';
 import '../widgets/room_image_cover.dart';
+import '../widgets/space_bottom_bar.dart';
 import 'home_profile_models.dart';
 
 class HomeProfileHomeScreen extends StatefulWidget {
@@ -126,7 +127,7 @@ class _HomeProfileHomeScreenState extends State<HomeProfileHomeScreen> {
                     ),
                   ),
                 ),
-                const _BottomBar(),
+                const SpaceBottomBar(active: SpaceTab.home),
               ],
             ),
           ),
@@ -642,78 +643,3 @@ class _DeviceIconDot extends StatelessWidget {
   }
 }
 
-class _BottomBar extends StatelessWidget {
-  const _BottomBar();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 86,
-      color: SpaceColors.bgBase,
-      padding: const EdgeInsets.fromLTRB(24, 12, 24, 20),
-      child: Row(
-        children: [
-          Expanded(
-            child: Container(
-              height: 40,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(100),
-                gradient: const LinearGradient(
-                  colors: [SpaceColors.accentStart, SpaceColors.accentEnd],
-                ),
-              ),
-              child: const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.home_filled,
-                    color: SpaceColors.textPrimary,
-                    size: 20,
-                  ),
-                  SizedBox(width: 8),
-                  Text('Home', style: SpaceTextStyles.pillTitle),
-                ],
-              ),
-            ),
-          ),
-          const SizedBox(width: 10),
-          _BottomIconButton(
-            icon: Icons.bolt_outlined,
-            onTap: () =>
-                Navigator.of(context).pushReplacementNamed('/home/scenes'),
-          ),
-          const SizedBox(width: 8),
-          _BottomIconButton(
-            icon: Icons.space_dashboard_outlined,
-            onTap: () => Navigator.of(context).pushReplacementNamed('/spaces'),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _BottomIconButton extends StatelessWidget {
-  const _BottomIconButton({required this.icon, required this.onTap});
-
-  final IconData icon;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(14),
-      child: Container(
-        width: 40,
-        height: 40,
-        decoration: BoxDecoration(
-          color: SpaceColors.bgElevated,
-          borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: SpaceColors.stroke),
-        ),
-        child: Icon(icon, color: SpaceColors.textMuted, size: 20),
-      ),
-    );
-  }
-}

@@ -30,6 +30,7 @@ import 'screens/camera_live_view_screen.dart';
 import 'screens/camera_nvr_channels_screen.dart';
 import 'screens/camera_playback_screen.dart';
 import 'screens/camera_settings_screen.dart';
+import 'screens/assistant_screen.dart';
 import 'screens/spaces_all_devices_screen.dart';
 import 'screens/spaces_all_rooms_screen.dart';
 import 'screens/spaces_device_control_screen.dart';
@@ -105,6 +106,7 @@ class FiboGatewayApp extends StatelessWidget {
         '/spaces/new-room': (context) => const SpacesNewRoomScreen(),
         '/spaces/rooms': (context) => const SpacesAllRoomsScreen(),
         '/spaces/room-detail': (context) => const SpacesRoomDetailScreen(),
+        '/assistant': (context) => const AssistantScreen(),
       },
     );
   }
