@@ -109,23 +109,21 @@ class SpacesOverviewScreen extends StatelessWidget {
   }
 
   List<_DeviceCategorySummary> _buildDeviceCategories(SpaceMockStore store) {
-    final counts = store.deviceNameCounts;
+    // Group live devices by a category derived from their shadow profile.
+    final byCat = <String, _DeviceCategorySummary>{};
+    for (final device in store.allDevices) {
+      final cat = _categoryFor(device);
+      final existing = byCat[cat.$1];
+      byCat[cat.$1] = _DeviceCategorySummary(
+        name: cat.$1,
+        icon: cat.$2,
+        count: (existing?.count ?? 0) + 1,
+      );
+    }
+    final cats = byCat.values.toList()
+      ..sort((a, b) => (b.count ?? 0).compareTo(a.count ?? 0));
     return [
-      _DeviceCategorySummary(
-        name: 'Air Conditioner',
-        count: counts['Air Conditioner'] ?? 0,
-        icon: Icons.air_outlined,
-      ),
-      _DeviceCategorySummary(
-        name: 'Climate',
-        count: counts['Climate'] ?? 0,
-        icon: Icons.thermostat_outlined,
-      ),
-      _DeviceCategorySummary(
-        name: 'Ceilling Light',
-        count: counts['Ceiling Light'] ?? 0,
-        icon: Icons.lightbulb_outline,
-      ),
+      ...cats.take(3),
       const _DeviceCategorySummary(
         name: 'View All',
         count: null,
@@ -133,6 +131,31 @@ class SpacesOverviewScreen extends StatelessWidget {
         outlined: true,
       ),
     ];
+  }
+
+  (String, IconData) _categoryFor(SpaceDeviceState d) {
+    switch (d.iotProfile) {
+      case 'color_light':
+      case 'dimmable_light':
+        return ('Lights', Icons.lightbulb_outline);
+      case 'onoff_actuator':
+        return ('TV', Icons.tv_outlined);
+      case 'curtain':
+        return ('Curtains', Icons.blinds_outlined);
+      case 'door_lock':
+        return ('Locks', Icons.lock_outline);
+      case 'siren_actuator':
+        return ('Sirens', Icons.notifications_active_outlined);
+      case 'smoke_alarm':
+        return ('Smoke', Icons.local_fire_department_outlined);
+      case 'multi_sensor':
+      case 'ias_sensor':
+      case 'mmwave_sensor':
+        return ('Sensors', Icons.sensors_outlined);
+      case 'button_remote':
+        return ('Remotes', Icons.radio_button_checked);
+    }
+    return ('Devices', d.icon);
   }
 }
 

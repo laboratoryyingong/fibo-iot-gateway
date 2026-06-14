@@ -1,6 +1,49 @@
+const {
+  CognitoIdentityClient,
+  GetOpenIdTokenForDeveloperIdentityCommand,
+} = require('@aws-sdk/client-cognito-identity');
+const { IoTClient, AttachPolicyCommand } = require('@aws-sdk/client-iot');
 const { requireHomeContext } = require('../lib/auth');
 const { getCloudConfig } = require('../lib/cloud_config');
 const { invalidArgument, notFound, unauthenticated } = require('../lib/errors');
+
+/// Mints a Cognito developer-authenticated identity + OpenID token for the
+/// signed-in Parse user. The Parse server's AWS credentials must allow
+/// `cognito-identity:GetOpenIdTokenForDeveloperIdentity` on the pool. Returns
+/// nulls (degrades to no live access) when the pool isn't configured or the
+/// call fails.
+async function mintDeveloperIdentity(config, userId) {
+  if (!config.awsIdentityPoolId) {
+    return { identityId: null, token: null };
+  }
+  try {
+    const client = new CognitoIdentityClient({ region: config.awsRegion });
+    const out = await client.send(
+      new GetOpenIdTokenForDeveloperIdentityCommand({
+        IdentityPoolId: config.awsIdentityPoolId,
+        Logins: { [config.awsIdentityProvider]: userId },
+        TokenDuration: 3600,
+      })
+    );
+    // Authenticated Cognito identities need an AWS IoT policy attached to the
+    // identity (in addition to the IAM role) to read/control shadows.
+    await attachIotPolicy(config, out.IdentityId);
+    return { identityId: out.IdentityId, token: out.Token };
+  } catch (err) {
+    return { identityId: null, token: null, error: String(err) };
+  }
+}
+
+async function attachIotPolicy(config, identityId) {
+  const iot = new IoTClient({ region: config.awsRegion });
+  // Idempotent: AttachPolicy on an already-attached target is a no-op.
+  await iot.send(
+    new AttachPolicyCommand({
+      policyName: config.iotPolicyName,
+      target: identityId,
+    })
+  );
+}
 
 async function getAwsIotSession(request) {
   if (!request.user) {
@@ -23,6 +66,10 @@ async function getAwsIotSession(request) {
   const config = getCloudConfig();
   const gatewayId = gateway.get('gatewayId');
 
+  // Mint a per-user Cognito developer identity. The app exchanges this token
+  // for temporary AWS credentials (authenticated role: shadow read + control).
+  const identity = await mintDeveloperIdentity(config, request.user.id);
+
   return {
     homeId: home.get('homeId'),
     gatewayId,
@@ -33,7 +80,8 @@ async function getAwsIotSession(request) {
       identityPoolId: config.awsIdentityPoolId,
       identityProvider: config.awsIdentityProvider,
       developerTokenMode: config.developerTokenMode,
-      developerToken: null,
+      identityId: identity.identityId,
+      developerToken: identity.token,
       credentials: null,
     },
     iotScope: {
@@ -43,7 +91,6 @@ async function getAwsIotSession(request) {
     membership: {
       status: membership.get('status'),
     },
-    // TODO: replace placeholder identity fields with real Cognito developer-auth flow.
   };
 }
 

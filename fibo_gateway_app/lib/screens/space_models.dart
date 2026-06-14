@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import '../services/agent_config.dart';
 import '../services/device_api_client.dart';
 import '../services/device_api_models.dart';
+import '../services/iot_config.dart';
+import '../services/iot_shadow_client.dart';
 import '../services/mock_shadow_repository.dart';
 import '../services/mock_room_photo_catalog.dart';
 import 'space_device_types.dart';
@@ -53,6 +55,8 @@ class SpaceDeviceState {
     this.syncStatus = SpaceDeviceSyncStatus.localOnly,
     this.shadowBinding,
     this.agentDeviceId,
+    this.iotShadowName,
+    this.iotProfile,
   });
 
   final String id;
@@ -68,6 +72,13 @@ class SpaceDeviceState {
   /// Agent alias (e.g. `light.living_room`) when this device can be driven
   /// through the live REST device API; null for mock-only devices.
   final String? agentDeviceId;
+
+  /// Named shadow (e.g. `dev_00158d0001cccccc_ep1`) when this device is backed
+  /// by the live AWS IoT shadow; null otherwise.
+  final String? iotShadowName;
+
+  /// Device shadow profile (e.g. `color_light`, `curtain`) for live devices.
+  final String? iotProfile;
 
   bool get isShadowBacked => shadowBinding != null;
   bool get supportsLevel => shadowBinding?.supportsLevel ?? false;
@@ -85,6 +96,8 @@ class SpaceDeviceState {
     ShadowEndpointBinding? shadowBinding,
     bool clearShadowBinding = false,
     String? agentDeviceId,
+    String? iotShadowName,
+    String? iotProfile,
   }) {
     return SpaceDeviceState(
       id: id ?? this.id,
@@ -99,6 +112,8 @@ class SpaceDeviceState {
           ? null
           : (shadowBinding ?? this.shadowBinding),
       agentDeviceId: agentDeviceId ?? this.agentDeviceId,
+      iotShadowName: iotShadowName ?? this.iotShadowName,
+      iotProfile: iotProfile ?? this.iotProfile,
     );
   }
 }
@@ -124,7 +139,10 @@ class SpaceDeviceTemplate {
 class SpaceMockStore extends ChangeNotifier {
   SpaceMockStore._() {
     _rooms = _buildInitialRooms();
-    if (AgentConfig.useLiveDevices) {
+    if (IotConfig.useLiveShadows) {
+      // Drive the room/device list from live fibo-hub-001 IoT shadows.
+      hydrateFromShadows();
+    } else if (AgentConfig.useLiveDevices) {
       // Replace the mock seed with the live gateway snapshot. The mock layout
       // stays visible until the first /devices response (or if it fails).
       hydrateFromLiveApi();
@@ -313,6 +331,26 @@ class SpaceMockStore extends ChangeNotifier {
     final nextValue = value ?? !device.isOn;
     if (nextValue == device.isOn) return;
 
+    final shadowName = device.iotShadowName;
+    if (shadowName != null) {
+      final desiredState = _iotPowerDesired(device.iotProfile, nextValue);
+      if (desiredState == null) {
+        _controlMessage = '${device.name} can\'t be toggled here yet.';
+        notifyListeners();
+        return;
+      }
+      _updateDevice(
+        roomId: roomId,
+        deviceId: deviceId,
+        transform: (current) => current.copyWith(
+          isOn: nextValue,
+          syncStatus: SpaceDeviceSyncStatus.pending,
+        ),
+      );
+      _iot.setDesired(shadowName, {'state': desiredState});
+      return;
+    }
+
     final agentId = device.agentDeviceId;
     if (AgentConfig.useLiveDevices && agentId != null) {
       // Optimistic flip, then confirm against the live device API.
@@ -384,6 +422,30 @@ class SpaceMockStore extends ChangeNotifier {
     final nextLevel = (clampedValue * 255).round();
     final levelLabel = '${(clampedValue * 100).round()}%';
     final device = target.device;
+
+    final shadowName = device.iotShadowName;
+    if (shadowName != null) {
+      final isLight = device.iotProfile == 'color_light' ||
+          device.iotProfile == 'dimmable_light';
+      if (!isLight) {
+        _controlMessage = '${device.name} can\'t be dimmed here.';
+        notifyListeners();
+        return;
+      }
+      _updateDevice(
+        roomId: roomId,
+        deviceId: deviceId,
+        transform: (current) => current.copyWith(
+          valueLabel: levelLabel,
+          isOn: clampedValue > 0,
+          syncStatus: SpaceDeviceSyncStatus.pending,
+        ),
+      );
+      _iot.setDesired(shadowName, {
+        'state': {'level': nextLevel},
+      });
+      return;
+    }
 
     final agentId = device.agentDeviceId;
     if (AgentConfig.useLiveDevices && agentId != null) {
@@ -852,6 +914,235 @@ class SpaceMockStore extends ChangeNotifier {
     );
     _controlMessage = message;
     notifyListeners();
+  }
+
+  // --- Live AWS IoT shadow integration (fibo-hub-001) ----------------------
+
+  final IotShadowClient _iot = IotShadowClient();
+  List<Map<String, dynamic>> _hubRoomList = const [];
+  final Map<String, Map<String, dynamic>> _hubRegistry = {};
+  final Map<String, Map<String, dynamic>> _hubReported = {};
+  bool _hubReady = false;
+
+  /// Connects to the live hub shadows over MQTT-WSS and rebuilds rooms/devices
+  /// from `admin` (registry) + each device shadow. Keeps the mock layout on
+  /// failure so the UI never blanks.
+  Future<void> hydrateFromShadows() async {
+    _iot.events.listen(_onShadowEvent);
+    try {
+      await _iot.connect();
+      // The subscription may settle a beat after CONNACK, so re-prime `admin`
+      // until the registry arrives.
+      for (var i = 0; i < 6 && !_hubReady; i++) {
+        _iot.primeAll(const ['admin']);
+        await Future.delayed(const Duration(milliseconds: 800));
+      }
+    } catch (_) {
+      _controlMessage = 'Live hub unavailable — showing cached layout.';
+      notifyListeners();
+    }
+  }
+
+  void _onShadowEvent(HubShadowEvent ev) {
+    if (ev.shadowName == 'admin') {
+      _ingestAdmin(ev);
+    } else {
+      _hubReported[ev.shadowName] = ev.reported;
+      if (_hubReady) _rebuildHubRooms();
+    }
+  }
+
+  void _ingestAdmin(HubShadowEvent ev) {
+    final rooms = ev.reported['rooms'];
+    if (rooms is List) {
+      _hubRoomList = [
+        for (final r in rooms)
+          if (r is Map) r.cast<String, dynamic>(),
+      ];
+    }
+    final devices = ev.reported['devices'];
+    final tags = ev.desired['device_tags'];
+    final tagMap =
+        tags is Map ? tags.cast<String, dynamic>() : const <String, dynamic>{};
+    if (devices is Map) {
+      _hubRegistry.clear();
+      devices.forEach((key, dev) {
+        if (dev is! Map) return;
+        final ieee = dev['ieee'];
+        final ep = dev['ep'];
+        if (ieee == null || ep == null) return;
+        final shadowName = 'dev_${ieee}_ep$ep';
+        final tag = tagMap[key];
+        final tagm = tag is Map ? tag.cast<String, dynamic>() : const {};
+        _hubRegistry[shadowName] = {
+          'name': tagm['name'] ?? tagm['alias'] ?? shadowName,
+          'room': tagm['room'] ?? '_unassigned',
+          'dangerous': tagm['dangerous'] == true,
+          'profile': dev['profile'],
+          'type': dev['type'],
+          'online': dev['online'] == true,
+        };
+      });
+    }
+    _hubReady = true;
+    _iot.primeAll(_hubRegistry.keys);
+    _rebuildHubRooms();
+  }
+
+  void _rebuildHubRooms() {
+    if (_hubRegistry.isEmpty) return;
+    final roomOrder = _hubRoomList.isNotEmpty
+        ? _hubRoomList
+        : [
+            for (final id in {
+              for (final r in _hubRegistry.values) r['room'] as String
+            })
+              {'id': id, 'name': _humanizeRoomId(id)},
+          ];
+
+    final built = <SpaceRoom>[];
+    for (final room in roomOrder) {
+      final roomId = room['id'] as String? ?? '_unassigned';
+      final roomName = room['name'] as String? ?? _humanizeRoomId(roomId);
+      final devices = <SpaceDeviceState>[];
+      _hubRegistry.forEach((shadowName, reg) {
+        if (reg['room'] != roomId) return;
+        devices.add(_hubDeviceToState(shadowName, reg));
+      });
+      if (devices.isEmpty) continue;
+      built.add(SpaceRoom(
+        id: 'hub:$roomId',
+        name: roomName,
+        imageUrl: roomPhotoUrlForName(roomName),
+        devices: devices,
+      ));
+    }
+    if (built.isEmpty) return;
+    _rooms = built;
+    notifyListeners();
+  }
+
+  SpaceDeviceState _hubDeviceToState(
+    String shadowName,
+    Map<String, dynamic> reg,
+  ) {
+    final reported = _hubReported[shadowName] ?? const {};
+    final st = reported['state'] is Map
+        ? (reported['state'] as Map).cast<String, dynamic>()
+        : const <String, dynamic>{};
+    final tel = reported['telemetry'] is Map
+        ? (reported['telemetry'] as Map).cast<String, dynamic>()
+        : const <String, dynamic>{};
+    final conn = reported['connectivity'] is Map
+        ? (reported['connectivity'] as Map).cast<String, dynamic>()
+        : const <String, dynamic>{};
+    final profile = reg['profile'] as String? ?? '';
+    final online = conn['online'] as bool? ?? reg['online'] as bool? ?? true;
+
+    var isOn = false;
+    String? valueLabel;
+    switch (profile) {
+      case 'color_light':
+      case 'dimmable_light':
+        isOn = st['power'] == 1;
+        final level = st['level'];
+        if (level is num) valueLabel = '${(level / 254 * 100).round()}%';
+        break;
+      case 'onoff_actuator':
+        isOn = st['power'] == 1;
+        break;
+      case 'curtain':
+        final lift = st['lift_percent'];
+        if (lift is num) {
+          isOn = lift > 0;
+          valueLabel = '${lift.round()}% open';
+        }
+        break;
+      case 'door_lock':
+        valueLabel = st['locked'] == true ? 'Locked' : 'Unlocked';
+        break;
+      case 'siren_actuator':
+        isOn = st['alarm'] == true;
+        valueLabel = isOn ? 'Sounding' : 'Silent';
+        break;
+      case 'multi_sensor':
+        final t = tel['temperature_centi_c'];
+        if (t is num) valueLabel = '${(t / 100).toStringAsFixed(1)}°C';
+        break;
+      case 'smoke_alarm':
+        isOn = tel['alarm_active'] == true;
+        valueLabel = isOn ? 'Smoke!' : 'Clear';
+        break;
+      case 'ias_sensor':
+        final zs = tel['zone_status'];
+        isOn = zs is num && zs != 0;
+        valueLabel = isOn ? 'Motion' : 'Clear';
+        break;
+      case 'mmwave_sensor':
+        valueLabel = 'Presence';
+        break;
+    }
+
+    final isLight = profile == 'color_light' || profile == 'dimmable_light';
+    return SpaceDeviceState(
+      id: 'hub:$shadowName',
+      name: reg['name'] as String? ?? shadowName,
+      icon: _iconForProfile(profile),
+      controlType: isLight
+          ? SpaceDeviceControlType.ceilingLight
+          : SpaceDeviceControlType.climate,
+      isOn: isOn,
+      valueLabel: valueLabel,
+      online: online,
+      syncStatus: SpaceDeviceSyncStatus.synced,
+      iotShadowName: shadowName,
+      iotProfile: profile,
+    );
+  }
+
+  static IconData _iconForProfile(String profile) {
+    switch (profile) {
+      case 'color_light':
+      case 'dimmable_light':
+        return Icons.lightbulb_outline;
+      case 'onoff_actuator':
+        return Icons.tv_outlined;
+      case 'curtain':
+        return Icons.blinds_outlined;
+      case 'door_lock':
+        return Icons.lock_outline;
+      case 'siren_actuator':
+        return Icons.notifications_active_outlined;
+      case 'smoke_alarm':
+        return Icons.local_fire_department_outlined;
+      case 'ias_sensor':
+        return Icons.directions_walk_outlined;
+      case 'mmwave_sensor':
+        return Icons.sensors_outlined;
+      case 'multi_sensor':
+        return Icons.thermostat_outlined;
+      case 'button_remote':
+        return Icons.radio_button_checked;
+      default:
+        return Icons.devices_other_outlined;
+    }
+  }
+
+  /// Builds the device-shadow `desired.state` patch for a power toggle, or null
+  /// if this profile isn't power-toggleable here.
+  Map<String, dynamic>? _iotPowerDesired(String? profile, bool on) {
+    switch (profile) {
+      case 'color_light':
+      case 'dimmable_light':
+      case 'onoff_actuator':
+        return {'power': on ? 1 : 0};
+      case 'siren_actuator':
+        return {'alarm': on};
+      case 'curtain':
+        return {'lift_percent': on ? 100 : 0};
+      default:
+        return null; // lock/sensors not toggled from here
+    }
   }
 }
 

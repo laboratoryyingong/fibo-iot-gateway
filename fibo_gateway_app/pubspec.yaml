@@ -40,6 +40,8 @@ dependencies:
   http: ^1.2.0
   uuid: ^4.3.0
   speech_to_text: ^7.4.0
+  mqtt_client: ^10.11.11
+  crypto: ^3.0.7
 
 dev_dependencies:
   flutter_test:

@@ -2,5 +2,9 @@
   "name": "fibo-parse-cloud-code",
   "private": true,
   "version": "0.1.0",
-  "main": "main.js"
+  "main": "main.js",
+  "dependencies": {
+    "@aws-sdk/client-cognito-identity": "^3.600.0",
+    "@aws-sdk/client-iot": "^3.600.0"
+  }
 }

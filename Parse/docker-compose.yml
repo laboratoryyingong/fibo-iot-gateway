@@ -26,6 +26,19 @@ services:
       PARSE_SERVER_MOUNT_PATH: /parse
       PARSE_SERVER_ALLOW_CLIENT_CLASS_CREATION: "true"
       PARSE_SERVER_MASTER_KEY_IPS: "127.0.0.1,::1,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
+      # Load Cloud Code (getAwsIotSession, listHomeGraph, …).
+      PARSE_SERVER_CLOUD: /parse-server/cloud/main.js
+      # AWS bootstrap for getAwsIotSession (Cognito developer-auth).
+      FIBO_AWS_REGION: ${FIBO_AWS_REGION}
+      FIBO_AWS_IDENTITY_POOL_ID: ${FIBO_AWS_IDENTITY_POOL_ID}
+      FIBO_AWS_IDENTITY_PROVIDER: ${FIBO_AWS_IDENTITY_PROVIDER}
+      FIBO_IOT_POLICY_NAME: ${FIBO_IOT_POLICY_NAME}
+      # Credentials the server uses to mint Cognito tokens.
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+    volumes:
+      # Mount the cloud code (with its node_modules) into the server.
+      - ./cloud:/parse-server/cloud:ro
     networks:
       - internal
 
