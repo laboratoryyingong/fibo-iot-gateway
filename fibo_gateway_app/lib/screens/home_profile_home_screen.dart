@@ -48,6 +48,7 @@ class _HomeProfileHomeScreenState extends State<HomeProfileHomeScreen> {
         return Scaffold(
           backgroundColor: SpaceColors.bgBase,
           body: SafeArea(
+            bottom: false,
             child: Column(
               children: [
                 _Header(

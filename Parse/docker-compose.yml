@@ -1,0 +1,74 @@
+services:
+  mongo:
+    image: mongo:6
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASS}
+      MONGO_INITDB_DATABASE: ${PARSE_DATABASE_NAME}
+    volumes:
+      - mongo_data:/data/db
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    networks:
+      - internal
+
+  parse:
+    image: parseplatform/parse-server:latest
+    restart: always
+    depends_on:
+      - mongo
+    environment:
+      PARSE_SERVER_APPLICATION_ID: ${PARSE_APP_ID}
+      PARSE_SERVER_MASTER_KEY: ${PARSE_MASTER_KEY}
+      PARSE_SERVER_FILE_KEY: ${PARSE_FILE_KEY}
+      PARSE_SERVER_DATABASE_URI: mongodb://${MONGO_PARSE_USER}:${MONGO_PARSE_PASS}@mongo:27017/${PARSE_DATABASE_NAME}
+      PARSE_SERVER_URL: https://${DOMAIN}/parse
+      PARSE_SERVER_MOUNT_PATH: /parse
+      PARSE_SERVER_ALLOW_CLIENT_CLASS_CREATION: "true"
+      PARSE_SERVER_MASTER_KEY_IPS: "127.0.0.1,::1,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
+    networks:
+      - internal
+
+  dashboard:
+    image: parseplatform/parse-dashboard:latest
+    restart: always
+    depends_on:
+      - parse
+    environment:
+      PARSE_DASHBOARD_SERVER_URL: https://${DOMAIN}/parse
+      PARSE_DASHBOARD_APP_ID: ${PARSE_APP_ID}
+      PARSE_DASHBOARD_MASTER_KEY: ${PARSE_MASTER_KEY}
+      PARSE_DASHBOARD_APP_NAME: ${PARSE_APP_NAME}
+      PARSE_DASHBOARD_USER_ID: ${DASHBOARD_USER}
+      PARSE_DASHBOARD_USER_PASSWORD: ${DASHBOARD_PASS}
+      # PARSE_DASHBOARD_ALLOW_INSECURE_HTTP: "true"
+      PARSE_DASHBOARD_TRUST_PROXY: "1"
+    networks:
+      - internal
+
+  caddy:
+    image: caddy:2
+    restart: always
+    depends_on:
+      - parse
+      - dashboard
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    environment:
+      DOMAIN: ${DOMAIN}
+      LETSENCRYPT_EMAIL: ${LETSENCRYPT_EMAIL}
+    networks:
+      - internal
+
+networks:
+  internal:
+
+volumes:
+  mongo_data:
+  caddy_data:
+  caddy_config:

@@ -2,6 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
+import '../services/agent_config.dart';
+import '../services/device_api_client.dart';
+import '../services/device_api_models.dart';
 import '../services/mock_shadow_repository.dart';
 import '../services/mock_room_photo_catalog.dart';
 import 'space_device_types.dart';
@@ -49,6 +52,7 @@ class SpaceDeviceState {
     this.online = true,
     this.syncStatus = SpaceDeviceSyncStatus.localOnly,
     this.shadowBinding,
+    this.agentDeviceId,
   });
 
   final String id;
@@ -60,6 +64,10 @@ class SpaceDeviceState {
   final bool online;
   final SpaceDeviceSyncStatus syncStatus;
   final ShadowEndpointBinding? shadowBinding;
+
+  /// Agent alias (e.g. `light.living_room`) when this device can be driven
+  /// through the live REST device API; null for mock-only devices.
+  final String? agentDeviceId;
 
   bool get isShadowBacked => shadowBinding != null;
   bool get supportsLevel => shadowBinding?.supportsLevel ?? false;
@@ -76,6 +84,7 @@ class SpaceDeviceState {
     SpaceDeviceSyncStatus? syncStatus,
     ShadowEndpointBinding? shadowBinding,
     bool clearShadowBinding = false,
+    String? agentDeviceId,
   }) {
     return SpaceDeviceState(
       id: id ?? this.id,
@@ -89,6 +98,7 @@ class SpaceDeviceState {
       shadowBinding: clearShadowBinding
           ? null
           : (shadowBinding ?? this.shadowBinding),
+      agentDeviceId: agentDeviceId ?? this.agentDeviceId,
     );
   }
 }
@@ -114,10 +124,29 @@ class SpaceDeviceTemplate {
 class SpaceMockStore extends ChangeNotifier {
   SpaceMockStore._() {
     _rooms = _buildInitialRooms();
-    _loadShadowFixtures();
+    if (AgentConfig.useLiveDevices) {
+      // Replace the mock seed with the live gateway snapshot. The mock layout
+      // stays visible until the first /devices response (or if it fails).
+      hydrateFromLiveApi();
+    } else {
+      _loadShadowFixtures();
+    }
   }
 
   static final SpaceMockStore instance = SpaceMockStore._();
+
+  final DeviceApiClient _deviceApi = DeviceApiClient();
+
+  /// Last live-control error surfaced to the UI (e.g. conflict/confirmation/
+  /// offline). Null when the most recent control succeeded. Cleared on the next
+  /// successful write or by [clearControlMessage].
+  String? _controlMessage;
+  String? get controlMessage => _controlMessage;
+  void clearControlMessage() {
+    if (_controlMessage == null) return;
+    _controlMessage = null;
+    notifyListeners();
+  }
   static const _shadowHydrationDelay = Duration(milliseconds: 450);
   static const Map<String, _ShadowUiSeed> _shadowUiSeeds = {
     'dev_00158d0001aaaaaa_ep1': _ShadowUiSeed(
@@ -272,17 +301,44 @@ class SpaceMockStore extends ChangeNotifier {
     return null;
   }
 
-  void toggleDevicePower({
+  Future<void> toggleDevicePower({
     required String roomId,
     required String deviceId,
     bool? value,
-  }) {
+  }) async {
     final target = findDeviceByIds(roomId: roomId, deviceId: deviceId);
     if (target == null) return;
 
     final device = target.device;
     final nextValue = value ?? !device.isOn;
     if (nextValue == device.isOn) return;
+
+    final agentId = device.agentDeviceId;
+    if (AgentConfig.useLiveDevices && agentId != null) {
+      // Optimistic flip, then confirm against the live device API.
+      _updateDevice(
+        roomId: roomId,
+        deviceId: deviceId,
+        transform: (current) => current.copyWith(
+          isOn: nextValue,
+          syncStatus: SpaceDeviceSyncStatus.pending,
+        ),
+      );
+      await _liveControl(
+        roomId: roomId,
+        deviceId: deviceId,
+        agentId: agentId,
+        action: nextValue ? 'turn_on' : 'turn_off',
+        revert: (current) => current.copyWith(isOn: !nextValue),
+      );
+      return;
+    }
+    if (AgentConfig.useLiveDevices && agentId == null) {
+      // Live device with no v0 control mapping (curtain/lock/sensor/…).
+      _controlMessage = '${device.name} can\'t be controlled here yet.';
+      notifyListeners();
+      return;
+    }
 
     if (device.shadowBinding != null) {
       final updatedBinding = device.shadowBinding!.copyWith(
@@ -316,11 +372,11 @@ class SpaceMockStore extends ChangeNotifier {
     );
   }
 
-  void setDeviceLevel({
+  Future<void> setDeviceLevel({
     required String roomId,
     required String deviceId,
     required double value,
-  }) {
+  }) async {
     final target = findDeviceByIds(roomId: roomId, deviceId: deviceId);
     if (target == null) return;
 
@@ -328,6 +384,34 @@ class SpaceMockStore extends ChangeNotifier {
     final nextLevel = (clampedValue * 255).round();
     final levelLabel = '${(clampedValue * 100).round()}%';
     final device = target.device;
+
+    final agentId = device.agentDeviceId;
+    if (AgentConfig.useLiveDevices && agentId != null) {
+      final previousLabel = device.valueLabel;
+      _updateDevice(
+        roomId: roomId,
+        deviceId: deviceId,
+        transform: (current) => current.copyWith(
+          valueLabel: levelLabel,
+          isOn: clampedValue > 0,
+          syncStatus: SpaceDeviceSyncStatus.pending,
+        ),
+      );
+      await _liveControl(
+        roomId: roomId,
+        deviceId: deviceId,
+        agentId: agentId,
+        action: 'set_brightness',
+        params: {'value': (clampedValue * 100).round()},
+        revert: (current) => current.copyWith(valueLabel: previousLabel),
+      );
+      return;
+    }
+    if (AgentConfig.useLiveDevices && agentId == null) {
+      _controlMessage = '${device.name} can\'t be controlled here yet.';
+      notifyListeners();
+      return;
+    }
 
     if (device.shadowBinding != null) {
       final updatedBinding = device.shadowBinding!.copyWith(
@@ -595,6 +679,178 @@ class SpaceMockStore extends ChangeNotifier {
     final updatedDevices = [...room.devices]..[deviceIndex] = updatedDevice;
     final updatedRoom = room.copyWith(devices: updatedDevices);
     _rooms = [..._rooms]..[roomIndex] = updatedRoom;
+    notifyListeners();
+  }
+
+  /// Fetches the live gateway snapshot (`/rooms` + `/devices`) and rebuilds the
+  /// room list from it. Keeps the mock layout on failure or an empty snapshot,
+  /// so the UI never ends up blank. Safe to call again to refresh.
+  Future<void> hydrateFromLiveApi() async {
+    try {
+      final rooms = await _deviceApi.listRooms();
+      final devices = await _deviceApi.listDevices();
+      if (devices.isEmpty) return; // keep the mock fallback
+
+      final roomNameById = {for (final r in rooms) r.id: r.name};
+      final order = <String>[];
+      final grouped = <String, List<AgentDevice>>{};
+      for (final device in devices) {
+        final roomId = device.room ?? '_unassigned';
+        grouped.putIfAbsent(roomId, () {
+          order.add(roomId);
+          return <AgentDevice>[];
+        }).add(device);
+      }
+
+      final built = <SpaceRoom>[];
+      for (final roomId in order) {
+        final name = roomNameById[roomId] ?? _humanizeRoomId(roomId);
+        built.add(SpaceRoom(
+          id: 'live:$roomId',
+          name: name,
+          imageUrl: roomPhotoUrlForName(name),
+          devices: [for (final d in grouped[roomId]!) _liveDeviceToState(d)],
+        ));
+      }
+
+      _rooms = built;
+      _controlMessage = null;
+      notifyListeners();
+    } catch (_) {
+      // Network/parse failure: keep the existing (mock) layout.
+    }
+  }
+
+  SpaceDeviceState _liveDeviceToState(AgentDevice device) {
+    final controllable = _liveControllableProfiles.contains(device.profile);
+    final level = device.brightness;
+    return SpaceDeviceState(
+      id: 'live:${device.id}',
+      name: device.name,
+      icon: _iconForDeviceType(device.type),
+      controlType: _controlTypeForDevice(device),
+      isOn: device.isOn ?? false,
+      valueLabel: level != null ? '$level%' : null,
+      online: device.online,
+      syncStatus: SpaceDeviceSyncStatus.synced,
+      // Only profiles the v0 write path knows how to drive (turn_on/off,
+      // set_brightness) get an alias; others render read-only.
+      agentDeviceId: controllable ? device.id : null,
+    );
+  }
+
+  static const Set<String> _liveControllableProfiles = {
+    'onoff_actuator',
+    'dimmable_light',
+    'color_light',
+  };
+
+  static IconData _iconForDeviceType(String type) {
+    switch (type) {
+      case 'light':
+        return Icons.lightbulb_outline;
+      case 'tv':
+        return Icons.tv_outlined;
+      case 'plug':
+        return Icons.power_outlined;
+      case 'curtain':
+        return Icons.blinds_outlined;
+      case 'lock':
+        return Icons.lock_outline;
+      case 'siren':
+        return Icons.notifications_active_outlined;
+      case 'sensor':
+        return Icons.sensors_outlined;
+      default:
+        return Icons.devices_other_outlined;
+    }
+  }
+
+  static SpaceDeviceControlType _controlTypeForDevice(AgentDevice device) {
+    if (device.type == 'light') {
+      return device.name.toLowerCase().contains('bulb')
+          ? SpaceDeviceControlType.bulb
+          : SpaceDeviceControlType.ceilingLight;
+    }
+    // No dedicated panel for non-light profiles yet; the generic climate panel
+    // plus the power card is the v0 fallback.
+    return SpaceDeviceControlType.climate;
+  }
+
+  static String _humanizeRoomId(String roomId) {
+    final tail = roomId == '_unassigned' ? 'Other' : roomId;
+    return tail
+        .split(RegExp(r'[_\s]+'))
+        .where((part) => part.isNotEmpty)
+        .map((part) => '${part[0].toUpperCase()}${part.substring(1)}')
+        .join(' ');
+  }
+
+  /// Sends a control to the live device API and reconciles local state.
+  /// On failure, [revert] restores the optimistic change and the error is
+  /// surfaced via [controlMessage]. `502` (accepted but not converged) keeps
+  /// the optimistic state but flags it pending.
+  Future<void> _liveControl({
+    required String roomId,
+    required String deviceId,
+    required String agentId,
+    required String action,
+    Map<String, dynamic>? params,
+    required SpaceDeviceState Function(SpaceDeviceState current) revert,
+  }) async {
+    try {
+      final result = await _deviceApi.controlDevice(
+        agentId,
+        action: action,
+        params: params,
+      );
+      _controlMessage = null;
+      _updateDevice(
+        roomId: roomId,
+        deviceId: deviceId,
+        transform: (current) {
+          final power = result.current['power'];
+          return current.copyWith(
+            isOn: power is String ? power == 'on' : current.isOn,
+            syncStatus: result.converged
+                ? SpaceDeviceSyncStatus.synced
+                : SpaceDeviceSyncStatus.pending,
+          );
+        },
+      );
+    } on AgentNotConvergedException catch (err) {
+      // Cloud accepted it but the device never confirmed — keep the optimistic
+      // state, flag it pending, and tell the user it may be offline.
+      _updateDevice(
+        roomId: roomId,
+        deviceId: deviceId,
+        transform: (current) =>
+            current.copyWith(syncStatus: SpaceDeviceSyncStatus.pending),
+      );
+      _controlMessage = err.message;
+      notifyListeners();
+    } on AgentConfirmationRequiredException catch (err) {
+      _revertLiveControl(roomId, deviceId, revert, err.message);
+    } on AgentConflictException catch (err) {
+      _revertLiveControl(roomId, deviceId, revert, err.message);
+    } catch (err) {
+      _revertLiveControl(roomId, deviceId, revert, 'Control failed: $err');
+    }
+  }
+
+  void _revertLiveControl(
+    String roomId,
+    String deviceId,
+    SpaceDeviceState Function(SpaceDeviceState current) revert,
+    String message,
+  ) {
+    _updateDevice(
+      roomId: roomId,
+      deviceId: deviceId,
+      transform: (current) =>
+          revert(current).copyWith(syncStatus: SpaceDeviceSyncStatus.synced),
+    );
+    _controlMessage = message;
     notifyListeners();
   }
 }

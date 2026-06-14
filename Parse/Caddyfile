@@ -1,0 +1,11 @@
+{$DOMAIN} {
+    tls {$LETSENCRYPT_EMAIL}
+
+    handle /parse/* {
+        reverse_proxy parse:1337
+    }
+
+    handle {
+        reverse_proxy dashboard:4040
+    }
+}

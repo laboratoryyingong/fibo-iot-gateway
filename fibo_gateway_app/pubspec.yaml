@@ -39,6 +39,7 @@ dependencies:
   flutter_svg: ^2.2.1
   http: ^1.2.0
   uuid: ^4.3.0
+  speech_to_text: ^7.4.0
 
 dev_dependencies:
   flutter_test:

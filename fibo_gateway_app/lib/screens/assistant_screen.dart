@@ -5,14 +5,22 @@
 //     the agent retains its session on disk but the app forgets the id.
 //   - State sync back to SpaceMockStore is best-effort via
 //     services/agent_device_map.dart — light devices only for v0.
-//   - No voice input, attachments, quick-reply buttons, or real AWS IoT
-//     Shadow MQTT subscription. Track those as v1 follow-ups.
-//   - Agent has no built-in auth (see docs/claude-agent/INTEGRATING.md §3);
-//     the URL in agent_config.local.dart must point at a private host.
+//   - The composer's plus (attachments) and microphone (voice) affordances,
+//     plus the top-left menu button, are visual placeholders. Track voice,
+//     attachments, and a conversation drawer as v1 follow-ups.
+//   - Agent auth is a single shared key (see
+//     docs/claude-agent/APP-INTEGRATION.md §2 & §7); set AgentConfig.apiKey,
+//     or point the URL at a private host if the server runs open.
+//
+// UI: redesigned to match design/fibo_claude_agent.pen (warm light "Fibo AI
+// chat agent"). Tokens live in theme/assistant_tokens.dart. The shared dark
+// SpaceBottomBar is retained so the Assistant stays reachable as a tab.
+
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
-import '../theme/space_tokens.dart';
+import '../theme/assistant_tokens.dart';
 import '../widgets/assistant_composer.dart';
 import '../widgets/assistant_message_bubble.dart';
 import '../widgets/space_bottom_bar.dart';
@@ -25,8 +33,9 @@ class AssistantScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final store = AssistantStore.instance;
     return Scaffold(
-      backgroundColor: SpaceColors.bgBase,
+      backgroundColor: AgentColors.bg,
       body: SafeArea(
+        bottom: false,
         child: AnimatedBuilder(
           animation: store,
           builder: (_, _) {
@@ -35,22 +44,29 @@ class AssistantScreen extends StatelessWidget {
             final showLongChatBanner = store.userTurnCount >= 50;
             return Column(
               children: [
-                _Header(
-                  onReset: store.resetSession,
-                  resetEnabled: messages.isNotEmpty,
+                _TopBar(
+                  onNewChat: store.resetSession,
+                  newChatEnabled: messages.isNotEmpty,
                 ),
                 Expanded(
-                  child: messages.isEmpty
-                      ? const _EmptyState()
-                      : ListView.builder(
-                          reverse: true,
-                          padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
-                          itemCount: messages.length,
-                          itemBuilder: (_, index) {
-                            final msg = messages[messages.length - 1 - index];
-                            return AssistantMessageBubble(message: msg);
-                          },
-                        ),
+                  child: Stack(
+                    children: [
+                      const _GlowBackdrop(),
+                      messages.isEmpty
+                          ? _HeroState(onSuggestion: store.sendMessage)
+                          : ListView.builder(
+                              reverse: true,
+                              padding:
+                                  const EdgeInsets.fromLTRB(16, 8, 16, 12),
+                              itemCount: messages.length,
+                              itemBuilder: (_, index) {
+                                final msg =
+                                    messages[messages.length - 1 - index];
+                                return AssistantMessageBubble(message: msg);
+                              },
+                            ),
+                    ],
+                  ),
                 ),
                 if (store.errorText != null)
                   _ErrorBanner(message: store.errorText!),
@@ -71,91 +87,246 @@ class AssistantScreen extends StatelessWidget {
   }
 }
 
-class _Header extends StatelessWidget {
-  const _Header({required this.onReset, required this.resetEnabled});
+class _TopBar extends StatelessWidget {
+  const _TopBar({required this.onNewChat, required this.newChatEnabled});
 
-  final VoidCallback onReset;
-  final bool resetEnabled;
+  final VoidCallback onNewChat;
+  final bool newChatEnabled;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 56,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Row(
-          children: [
-            const Expanded(
-              child: Text('Assistant', style: SpaceTextStyles.navTitle),
-            ),
-            Opacity(
-              opacity: resetEnabled ? 1 : 0.35,
-              child: InkWell(
-                onTap: resetEnabled ? onReset : null,
-                borderRadius: BorderRadius.circular(20),
-                child: Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    color: SpaceColors.bgElevated,
-                    borderRadius: BorderRadius.circular(14),
-                    border: Border.all(color: SpaceColors.stroke),
-                  ),
-                  child: const Icon(
-                    Icons.refresh,
-                    color: SpaceColors.textMuted,
-                    size: 20,
-                  ),
-                ),
-              ),
-            ),
-          ],
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+      child: Row(
+        children: [
+          const _CircleButton(icon: Icons.menu_rounded),
+          const Spacer(),
+          _CircleButton(
+            icon: Icons.add_comment_outlined,
+            onTap: newChatEnabled ? onNewChat : null,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _CircleButton extends StatelessWidget {
+  const _CircleButton({required this.icon, this.onTap});
+
+  final IconData icon;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Opacity(
+      opacity: onTap == null && icon == Icons.add_comment_outlined ? 0.4 : 1,
+      child: InkWell(
+        onTap: onTap,
+        customBorder: const CircleBorder(),
+        child: Container(
+          width: 48,
+          height: 48,
+          decoration: BoxDecoration(
+            color: AgentColors.surface,
+            shape: BoxShape.circle,
+            border: Border.all(color: AgentColors.stroke),
+          ),
+          child: Icon(icon, size: 22, color: AgentColors.ink),
         ),
       ),
     );
   }
 }
 
-class _EmptyState extends StatelessWidget {
-  const _EmptyState();
+/// Subtle accent glow anchored to the bottom of the chat area — keeps the hero
+/// from feeling flat while staying on the app's dark/purple palette.
+class _GlowBackdrop extends StatelessWidget {
+  const _GlowBackdrop();
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 32),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              width: 72,
-              height: 72,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                gradient: const LinearGradient(
-                  colors: [SpaceColors.accentStart, SpaceColors.accentEnd],
-                ),
-              ),
-              child: const Icon(
-                Icons.auto_awesome,
-                color: SpaceColors.textPrimary,
-                size: 32,
+    return Positioned.fill(
+      child: IgnorePointer(
+        child: ClipRect(
+          child: Opacity(
+            opacity: 0.22,
+            child: ImageFiltered(
+              imageFilter: ImageFilter.blur(sigmaX: 60, sigmaY: 60),
+              child: Stack(
+                children: const [
+                  Positioned(
+                    left: 30,
+                    bottom: -160,
+                    child: _GlowCircle(size: 300, color: AgentColors.accent),
+                  ),
+                  Positioned(
+                    right: -40,
+                    bottom: -220,
+                    child: _GlowCircle(size: 280, color: AgentColors.accentEnd),
+                  ),
+                ],
               ),
             ),
-            const SizedBox(height: 18),
-            const Text(
-              'Talk to your home',
-              style: SpaceTextStyles.cardTitle,
-              textAlign: TextAlign.center,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _GlowCircle extends StatelessWidget {
+  const _GlowCircle({required this.size, required this.color});
+
+  final double size;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+    );
+  }
+}
+
+class _HeroState extends StatelessWidget {
+  const _HeroState({required this.onSuggestion});
+
+  final ValueChanged<String> onSuggestion;
+
+  static const _suggestions = <_Suggestion>[
+    _Suggestion(Icons.lightbulb_outline, 'Control\nDevices',
+        'What devices can I control?'),
+    _Suggestion(Icons.show_chart_rounded, 'Device\nStatus',
+        'Show me the status of my devices.'),
+    _Suggestion(Icons.auto_awesome_outlined, 'Create\nScenes',
+        'Help me create a new scene.'),
+    _Suggestion(Icons.bolt_outlined, 'Energy\nUsage', 'Show my energy usage.'),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 24, 20, 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          const Center(child: _Logo()),
+          const SizedBox(height: 22),
+          const Text(
+            'Hey! How can I help you today?',
+            style: AgentTextStyles.greeting,
+          ),
+          const Spacer(),
+          _SuggestionRow(items: _suggestions.sublist(0, 2), onTap: onSuggestion),
+          const SizedBox(height: 6),
+          _SuggestionRow(items: _suggestions.sublist(2, 4), onTap: onSuggestion),
+        ],
+      ),
+    );
+  }
+}
+
+class _Logo extends StatelessWidget {
+  const _Logo();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 72,
+      height: 72,
+      padding: const EdgeInsets.all(1.5),
+      decoration: const BoxDecoration(
+        shape: BoxShape.circle,
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [AgentColors.logoStrokeA, AgentColors.logoStrokeB],
+        ),
+      ),
+      child: Container(
+        decoration: const BoxDecoration(
+          shape: BoxShape.circle,
+          color: AgentColors.surface,
+        ),
+        child: const Icon(Icons.auto_awesome,
+            size: 30, color: AgentColors.ink),
+      ),
+    );
+  }
+}
+
+class _Suggestion {
+  const _Suggestion(this.icon, this.title, this.prompt);
+  final IconData icon;
+  final String title;
+  final String prompt;
+}
+
+class _SuggestionRow extends StatelessWidget {
+  const _SuggestionRow({required this.items, required this.onTap});
+
+  final List<_Suggestion> items;
+  final ValueChanged<String> onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        for (var i = 0; i < items.length; i++) ...[
+          if (i > 0) const SizedBox(width: 6),
+          Expanded(child: _SuggestionCard(item: items[i], onTap: onTap)),
+        ],
+      ],
+    );
+  }
+}
+
+class _SuggestionCard extends StatelessWidget {
+  const _SuggestionCard({required this.item, required this.onTap});
+
+  final _Suggestion item;
+  final ValueChanged<String> onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () => onTap(item.prompt),
+      borderRadius: BorderRadius.circular(16),
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: AgentColors.card,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: AgentColors.stroke),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              width: 32,
+              height: 32,
+              decoration: const BoxDecoration(
+                gradient: kAgentDarkGradient,
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                    color: Color(0x1A1A1A1A),
+                    blurRadius: 6,
+                    offset: Offset(0, 1),
+                  ),
+                ],
+              ),
+              child: Icon(item.icon, size: 16, color: Colors.white),
             ),
             const SizedBox(height: 8),
             Text(
-              'Ask things like "turn on the living-room light" or "dim the kitchen light to 30%".',
-              style: SpaceTextStyles.cardMeta.copyWith(
-                fontSize: 14,
-                height: 1.5,
-              ),
+              item.title,
               textAlign: TextAlign.center,
+              style: AgentTextStyles.cardTitle,
             ),
           ],
         ),
@@ -173,11 +344,11 @@ class _ErrorBanner extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      margin: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+      margin: const EdgeInsets.fromLTRB(20, 0, 20, 8),
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
-        color: const Color(0xFF4A2330),
-        borderRadius: BorderRadius.circular(10),
+        color: const Color(0xFF3D2630),
+        borderRadius: BorderRadius.circular(12),
         border: Border.all(color: const Color(0xFFB44A66)),
       ),
       child: Row(
@@ -190,9 +361,8 @@ class _ErrorBanner extends StatelessWidget {
               message,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
-              style: SpaceTextStyles.pillMeta.copyWith(
+              style: AgentTextStyles.chip.copyWith(
                 color: const Color(0xFFFFB4C2),
-                fontSize: 12.5,
               ),
             ),
           ),
@@ -211,28 +381,25 @@ class _LongChatBanner extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      margin: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-      padding: const EdgeInsets.fromLTRB(12, 8, 8, 8),
+      margin: const EdgeInsets.fromLTRB(20, 0, 20, 8),
+      padding: const EdgeInsets.fromLTRB(12, 4, 4, 4),
       decoration: BoxDecoration(
-        color: const Color(0xFF324052),
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: SpaceColors.stroke),
+        color: AgentColors.surface,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: AgentColors.stroke),
       ),
       child: Row(
         children: [
           Expanded(
             child: Text(
               'Long conversation — consider starting a new chat.',
-              style: SpaceTextStyles.pillMeta.copyWith(
-                color: SpaceColors.textPrimary,
-                fontSize: 12.5,
-              ),
+              style: AgentTextStyles.chip.copyWith(color: AgentColors.ink),
             ),
           ),
           TextButton(
             onPressed: onStartFresh,
             style: TextButton.styleFrom(
-              foregroundColor: SpaceColors.accentStart,
+              foregroundColor: AgentColors.logoStrokeB,
               padding: const EdgeInsets.symmetric(horizontal: 10),
             ),
             child: const Text('New chat'),

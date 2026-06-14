@@ -19,6 +19,7 @@ class SpacesOverviewScreen extends StatelessWidget {
         return Scaffold(
           backgroundColor: SpaceColors.bgBase,
           body: SafeArea(
+            bottom: false,
             child: Column(
               children: [
                 const _TopBar(),

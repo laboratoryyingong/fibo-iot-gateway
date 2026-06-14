@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../screens/assistant_models.dart';
-import '../theme/space_tokens.dart';
+import '../theme/assistant_tokens.dart';
 
 class AssistantToolChip extends StatelessWidget {
   const AssistantToolChip({super.key, required this.chip});
@@ -12,10 +12,10 @@ class AssistantToolChip extends StatelessWidget {
   Widget build(BuildContext context) {
     final visual = _resolveVisual(chip);
     return Container(
-      margin: const EdgeInsets.only(bottom: 6),
+      margin: const EdgeInsets.only(bottom: 8),
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(12),
         color: visual.background,
         border: Border.all(color: visual.border),
       ),
@@ -33,11 +33,7 @@ class AssistantToolChip extends StatelessWidget {
               visual.label,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
-              style: SpaceTextStyles.pillMeta.copyWith(
-                color: visual.text,
-                fontWeight: FontWeight.w500,
-                fontSize: 12.5,
-              ),
+              style: AgentTextStyles.chip.copyWith(color: visual.text),
             ),
           ),
         ],
@@ -48,19 +44,19 @@ class AssistantToolChip extends StatelessWidget {
   _ChipVisual _resolveVisual(ToolCallChipState chip) {
     if (chip.isPending) {
       return _ChipVisual(
-        background: SpaceColors.bgElevated,
-        border: SpaceColors.stroke,
-        text: SpaceColors.textMuted,
+        background: AgentColors.surface,
+        border: AgentColors.stroke,
+        text: AgentColors.inkMuted,
         label: _pendingLabel(chip),
         leading: const CircularProgressIndicator(
           strokeWidth: 2,
-          color: SpaceColors.textMuted,
+          color: AgentColors.inkMuted,
         ),
       );
     }
     if (chip.requiresConfirmation) {
       return _ChipVisual(
-        background: const Color(0xFF4A3E16),
+        background: const Color(0xFF3D3416),
         border: const Color(0xFFFFB547),
         text: const Color(0xFFFFD17A),
         label: _confirmationLabel(chip),
@@ -73,7 +69,7 @@ class AssistantToolChip extends StatelessWidget {
     }
     if (chip.didNotConverge) {
       return _ChipVisual(
-        background: const Color(0xFF3D2E1A),
+        background: const Color(0xFF3A2E1A),
         border: const Color(0xFFD89060),
         text: const Color(0xFFE7B78A),
         label: _unconfirmedLabel(chip),
@@ -86,7 +82,7 @@ class AssistantToolChip extends StatelessWidget {
     }
     if (chip.isFailure) {
       return _ChipVisual(
-        background: const Color(0xFF4A2330),
+        background: const Color(0xFF3D2630),
         border: const Color(0xFFB44A66),
         text: const Color(0xFFFFB4C2),
         label: _errorLabel(chip),
@@ -98,14 +94,14 @@ class AssistantToolChip extends StatelessWidget {
       );
     }
     return _ChipVisual(
-      background: SpaceColors.bgElevated,
-      border: SpaceColors.accentStart,
-      text: SpaceColors.textPrimary,
+      background: AgentColors.surface,
+      border: AgentColors.stroke,
+      text: AgentColors.ink,
       label: _successLabel(chip),
       leading: const Icon(
         Icons.check_circle,
         size: 14,
-        color: SpaceColors.accentStart,
+        color: AgentColors.logoStrokeB,
       ),
     );
   }

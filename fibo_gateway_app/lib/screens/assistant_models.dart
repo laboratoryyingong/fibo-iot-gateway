@@ -7,8 +7,35 @@ import 'package:uuid/uuid.dart';
 import '../services/agent_device_map.dart';
 import '../services/agent_events.dart';
 import '../services/claude_agent_client.dart';
+import '../services/device_api_client.dart';
+import '../services/device_api_models.dart';
 
 enum ChatRole { user, assistant, system }
+
+/// Maps a device to the in-chat control card that should represent it, or null
+/// when the device type has no dedicated card. Shared by the store (to decide
+/// whether to attach [ChatMessage.deviceControl]) and the message bubble.
+String? deviceCardType(AgentDevice device) {
+  final type = device.type.toLowerCase();
+  if (type.contains('light')) return 'light';
+  if (type.contains('curtain') || type.contains('blind') ||
+      type.contains('shade')) {
+    return 'curtain';
+  }
+  if (type.contains('lock')) return 'lock';
+  if (type.contains('siren')) return 'siren';
+
+  final key = '${device.id} ${device.profile} ${device.name}'.toLowerCase();
+  if (type.contains('sensor') || type.contains('alarm') ||
+      type.contains('radar') || type.contains('detector')) {
+    if (key.contains('smoke')) return 'smoke';
+    if (key.contains('presence') || key.contains('radar') ||
+        key.contains('motion') || key.contains('occupan')) {
+      return 'presence';
+    }
+  }
+  return null;
+}
 
 enum AssistantStreamState { idle, awaitingFirstByte, streaming, error }
 
@@ -57,15 +84,38 @@ class ChatMessage {
   final List<ToolCallChipState> toolCalls;
   final DateTime createdAt;
   bool isStreaming;
+
+  /// App-fetched device list rendered as the "My Home" dashboard card. When
+  /// set, the raw agent text is hidden in favour of the card.
+  List<AgentDevice>? deviceDashboard;
+
+  /// True while the app is fetching the device list for this turn, so the UI
+  /// can show a pending state instead of the agent's interim text.
+  bool dashboardPending = false;
+
+  /// A single device whose fresh state is rendered as a device-specific card
+  /// (light, curtain, lock, siren, sensor), populated after a `control_device`
+  /// or `get_device_status` turn. When set, the device tool chips are hidden.
+  AgentDevice? deviceControl;
+
+  /// App-fetched scenes rendered as the tap-to-activate scene grid. Set on a
+  /// "scenes" intent turn; hides the raw text reply.
+  List<AgentScene>? scenes;
+
+  /// True while the app is fetching scenes for this turn.
+  bool scenesPending = false;
 }
 
 class AssistantStore extends ChangeNotifier {
-  AssistantStore._({ClaudeAgentClient? client})
-      : _client = client ?? ClaudeAgentClient();
+  AssistantStore._({ClaudeAgentClient? client, DeviceApiClient? devices})
+      : _client = client ?? ClaudeAgentClient(),
+        _devices = devices ??
+            DeviceApiClient(timeout: const Duration(seconds: 8));
 
   static final AssistantStore instance = AssistantStore._();
 
   final ClaudeAgentClient _client;
+  final DeviceApiClient _devices;
   final Uuid _uuid = const Uuid();
 
   String _sessionId = const Uuid().v4();
@@ -106,6 +156,19 @@ class AssistantStore extends ChangeNotifier {
     _messages.add(assistantMsg);
     _streamingMessage = assistantMsg;
     _state = AssistantStreamState.awaitingFirstByte;
+
+    // For "list my devices"-style turns the app fetches the device list itself
+    // and renders the My Home card, instead of relying on the agent to call
+    // get_devices (which it does inconsistently). The raw text reply is then
+    // hidden in favour of the card.
+    if (_looksLikeSceneRequest(text)) {
+      assistantMsg.scenesPending = true;
+      _loadScenes(assistantMsg);
+    } else if (_looksLikeDeviceListRequest(text)) {
+      assistantMsg.dashboardPending = true;
+      _loadDeviceDashboard(assistantMsg);
+    }
+
     notifyListeners();
 
     try {
@@ -121,6 +184,89 @@ class AssistantStore extends ChangeNotifier {
       );
     } catch (err) {
       _failStreamingMessage(err.toString());
+    }
+  }
+
+  static final RegExp _deviceListVerbs =
+      RegExp(r'\b(show|list|all|what|which|see|view|display|my)\b');
+
+  bool _looksLikeDeviceListRequest(String text) {
+    final s = text.toLowerCase();
+    return s.contains('device') && _deviceListVerbs.hasMatch(s);
+  }
+
+  bool _looksLikeSceneRequest(String text) {
+    final s = text.toLowerCase();
+    return s.contains('scene') && _deviceListVerbs.hasMatch(s);
+  }
+
+  Future<void> _loadScenes(ChatMessage msg) async {
+    try {
+      final scenes = await _devices.listScenes();
+      if (scenes.isNotEmpty) msg.scenes = scenes;
+    } catch (_) {
+      // Leave the agent's text reply as the fallback for this turn.
+    } finally {
+      msg.scenesPending = false;
+      notifyListeners();
+    }
+  }
+
+  /// Runs a scene from the scene grid (best-effort; errors swallowed).
+  Future<void> runScene(String sceneId) async {
+    try {
+      await _devices.runScene(sceneId);
+    } catch (_) {
+      // Best-effort.
+    }
+  }
+
+  Future<void> _loadDeviceDashboard(ChatMessage msg) async {
+    try {
+      final devices = await _devices.listDevices();
+      if (devices.isNotEmpty) msg.deviceDashboard = devices;
+    } catch (_) {
+      // Leave the agent's text reply as the fallback for this turn.
+    } finally {
+      msg.dashboardPending = false;
+      notifyListeners();
+    }
+  }
+
+  /// After a `control_device`/`get_device_status` turn, fetch the device's
+  /// fresh state and attach it so the bubble renders its device-specific card
+  /// (when the device type has one).
+  void _maybeLoadDeviceControl(ChatMessage msg, ToolResultEvent e) {
+    if (e.isError) return;
+    if (e.name != 'control_device' && e.name != 'get_device_status') return;
+    final id = e.input['device_id'];
+    if (id is! String || id.isEmpty) return;
+    _loadDeviceControl(msg, id);
+  }
+
+  Future<void> _loadDeviceControl(ChatMessage msg, String deviceId) async {
+    try {
+      final device = await _devices.getDevice(deviceId);
+      if (deviceCardType(device) != null) {
+        msg.deviceControl = device;
+        notifyListeners();
+      }
+    } catch (_) {
+      // Fall back to the chips/text already shown for this turn.
+    }
+  }
+
+  /// Drives a device from one of the control cards. Optimistic UI lives in the
+  /// card; failures are swallowed so the card keeps its local state.
+  Future<void> controlDevice(
+    String deviceId,
+    String action,
+    Map<String, dynamic>? params,
+  ) async {
+    try {
+      await _devices.controlDevice(deviceId, action: action, params: params);
+    } catch (_) {
+      // Best-effort; the card keeps its optimistic state.
     }
   }
 
@@ -187,6 +333,7 @@ class AssistantStore extends ChangeNotifier {
           ));
         }
         AgentDeviceSync.applyToolResult(e);
+        _maybeLoadDeviceControl(msg, e);
       case DoneEvent _:
         msg.isStreaming = false;
         _state = AssistantStreamState.idle;

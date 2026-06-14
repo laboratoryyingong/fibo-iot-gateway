@@ -19,6 +19,7 @@ class ScenesListScreen extends StatelessWidget {
         return Scaffold(
           backgroundColor: ScenesColors.bgBase,
           body: SafeArea(
+            bottom: false,
             child: Column(
               children: [
                 _Header(

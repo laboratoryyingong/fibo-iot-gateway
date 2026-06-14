@@ -1,7 +1,8 @@
 // V0 SCOPE NOTE:
-//   - Direct HTTP from app to agent (no Parse proxy, no auth header). The
-//     agent currently has no built-in auth, so the URL must point at a
-//     private/dev host. See docs/claude-agent/INTEGRATING.md §3.
+//   - Direct HTTP from app to agent (no Parse proxy). When AgentConfig.apiKey
+//     is set, an `Authorization: Bearer <key>` header is attached; otherwise
+//     the URL must point at a private/dev host running open.
+//     See docs/claude-agent/APP-INTEGRATION.md §2.
 //   - SSE parsing is hand-rolled (~50 lines) instead of pulling a dependency.
 //     If the protocol grows beyond `event:` / `data:` lines, revisit.
 
@@ -47,6 +48,7 @@ class ClaudeAgentClient {
     final req = http.Request('POST', uri)
       ..headers['content-type'] = 'application/json'
       ..headers['accept'] = 'text/event-stream'
+      ..headers.addAll(AgentConfig.authHeader())
       ..body = jsonEncode({'message': message, 'session_id': sessionId});
 
     final resp = await _client.send(req).timeout(const Duration(seconds: 10));
@@ -90,7 +92,10 @@ class ClaudeAgentClient {
     final resp = await _client
         .post(
           uri,
-          headers: {'content-type': 'application/json'},
+          headers: {
+            'content-type': 'application/json',
+            ...AgentConfig.authHeader(),
+          },
           body: jsonEncode({'message': message, 'session_id': sessionId}),
         )
         .timeout(const Duration(seconds: 60));

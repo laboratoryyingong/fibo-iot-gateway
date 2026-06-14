@@ -67,6 +67,30 @@ Security: never copy Parse `MASTER_KEY` or dashboard credentials into Flutter cl
 - User: `<REDACTED_USER>`
 - Password: `<REDACTED_PASSWORD>`
 
+**Claude Agent Config**
+The Assistant chat and (optionally) the live Spaces dashboard talk to the smart-home
+agent HTTP service (see `docs/claude-agent/APP-INTEGRATION.md`).
+
+1. Copy `lib/services/agent_config.example.dart` to `lib/services/agent_config.local.dart`
+2. Set:
+   - `baseUrl` — agent service URL (iOS sim `http://localhost:3000`, Android emulator
+     `http://10.0.2.2:3000`, real device the host LAN IP).
+   - `apiKey` — the server's shared `API_KEY`; leave empty if it runs open.
+   - `useLiveDevices` — `true` drives the Spaces dashboard from the live REST device
+     API (`/devices`, `/control`, …); `false` (default) uses the bundled mock store.
+
+Behavior with `useLiveDevices = true`:
+- The room/device list hydrates from `/rooms` + `/devices`; the mock layout stays as a
+  fallback if the service is unreachable.
+- Lights and on/off actuators control live (`turn_on`/`turn_off`/`set_brightness`); other
+  profiles render read-only for now.
+- Control errors (conflict `409`, confirmation `428`, offline `502`) surface as a SnackBar
+  on the device control screen.
+
+Notes: `agent_config.local.dart` is gitignored. `apiKey` is a single shared secret — never
+ship a real key in a production client; proxy through your own backend. Plain-HTTP dev URLs
+need an iOS ATS exception / Android `usesCleartextTraffic`.
+
 **Run**
 ```bash
 cd fibo_gateway_app

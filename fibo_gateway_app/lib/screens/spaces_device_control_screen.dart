@@ -13,6 +13,7 @@ class SpacesDeviceControlScreen extends StatefulWidget {
 }
 
 class _SpacesDeviceControlScreenState extends State<SpacesDeviceControlScreen> {
+  final SpaceMockStore _store = SpaceMockStore.instance;
   double _temperature = 22;
   double _fanSpeed = 0.4;
   double _acTemperature = 24;
@@ -27,8 +28,38 @@ class _SpacesDeviceControlScreenState extends State<SpacesDeviceControlScreen> {
   double _bulbWarmth = 0.4;
 
   @override
+  void initState() {
+    super.initState();
+    _store.addListener(_onStoreChanged);
+  }
+
+  @override
+  void dispose() {
+    _store.removeListener(_onStoreChanged);
+    super.dispose();
+  }
+
+  /// Surfaces live-control feedback (conflict / confirmation / offline / not
+  /// supported) from the store as a SnackBar, then clears it so it shows once.
+  void _onStoreChanged() {
+    final message = _store.controlMessage;
+    if (message == null || !mounted) return;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted || _store.controlMessage == null) return;
+      ScaffoldMessenger.of(context)
+        ..clearSnackBars()
+        ..showSnackBar(SnackBar(
+          content: Text(message),
+          backgroundColor: SpaceColors.bgElevated,
+          behavior: SnackBarBehavior.floating,
+        ));
+      _store.clearControlMessage();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final store = SpaceMockStore.instance;
+    final store = _store;
     return AnimatedBuilder(
       animation: store,
       builder: (_, _) {
