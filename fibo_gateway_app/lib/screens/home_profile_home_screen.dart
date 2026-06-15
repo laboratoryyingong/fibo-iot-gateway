@@ -5,6 +5,7 @@ import '../theme/space_tokens.dart';
 import '../widgets/room_image_cover.dart';
 import '../widgets/space_bottom_bar.dart';
 import 'home_profile_models.dart';
+import 'space_models.dart';
 
 class HomeProfileHomeScreen extends StatefulWidget {
   const HomeProfileHomeScreen({super.key});
@@ -21,6 +22,23 @@ class _HomeProfileHomeScreenState extends State<HomeProfileHomeScreen> {
   void initState() {
     super.initState();
     _loadSelectedGateway();
+    // Mirror the live Parse home graph + Spaces rooms into the profile store.
+    SpaceMockStore.instance.addListener(_syncHomeFromGraph);
+    _syncHomeFromGraph();
+  }
+
+  @override
+  void dispose() {
+    SpaceMockStore.instance.removeListener(_syncHomeFromGraph);
+    super.dispose();
+  }
+
+  void _syncHomeFromGraph() {
+    final store = SpaceMockStore.instance;
+    final graph = store.homeGraph;
+    if (graph != null) {
+      HomeProfileMockStore.instance.syncFromGraph(graph, store.rooms);
+    }
   }
 
   Future<void> _loadSelectedGateway() async {

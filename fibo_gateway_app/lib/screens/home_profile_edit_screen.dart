@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
+import '../services/home_graph.dart';
 import '../theme/space_tokens.dart';
 import 'home_profile_models.dart';
+import 'space_models.dart';
 
 class HomeProfileEditScreen extends StatefulWidget {
   const HomeProfileEditScreen({super.key});
@@ -22,6 +24,7 @@ class _HomeProfileEditScreenState extends State<HomeProfileEditScreen> {
 
   String _profileId = '';
   bool _initialized = false;
+  bool _saving = false;
 
   @override
   void didChangeDependencies() {
@@ -116,6 +119,9 @@ class _HomeProfileEditScreenState extends State<HomeProfileEditScreen> {
                         controller: _emailController,
                         hint: 'cameron@gmail.com',
                         keyboardType: TextInputType.emailAddress,
+                        // Email is the login identity; changing it isn't part of
+                        // profile editing.
+                        readOnly: true,
                       ),
                       const SizedBox(height: 14),
                       _FieldBlock(
@@ -156,7 +162,7 @@ class _HomeProfileEditScreenState extends State<HomeProfileEditScreen> {
             Padding(
               padding: const EdgeInsets.fromLTRB(24, 8, 24, 24),
               child: InkWell(
-                onTap: _saveProfile,
+                onTap: _saving ? null : _saveProfile,
                 borderRadius: BorderRadius.circular(16),
                 child: Container(
                   width: double.infinity,
@@ -168,10 +174,20 @@ class _HomeProfileEditScreenState extends State<HomeProfileEditScreen> {
                     ),
                   ),
                   alignment: Alignment.center,
-                  child: Text(
-                    'Update',
-                    style: SpaceTextStyles.pillTitle.copyWith(fontSize: 16),
-                  ),
+                  child: _saving
+                      ? const SizedBox(
+                          width: 22,
+                          height: 22,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: SpaceColors.textPrimary,
+                          ),
+                        )
+                      : Text(
+                          'Update',
+                          style:
+                              SpaceTextStyles.pillTitle.copyWith(fontSize: 16),
+                        ),
                 ),
               ),
             ),
@@ -181,10 +197,11 @@ class _HomeProfileEditScreenState extends State<HomeProfileEditScreen> {
     );
   }
 
-  void _saveProfile() {
+  Future<void> _saveProfile() async {
     final formState = _formKey.currentState;
     if (formState == null || !formState.validate()) return;
 
+    // Optimistic local update so the UI reflects the edit immediately.
     HomeProfileMockStore.instance.updateProfile(
       profileId: _profileId,
       name: _homeNameController.text,
@@ -195,11 +212,41 @@ class _HomeProfileEditScreenState extends State<HomeProfileEditScreen> {
       ownerPhone: _phoneController.text,
     );
 
-    if (!mounted) return;
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(const SnackBar(content: Text('Profile updated')));
-    Navigator.of(context).pop();
+    final homeId = SpaceMockStore.instance.homeGraph?.homeId;
+    // Mock mode (no live home): keep the local-only behaviour.
+    if (homeId == null) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Profile updated')),
+      );
+      Navigator.of(context).pop();
+      return;
+    }
+
+    setState(() => _saving = true);
+    try {
+      await updateHomeProfile(
+        homeId: homeId,
+        name: _homeNameController.text.trim(),
+        location: _locationController.text.trim(),
+        fullName:
+            '${_firstNameController.text.trim()} ${_lastNameController.text.trim()}'
+                .trim(),
+        phone: _phoneController.text.trim(),
+      );
+      await HomeProfileMockStore.instance.refreshFromBackend();
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Profile updated')),
+      );
+      Navigator.of(context).pop();
+    } catch (err) {
+      if (!mounted) return;
+      setState(() => _saving = false);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Update failed: $err')),
+      );
+    }
   }
 }
 
@@ -253,12 +300,14 @@ class _FieldBlock extends StatelessWidget {
     required this.controller,
     required this.hint,
     this.keyboardType,
+    this.readOnly = false,
   });
 
   final String label;
   final TextEditingController controller;
   final String hint;
   final TextInputType? keyboardType;
+  final bool readOnly;
 
   @override
   Widget build(BuildContext context) {
@@ -276,6 +325,7 @@ class _FieldBlock extends StatelessWidget {
         TextFormField(
           controller: controller,
           keyboardType: keyboardType,
+          readOnly: readOnly,
           validator: (value) {
             if ((value ?? '').trim().isEmpty) {
               return '$label is required';
@@ -285,6 +335,7 @@ class _FieldBlock extends StatelessWidget {
           style: SpaceTextStyles.pillTitle.copyWith(
             fontSize: 16,
             fontWeight: FontWeight.w500,
+            color: readOnly ? SpaceColors.textMuted : SpaceColors.textPrimary,
           ),
           decoration: InputDecoration(
             hintText: hint,

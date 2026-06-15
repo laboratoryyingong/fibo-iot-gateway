@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../services/home_graph.dart';
 import '../services/mock_room_photo_catalog.dart';
+import 'space_models.dart';
 
 @immutable
 class HomeProfileScene {
@@ -168,6 +170,82 @@ class HomeProfileMockStore extends ChangeNotifier {
       ownerEmail: ownerEmail.trim(),
       ownerPhone: ownerPhone.trim(),
     );
+    notifyListeners();
+  }
+
+  /// Re-fetches the live home graph (members, name, location, owner) from Parse
+  /// and re-syncs this store. Called after a profile edit or member change so
+  /// the UI reflects the persisted backend state.
+  Future<void> refreshFromBackend() async {
+    final spaceStore = SpaceMockStore.instance;
+    await spaceStore.refreshHomeGraph();
+    final graph = spaceStore.homeGraph;
+    if (graph != null) {
+      syncFromGraph(graph, spaceStore.rooms);
+    }
+  }
+
+  String? _syncSignature;
+
+  /// Replaces the mock profiles with a single real profile built from the live
+  /// Parse home graph + the live Spaces rooms. Idempotent (no-op when the
+  /// inputs haven't changed) so it's safe to call from a store listener.
+  void syncFromGraph(HomeGraph graph, List<SpaceRoom> rooms) {
+    final signature = '${graph.homeId}|${graph.homeName}|${graph.homeLocation}|'
+        '${graph.scenes.map((s) => '${s.sceneId}:${s.enabled}').join(',')}|'
+        '${graph.members.map((m) => '${m.email}:${m.role}:${m.phone}:${m.name}').join(',')}|'
+        '${rooms.map((r) => '${r.id}:${r.onCount}/${r.totalCount}').join(',')}';
+    if (signature == _syncSignature) return;
+    _syncSignature = signature;
+
+    final admin = graph.members.where((m) => m.role == 'admin').toList();
+    final owner = admin.isNotEmpty
+        ? admin.first
+        : (graph.members.isNotEmpty ? graph.members.first : null);
+    final ownerName = (owner?.name ?? '').trim();
+    final ownerParts = ownerName.split(RegExp(r'\s+'));
+
+    _profiles
+      ..clear()
+      ..add(HomeProfileItem(
+        id: 'home:${graph.homeId}',
+        name: graph.homeName.isEmpty ? 'My Home' : graph.homeName,
+        location: graph.homeLocation,
+        ownerFirstName: ownerParts.isNotEmpty ? ownerParts.first : '',
+        ownerLastName: ownerParts.length > 1 ? ownerParts.last : '',
+        ownerEmail: owner?.email ?? '',
+        ownerPhone: owner?.phone ?? '',
+        scenes: [
+          for (final s in graph.scenes)
+            HomeProfileScene(
+              id: s.sceneId,
+              name: s.name,
+              emoji: s.icon,
+              active: s.enabled,
+            ),
+        ],
+        spaces: [
+          for (final r in rooms)
+            HomeProfileSpace(
+              id: r.id,
+              name: r.name,
+              onDevices: r.onCount,
+              totalDevices: r.totalCount,
+              imageUrl: r.imageUrl,
+              icons: [for (final d in r.devices.take(4)) d.icon],
+            ),
+        ],
+        members: [
+          for (final m in graph.members)
+            HomeProfileMember(
+              id: m.userId ?? m.email,
+              name: m.name.isEmpty ? m.email : m.name,
+              email: m.email,
+              role: m.role,
+            ),
+        ],
+      ));
+    _selectedProfileId = 'home:${graph.homeId}';
     notifyListeners();
   }
 

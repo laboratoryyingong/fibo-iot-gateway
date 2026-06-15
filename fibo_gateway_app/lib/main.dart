@@ -11,8 +11,12 @@ import 'screens/home_profile_edit_screen.dart';
 import 'screens/home_profile_home_screen.dart';
 import 'screens/home_profile_members_screen.dart';
 import 'screens/home_profile_menu_screen.dart';
+import 'screens/account_password_screen.dart';
+import 'screens/legal_terms_screen.dart';
 import 'screens/login_screen.dart';
+import 'screens/settings_screen.dart';
 import 'screens/signup_screen.dart';
+import 'screens/support_contact_screen.dart';
 import 'screens/splash_screen.dart';
 import 'screens/pairing_start_screen.dart';
 import 'screens/pairing_searching_screen.dart';
@@ -21,6 +25,7 @@ import 'screens/pairing_success_screen.dart';
 import 'screens/scenes_add_action_screen.dart';
 import 'screens/scenes_add_trigger_screen.dart';
 import 'screens/scenes_detail_screen.dart';
+import 'screens/scenes_editor_screen.dart';
 import 'screens/scenes_list_screen.dart';
 import 'screens/scenes_new_screen.dart';
 import 'screens/scenes_select_device_screen.dart';
@@ -79,6 +84,10 @@ class FiboGatewayApp extends StatelessWidget {
         '/home/profile/menu': (context) => const HomeProfileMenuScreen(),
         '/home/profile/edit': (context) => const HomeProfileEditScreen(),
         '/home/profile/members': (context) => const HomeProfileMembersScreen(),
+        '/home/profile/settings': (context) => const SettingsScreen(),
+        '/legal/terms': (context) => const LegalTermsScreen(),
+        '/support/contact': (context) => const SupportContactScreen(),
+        '/account/password': (context) => const AccountPasswordScreen(),
         '/home/scenes': (context) =>
             const ScenesListScreen(showSpacesBottomTabs: true),
         '/device-detail': (context) => const SpacesDeviceControlScreen(),
@@ -87,6 +96,7 @@ class FiboGatewayApp extends StatelessWidget {
         '/pairing/found': (context) => const PairingDeviceFoundScreen(),
         '/pairing/success': (context) => const PairingSuccessScreen(),
         '/scenes/new': (context) => const ScenesNewScreen(),
+        '/scenes/editor': (context) => const ScenesEditorScreen(),
         '/scenes/detail': (context) => const ScenesDetailScreen(),
         '/scenes/add-trigger': (context) => const ScenesAddTriggerScreen(),
         '/scenes/add-action': (context) => const ScenesAddActionScreen(),

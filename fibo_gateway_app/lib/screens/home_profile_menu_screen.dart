@@ -62,19 +62,23 @@ class HomeProfileMenuScreen extends StatelessWidget {
                     _MenuTile(
                       icon: Icons.settings_outlined,
                       title: 'Setting',
-                      onTap: () => _showPendingToast(context),
+                      onTap: () => Navigator.of(
+                        context,
+                      ).pushNamed('/home/profile/settings'),
                     ),
                     const SizedBox(height: 12),
                     _MenuTile(
                       icon: Icons.gavel_outlined,
                       title: 'Terms of use',
-                      onTap: () => _showPendingToast(context),
+                      onTap: () =>
+                          Navigator.of(context).pushNamed('/legal/terms'),
                     ),
                     const SizedBox(height: 12),
                     _MenuTile(
                       icon: Icons.send_outlined,
                       title: 'Contact',
-                      onTap: () => _showPendingToast(context),
+                      onTap: () =>
+                          Navigator.of(context).pushNamed('/support/contact'),
                     ),
                     const SizedBox(height: 24),
                     _MenuTile(
@@ -102,12 +106,6 @@ class HomeProfileMenuScreen extends StatelessWidget {
     await user?.logout();
     if (!context.mounted) return;
     Navigator.of(context).pushNamedAndRemoveUntil('/login', (route) => false);
-  }
-
-  void _showPendingToast(BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('This section will be available soon.')),
-    );
   }
 }
 
