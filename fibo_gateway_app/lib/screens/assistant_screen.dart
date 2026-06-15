@@ -27,7 +27,11 @@ import '../widgets/space_bottom_bar.dart';
 import 'assistant_models.dart';
 
 class AssistantScreen extends StatelessWidget {
-  const AssistantScreen({super.key});
+  const AssistantScreen({super.key, this.showBottomBar = true});
+
+  /// The persistent tab shell renders the bottom bar itself, so embedded
+  /// instances suppress their own.
+  final bool showBottomBar;
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +81,8 @@ class AssistantScreen extends StatelessWidget {
                   onSend: store.sendMessage,
                   onCancel: store.cancel,
                 ),
-                const SpaceBottomBar(active: SpaceTab.assistant),
+                if (showBottomBar)
+                  const SpaceBottomBar(active: SpaceTab.assistant),
               ],
             );
           },
@@ -99,7 +104,6 @@ class _TopBar extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
       child: Row(
         children: [
-          const _CircleButton(icon: Icons.menu_rounded),
           const Spacer(),
           _CircleButton(
             icon: Icons.add_comment_outlined,

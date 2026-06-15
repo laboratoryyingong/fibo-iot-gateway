@@ -144,8 +144,6 @@ class _AssistantComposerState extends State<AssistantComposer> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          const _PlusButton(),
-          const SizedBox(width: 8),
           Expanded(
             child: Container(
               padding: const EdgeInsets.fromLTRB(14, 4, 4, 4),
@@ -210,31 +208,6 @@ class _AssistantComposerState extends State<AssistantComposer> {
           ),
         ],
       ),
-    );
-  }
-}
-
-/// Accent circular plus button — attachments entry point (placeholder).
-class _PlusButton extends StatelessWidget {
-  const _PlusButton();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 48,
-      height: 48,
-      decoration: const BoxDecoration(
-        gradient: kAgentDarkGradient,
-        shape: BoxShape.circle,
-        boxShadow: [
-          BoxShadow(
-            color: Color(0x33000000),
-            blurRadius: 6,
-            offset: Offset(0, 1.7),
-          ),
-        ],
-      ),
-      child: const Icon(Icons.add_rounded, size: 22, color: Colors.white),
     );
   }
 }
