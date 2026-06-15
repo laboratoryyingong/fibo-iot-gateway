@@ -4,6 +4,14 @@ import '../theme/space_tokens.dart';
 import 'space_device_types.dart';
 import 'space_models.dart';
 
+/// Largest a circular dial can be without overflowing the 24px-padded body —
+/// keeps the big control dials from clipping on narrow phones while staying at
+/// the design size on regular/large screens.
+double _dialDim(BuildContext context, [double max = 295]) {
+  final available = MediaQuery.sizeOf(context).width - 48;
+  return available < max ? available : max;
+}
+
 class SpacesDeviceControlScreen extends StatefulWidget {
   const SpacesDeviceControlScreen({super.key});
 
@@ -67,6 +75,7 @@ class _SpacesDeviceControlScreenState extends State<SpacesDeviceControlScreen> {
           ModalRoute.of(context)?.settings.arguments,
         );
         final target = _resolveTarget(store, args);
+        final isLive = target?.device.isLiveShadow ?? false;
         final type = target?.device.controlType ?? args.type;
         final title = target?.device.name ?? args.deviceName ?? type.title;
         final powerStatus = _powerStatusLabel(target?.device);
@@ -78,15 +87,19 @@ class _SpacesDeviceControlScreenState extends State<SpacesDeviceControlScreen> {
             child: Column(
               children: [
                 _TopBar(title: title),
-                _DeviceTabRow(
-                  active: type,
-                  onTap: (nextType) =>
-                      Navigator.of(context).pushReplacementNamed(
-                        '/spaces/device-control',
-                        arguments: nextType.routeValue,
-                      ),
-                ),
-                if (target != null)
+                // Mock-device tab row + generic power card only apply to the
+                // template devices. Live shadow devices render a control UI
+                // matched to their real profile (and own their own controls).
+                if (!isLive)
+                  _DeviceTabRow(
+                    active: type,
+                    onTap: (nextType) =>
+                        Navigator.of(context).pushReplacementNamed(
+                          '/spaces/device-control',
+                          arguments: nextType.routeValue,
+                        ),
+                  ),
+                if (!isLive && target != null)
                   Padding(
                     padding: const EdgeInsets.fromLTRB(24, 0, 24, 8),
                     child: _PowerStateCard(
@@ -104,12 +117,14 @@ class _SpacesDeviceControlScreenState extends State<SpacesDeviceControlScreen> {
                 Expanded(
                   child: SingleChildScrollView(
                     padding: const EdgeInsets.fromLTRB(24, 20, 24, 24),
-                    child: _buildBody(
-                      type: type,
-                      target: target,
-                      store: store,
-                      brightness: brightness,
-                    ),
+                    child: isLive
+                        ? _LiveDeviceBody(target: target!, store: store)
+                        : _buildBody(
+                            type: type,
+                            target: target,
+                            store: store,
+                            brightness: brightness,
+                          ),
                   ),
                 ),
               ],
@@ -246,6 +261,393 @@ class _SpacesDeviceControlScreenState extends State<SpacesDeviceControlScreen> {
         _lightBrightness = value;
       }
     });
+  }
+}
+
+/// Renders the control UI that matches a live shadow device's real profile.
+/// Each branch owns the controls that actually apply to that device type, so
+/// curtains get a position control, locks get lock/unlock, sensors are
+/// read-only, etc. — no more one-size-fits-all climate panel.
+class _LiveDeviceBody extends StatelessWidget {
+  const _LiveDeviceBody({required this.target, required this.store});
+
+  final ({SpaceRoom room, SpaceDeviceState device}) target;
+  final SpaceMockStore store;
+
+  @override
+  Widget build(BuildContext context) {
+    switch (target.device.iotProfile) {
+      case 'color_light':
+      case 'dimmable_light':
+        return _LiveLightPanel(target: target, store: store);
+      case 'onoff_actuator':
+        return _LiveSwitchPanel(
+          target: target,
+          store: store,
+          onIcon: Icons.power_settings_new,
+        );
+      case 'siren_actuator':
+        return _LiveSwitchPanel(
+          target: target,
+          store: store,
+          onIcon: Icons.notifications_active,
+        );
+      case 'curtain':
+        return _LiveCurtainPanel(target: target, store: store);
+      case 'door_lock':
+        return _LiveLockPanel(target: target, store: store);
+      default:
+        return _LiveSensorPanel(device: target.device);
+    }
+  }
+}
+
+/// Power switch row used by the live light/switch panels.
+class _LivePowerRow extends StatelessWidget {
+  const _LivePowerRow({required this.target, required this.store});
+
+  final ({SpaceRoom room, SpaceDeviceState device}) target;
+  final SpaceMockStore store;
+
+  @override
+  Widget build(BuildContext context) {
+    final device = target.device;
+    return _PowerStateCard(
+      name: device.name,
+      isOn: device.isOn,
+      statusLabel: device.online ? null : 'Offline',
+      enabled: device.online,
+      onChanged: (value) => store.toggleDevicePower(
+        roomId: target.room.id,
+        deviceId: device.id,
+        value: value,
+      ),
+    );
+  }
+}
+
+class _LiveHeroIcon extends StatelessWidget {
+  const _LiveHeroIcon({required this.icon, required this.active, this.label});
+
+  final IconData icon;
+  final bool active;
+  final String? label;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Container(
+          width: 200,
+          height: 200,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: SpaceColors.bgBase,
+            border: Border.all(
+              color: active ? SpaceColors.accentStart : SpaceColors.stroke,
+              width: active ? 4 : 2,
+            ),
+          ),
+          child: Icon(
+            icon,
+            size: 96,
+            color: active ? SpaceColors.accentStart : SpaceColors.textPrimary,
+          ),
+        ),
+        if (label != null) ...[
+          const SizedBox(height: 16),
+          Text(label!, style: SpaceTextStyles.navTitle),
+        ],
+      ],
+    );
+  }
+}
+
+class _LiveLightPanel extends StatelessWidget {
+  const _LiveLightPanel({required this.target, required this.store});
+
+  final ({SpaceRoom room, SpaceDeviceState device}) target;
+  final SpaceMockStore store;
+
+  @override
+  Widget build(BuildContext context) {
+    final device = target.device;
+    final brightness = device.labelPercentFraction ?? (device.isOn ? 1.0 : 0.0);
+    return Column(
+      children: [
+        _LiveHeroIcon(
+          icon: device.isOn ? Icons.lightbulb : Icons.lightbulb_outline,
+          active: device.isOn,
+          label: device.isOn ? '${(brightness * 100).round()}%' : 'Off',
+        ),
+        const SizedBox(height: 20),
+        _LivePowerRow(target: target, store: store),
+        const SizedBox(height: 12),
+        _SliderCard(
+          label: 'Brightness',
+          value: brightness,
+          onChanged: device.online
+              ? (value) => store.setDeviceLevel(
+                  roomId: target.room.id,
+                  deviceId: device.id,
+                  value: value,
+                )
+              : (_) {},
+        ),
+      ],
+    );
+  }
+}
+
+class _LiveSwitchPanel extends StatelessWidget {
+  const _LiveSwitchPanel({
+    required this.target,
+    required this.store,
+    required this.onIcon,
+  });
+
+  final ({SpaceRoom room, SpaceDeviceState device}) target;
+  final SpaceMockStore store;
+  final IconData onIcon;
+
+  @override
+  Widget build(BuildContext context) {
+    final device = target.device;
+    return Column(
+      children: [
+        _LiveHeroIcon(
+          icon: onIcon,
+          active: device.isOn,
+          label: device.valueLabel ?? (device.isOn ? 'On' : 'Off'),
+        ),
+        const SizedBox(height: 20),
+        _LivePowerRow(target: target, store: store),
+      ],
+    );
+  }
+}
+
+class _LiveCurtainPanel extends StatelessWidget {
+  const _LiveCurtainPanel({required this.target, required this.store});
+
+  final ({SpaceRoom room, SpaceDeviceState device}) target;
+  final SpaceMockStore store;
+
+  @override
+  Widget build(BuildContext context) {
+    final device = target.device;
+    final fraction =
+        device.labelPercentFraction ?? (device.isOn ? 1.0 : 0.0);
+    final percent = (fraction * 100).round();
+    void move(int p) => store.setCurtainPosition(
+      roomId: target.room.id,
+      deviceId: device.id,
+      percent: p,
+    );
+    return Column(
+      children: [
+        _LiveHeroIcon(
+          icon: percent > 0 ? Icons.blinds_outlined : Icons.blinds_closed,
+          active: percent > 0,
+          label: '$percent% open',
+        ),
+        const SizedBox(height: 20),
+        if (!device.online)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 12),
+            child: Text('Offline', style: SpaceTextStyles.pillMeta),
+          ),
+        Row(
+          children: [
+            Expanded(
+              child: _WideButton(
+                label: 'Close',
+                icon: Icons.keyboard_arrow_down,
+                onTap: device.online ? () => move(0) : null,
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: _WideButton(
+                label: 'Open',
+                icon: Icons.keyboard_arrow_up,
+                onTap: device.online ? () => move(100) : null,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 12),
+        _SliderCard(
+          label: 'Position',
+          value: fraction,
+          onChanged: device.online ? (v) => move((v * 100).round()) : (_) {},
+        ),
+      ],
+    );
+  }
+}
+
+class _LiveLockPanel extends StatelessWidget {
+  const _LiveLockPanel({required this.target, required this.store});
+
+  final ({SpaceRoom room, SpaceDeviceState device}) target;
+  final SpaceMockStore store;
+
+  @override
+  Widget build(BuildContext context) {
+    final device = target.device;
+    final locked = device.valueLabel == 'Locked';
+    return Column(
+      children: [
+        _LiveHeroIcon(
+          icon: locked ? Icons.lock : Icons.lock_open,
+          active: locked,
+          label: locked ? 'Locked' : 'Unlocked',
+        ),
+        const SizedBox(height: 24),
+        if (!device.online)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 12),
+            child: Text('Offline', style: SpaceTextStyles.pillMeta),
+          ),
+        _WideButton(
+          label: locked ? 'Unlock' : 'Lock',
+          icon: locked ? Icons.lock_open : Icons.lock,
+          filled: true,
+          onTap: device.online
+              ? () => store.setLock(
+                  roomId: target.room.id,
+                  deviceId: device.id,
+                  locked: !locked,
+                )
+              : null,
+        ),
+      ],
+    );
+  }
+}
+
+class _LiveSensorPanel extends StatelessWidget {
+  const _LiveSensorPanel({required this.device});
+
+  final SpaceDeviceState device;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        _LiveHeroIcon(
+          icon: device.icon,
+          active: device.isOn,
+          label: device.valueLabel ?? '—',
+        ),
+        const SizedBox(height: 24),
+        Container(
+          width: double.infinity,
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: SpaceColors.bgBase,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: SpaceColors.stroke),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _SensorRow(
+                label: 'Status',
+                value: device.valueLabel ?? 'No reading',
+              ),
+              const SizedBox(height: 10),
+              _SensorRow(
+                label: 'Connection',
+                value: device.online ? 'Online' : 'Offline',
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 16),
+        Text(
+          'This is a read-only sensor.',
+          textAlign: TextAlign.center,
+          style: SpaceTextStyles.pillMeta,
+        ),
+      ],
+    );
+  }
+}
+
+class _SensorRow extends StatelessWidget {
+  const _SensorRow({required this.label, required this.value});
+
+  final String label;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Text(
+          label,
+          style: SpaceTextStyles.pillMeta.copyWith(fontSize: 14),
+        ),
+        const Spacer(),
+        Text(
+          value,
+          style: SpaceTextStyles.pillTitle.copyWith(fontSize: 15),
+        ),
+      ],
+    );
+  }
+}
+
+class _WideButton extends StatelessWidget {
+  const _WideButton({
+    required this.label,
+    required this.icon,
+    required this.onTap,
+    this.filled = false,
+  });
+
+  final String label;
+  final IconData icon;
+  final VoidCallback? onTap;
+  final bool filled;
+
+  @override
+  Widget build(BuildContext context) {
+    final enabled = onTap != null;
+    final fg = filled ? SpaceColors.bgBase : SpaceColors.textPrimary;
+    return Opacity(
+      opacity: enabled ? 1 : 0.4,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(16),
+        child: Container(
+          height: 56,
+          decoration: BoxDecoration(
+            color: filled ? SpaceColors.accentStart : SpaceColors.bgBase,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
+              color: filled ? SpaceColors.accentStart : SpaceColors.stroke,
+            ),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(icon, color: fg, size: 20),
+              const SizedBox(width: 8),
+              Text(
+                label,
+                style: SpaceTextStyles.pillTitle.copyWith(
+                  fontSize: 16,
+                  color: fg,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
 
@@ -423,11 +825,12 @@ class _ClimatePanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final dim = _dialDim(context);
     return Column(
       children: [
         Container(
-          width: 295,
-          height: 295,
+          width: dim,
+          height: dim,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             border: Border.all(color: SpaceColors.bgElevated, width: 16),
@@ -435,7 +838,9 @@ class _ClimatePanel extends StatelessWidget {
           child: Center(
             child: Text(
               '${temperature.round()}',
-              style: SpaceTextStyles.sectionTitle.copyWith(fontSize: 88),
+              style: SpaceTextStyles.sectionTitle.copyWith(
+                fontSize: 88 * dim / 295,
+              ),
             ),
           ),
         ),
@@ -515,7 +920,7 @@ class _AcPanel extends StatelessWidget {
     return Column(
       children: [
         Container(
-          width: 327,
+          width: double.infinity,
           padding: const EdgeInsets.all(18),
           decoration: BoxDecoration(
             color: SpaceColors.bgBase,
@@ -559,11 +964,12 @@ class _PurifierPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final dim = _dialDim(context);
     return Column(
       children: [
         Container(
-          width: 295,
-          height: 295,
+          width: dim,
+          height: dim,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             border: Border.all(color: SpaceColors.bgElevated, width: 16),
@@ -571,7 +977,9 @@ class _PurifierPanel extends StatelessWidget {
           child: Center(
             child: Text(
               '24',
-              style: SpaceTextStyles.sectionTitle.copyWith(fontSize: 88),
+              style: SpaceTextStyles.sectionTitle.copyWith(
+                fontSize: 88 * dim / 295,
+              ),
             ),
           ),
         ),
@@ -608,7 +1016,7 @@ class _SpeakerPanel extends StatelessWidget {
     return Column(
       children: [
         Container(
-          width: 327,
+          width: double.infinity,
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: SpaceColors.bgBase,
@@ -635,7 +1043,7 @@ class _SpeakerPanel extends StatelessWidget {
         ),
         const SizedBox(height: 12),
         Container(
-          width: 327,
+          width: double.infinity,
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: SpaceColors.bgBase,
@@ -668,7 +1076,7 @@ class _SpeakerPanel extends StatelessWidget {
         ),
         const SizedBox(height: 14),
         Container(
-          width: 327,
+          width: double.infinity,
           padding: const EdgeInsets.fromLTRB(16, 12, 16, 10),
           decoration: BoxDecoration(
             color: SpaceColors.bgBase,
@@ -717,11 +1125,12 @@ class _CeilingLightPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final dim = _dialDim(context);
     return Column(
       children: [
         Container(
-          width: 295,
-          height: 295,
+          width: dim,
+          height: dim,
           decoration: const BoxDecoration(
             shape: BoxShape.circle,
             gradient: SweepGradient(
@@ -738,8 +1147,8 @@ class _CeilingLightPanel extends StatelessWidget {
           ),
           child: Center(
             child: Container(
-              width: 134,
-              height: 134,
+              width: 134 * dim / 295,
+              height: 134 * dim / 295,
               decoration: const BoxDecoration(
                 shape: BoxShape.circle,
                 color: Color(0xFFFFF9E2),
@@ -836,7 +1245,7 @@ class _SliderCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 327,
+      width: double.infinity,
       padding: const EdgeInsets.fromLTRB(16, 10, 16, 8),
       decoration: BoxDecoration(
         color: SpaceColors.bgBase,

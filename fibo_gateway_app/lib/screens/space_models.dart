@@ -3,8 +3,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '../services/agent_config.dart';
+import '../services/app_prefs.dart';
+import '../services/aws_iot_session.dart';
+import '../services/cognito_credentials_provider.dart';
 import '../services/device_api_client.dart';
 import '../services/device_api_models.dart';
+import '../services/home_graph.dart';
 import '../services/iot_config.dart';
 import '../services/iot_shadow_client.dart';
 import '../services/mock_shadow_repository.dart';
@@ -84,6 +88,20 @@ class SpaceDeviceState {
   bool get supportsLevel => shadowBinding?.supportsLevel ?? false;
   double? get levelFraction => shadowBinding?.levelFraction;
 
+  /// True when this device is backed by a live AWS IoT named shadow (the real
+  /// fibo-hub-001 devices), as opposed to a mock/template device.
+  bool get isLiveShadow => iotShadowName != null && iotProfile != null;
+
+  /// Leading percentage parsed from [valueLabel] (e.g. `60%`, `40% open`) as a
+  /// 0–1 fraction, for sliders on live light/curtain devices. Null if absent.
+  double? get labelPercentFraction {
+    final label = valueLabel;
+    if (label == null) return null;
+    final match = RegExp(r'^(\d+)\s*%').firstMatch(label);
+    if (match == null) return null;
+    return (int.parse(match.group(1)!) / 100).clamp(0.0, 1.0);
+  }
+
   SpaceDeviceState copyWith({
     String? id,
     String? name,
@@ -119,6 +137,34 @@ class SpaceDeviceState {
 }
 
 enum SpaceDeviceSyncStatus { localOnly, synced, pending }
+
+/// Maps a live device's shadow [SpaceDeviceState.iotProfile] to the category
+/// label + icon used by the Devices section and the All Devices filter. Shared
+/// so the overview cards and the filtered list stay in lockstep.
+({String label, IconData icon}) spaceDeviceCategory(SpaceDeviceState d) {
+  switch (d.iotProfile) {
+    case 'color_light':
+    case 'dimmable_light':
+      return (label: 'Lights', icon: Icons.lightbulb_outline);
+    case 'onoff_actuator':
+      return (label: 'TV', icon: Icons.tv_outlined);
+    case 'curtain':
+      return (label: 'Curtains', icon: Icons.blinds_outlined);
+    case 'door_lock':
+      return (label: 'Locks', icon: Icons.lock_outline);
+    case 'siren_actuator':
+      return (label: 'Sirens', icon: Icons.notifications_active_outlined);
+    case 'smoke_alarm':
+      return (label: 'Smoke', icon: Icons.local_fire_department_outlined);
+    case 'multi_sensor':
+    case 'ias_sensor':
+    case 'mmwave_sensor':
+      return (label: 'Sensors', icon: Icons.sensors_outlined);
+    case 'button_remote':
+      return (label: 'Remotes', icon: Icons.radio_button_checked);
+  }
+  return (label: 'Devices', icon: d.icon);
+}
 
 class SpaceDeviceTemplate {
   const SpaceDeviceTemplate({
@@ -347,7 +393,7 @@ class SpaceMockStore extends ChangeNotifier {
           syncStatus: SpaceDeviceSyncStatus.pending,
         ),
       );
-      _iot.setDesired(shadowName, {'state': desiredState});
+      _writeDesired(shadowName, desiredState);
       return;
     }
 
@@ -441,9 +487,7 @@ class SpaceMockStore extends ChangeNotifier {
           syncStatus: SpaceDeviceSyncStatus.pending,
         ),
       );
-      _iot.setDesired(shadowName, {
-        'state': {'level': nextLevel},
-      });
+      _writeDesired(shadowName, {'level': nextLevel});
       return;
     }
 
@@ -505,6 +549,53 @@ class SpaceMockStore extends ChangeNotifier {
       deviceId: deviceId,
       transform: (current) => current.copyWith(valueLabel: levelLabel),
     );
+  }
+
+  /// Drives a live curtain to [percent] open (0–100) by writing
+  /// `desired.state.lift_percent` to its shadow.
+  Future<void> setCurtainPosition({
+    required String roomId,
+    required String deviceId,
+    required int percent,
+  }) async {
+    final target = findDeviceByIds(roomId: roomId, deviceId: deviceId);
+    if (target == null) return;
+    final shadowName = target.device.iotShadowName;
+    if (shadowName == null || target.device.iotProfile != 'curtain') return;
+
+    final clamped = percent.clamp(0, 100);
+    _updateDevice(
+      roomId: roomId,
+      deviceId: deviceId,
+      transform: (current) => current.copyWith(
+        isOn: clamped > 0,
+        valueLabel: '$clamped% open',
+        syncStatus: SpaceDeviceSyncStatus.pending,
+      ),
+    );
+    _writeDesired(shadowName, {'lift_percent': clamped});
+  }
+
+  /// Locks/unlocks a live door lock by writing `desired.state.locked`.
+  Future<void> setLock({
+    required String roomId,
+    required String deviceId,
+    required bool locked,
+  }) async {
+    final target = findDeviceByIds(roomId: roomId, deviceId: deviceId);
+    if (target == null) return;
+    final shadowName = target.device.iotShadowName;
+    if (shadowName == null || target.device.iotProfile != 'door_lock') return;
+
+    _updateDevice(
+      roomId: roomId,
+      deviceId: deviceId,
+      transform: (current) => current.copyWith(
+        valueLabel: locked ? 'Locked' : 'Unlocked',
+        syncStatus: SpaceDeviceSyncStatus.pending,
+      ),
+    );
+    _writeDesired(shadowName, {'locked': locked});
   }
 
   SpaceRoom? addRoom({
@@ -918,24 +1009,129 @@ class SpaceMockStore extends ChangeNotifier {
 
   // --- Live AWS IoT shadow integration (fibo-hub-001) ----------------------
 
-  final IotShadowClient _iot = IotShadowClient();
+  final CognitoCredentialsProvider _cognito = CognitoCredentialsProvider();
+  late final IotShadowClient _iot = IotShadowClient(credentials: _cognito);
   List<Map<String, dynamic>> _hubRoomList = const [];
   final Map<String, Map<String, dynamic>> _hubRegistry = {};
   final Map<String, Map<String, dynamic>> _hubReported = {};
   bool _hubReady = false;
 
-  /// Connects to the live hub shadows over MQTT-WSS and rebuilds rooms/devices
-  /// from `admin` (registry) + each device shadow. Keeps the mock layout on
-  /// failure so the UI never blanks.
+  /// Optimistic intent for a device shadow we've written `desired` to but whose
+  /// `reported` state hasn't caught up yet. Keyed by shadowName → the inner
+  /// `state` patch (e.g. `{power: 1}`). While present, [_deviceState] reflects
+  /// the intended value so the control doesn't flicker back to the stale
+  /// reported value before the device applies the change. [_pendingEpoch]
+  /// guards the timeout so a newer write isn't cleared by an older timer.
+  final Map<String, Map<String, dynamic>> _pendingDesired = {};
+  final Map<String, int> _pendingEpoch = {};
+
+  /// Writes a `state` patch to a device shadow and records it as the pending
+  /// optimistic intent until the reported state catches up (or times out).
+  void _writeDesired(String shadowName, Map<String, dynamic> statePatch) {
+    _pendingDesired[shadowName] = {
+      ...?_pendingDesired[shadowName],
+      ...statePatch,
+    };
+    final epoch = (_pendingEpoch[shadowName] ?? 0) + 1;
+    _pendingEpoch[shadowName] = epoch;
+    _iot.setDesired(shadowName, {'state': statePatch});
+    // Safety net: drop a stale intent if the device never reports back, so an
+    // optimistic value can't stick forever.
+    Future.delayed(const Duration(seconds: 8), () {
+      if (_pendingEpoch[shadowName] == epoch &&
+          _pendingDesired.remove(shadowName) != null) {
+        _pendingEpoch.remove(shadowName);
+        _rebuildFromGraph();
+      }
+    });
+  }
+
+  /// Clears the pending intent for [shadowName] once its reported state matches
+  /// every key we wrote, so the UI hands control back to the live reported value
+  /// without any visible jump.
+  void _maybeClearPending(String shadowName) {
+    final pending = _pendingDesired[shadowName];
+    if (pending == null) return;
+    final reported = _hubReported[shadowName];
+    final raw = reported?['state'];
+    final state = raw is Map ? raw.cast<String, dynamic>() : const {};
+    if (pending.entries.every((e) => state[e.key] == e.value)) {
+      _pendingDesired.remove(shadowName);
+      _pendingEpoch.remove(shadowName);
+    }
+  }
+
+  /// App-domain structure from Parse (`listHomeGraph`). When present, rooms and
+  /// device metadata come from here and live state is overlaid from the shadow,
+  /// joined on `shadowName`. Null in the dev guest path (no Parse session) — we
+  /// fall back to the shadow's own `admin` registry.
+  HomeGraph? _graph;
+
+  /// The loaded Parse structure (rooms, devices, scenes, members) for the
+  /// authenticated home, or null in the dev guest path / before load.
+  HomeGraph? get homeGraph => _graph;
+
+  /// Runs a scene through the backend (writes its actions to the device
+  /// shadows). Surfaces failures via [controlMessage].
+  /// Rebuilds derived device labels from the current graph + reported state.
+  /// Used when a non-shadow input changes (e.g. the temperature-unit pref).
+  void rebuildForPrefs() => _rebuildFromGraph();
+
+  /// Re-fetches the home graph from Parse and rebuilds rooms. Called after a
+  /// mutation (member invite/remove, profile edit) so the UI reflects the
+  /// persisted backend truth.
+  Future<void> refreshHomeGraph() async {
+    final homeId = _graph?.homeId;
+    if (homeId == null) return;
+    _graph = await fetchHomeGraph(homeId);
+    _rebuildFromGraph();
+  }
+
+  Future<void> runScene(String sceneId) async {
+    final graph = _graph;
+    if (graph == null) return;
+    try {
+      await requestExecuteScene(graph.homeId, sceneId);
+      _controlMessage = null;
+    } catch (err) {
+      _controlMessage = 'Scene failed: $err';
+      notifyListeners();
+    }
+  }
+
+  /// Connects to the live hub shadows over MQTT-WSS. In authenticated mode the
+  /// room/device structure is loaded from Parse and live state is overlaid;
+  /// otherwise the shadow's own `admin` registry provides the structure.
+  /// Keeps the mock layout on failure so the UI never blanks.
   Future<void> hydrateFromShadows() async {
     _iot.events.listen(_onShadowEvent);
+    // Load user prefs (temperature unit, etc.) so derived labels are correct.
+    AppPrefs.instance.loadFromUser().then((_) => _rebuildFromGraph());
     try {
+      if (!IotConfig.useGuestIdentity) {
+        // Authenticated: configure creds + load Parse structure.
+        final session = await configureCognitoFromParse(_cognito);
+        _graph = await fetchHomeGraph(session.homeId);
+      }
       await _iot.connect();
-      // The subscription may settle a beat after CONNACK, so re-prime `admin`
-      // until the registry arrives.
-      for (var i = 0; i < 6 && !_hubReady; i++) {
-        _iot.primeAll(const ['admin']);
-        await Future.delayed(const Duration(milliseconds: 800));
+      final graph = _graph;
+      if (graph != null) {
+        _rebuildFromGraph(); // structure first; state overlays as it arrives
+        // Re-prime until each device's shadow state has been received (the
+        // subscription may settle a beat after CONNACK).
+        for (var i = 0;
+            i < 6 && _hubReported.length < graph.devices.length;
+            i++) {
+          _iot.primeAll(graph.devices.map((d) => d.shadowName));
+          await Future.delayed(const Duration(milliseconds: 800));
+        }
+      } else {
+        // The subscription may settle a beat after CONNACK, so re-prime `admin`
+        // until the registry arrives.
+        for (var i = 0; i < 6 && !_hubReady; i++) {
+          _iot.primeAll(const ['admin']);
+          await Future.delayed(const Duration(milliseconds: 800));
+        }
       }
     } catch (_) {
       _controlMessage = 'Live hub unavailable — showing cached layout.';
@@ -944,12 +1140,42 @@ class SpaceMockStore extends ChangeNotifier {
   }
 
   void _onShadowEvent(HubShadowEvent ev) {
-    if (ev.shadowName == 'admin') {
+    if (_graph != null) {
+      if (ev.shadowName == 'admin') return;
+      _hubReported[ev.shadowName] = ev.reported;
+      _maybeClearPending(ev.shadowName);
+      _rebuildFromGraph();
+    } else if (ev.shadowName == 'admin') {
       _ingestAdmin(ev);
     } else {
       _hubReported[ev.shadowName] = ev.reported;
       if (_hubReady) _rebuildHubRooms();
     }
+  }
+
+  /// Builds rooms from the Parse structure (Space + DeviceEndpoint) and overlays
+  /// live shadow state by `shadowName`.
+  void _rebuildFromGraph() {
+    final graph = _graph;
+    if (graph == null) return;
+    final built = <SpaceRoom>[];
+    for (final space in graph.spaces) {
+      final devices = <SpaceDeviceState>[];
+      for (final d in graph.devices) {
+        if (d.spaceId != space.spaceId) continue;
+        devices.add(_deviceState(d.shadowName, d.displayName, d.profile));
+      }
+      if (devices.isEmpty) continue;
+      built.add(SpaceRoom(
+        id: 'space:${space.spaceId}',
+        name: space.name,
+        imageUrl: roomPhotoUrlForName(space.name),
+        devices: devices,
+      ));
+    }
+    if (built.isEmpty) return;
+    _rooms = built;
+    notifyListeners();
   }
 
   void _ingestAdmin(HubShadowEvent ev) {
@@ -1007,7 +1233,11 @@ class SpaceMockStore extends ChangeNotifier {
       final devices = <SpaceDeviceState>[];
       _hubRegistry.forEach((shadowName, reg) {
         if (reg['room'] != roomId) return;
-        devices.add(_hubDeviceToState(shadowName, reg));
+        devices.add(_deviceState(
+          shadowName,
+          reg['name'] as String? ?? shadowName,
+          reg['profile'] as String? ?? '',
+        ));
       });
       if (devices.isEmpty) continue;
       built.add(SpaceRoom(
@@ -1022,22 +1252,28 @@ class SpaceMockStore extends ChangeNotifier {
     notifyListeners();
   }
 
-  SpaceDeviceState _hubDeviceToState(
+  SpaceDeviceState _deviceState(
     String shadowName,
-    Map<String, dynamic> reg,
+    String name,
+    String profile,
   ) {
     final reported = _hubReported[shadowName] ?? const {};
-    final st = reported['state'] is Map
+    final reportedState = reported['state'] is Map
         ? (reported['state'] as Map).cast<String, dynamic>()
         : const <String, dynamic>{};
+    // Overlay any pending optimistic intent so the control reflects what the
+    // user just asked for, not the stale reported value still in flight.
+    final pending = _pendingDesired[shadowName];
+    final st = pending == null
+        ? reportedState
+        : {...reportedState, ...pending};
     final tel = reported['telemetry'] is Map
         ? (reported['telemetry'] as Map).cast<String, dynamic>()
         : const <String, dynamic>{};
     final conn = reported['connectivity'] is Map
         ? (reported['connectivity'] as Map).cast<String, dynamic>()
         : const <String, dynamic>{};
-    final profile = reg['profile'] as String? ?? '';
-    final online = conn['online'] as bool? ?? reg['online'] as bool? ?? true;
+    final online = conn['online'] as bool? ?? true;
 
     var isOn = false;
     String? valueLabel;
@@ -1067,7 +1303,7 @@ class SpaceMockStore extends ChangeNotifier {
         break;
       case 'multi_sensor':
         final t = tel['temperature_centi_c'];
-        if (t is num) valueLabel = '${(t / 100).toStringAsFixed(1)}°C';
+        if (t is num) valueLabel = AppPrefs.instance.formatTemperatureC(t / 100);
         break;
       case 'smoke_alarm':
         isOn = tel['alarm_active'] == true;
@@ -1086,7 +1322,7 @@ class SpaceMockStore extends ChangeNotifier {
     final isLight = profile == 'color_light' || profile == 'dimmable_light';
     return SpaceDeviceState(
       id: 'hub:$shadowName',
-      name: reg['name'] as String? ?? shadowName,
+      name: name,
       icon: _iconForProfile(profile),
       controlType: isLight
           ? SpaceDeviceControlType.ceilingLight
@@ -1094,7 +1330,9 @@ class SpaceMockStore extends ChangeNotifier {
       isOn: isOn,
       valueLabel: valueLabel,
       online: online,
-      syncStatus: SpaceDeviceSyncStatus.synced,
+      syncStatus: pending != null
+          ? SpaceDeviceSyncStatus.pending
+          : SpaceDeviceSyncStatus.synced,
       iotShadowName: shadowName,
       iotProfile: profile,
     );

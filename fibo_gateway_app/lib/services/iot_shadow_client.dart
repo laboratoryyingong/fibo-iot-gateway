@@ -6,7 +6,6 @@ import 'package:mqtt_client/mqtt_server_client.dart';
 import 'package:uuid/uuid.dart';
 
 import 'aws_credentials.dart';
-import 'aws_iot_session.dart';
 import 'cognito_credentials_provider.dart';
 import 'iot_config.dart';
 import 'sigv4_iot.dart';
@@ -41,10 +40,8 @@ class IotShadowClient {
 
   Future<void> connect() async {
     if (_connected) return;
-    // Prod: authenticate per-user via Parse. Dev: skip and use guest identity.
-    if (!IotConfig.useGuestIdentity) {
-      await configureCognitoFromParse(_credentials);
-    }
+    // The credentials provider is pre-configured by the caller (guest for dev,
+    // or the per-user developer identity for prod).
     final AwsCredentials creds = await _credentials.getCredentials();
     final url = presignIotWssUrl(
       creds: creds,

@@ -7,74 +7,60 @@ import 'space_models.dart';
 class SpacesAllDevicesScreen extends StatelessWidget {
   const SpacesAllDevicesScreen({super.key});
 
-  static const List<({String name, IconData icon})> _categoryOrder = [
-    (name: 'Ceiling Light', icon: Icons.lightbulb_outline),
-    (name: 'Air Conditioner', icon: Icons.ac_unit_outlined),
-    (name: 'Climate', icon: Icons.thermostat_outlined),
-    (name: 'Fan', icon: Icons.mode_fan_off_outlined),
-    (name: 'Bulb', icon: Icons.tungsten_outlined),
-    (name: 'Air Purifier', icon: Icons.air_outlined),
-    (name: 'Television', icon: Icons.tv_outlined),
-    (name: 'Washing Machine', icon: Icons.local_laundry_service_outlined),
-    (name: 'Speakers', icon: Icons.speaker_outlined),
-  ];
-
   @override
   Widget build(BuildContext context) {
     final store = SpaceMockStore.instance;
+    // Optional category filter passed from the Devices section cards (e.g.
+    // "Lights", "Sensors"). Null = show every device.
+    final categoryFilter = ModalRoute.of(context)?.settings.arguments as String?;
     return AnimatedBuilder(
       animation: store,
       builder: (_, _) {
-        final nameCounts = store.deviceNameCounts;
-        final categories = _categoryOrder.map((item) {
-          final sourceName = _sourceName(item.name);
-          return _DeviceCategory(
-            name: item.name,
-            sourceName: sourceName,
-            count: nameCounts[sourceName] ?? 0,
-            icon: item.icon,
-            type: mapDeviceNameToControlType(item.name),
-          );
-        }).toList();
+        // Flatten the real rooms into (room, device) pairs so each card maps to
+        // an actual device and can navigate to its control screen.
+        final entries = <({SpaceRoom room, SpaceDeviceState device})>[
+          for (final room in store.rooms)
+            for (final device in room.devices)
+              if (categoryFilter == null ||
+                  spaceDeviceCategory(device).label == categoryFilter)
+                (room: room, device: device),
+        ];
 
         return Scaffold(
           backgroundColor: SpaceColors.bgBase,
           body: SafeArea(
             child: Column(
               children: [
-                const _TopBar(),
+                _TopBar(count: entries.length, title: categoryFilter),
                 Expanded(
-                  child: GridView.builder(
-                    padding: const EdgeInsets.fromLTRB(24, 16, 24, 24),
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
-                          crossAxisSpacing: 16,
-                          mainAxisSpacing: 16,
-                          childAspectRatio: 0.72,
+                  child: entries.isEmpty
+                      ? const _EmptyState()
+                      : GridView.builder(
+                          padding: const EdgeInsets.fromLTRB(24, 16, 24, 24),
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 3,
+                                crossAxisSpacing: 16,
+                                mainAxisSpacing: 16,
+                                childAspectRatio: 0.72,
+                              ),
+                          itemCount: entries.length,
+                          itemBuilder: (_, index) {
+                            final entry = entries[index];
+                            return _DeviceCard(
+                              device: entry.device,
+                              onTap: () => Navigator.of(context).pushNamed(
+                                '/spaces/device-control',
+                                arguments: SpaceDeviceControlArgs(
+                                  type: entry.device.controlType,
+                                  roomId: entry.room.id,
+                                  deviceId: entry.device.id,
+                                  deviceName: entry.device.name,
+                                ),
+                              ),
+                            );
+                          },
                         ),
-                    itemCount: categories.length,
-                    itemBuilder: (_, index) {
-                      final category = categories[index];
-                      return _CategoryCard(
-                        category: category,
-                        onTap: () {
-                          final target = store.findFirstDeviceByName(
-                            category.sourceName,
-                          );
-                          Navigator.of(context).pushNamed(
-                            '/spaces/device-control',
-                            arguments: SpaceDeviceControlArgs(
-                              type: category.type,
-                              roomId: target?.room.id,
-                              deviceId: target?.device.id,
-                              deviceName: category.name,
-                            ),
-                          );
-                        },
-                      );
-                    },
-                  ),
                 ),
               ],
             ),
@@ -83,18 +69,17 @@ class SpacesAllDevicesScreen extends StatelessWidget {
       },
     );
   }
-
-  String _sourceName(String displayName) {
-    if (displayName == 'Air Purifier') return 'Purifier';
-    return displayName;
-  }
 }
 
 class _TopBar extends StatelessWidget {
-  const _TopBar();
+  const _TopBar({required this.count, this.title});
+
+  final int count;
+  final String? title;
 
   @override
   Widget build(BuildContext context) {
+    final base = title ?? 'All Devices';
     return Padding(
       padding: const EdgeInsets.fromLTRB(12, 8, 12, 0),
       child: Row(
@@ -103,9 +88,12 @@ class _TopBar extends StatelessWidget {
             icon: Icons.arrow_back,
             onTap: () => Navigator.of(context).pop(),
           ),
-          const Expanded(
+          Expanded(
             child: Center(
-              child: Text('All Devices', style: SpaceTextStyles.navTitle),
+              child: Text(
+                count == 0 ? base : '$base · $count',
+                style: SpaceTextStyles.navTitle,
+              ),
             ),
           ),
           _IconButton(
@@ -140,41 +128,28 @@ class _IconButton extends StatelessWidget {
   }
 }
 
-class _CategoryCard extends StatelessWidget {
-  const _CategoryCard({required this.category, required this.onTap});
-
-  final _DeviceCategory category;
-  final VoidCallback onTap;
+class _EmptyState extends StatelessWidget {
+  const _EmptyState();
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      borderRadius: BorderRadius.circular(24),
-      onTap: onTap,
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(24),
-          gradient: const LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [SpaceColors.bgElevated, SpaceColors.bgSurface],
-          ),
-        ),
-        padding: const EdgeInsets.fromLTRB(8, 16, 8, 10),
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(32),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(category.icon, color: SpaceColors.textPrimary, size: 28),
-            const SizedBox(height: 10),
+            const Icon(
+              Icons.devices_other_outlined,
+              color: SpaceColors.textMuted,
+              size: 40,
+            ),
+            const SizedBox(height: 12),
             Text(
-              category.name,
+              'No devices yet',
               style: SpaceTextStyles.pillTitle,
               textAlign: TextAlign.center,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
             ),
-            const SizedBox(height: 4),
-            Text('x${category.count} Devices', style: SpaceTextStyles.pillMeta),
           ],
         ),
       ),
@@ -182,18 +157,56 @@ class _CategoryCard extends StatelessWidget {
   }
 }
 
-class _DeviceCategory {
-  const _DeviceCategory({
-    required this.name,
-    required this.sourceName,
-    required this.count,
-    required this.icon,
-    required this.type,
-  });
+class _DeviceCard extends StatelessWidget {
+  const _DeviceCard({required this.device, required this.onTap});
 
-  final String name;
-  final String sourceName;
-  final int count;
-  final IconData icon;
-  final SpaceDeviceControlType type;
+  final SpaceDeviceState device;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final meta = device.valueLabel ?? (device.isOn ? 'On' : 'Off');
+    final accent = device.isOn
+        ? SpaceColors.accentStart
+        : SpaceColors.textPrimary;
+    return Opacity(
+      opacity: device.online ? 1 : 0.5,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(24),
+        onTap: onTap,
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(24),
+            gradient: const LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [SpaceColors.bgElevated, SpaceColors.bgSurface],
+            ),
+          ),
+          padding: const EdgeInsets.fromLTRB(8, 16, 8, 10),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(device.icon, color: accent, size: 28),
+              const SizedBox(height: 10),
+              Text(
+                device.name,
+                style: SpaceTextStyles.pillTitle,
+                textAlign: TextAlign.center,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+              const SizedBox(height: 4),
+              Text(
+                meta,
+                style: SpaceTextStyles.pillMeta,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }

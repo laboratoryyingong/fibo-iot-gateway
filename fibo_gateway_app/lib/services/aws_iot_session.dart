@@ -2,13 +2,25 @@ import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 
 import 'cognito_credentials_provider.dart';
 
+/// The result of `getAwsIotSession`: the user's home/gateway scope plus the
+/// Cognito developer identity (already applied to the credentials provider).
+class AwsIotSession {
+  const AwsIotSession({
+    required this.homeId,
+    required this.gatewayId,
+    required this.role,
+  });
+
+  final String homeId;
+  final String? gatewayId;
+  final String role;
+}
+
 /// Configures [provider] for the authenticated (per-user) Cognito flow by
 /// minting a developer identity token from the Parse `getAwsIotSession` cloud
-/// function. Requires a signed-in Parse user and the deployed cloud function.
-///
-/// Throws if the call fails or the function hasn't been deployed yet — callers
-/// fall back to the guest path or the cached layout.
-Future<void> configureCognitoFromParse(
+/// function, and returns the home/gateway scope. Requires a signed-in Parse
+/// user and the deployed cloud function.
+Future<AwsIotSession> configureCognitoFromParse(
   CognitoCredentialsProvider provider,
 ) async {
   final fn = ParseCloudFunction('getAwsIotSession');
@@ -24,4 +36,9 @@ Future<void> configureCognitoFromParse(
     throw Exception('getAwsIotSession returned no developer identity yet.');
   }
   provider.setDeveloperToken(identityId: identityId, token: token);
+  return AwsIotSession(
+    homeId: result['homeId']?.toString() ?? '',
+    gatewayId: result['gatewayId']?.toString(),
+    role: result['role']?.toString() ?? 'member',
+  );
 }

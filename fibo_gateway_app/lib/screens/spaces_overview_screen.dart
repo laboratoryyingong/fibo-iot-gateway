@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../theme/space_tokens.dart';
 import '../widgets/room_image_cover.dart';
 import '../widgets/space_bottom_bar.dart';
-import 'space_device_types.dart';
 import 'space_models.dart';
 
 class SpacesOverviewScreen extends StatelessWidget {
@@ -75,20 +74,13 @@ class SpacesOverviewScreen extends StatelessWidget {
                               return _DeviceCategoryCard(
                                 item: category,
                                 onTap: () {
-                                  if (category.name == 'View All') {
-                                    Navigator.of(
-                                      context,
-                                    ).pushNamed('/spaces/devices');
-                                    return;
-                                  }
+                                  // "View All" → every device; a category card →
+                                  // the All Devices list filtered to that group.
                                   Navigator.of(context).pushNamed(
-                                    '/spaces/device-control',
-                                    arguments: SpaceDeviceControlArgs(
-                                      type: mapDeviceNameToControlType(
-                                        category.name,
-                                      ),
-                                      deviceName: category.name,
-                                    ),
+                                    '/spaces/devices',
+                                    arguments: category.name == 'View All'
+                                        ? null
+                                        : category.name,
                                   );
                                 },
                               );
@@ -134,28 +126,8 @@ class SpacesOverviewScreen extends StatelessWidget {
   }
 
   (String, IconData) _categoryFor(SpaceDeviceState d) {
-    switch (d.iotProfile) {
-      case 'color_light':
-      case 'dimmable_light':
-        return ('Lights', Icons.lightbulb_outline);
-      case 'onoff_actuator':
-        return ('TV', Icons.tv_outlined);
-      case 'curtain':
-        return ('Curtains', Icons.blinds_outlined);
-      case 'door_lock':
-        return ('Locks', Icons.lock_outline);
-      case 'siren_actuator':
-        return ('Sirens', Icons.notifications_active_outlined);
-      case 'smoke_alarm':
-        return ('Smoke', Icons.local_fire_department_outlined);
-      case 'multi_sensor':
-      case 'ias_sensor':
-      case 'mmwave_sensor':
-        return ('Sensors', Icons.sensors_outlined);
-      case 'button_remote':
-        return ('Remotes', Icons.radio_button_checked);
-    }
-    return ('Devices', d.icon);
+    final c = spaceDeviceCategory(d);
+    return (c.label, c.icon);
   }
 }
 
