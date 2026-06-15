@@ -51,6 +51,21 @@ function serializeScene(scene, actionCounts) {
   };
 }
 
+function serializeMember(member) {
+  const user = member.get('user');
+  const name = user
+    ? user.get('fullName') || user.get('username') || ''
+    : '';
+  return {
+    userId: user ? user.id : null,
+    name,
+    email: user ? user.get('email') || user.get('username') || '' : '',
+    phone: user ? user.get('phone') || '' : '',
+    role: member.get('role'),
+    status: member.get('status'),
+  };
+}
+
 function serializeSceneAction(action) {
   const targetDevice = action.get('targetDevice');
   return {
@@ -66,6 +81,7 @@ function serializeSceneAction(action) {
 module.exports = {
   serializeDevice,
   serializeGateway,
+  serializeMember,
   serializeScene,
   serializeSceneAction,
   serializeSpace,

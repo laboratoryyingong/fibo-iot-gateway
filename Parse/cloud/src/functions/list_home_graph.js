@@ -2,6 +2,7 @@ const { requireHomeContext } = require('../lib/auth');
 const {
   serializeDevice,
   serializeGateway,
+  serializeMember,
   serializeScene,
   serializeSpace,
 } = require('../lib/serialize');
@@ -42,11 +43,19 @@ async function listHomeGraph(request) {
   }
   sceneQuery.descending('updatedAt');
 
-  const [gateways, spaces, devices, scenes] = await Promise.all([
+  const memberQuery = new Parse.Query('HomeMember');
+  memberQuery.equalTo('home', home);
+  if (!includeArchived) {
+    memberQuery.notEqualTo('status', 'suspended');
+  }
+  memberQuery.include('user');
+
+  const [gateways, spaces, devices, scenes, members] = await Promise.all([
     gatewayQuery.find({ useMasterKey: true }),
     spaceQuery.find({ useMasterKey: true }),
     deviceQuery.find({ useMasterKey: true }),
     sceneQuery.find({ useMasterKey: true }),
+    memberQuery.find({ useMasterKey: true }),
   ]);
 
   const sceneActionCounts = await loadSceneActionCounts(home, scenes);
@@ -55,7 +64,9 @@ async function listHomeGraph(request) {
     home: {
       homeId: home.get('homeId'),
       name: home.get('name'),
+      location: home.get('location') || null,
       timezone: home.get('timezone'),
+      countryCode: home.get('countryCode') || null,
     },
     membership: {
       role,
@@ -65,6 +76,7 @@ async function listHomeGraph(request) {
     spaces: spaces.map(serializeSpace),
     devices: devices.map(serializeDevice),
     scenes: scenes.map((scene) => serializeScene(scene, sceneActionCounts)),
+    members: members.map(serializeMember),
   };
 }
 

@@ -1,11 +1,21 @@
 const { assignDeviceToSpace } = require('./src/functions/assign_device_to_space');
+const { executeScene } = require('./src/functions/execute_scene');
 const { getAwsIotSession } = require('./src/functions/get_aws_iot_session');
 const { getSceneDetail } = require('./src/functions/get_scene_detail');
+const { inviteHomeMember } = require('./src/functions/invite_home_member');
 const { listHomeGraph } = require('./src/functions/list_home_graph');
+const { removeHomeMember } = require('./src/functions/remove_home_member');
+const { syncGatewayInventory } = require('./src/functions/sync_gateway_inventory');
+const { updateHomeProfile } = require('./src/functions/update_home_profile');
 const { upsertScene } = require('./src/functions/upsert_scene');
 
 Parse.Cloud.define('assignDeviceToSpace', assignDeviceToSpace);
+Parse.Cloud.define('executeScene', executeScene);
 Parse.Cloud.define('getAwsIotSession', getAwsIotSession);
 Parse.Cloud.define('getSceneDetail', getSceneDetail);
+Parse.Cloud.define('inviteHomeMember', inviteHomeMember);
 Parse.Cloud.define('listHomeGraph', listHomeGraph);
+Parse.Cloud.define('removeHomeMember', removeHomeMember);
+Parse.Cloud.define('syncGatewayInventory', syncGatewayInventory);
+Parse.Cloud.define('updateHomeProfile', updateHomeProfile);
 Parse.Cloud.define('upsertScene', upsertScene);

@@ -69,6 +69,24 @@ The app then calls `getAwsIotSession` (requires a signed-in Parse user whose
 gateway/home resolves to `fibo-hub-001`) and connects with the **read+control**
 role.
 
+## 5b. Populate Parse structure from the gateway (Route A)
+The app's Spaces/Home/Scenes read *structure* from Parse (`Space` +
+`DeviceEndpoint`) and overlay *live state* from the shadow. After deploying,
+run `syncGatewayInventory` **once** (as an installer/admin user) to import the
+gateway's rooms + devices from its `admin` shadow into Parse:
+```
+curl -X POST "$BASE/functions/syncGatewayInventory" \
+  -H "X-Parse-Application-Id: $APPID" -H "X-Parse-Session-Token: $SESSION" \
+  -H "Content-Type: application/json" -d '{"homeId":"home-001"}'
+```
+- Requires: `@aws-sdk/client-iot-data-plane` (added; `npm install` covers it),
+  and the `fibo-parse-server` user now also has `iot:GetThingShadow` (granted).
+- Optional env (defaults to this account's endpoint):
+  `FIBO_IOT_DATA_ENDPOINT=a2y0p1i6czv1i9-ats.iot.ap-southeast-2.amazonaws.com`
+- Re-run any time devices/rooms change. It never overwrites a `displayName` or
+  room a user customised in the app (those are set only on first import).
+- Then `listHomeGraph` returns the rooms + devices.
+
 ## 6. Lock down the guest identity (before production)
 The unauthenticated identity allows anyone with the pool id to read this hub's
 shadows. Once auth is live, disable it:
