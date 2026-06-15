@@ -53,7 +53,7 @@ class AssistantScreen extends StatelessWidget {
                     children: [
                       const _GlowBackdrop(),
                       messages.isEmpty
-                          ? _HeroState(onSuggestion: store.sendMessage)
+                          ? const _HeroState()
                           : ListView.builder(
                               reverse: true,
                               padding:
@@ -192,37 +192,23 @@ class _GlowCircle extends StatelessWidget {
 }
 
 class _HeroState extends StatelessWidget {
-  const _HeroState({required this.onSuggestion});
-
-  final ValueChanged<String> onSuggestion;
-
-  static const _suggestions = <_Suggestion>[
-    _Suggestion(Icons.lightbulb_outline, 'Control\nDevices',
-        'What devices can I control?'),
-    _Suggestion(Icons.show_chart_rounded, 'Device\nStatus',
-        'Show me the status of my devices.'),
-    _Suggestion(Icons.auto_awesome_outlined, 'Create\nScenes',
-        'Help me create a new scene.'),
-    _Suggestion(Icons.bolt_outlined, 'Energy\nUsage', 'Show my energy usage.'),
-  ];
+  const _HeroState();
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 24, 20, 8),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          const Center(child: _Logo()),
-          const SizedBox(height: 22),
-          const Text(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: const [
+          _Logo(),
+          SizedBox(height: 22),
+          Text(
             'Hey! How can I help you today?',
+            textAlign: TextAlign.center,
             style: AgentTextStyles.greeting,
           ),
-          const Spacer(),
-          _SuggestionRow(items: _suggestions.sublist(0, 2), onTap: onSuggestion),
-          const SizedBox(height: 6),
-          _SuggestionRow(items: _suggestions.sublist(2, 4), onTap: onSuggestion),
         ],
       ),
     );
@@ -253,83 +239,6 @@ class _Logo extends StatelessWidget {
         ),
         child: const Icon(Icons.auto_awesome,
             size: 30, color: AgentColors.ink),
-      ),
-    );
-  }
-}
-
-class _Suggestion {
-  const _Suggestion(this.icon, this.title, this.prompt);
-  final IconData icon;
-  final String title;
-  final String prompt;
-}
-
-class _SuggestionRow extends StatelessWidget {
-  const _SuggestionRow({required this.items, required this.onTap});
-
-  final List<_Suggestion> items;
-  final ValueChanged<String> onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        for (var i = 0; i < items.length; i++) ...[
-          if (i > 0) const SizedBox(width: 6),
-          Expanded(child: _SuggestionCard(item: items[i], onTap: onTap)),
-        ],
-      ],
-    );
-  }
-}
-
-class _SuggestionCard extends StatelessWidget {
-  const _SuggestionCard({required this.item, required this.onTap});
-
-  final _Suggestion item;
-  final ValueChanged<String> onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () => onTap(item.prompt),
-      borderRadius: BorderRadius.circular(16),
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: AgentColors.card,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: AgentColors.stroke),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              width: 32,
-              height: 32,
-              decoration: const BoxDecoration(
-                gradient: kAgentDarkGradient,
-                shape: BoxShape.circle,
-                boxShadow: [
-                  BoxShadow(
-                    color: Color(0x1A1A1A1A),
-                    blurRadius: 6,
-                    offset: Offset(0, 1),
-                  ),
-                ],
-              ),
-              child: Icon(item.icon, size: 16, color: Colors.white),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              item.title,
-              textAlign: TextAlign.center,
-              style: AgentTextStyles.cardTitle,
-            ),
-          ],
-        ),
       ),
     );
   }
