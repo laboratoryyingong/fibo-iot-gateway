@@ -6,6 +6,7 @@ import '../theme/pairing_tokens.dart';
 import '../widgets/gateway_dark_header.dart';
 import '../widgets/gateway_info_card.dart';
 import 'gateway_discovery_screen.dart';
+import 'space_models.dart';
 
 class GatewayListScreen extends StatefulWidget {
   const GatewayListScreen({super.key});
@@ -28,13 +29,25 @@ class _GatewayListScreenState extends State<GatewayListScreen> {
 
   Future<void> _load() async {
     final user = await ParseUser.currentUser() as ParseUser?;
-    final gateways = await GatewayLinkingService.getLinkedGateways(user);
-    final selected = await GatewayLinkingService.getSelectedGateway(user);
+
+    // Prefer the real gateways from the live home graph (fibo-hub-001); fall
+    // back to the locally-stored list only when the graph isn't available.
+    final graph = SpaceMockStore.instance.homeGraph;
+    List<GatewayProfile> gateways;
+    String? selectedId;
+    if (graph != null && graph.gateways.isNotEmpty) {
+      gateways = GatewayLinkingService.realGatewaysFromGraph(graph);
+      selectedId = gateways.first.id;
+    } else {
+      gateways = await GatewayLinkingService.getLinkedGateways(user);
+      selectedId = (await GatewayLinkingService.getSelectedGateway(user))?.id;
+    }
+
     if (!mounted) return;
     setState(() {
       _user = user;
       _gateways = gateways;
-      _selectedGatewayId = selected?.id;
+      _selectedGatewayId = selectedId;
       _loading = false;
     });
   }

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 
+import 'home_graph.dart';
 import 'user_role_resolver.dart';
 
 enum GatewayConnectionState { online, offline, updating, error }
@@ -159,6 +160,33 @@ class GatewayLinkingService {
       lastSeenLabel: '45 min ago',
     ),
   ];
+
+  /// Maps the real gateways from the live home graph to the card model used by
+  /// the gateway screens. The home name doubles as the card's location label.
+  static List<GatewayProfile> realGatewaysFromGraph(HomeGraph graph) {
+    return [
+      for (final g in graph.gateways)
+        GatewayProfile(
+          id: g.gatewayId,
+          name: g.displayName,
+          model: g.displayName,
+          serialNumber: g.thingName,
+          firmwareVersion: g.firmwareVersion ?? 'v2.4.1',
+          connectionState: _connectionStateFromSummary(g.statusSummary),
+          location: graph.homeName.isEmpty ? null : graph.homeName,
+          activeDeviceCount: graph.devices.length,
+          lastSeenLabel: 'Live',
+        ),
+    ];
+  }
+
+  static GatewayConnectionState _connectionStateFromSummary(String? summary) {
+    final s = (summary ?? '').toLowerCase();
+    if (s.contains('offline')) return GatewayConnectionState.offline;
+    if (s.contains('updat')) return GatewayConnectionState.updating;
+    if (s.contains('error')) return GatewayConnectionState.error;
+    return GatewayConnectionState.online;
+  }
 
   static Future<String> resolvePostAuthRoute(ParseUser user) async {
     final selectedGateway = await getSelectedGateway(user);

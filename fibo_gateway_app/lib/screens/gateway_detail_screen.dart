@@ -5,6 +5,7 @@ import '../services/gateway_linking_service.dart';
 import '../theme/app_colors.dart';
 import '../theme/pairing_tokens.dart';
 import '../widgets/gateway_dark_header.dart';
+import 'space_models.dart';
 
 class GatewayDetailScreen extends StatefulWidget {
   const GatewayDetailScreen({super.key});
@@ -15,7 +16,6 @@ class GatewayDetailScreen extends StatefulWidget {
 
 class _GatewayDetailScreenState extends State<GatewayDetailScreen> {
   GatewayProfile? _gateway;
-  ParseUser? _user;
   bool _loading = true;
   bool _initialized = false;
 
@@ -28,8 +28,17 @@ class _GatewayDetailScreenState extends State<GatewayDetailScreen> {
   }
 
   Future<void> _load(Object? gatewayArg) async {
-    final user = await ParseUser.currentUser() as ParseUser?;
-    final gateways = await GatewayLinkingService.getLinkedGateways(user);
+    // Prefer the real gateways from the live home graph; fall back to the
+    // locally-stored list when the graph isn't available.
+    final graph = SpaceMockStore.instance.homeGraph;
+    List<GatewayProfile> gateways;
+    if (graph != null && graph.gateways.isNotEmpty) {
+      gateways = GatewayLinkingService.realGatewaysFromGraph(graph);
+    } else {
+      final user = await ParseUser.currentUser() as ParseUser?;
+      gateways = await GatewayLinkingService.getLinkedGateways(user);
+    }
+
     GatewayProfile? gateway;
     if (gatewayArg is String) {
       for (final item in gateways) {
@@ -39,11 +48,10 @@ class _GatewayDetailScreenState extends State<GatewayDetailScreen> {
         }
       }
     }
-    gateway ??= await GatewayLinkingService.getSelectedGateway(user);
+    gateway ??= gateways.isNotEmpty ? gateways.first : null;
 
     if (!mounted) return;
     setState(() {
-      _user = user;
       _gateway = gateway;
       _loading = false;
     });
@@ -60,90 +68,6 @@ class _GatewayDetailScreenState extends State<GatewayDetailScreen> {
       const SnackBar(
         content: Text('Firmware update flow will be connected next.'),
       ),
-    );
-  }
-
-  Future<void> _unbindGateway() async {
-    final gateway = _gateway;
-    final user = _user;
-    if (gateway == null || user == null) return;
-
-    final confirmed = await showDialog<bool>(
-      context: context,
-      builder: (context) {
-        return Theme(
-          data: Theme.of(context).copyWith(
-            dialogTheme: const DialogThemeData(
-              backgroundColor: PairingTokens.bgSurface,
-            ),
-            colorScheme: Theme.of(context).colorScheme.copyWith(
-              surface: PairingTokens.bgSurface,
-              onSurface: PairingTokens.textPrimary,
-              primary: PairingTokens.accentPrimary,
-            ),
-          ),
-          child: AlertDialog(
-            title: Text(
-              'Unbind Gateway',
-              style: PairingTextStyles.headline.copyWith(
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            content: Text(
-              'Remove ${gateway.name} from your account?',
-              style: PairingTextStyles.caption.copyWith(
-                color: PairingTokens.textMuted,
-              ),
-            ),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.of(context).pop(false),
-                child: Text(
-                  'Cancel',
-                  style: PairingTextStyles.caption.copyWith(
-                    color: PairingTokens.textMuted,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-              TextButton(
-                onPressed: () => Navigator.of(context).pop(true),
-                child: Text(
-                  'Unbind',
-                  style: PairingTextStyles.caption.copyWith(
-                    color: AppColors.authAccentRed,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-
-    if (confirmed != true) return;
-
-    final success = await GatewayLinkingService.unbindGateway(
-      user: user,
-      gatewayId: gateway.id,
-    );
-    if (!mounted) return;
-
-    if (!success) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Unable to unbind gateway right now.')),
-      );
-      return;
-    }
-
-    final hasGateway = await GatewayLinkingService.hasLinkedGateway(user);
-    if (!mounted) return;
-    Navigator.of(context).pushNamedAndRemoveUntil(
-      hasGateway
-          ? GatewayLinkingService.listRoute
-          : GatewayLinkingService.onboardingRoute,
-      (route) => false,
     );
   }
 
@@ -192,7 +116,6 @@ class _GatewayDetailScreenState extends State<GatewayDetailScreen> {
                                 ),
                             onFirmwareUpdate: _firmwareUpdate,
                             onRestart: _restartGateway,
-                            onUnbind: _unbindGateway,
                           ),
                         ],
                       ),
@@ -583,13 +506,11 @@ class _SettingsCard extends StatelessWidget {
     required this.onDiagnostics,
     required this.onFirmwareUpdate,
     required this.onRestart,
-    required this.onUnbind,
   });
 
   final VoidCallback onDiagnostics;
   final VoidCallback onFirmwareUpdate;
   final VoidCallback onRestart;
-  final VoidCallback onUnbind;
 
   @override
   Widget build(BuildContext context) {
@@ -620,14 +541,6 @@ class _SettingsCard extends StatelessWidget {
             label: 'Restart Gateway',
             subtitle: 'Queue a remote restart for the device',
             onTap: onRestart,
-            showDivider: true,
-          ),
-          _ActionRow(
-            icon: Icons.link_off_outlined,
-            label: 'Unbind Gateway',
-            subtitle: 'Remove this gateway from your account',
-            onTap: onUnbind,
-            destructive: true,
           ),
         ],
       ),
@@ -642,7 +555,6 @@ class _ActionRow extends StatelessWidget {
     required this.subtitle,
     required this.onTap,
     this.showDivider = false,
-    this.destructive = false,
   });
 
   final IconData icon;
@@ -650,16 +562,11 @@ class _ActionRow extends StatelessWidget {
   final String subtitle;
   final VoidCallback onTap;
   final bool showDivider;
-  final bool destructive;
 
   @override
   Widget build(BuildContext context) {
-    final accentColor = destructive
-        ? AppColors.authAccentRed
-        : PairingTokens.accentPrimary;
-    final iconBg = destructive
-        ? AppColors.authAccentRed.withValues(alpha: 0.14)
-        : PairingTokens.accentPrimary.withValues(alpha: 0.16);
+    const accentColor = PairingTokens.accentPrimary;
+    final iconBg = PairingTokens.accentPrimary.withValues(alpha: 0.16);
 
     return Column(
       children: [
@@ -689,9 +596,7 @@ class _ActionRow extends StatelessWidget {
                         label,
                         style: PairingTextStyles.caption.copyWith(
                           fontWeight: FontWeight.w700,
-                          color: destructive
-                              ? AppColors.authAccentRed
-                              : PairingTokens.textPrimary,
+                          color: PairingTokens.textPrimary,
                         ),
                       ),
                       const SizedBox(height: 4),

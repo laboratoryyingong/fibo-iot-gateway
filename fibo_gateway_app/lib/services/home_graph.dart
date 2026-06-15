@@ -16,6 +16,7 @@ class HomeGraph {
     required this.devices,
     required this.scenes,
     required this.members,
+    required this.gateways,
   });
 
   final String homeId;
@@ -26,6 +27,23 @@ class HomeGraph {
   final List<HomeDevice> devices;
   final List<HomeScene> scenes;
   final List<HomeMemberInfo> members;
+  final List<HomeGateway> gateways;
+}
+
+class HomeGateway {
+  const HomeGateway({
+    required this.gatewayId,
+    required this.thingName,
+    required this.displayName,
+    required this.statusSummary,
+    required this.firmwareVersion,
+  });
+
+  final String gatewayId;
+  final String thingName;
+  final String displayName;
+  final String? statusSummary;
+  final String? firmwareVersion;
 }
 
 class HomeScene {
@@ -156,6 +174,20 @@ Future<HomeGraph> fetchHomeGraph(String homeId) async {
     ));
   }
 
+  final gateways = <HomeGateway>[];
+  for (final raw in _asList(result['gateways'])) {
+    final g = _asMap(raw);
+    final id = g['gatewayId']?.toString();
+    if (id == null || id.isEmpty) continue;
+    gateways.add(HomeGateway(
+      gatewayId: id,
+      thingName: g['thingName']?.toString() ?? id,
+      displayName: g['displayName']?.toString() ?? id,
+      statusSummary: g['statusSummary']?.toString(),
+      firmwareVersion: g['firmwareVersion']?.toString(),
+    ));
+  }
+
   final members = <HomeMemberInfo>[];
   for (final raw in _asList(result['members'])) {
     final m = _asMap(raw);
@@ -178,6 +210,7 @@ Future<HomeGraph> fetchHomeGraph(String homeId) async {
     devices: devices,
     scenes: scenes,
     members: members,
+    gateways: gateways,
   );
 }
 
