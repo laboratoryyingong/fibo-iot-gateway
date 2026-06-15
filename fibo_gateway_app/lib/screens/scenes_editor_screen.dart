@@ -100,13 +100,7 @@ class _ScenesEditorScreenState extends State<ScenesEditorScreen> {
     if (graph == null || _sceneId == null) return;
     setState(() => _busy = true);
     try {
-      await archiveScene(
-        homeId: graph.homeId,
-        sceneId: _sceneId!,
-        name: _name.text.trim().isEmpty ? 'Scene' : _name.text.trim(),
-        icon: _emoji,
-        actions: _actions,
-      );
+      await deleteScene(homeId: graph.homeId, sceneId: _sceneId!);
       await SpaceMockStore.instance.hydrateFromShadows();
       if (mounted) Navigator.of(context).pop();
     } catch (err) {

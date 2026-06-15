@@ -1,4 +1,5 @@
 const { assignDeviceToSpace } = require('./src/functions/assign_device_to_space');
+const { deleteScene } = require('./src/functions/delete_scene');
 const { executeScene } = require('./src/functions/execute_scene');
 const { getAwsIotSession } = require('./src/functions/get_aws_iot_session');
 const { getSceneDetail } = require('./src/functions/get_scene_detail');
@@ -10,6 +11,7 @@ const { updateHomeProfile } = require('./src/functions/update_home_profile');
 const { upsertScene } = require('./src/functions/upsert_scene');
 
 Parse.Cloud.define('assignDeviceToSpace', assignDeviceToSpace);
+Parse.Cloud.define('deleteScene', deleteScene);
 Parse.Cloud.define('executeScene', executeScene);
 Parse.Cloud.define('getAwsIotSession', getAwsIotSession);
 Parse.Cloud.define('getSceneDetail', getSceneDetail);

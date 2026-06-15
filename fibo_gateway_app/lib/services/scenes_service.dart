@@ -71,21 +71,15 @@ Future<void> saveScene({
   }
 }
 
-/// Archives (soft-deletes) a scene. `upsertScene` requires actions, so the
-/// caller passes the scene's current actions through.
-Future<void> archiveScene({
+/// Hard-deletes a scene and its actions from Parse (`deleteScene`).
+Future<void> deleteScene({
   required String homeId,
   required String sceneId,
-  required String name,
-  required String icon,
-  required List<SceneActionDraft> actions,
-}) {
-  return saveScene(
-    homeId: homeId,
-    sceneId: sceneId,
-    name: name,
-    icon: icon,
-    actions: actions,
-    status: 'archived',
-  );
+}) async {
+  final fn = ParseCloudFunction('deleteScene');
+  final resp =
+      await fn.execute(parameters: {'homeId': homeId, 'sceneId': sceneId});
+  if (!resp.success) {
+    throw Exception('deleteScene failed: ${resp.error?.message}');
+  }
 }
