@@ -3,6 +3,24 @@ import 'package:flutter/material.dart';
 import '../theme/scenes_tokens.dart';
 import '../widgets/space_bottom_bar.dart';
 import 'scenes_models.dart';
+import 'space_models.dart';
+
+/// One row to render: real (Parse) scenes run via the backend; mock scenes
+/// (dev fallback) open the authoring detail.
+class _SceneRow {
+  const _SceneRow({
+    required this.emoji,
+    required this.name,
+    required this.subtitle,
+    required this.onTap,
+    this.featured = false,
+  });
+  final String emoji;
+  final String name;
+  final String subtitle;
+  final VoidCallback onTap;
+  final bool featured;
+}
 
 class ScenesListScreen extends StatelessWidget {
   const ScenesListScreen({super.key, this.showSpacesBottomTabs = false});
@@ -11,11 +29,13 @@ class ScenesListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final store = ScenesMockStore.instance;
+    final spaceStore = SpaceMockStore.instance;
 
     return AnimatedBuilder(
-      animation: store,
+      animation: spaceStore,
       builder: (_, _) {
+        final rows = _buildRows(context, spaceStore);
+        final realMode = spaceStore.homeGraph != null;
         return Scaffold(
           backgroundColor: ScenesColors.bgBase,
           body: SafeArea(
@@ -23,8 +43,8 @@ class ScenesListScreen extends StatelessWidget {
             child: Column(
               children: [
                 _Header(
-                  onCreate: () =>
-                      Navigator.of(context).pushNamed('/scenes/new'),
+                  onCreate: () => Navigator.of(context)
+                      .pushNamed(realMode ? '/scenes/editor' : '/scenes/new'),
                 ),
                 Expanded(
                   child: ListView.separated(
@@ -34,19 +54,9 @@ class ScenesListScreen extends StatelessWidget {
                       ScenesLayout.horizontalPadding,
                       20,
                     ),
-                    itemCount: store.scenes.length,
+                    itemCount: rows.length,
                     separatorBuilder: (_, _) => const SizedBox(height: 16),
-                    itemBuilder: (_, index) {
-                      final scene = store.scenes[index];
-                      return _SceneCard(
-                        scene: scene,
-                        subtitle: store.deviceSummary(scene),
-                        onTap: () => Navigator.of(context).pushNamed(
-                          '/scenes/detail',
-                          arguments: SceneDetailArgs(scene.id),
-                        ),
-                      );
-                    },
+                    itemBuilder: (_, index) => _SceneCard(row: rows[index]),
                   ),
                 ),
                 if (showSpacesBottomTabs)
@@ -57,6 +67,39 @@ class ScenesListScreen extends StatelessWidget {
         );
       },
     );
+  }
+
+  List<_SceneRow> _buildRows(BuildContext context, SpaceMockStore spaceStore) {
+    final graph = spaceStore.homeGraph;
+    if (graph != null) {
+      // Real scenes from Parse — tapping opens the editor (edit / run / delete).
+      return [
+        for (final s in graph.scenes)
+          _SceneRow(
+            emoji: s.icon,
+            name: s.name,
+            subtitle:
+                '${s.actionCount} ${s.actionCount == 1 ? 'action' : 'actions'}',
+            onTap: () => Navigator.of(context)
+                .pushNamed('/scenes/editor', arguments: s.sceneId),
+          ),
+      ];
+    }
+    // Dev fallback: the mock authoring scenes.
+    final store = ScenesMockStore.instance;
+    return [
+      for (final scene in store.scenes)
+        _SceneRow(
+          emoji: scene.emoji,
+          name: scene.name,
+          subtitle: store.deviceSummary(scene),
+          featured: scene.featured,
+          onTap: () => Navigator.of(context).pushNamed(
+            '/scenes/detail',
+            arguments: SceneDetailArgs(scene.id),
+          ),
+        ),
+    ];
   }
 }
 
@@ -128,34 +171,21 @@ class _SceneMenuButton extends StatelessWidget {
 }
 
 class _SceneCard extends StatelessWidget {
-  const _SceneCard({
-    required this.scene,
-    required this.subtitle,
-    required this.onTap,
-  });
+  const _SceneCard({required this.row});
 
-  final SceneItem scene;
-  final String subtitle;
-  final VoidCallback onTap;
+  final _SceneRow row;
 
   @override
   Widget build(BuildContext context) {
-    final cardDecoration = scene.featured
-        ? BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(ScenesRadii.card),
-          )
-        : BoxDecoration(
-            color: ScenesColors.bgSurface,
-            borderRadius: BorderRadius.circular(ScenesRadii.card),
-          );
-
     return InkWell(
       borderRadius: BorderRadius.circular(ScenesRadii.card),
-      onTap: onTap,
+      onTap: row.onTap,
       child: Container(
         padding: const EdgeInsets.all(16),
-        decoration: cardDecoration,
+        decoration: BoxDecoration(
+          color: row.featured ? Colors.white : ScenesColors.bgSurface,
+          borderRadius: BorderRadius.circular(ScenesRadii.card),
+        ),
         child: Row(
           children: [
             SizedBox(
@@ -163,7 +193,7 @@ class _SceneCard extends StatelessWidget {
               height: 48,
               child: Center(
                 child: Text(
-                  scene.emoji,
+                  row.emoji,
                   style: const TextStyle(fontSize: 36, height: 1.2),
                 ),
               ),
@@ -174,13 +204,13 @@ class _SceneCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    scene.name,
-                    style: scene.featured
+                    row.name,
+                    style: row.featured
                         ? ScenesTextStyles.cardTitleDark
                         : ScenesTextStyles.cardTitle,
                   ),
                   const SizedBox(height: 2),
-                  Text(subtitle, style: ScenesTextStyles.caption),
+                  Text(row.subtitle, style: ScenesTextStyles.caption),
                 ],
               ),
             ),
