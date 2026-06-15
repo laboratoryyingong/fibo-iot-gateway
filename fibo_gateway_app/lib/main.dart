@@ -8,12 +8,12 @@ import 'screens/gateway_list_screen.dart';
 import 'screens/gateway_onboarding_entry_screen.dart';
 import 'screens/gateway_status_screen.dart';
 import 'screens/home_profile_edit_screen.dart';
-import 'screens/home_profile_home_screen.dart';
 import 'screens/home_profile_members_screen.dart';
 import 'screens/home_profile_menu_screen.dart';
 import 'screens/account_password_screen.dart';
 import 'screens/legal_terms_screen.dart';
 import 'screens/login_screen.dart';
+import 'screens/main_tab_shell.dart';
 import 'screens/settings_screen.dart';
 import 'screens/signup_screen.dart';
 import 'screens/support_contact_screen.dart';
@@ -26,7 +26,6 @@ import 'screens/scenes_add_action_screen.dart';
 import 'screens/scenes_add_trigger_screen.dart';
 import 'screens/scenes_detail_screen.dart';
 import 'screens/scenes_editor_screen.dart';
-import 'screens/scenes_list_screen.dart';
 import 'screens/scenes_new_screen.dart';
 import 'screens/scenes_select_device_screen.dart';
 import 'screens/camera_add_nvr_screen.dart';
@@ -35,15 +34,14 @@ import 'screens/camera_live_view_screen.dart';
 import 'screens/camera_nvr_channels_screen.dart';
 import 'screens/camera_playback_screen.dart';
 import 'screens/camera_settings_screen.dart';
-import 'screens/assistant_screen.dart';
 import 'screens/spaces_all_devices_screen.dart';
 import 'screens/spaces_all_rooms_screen.dart';
 import 'screens/spaces_device_control_screen.dart';
 import 'screens/spaces_new_room_screen.dart';
-import 'screens/spaces_overview_screen.dart';
 import 'screens/spaces_room_detail_screen.dart';
 import 'services/parse_config.dart';
 import 'theme/app_theme.dart';
+import 'widgets/space_bottom_bar.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -79,8 +77,10 @@ class FiboGatewayApp extends StatelessWidget {
         '/gateway/list': (context) => const GatewayListScreen(),
         '/gateway/detail': (context) => const GatewayDetailScreen(),
         '/gateway/status': (context) => const GatewayStatusScreen(),
-        '/home': (context) => const HomeProfileHomeScreen(),
-        '/home/profile': (context) => const HomeProfileHomeScreen(),
+        '/home': (context) =>
+            const MainTabShell(initialTab: SpaceTab.home),
+        '/home/profile': (context) =>
+            const MainTabShell(initialTab: SpaceTab.home),
         '/home/profile/menu': (context) => const HomeProfileMenuScreen(),
         '/home/profile/edit': (context) => const HomeProfileEditScreen(),
         '/home/profile/members': (context) => const HomeProfileMembersScreen(),
@@ -89,7 +89,7 @@ class FiboGatewayApp extends StatelessWidget {
         '/support/contact': (context) => const SupportContactScreen(),
         '/account/password': (context) => const AccountPasswordScreen(),
         '/home/scenes': (context) =>
-            const ScenesListScreen(showSpacesBottomTabs: true),
+            const MainTabShell(initialTab: SpaceTab.scenes),
         '/device-detail': (context) => const SpacesDeviceControlScreen(),
         '/pairing/start': (context) => const PairingStartScreen(),
         '/pairing/searching': (context) => const PairingSearchingScreen(),
@@ -107,16 +107,19 @@ class FiboGatewayApp extends StatelessWidget {
         '/camera/nvr-channels': (context) => const CameraNvrChannelsScreen(),
         '/camera/playback': (context) => const CameraPlaybackScreen(),
         '/camera/settings': (context) => const CameraSettingsScreen(),
-        '/user/home': (context) => const HomeProfileHomeScreen(),
+        '/user/home': (context) =>
+            const MainTabShell(initialTab: SpaceTab.home),
         '/user/device-detail': (context) => const SpacesDeviceControlScreen(),
-        '/spaces': (context) => const SpacesOverviewScreen(),
+        '/spaces': (context) =>
+            const MainTabShell(initialTab: SpaceTab.spaces),
         '/spaces/devices': (context) => const SpacesAllDevicesScreen(),
         '/spaces/device-control': (context) =>
             const SpacesDeviceControlScreen(),
         '/spaces/new-room': (context) => const SpacesNewRoomScreen(),
         '/spaces/rooms': (context) => const SpacesAllRoomsScreen(),
         '/spaces/room-detail': (context) => const SpacesRoomDetailScreen(),
-        '/assistant': (context) => const AssistantScreen(),
+        '/assistant': (context) =>
+            const MainTabShell(initialTab: SpaceTab.assistant),
       },
     );
   }

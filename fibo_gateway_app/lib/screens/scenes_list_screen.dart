@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../theme/scenes_tokens.dart';
+import '../theme/space_tokens.dart';
 import '../widgets/space_bottom_bar.dart';
 import 'scenes_models.dart';
 import 'space_models.dart';
@@ -23,9 +24,17 @@ class _SceneRow {
 }
 
 class ScenesListScreen extends StatelessWidget {
-  const ScenesListScreen({super.key, this.showSpacesBottomTabs = false});
+  const ScenesListScreen({
+    super.key,
+    this.showSpacesBottomTabs = false,
+    this.embedded = false,
+  });
 
   final bool showSpacesBottomTabs;
+
+  /// When true, returns just the Scenes section (header + non-scrolling list)
+  /// so it can be inlined into the Home dashboard.
+  final bool embedded;
 
   @override
   Widget build(BuildContext context) {
@@ -36,16 +45,28 @@ class ScenesListScreen extends StatelessWidget {
       builder: (_, _) {
         final rows = _buildRows(context, spaceStore);
         final realMode = spaceStore.homeGraph != null;
+        void onCreate() => Navigator.of(context)
+            .pushNamed(realMode ? '/scenes/editor' : '/scenes/new');
+        if (embedded) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _EmbeddedScenesHeader(count: rows.length, onCreate: onCreate),
+              const SizedBox(height: 14),
+              for (var i = 0; i < rows.length; i++) ...[
+                if (i > 0) const SizedBox(height: 16),
+                _SceneCard(row: rows[i]),
+              ],
+            ],
+          );
+        }
         return Scaffold(
           backgroundColor: ScenesColors.bgBase,
           body: SafeArea(
             bottom: false,
             child: Column(
               children: [
-                _Header(
-                  onCreate: () => Navigator.of(context)
-                      .pushNamed(realMode ? '/scenes/editor' : '/scenes/new'),
-                ),
+                _Header(onCreate: onCreate),
                 Expanded(
                   child: ListView.separated(
                     padding: const EdgeInsets.fromLTRB(
@@ -100,6 +121,39 @@ class ScenesListScreen extends StatelessWidget {
           ),
         ),
     ];
+  }
+}
+
+/// Section header for the Scenes block when inlined on Home — matches the
+/// Spaces section headers (title + count) and offers a create shortcut.
+class _EmbeddedScenesHeader extends StatelessWidget {
+  const _EmbeddedScenesHeader({required this.count, required this.onCreate});
+
+  final int count;
+  final VoidCallback onCreate;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        Text('Scenes', style: SpaceTextStyles.sectionTitle),
+        const SizedBox(width: 8),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 6),
+          child: Text('($count)', style: SpaceTextStyles.sectionCount),
+        ),
+        const Spacer(),
+        InkWell(
+          onTap: onCreate,
+          borderRadius: BorderRadius.circular(20),
+          child: const Padding(
+            padding: EdgeInsets.only(bottom: 4),
+            child: Icon(Icons.add, color: SpaceColors.textPrimary, size: 22),
+          ),
+        ),
+      ],
+    );
   }
 }
 

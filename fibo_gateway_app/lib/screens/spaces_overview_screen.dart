@@ -6,7 +6,20 @@ import '../widgets/space_bottom_bar.dart';
 import 'space_models.dart';
 
 class SpacesOverviewScreen extends StatelessWidget {
-  const SpacesOverviewScreen({super.key});
+  const SpacesOverviewScreen({
+    super.key,
+    this.showBottomBar = true,
+    this.embedded = false,
+  });
+
+  /// The persistent tab shell renders the bottom bar itself, so embedded
+  /// instances suppress their own.
+  final bool showBottomBar;
+
+  /// When true, returns just the Rooms + Devices content column (no Scaffold,
+  /// top bar, scroll view or "View All") so it can be inlined into the Home
+  /// dashboard.
+  final bool embedded;
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +27,8 @@ class SpacesOverviewScreen extends StatelessWidget {
     return AnimatedBuilder(
       animation: store,
       builder: (_, _) {
-        final categories = _buildDeviceCategories(store);
+        final content = _content(context, store);
+        if (embedded) return content;
         return Scaffold(
           backgroundColor: SpaceColors.bgBase,
           body: SafeArea(
@@ -25,78 +39,83 @@ class SpacesOverviewScreen extends StatelessWidget {
                 Expanded(
                   child: SingleChildScrollView(
                     padding: const EdgeInsets.fromLTRB(24, 8, 24, 16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _SectionHeader(
-                          title: 'Rooms',
-                          count: store.rooms.length,
-                          actionLabel: 'View All',
-                          onAction: () =>
-                              Navigator.of(context).pushNamed('/spaces/rooms'),
-                        ),
-                        const SizedBox(height: 14),
-                        SizedBox(
-                          height: 254,
-                          child: ListView.separated(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: store.rooms.length,
-                            separatorBuilder: (_, _) =>
-                                const SizedBox(width: 16),
-                            itemBuilder: (_, index) => _RoomCard(
-                              room: store.rooms[index],
-                              onTap: () => Navigator.of(context).pushNamed(
-                                '/spaces/room-detail',
-                                arguments: store.rooms[index].id,
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 28),
-                        _SectionHeader(
-                          title: 'Devices',
-                          count: store.totalDevices,
-                          actionLabel: 'View All',
-                          onAction: () => Navigator.of(
-                            context,
-                          ).pushNamed('/spaces/devices'),
-                        ),
-                        const SizedBox(height: 14),
-                        SizedBox(
-                          height: 136,
-                          child: ListView.separated(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: categories.length,
-                            separatorBuilder: (_, _) =>
-                                const SizedBox(width: 16),
-                            itemBuilder: (_, index) {
-                              final category = categories[index];
-                              return _DeviceCategoryCard(
-                                item: category,
-                                onTap: () {
-                                  // "View All" → every device; a category card →
-                                  // the All Devices list filtered to that group.
-                                  Navigator.of(context).pushNamed(
-                                    '/spaces/devices',
-                                    arguments: category.name == 'View All'
-                                        ? null
-                                        : category.name,
-                                  );
-                                },
-                              );
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
+                    child: content,
                   ),
                 ),
-                const SpaceBottomBar(active: SpaceTab.spaces),
+                if (showBottomBar)
+                  const SpaceBottomBar(active: SpaceTab.spaces),
               ],
             ),
           ),
         );
       },
+    );
+  }
+
+  Widget _content(BuildContext context, SpaceMockStore store) {
+    final categories = _buildDeviceCategories(store);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _SectionHeader(
+          title: 'Rooms',
+          count: store.rooms.length,
+          actionLabel: embedded ? null : 'View All',
+          onAction: embedded
+              ? null
+              : () => Navigator.of(context).pushNamed('/spaces/rooms'),
+        ),
+        const SizedBox(height: 14),
+        SizedBox(
+          height: 254,
+          child: ListView.separated(
+            scrollDirection: Axis.horizontal,
+            itemCount: store.rooms.length,
+            separatorBuilder: (_, _) => const SizedBox(width: 16),
+            itemBuilder: (_, index) => _RoomCard(
+              room: store.rooms[index],
+              onTap: () => Navigator.of(context).pushNamed(
+                '/spaces/room-detail',
+                arguments: store.rooms[index].id,
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(height: 28),
+        _SectionHeader(
+          title: 'Devices',
+          count: store.totalDevices,
+          actionLabel: embedded ? null : 'View All',
+          onAction: embedded
+              ? null
+              : () => Navigator.of(context).pushNamed('/spaces/devices'),
+        ),
+        const SizedBox(height: 14),
+        SizedBox(
+          height: 136,
+          child: ListView.separated(
+            scrollDirection: Axis.horizontal,
+            itemCount: categories.length,
+            separatorBuilder: (_, _) => const SizedBox(width: 16),
+            itemBuilder: (_, index) {
+              final category = categories[index];
+              return _DeviceCategoryCard(
+                item: category,
+                onTap: () {
+                  // "View All" → every device; a category card → the All
+                  // Devices list filtered to that group.
+                  Navigator.of(context).pushNamed(
+                    '/spaces/devices',
+                    arguments: category.name == 'View All'
+                        ? null
+                        : category.name,
+                  );
+                },
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 

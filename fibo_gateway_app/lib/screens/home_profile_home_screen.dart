@@ -2,13 +2,18 @@ import 'package:flutter/material.dart';
 
 import '../services/gateway_linking_service.dart';
 import '../theme/space_tokens.dart';
-import '../widgets/room_image_cover.dart';
 import '../widgets/space_bottom_bar.dart';
 import 'home_profile_models.dart';
+import 'scenes_list_screen.dart';
 import 'space_models.dart';
+import 'spaces_overview_screen.dart';
 
 class HomeProfileHomeScreen extends StatefulWidget {
-  const HomeProfileHomeScreen({super.key});
+  const HomeProfileHomeScreen({super.key, this.showBottomBar = true});
+
+  /// The persistent tab shell renders the bottom bar itself, so embedded
+  /// instances suppress their own.
+  final bool showBottomBar;
 
   @override
   State<HomeProfileHomeScreen> createState() => _HomeProfileHomeScreenState();
@@ -92,61 +97,18 @@ class _HomeProfileHomeScreenState extends State<HomeProfileHomeScreen> {
                           loading: _loadingGateway,
                           onTap: _openGatewayManagement,
                         ),
-                        const SizedBox(height: 18),
-                        _SectionHeader(
-                          title: 'Scenes',
-                          count: selected.scenes.length,
-                          onViewAll: () =>
-                              Navigator.of(context).pushNamed('/home/scenes'),
-                        ),
-                        const SizedBox(height: 12),
-                        SizedBox(
-                          height: 94,
-                          child: ListView.separated(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: selected.scenes.length,
-                            separatorBuilder: (_, _) =>
-                                const SizedBox(width: 12),
-                            itemBuilder: (_, index) => _SceneChip(
-                              scene: selected.scenes[index],
-                              onTap: () => Navigator.of(
-                                context,
-                              ).pushNamed('/home/scenes'),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 26),
-                        _SectionHeader(
-                          title: 'Spaces',
-                          count: selected.spaces.length,
-                          onViewAll: () =>
-                              Navigator.of(context).pushNamed('/spaces'),
-                        ),
-                        const SizedBox(height: 12),
-                        SizedBox(
-                          height: 330,
-                          child: ListView.separated(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: selected.spaces.length,
-                            separatorBuilder: (_, _) =>
-                                const SizedBox(width: 16),
-                            itemBuilder: (_, index) {
-                              final space = selected.spaces[index];
-                              return _SpaceCard(
-                                space: space,
-                                location: selected.location,
-                                onTap: () => Navigator.of(
-                                  context,
-                                ).pushNamed('/spaces/room-detail'),
-                              );
-                            },
-                          ),
-                        ),
+                        // Spaces (rooms + devices) and Scenes are merged into
+                        // the Home dashboard as inline sections.
+                        const SizedBox(height: 24),
+                        const SpacesOverviewScreen(embedded: true),
+                        const SizedBox(height: 28),
+                        const ScenesListScreen(embedded: true),
                       ],
                     ),
                   ),
                 ),
-                const SpaceBottomBar(active: SpaceTab.home),
+                if (widget.showBottomBar)
+                  const SpaceBottomBar(active: SpaceTab.home),
               ],
             ),
           ),
@@ -436,229 +398,3 @@ class _ProfileSelector extends StatelessWidget {
     );
   }
 }
-
-class _SectionHeader extends StatelessWidget {
-  const _SectionHeader({
-    required this.title,
-    required this.count,
-    required this.onViewAll,
-  });
-
-  final String title;
-  final int count;
-  final VoidCallback onViewAll;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        Text(title, style: SpaceTextStyles.sectionTitle),
-        const SizedBox(width: 8),
-        Padding(
-          padding: const EdgeInsets.only(bottom: 7),
-          child: Text('($count)', style: SpaceTextStyles.sectionCount),
-        ),
-        const Spacer(),
-        InkWell(
-          onTap: onViewAll,
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: 9),
-            child: Text(
-              'View All',
-              style: SpaceTextStyles.cardMeta.copyWith(
-                color: SpaceColors.textPrimary,
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _SceneChip extends StatelessWidget {
-  const _SceneChip({required this.scene, required this.onTap});
-
-  final HomeProfileScene scene;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(48),
-      child: SizedBox(
-        width: 64,
-        child: Column(
-          children: [
-            Container(
-              width: 64,
-              height: 64,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: scene.active ? Colors.white : SpaceColors.bgElevated,
-                border: Border.all(
-                  color: scene.active ? Colors.white : SpaceColors.bgSurface,
-                  width: 2,
-                ),
-              ),
-              child: Center(
-                child: Text(scene.emoji, style: const TextStyle(fontSize: 30)),
-              ),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              scene.name,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              textAlign: TextAlign.center,
-              style: SpaceTextStyles.pillTitle.copyWith(
-                color: scene.active
-                    ? SpaceColors.textPrimary
-                    : SpaceColors.textMuted,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _SpaceCard extends StatelessWidget {
-  const _SpaceCard({
-    required this.space,
-    required this.location,
-    required this.onTap,
-  });
-
-  final HomeProfileSpace space;
-  final String location;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(24),
-      child: Container(
-        width: 236,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(24),
-          gradient: const LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Color(0xFF2C3C4A), Color(0xFF22313C)],
-          ),
-        ),
-        child: Column(
-          children: [
-            Expanded(
-              child: RoomImageCover(
-                imageUrl: space.imageUrl,
-                borderRadius: const BorderRadius.vertical(
-                  top: Radius.circular(24),
-                ),
-                backgroundGradient: const LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [Color(0xFF2C3C4A), Color(0xFF22313C)],
-                ),
-                overlayGradient: const LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [Color(0x12000000), Color(0x66000000)],
-                ),
-                placeholderIconColor: SpaceColors.textMuted.withValues(
-                  alpha: 0.7,
-                ),
-                placeholderIconSize: 36,
-              ),
-            ),
-            Container(
-              height: 122,
-              width: double.infinity,
-              padding: const EdgeInsets.fromLTRB(16, 14, 16, 12),
-              decoration: BoxDecoration(
-                color: const Color(0xBB25313D),
-                borderRadius: const BorderRadius.vertical(
-                  bottom: Radius.circular(24),
-                ),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          space.name,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: SpaceTextStyles.pillTitle.copyWith(
-                            fontSize: 16,
-                          ),
-                        ),
-                      ),
-                      Text(
-                        '${space.onDevices}/${space.totalDevices} is on',
-                        style: SpaceTextStyles.cardMeta.copyWith(
-                          color: SpaceColors.textPrimary,
-                          fontSize: 14,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 4),
-                  Text(location, style: SpaceTextStyles.pillMeta),
-                  const Spacer(),
-                  Row(
-                    children: [
-                      for (var i = 0; i < space.icons.length && i < 4; i++) ...[
-                        _DeviceIconDot(
-                          icon: space.icons[i],
-                          active: i < space.onDevices,
-                        ),
-                        if (i != space.icons.length - 1 && i < 3)
-                          const SizedBox(width: 6),
-                      ],
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _DeviceIconDot extends StatelessWidget {
-  const _DeviceIconDot({required this.icon, required this.active});
-
-  final IconData icon;
-  final bool active;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 32,
-      height: 32,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: active ? SpaceColors.textPrimary : Colors.transparent,
-        border: Border.all(
-          color: active ? SpaceColors.textPrimary : SpaceColors.stroke,
-        ),
-      ),
-      child: Icon(
-        icon,
-        size: 16,
-        color: active ? SpaceColors.bgBase : SpaceColors.textMuted,
-      ),
-    );
-  }
-}
-
