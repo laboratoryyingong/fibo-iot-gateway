@@ -21,6 +21,8 @@ class _AppShellState extends State<AppShell> {
   int _index = 0;
   final _home = HomeController();
 
+  static const _assistantIndex = 2;
+
   static const _destinations = <_Destination>[
     _Destination('Home', Icons.dashboard_rounded, Icons.dashboard_outlined),
     _Destination('Scenes', Icons.auto_awesome_rounded, Icons.auto_awesome_outlined),
@@ -52,6 +54,10 @@ class _AppShellState extends State<AppShell> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: SpaceColors.bgBase,
+      // Siri-style floating shortcut into the assistant (hidden while there).
+      floatingActionButton: _index == _assistantIndex
+          ? null
+          : _AssistantFab(onTap: () => setState(() => _index = _assistantIndex)),
       body: SafeArea(
         child: Row(
           children: [
@@ -303,6 +309,46 @@ class _GatewayStatus extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+/// Siri-style floating orb that jumps to the assistant: a glowing circular
+/// gradient button with the assistant sparkle.
+class _AssistantFab extends StatelessWidget {
+  const _AssistantFab({required this.onTap});
+
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 64,
+      height: 64,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [SpaceColors.accentStart, SpaceColors.accentEnd],
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: SpaceColors.accentStart.withValues(alpha: 0.5),
+            blurRadius: 22,
+            spreadRadius: 1,
+          ),
+        ],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        shape: const CircleBorder(),
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: onTap,
+          child: const Icon(Icons.auto_awesome, color: Colors.white, size: 28),
+        ),
+      ),
     );
   }
 }
