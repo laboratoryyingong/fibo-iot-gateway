@@ -84,24 +84,27 @@ class _ScenesScreenState extends State<ScenesScreen> {
         ),
       );
     }
-    return SingleChildScrollView(
+    // Same fixed-height grid as the Home device tiles.
+    return GridView.builder(
       padding: const EdgeInsets.only(bottom: 28),
-      child: Wrap(
-        spacing: 14,
-        runSpacing: 14,
-        children: [
-          for (final s in scenes)
-            _SceneCard(
-              scene: s,
-              running: _running.contains(s.sceneId),
-              onTap: () => _run(s),
-            ),
-        ],
+      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+        maxCrossAxisExtent: 340,
+        mainAxisExtent: 308,
+        crossAxisSpacing: 14,
+        mainAxisSpacing: 14,
+      ),
+      itemCount: scenes.length,
+      itemBuilder: (_, i) => _SceneCard(
+        scene: scenes[i],
+        running: _running.contains(scenes[i].sceneId),
+        onTap: () => _run(scenes[i]),
       ),
     );
   }
 }
 
+/// Scene tile matching the Home device tiles: a vertical gradient card with a
+/// centered hero icon, name and action count, plus a Run button.
 class _SceneCard extends StatelessWidget {
   const _SceneCard({
     required this.scene,
@@ -115,72 +118,95 @@ class _SceneCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      borderRadius: BorderRadius.circular(20),
-      onTap: onTap,
-      child: Container(
-        width: 340,
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          gradient: const LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [SpaceColors.bgElevated, SpaceColors.bgSurface],
-          ),
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: SpaceColors.stroke),
+    return Container(
+      padding: const EdgeInsets.fromLTRB(18, 20, 18, 18),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(24),
+        gradient: const LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [SpaceColors.bgElevated, SpaceColors.bgSurface],
         ),
-        child: Row(
-          children: [
-            SizedBox(
-              width: 48,
-              height: 48,
-              child: Center(
-                child: Text(scene.icon,
-                    style: const TextStyle(fontSize: 34, height: 1.2)),
+        border: Border.all(color: SpaceColors.stroke),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Center(
+            child: Container(
+              width: 72,
+              height: 72,
+              alignment: Alignment.center,
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                color: SpaceColors.bgBase,
               ),
+              child: Text(scene.icon, style: const TextStyle(fontSize: 32)),
             ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    scene.name,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: SpaceTextStyles.cardTitle,
+          ),
+          const SizedBox(height: 12),
+          Text(
+            scene.name,
+            textAlign: TextAlign.center,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: SpaceTextStyles.pillTitle,
+          ),
+          const SizedBox(height: 2),
+          Text(
+            '${scene.actionCount} ${scene.actionCount == 1 ? 'action' : 'actions'}',
+            textAlign: TextAlign.center,
+            style: SpaceTextStyles.pillMeta,
+          ),
+          const SizedBox(height: 14),
+          _RunButton(running: running, onTap: onTap),
+        ],
+      ),
+    );
+  }
+}
+
+class _RunButton extends StatelessWidget {
+  const _RunButton({required this.running, required this.onTap});
+
+  final bool running;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: running ? null : onTap,
+      borderRadius: BorderRadius.circular(12),
+      child: Container(
+        height: 46,
+        decoration: BoxDecoration(
+          color: SpaceColors.accentStart,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Center(
+          child: running
+              ? const SizedBox(
+                  width: 20,
+                  height: 20,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2.4,
+                    color: Colors.white,
                   ),
-                  const SizedBox(height: 2),
-                  Text(
-                    '${scene.actionCount} ${scene.actionCount == 1 ? 'action' : 'actions'}',
-                    style: SpaceTextStyles.pillMeta,
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(width: 12),
-            if (running)
-              const SizedBox(
-                width: 22,
-                height: 22,
-                child: CircularProgressIndicator(
-                  strokeWidth: 2.4,
-                  color: SpaceColors.accentStart,
+                )
+              : Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.play_arrow_rounded,
+                        color: Colors.white, size: 20),
+                    const SizedBox(width: 6),
+                    Text(
+                      'Run',
+                      style: SpaceTextStyles.pillTitle
+                          .copyWith(color: Colors.white),
+                    ),
+                  ],
                 ),
-              )
-            else
-              Container(
-                width: 40,
-                height: 40,
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: SpaceColors.bgBase,
-                ),
-                child: const Icon(Icons.play_arrow_rounded,
-                    color: SpaceColors.accentStart, size: 24),
-              ),
-          ],
         ),
       ),
     );
