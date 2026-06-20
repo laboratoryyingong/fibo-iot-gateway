@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 import 'package:fibo_core/theme/space_tokens.dart';
 
 import '../screens/home_dashboard_screen.dart';
 import '../screens/scenes_screen.dart';
 import '../screens/assistant_panel_screen.dart';
+import '../screens/login_screen.dart';
+import '../state/home_controller.dart';
 
 /// Persistent landscape layout for the control hub: a fixed left sidebar with
 /// the primary destinations, and a content pane that swaps between them.
@@ -16,12 +19,34 @@ class AppShell extends StatefulWidget {
 
 class _AppShellState extends State<AppShell> {
   int _index = 0;
+  final _home = HomeController();
 
   static const _destinations = <_Destination>[
     _Destination('Home', Icons.dashboard_rounded, Icons.dashboard_outlined),
     _Destination('Scenes', Icons.auto_awesome_rounded, Icons.auto_awesome_outlined),
     _Destination('Assistant', Icons.smart_toy_rounded, Icons.smart_toy_outlined),
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    _home.load();
+  }
+
+  @override
+  void dispose() {
+    _home.dispose();
+    super.dispose();
+  }
+
+  Future<void> _signOut() async {
+    final user = await ParseUser.currentUser() as ParseUser?;
+    await user?.logout();
+    if (!mounted) return;
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (_) => const LoginScreen()),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,14 +59,15 @@ class _AppShellState extends State<AppShell> {
               destinations: _destinations,
               selectedIndex: _index,
               onSelect: (i) => setState(() => _index = i),
+              onSignOut: _signOut,
             ),
             Expanded(
               child: IndexedStack(
                 index: _index,
-                children: const [
-                  HomeDashboardScreen(),
-                  ScenesScreen(),
-                  AssistantPanelScreen(),
+                children: [
+                  HomeDashboardScreen(controller: _home),
+                  const ScenesScreen(),
+                  const AssistantPanelScreen(),
                 ],
               ),
             ),
@@ -57,11 +83,13 @@ class _Sidebar extends StatelessWidget {
     required this.destinations,
     required this.selectedIndex,
     required this.onSelect,
+    required this.onSignOut,
   });
 
   final List<_Destination> destinations;
   final int selectedIndex;
   final ValueChanged<int> onSelect;
+  final VoidCallback onSignOut;
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +113,48 @@ class _Sidebar extends StatelessWidget {
             ),
           const Spacer(),
           const _GatewayStatus(),
+          _SignOutButton(onTap: onSignOut),
         ],
+      ),
+    );
+  }
+}
+
+class _SignOutButton extends StatelessWidget {
+  const _SignOutButton({required this.onTap});
+
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(12, 0, 12, 16),
+      child: Material(
+        color: Colors.transparent,
+        borderRadius: BorderRadius.circular(12),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(12),
+          onTap: onTap,
+          child: const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+            child: Row(
+              children: [
+                Icon(Icons.logout_rounded,
+                    size: 20, color: SpaceColors.textMuted),
+                SizedBox(width: 14),
+                Text(
+                  'Sign out',
+                  style: TextStyle(
+                    fontFamily: 'Manrope',
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                    color: SpaceColors.textMuted,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
