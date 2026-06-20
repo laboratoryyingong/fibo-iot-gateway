@@ -50,7 +50,16 @@ class _ScenesScreenState extends State<ScenesScreen> {
       builder: (context, _) {
         return Padding(
           padding: const EdgeInsets.fromLTRB(28, 8, 28, 0),
-          child: _body(),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Section title matching the Home room titles so the first tile
+              // row lines up across the Home↔Scenes swipe.
+              Text('Scenes', style: SpaceTextStyles.cardTitle),
+              const SizedBox(height: 14),
+              Expanded(child: _body()),
+            ],
+          ),
         );
       },
     );
