@@ -1,7 +1,22 @@
+import 'dart:io' show Platform;
+
 import 'agent_config.local.dart' as local;
 
 class AgentConfig {
-  static const String baseUrl = local.baseUrl;
+  /// Agent server base URL. On the Android emulator `localhost` points at the
+  /// emulator itself, so a dev host is rewritten to `10.0.2.2` (the emulator's
+  /// alias for the host machine). iOS simulators reach the host via `localhost`
+  /// directly, so they're left unchanged.
+  static String get baseUrl {
+    final raw = local.baseUrl;
+    if (Platform.isAndroid) {
+      return raw
+          .replaceFirst('://localhost', '://10.0.2.2')
+          .replaceFirst('://127.0.0.1', '://10.0.2.2');
+    }
+    return raw;
+  }
+
   static const bool useStreaming = true;
 
   /// Shared secret for the agent's `Authorization: Bearer <key>` header.
