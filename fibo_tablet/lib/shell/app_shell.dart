@@ -23,10 +23,10 @@ class _AppShellState extends State<AppShell> {
 
   static const _assistantIndex = 2;
 
+  // Assistant is reached via the floating orb, not a sidebar tab.
   static const _destinations = <_Destination>[
     _Destination('Home', Icons.dashboard_rounded, Icons.dashboard_outlined),
     _Destination('Scenes', Icons.auto_awesome_rounded, Icons.auto_awesome_outlined),
-    _Destination('Assistant', Icons.smart_toy_rounded, Icons.smart_toy_outlined),
   ];
 
   @override
