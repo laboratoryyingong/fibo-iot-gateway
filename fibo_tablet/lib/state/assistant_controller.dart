@@ -4,6 +4,16 @@ import 'package:flutter/foundation.dart';
 import 'package:fibo_core/services/agent_events.dart';
 import 'package:fibo_core/services/claude_agent_client.dart';
 
+/// A tool the agent invoked during a turn, with its result once it lands.
+class ToolResult {
+  ToolResult({required this.name});
+
+  final String name;
+  bool pending = true;
+  bool isError = false;
+  Map<String, dynamic>? output;
+}
+
 /// One chat turn rendered in the assistant panel.
 class ChatMessage {
   ChatMessage({
@@ -15,7 +25,7 @@ class ChatMessage {
   final bool fromUser;
   String text;
   bool streaming;
-  final List<String> toolNotes = [];
+  final List<ToolResult> tools = [];
 }
 
 /// Drives the assistant conversation: sends a message and folds the streamed
@@ -55,7 +65,24 @@ class AssistantController extends ChangeNotifier {
             reply.text += delta;
             notifyListeners();
           case ToolCallEvent(:final name):
-            reply.toolNotes.add(_humanizeTool(name));
+            reply.tools.add(ToolResult(name: name));
+            notifyListeners();
+          case ToolResultEvent(:final name, :final output, :final isError):
+            ToolResult? tool;
+            for (final t in reply.tools) {
+              if (t.name == name && t.pending) {
+                tool = t;
+                break;
+              }
+            }
+            if (tool == null) {
+              tool = ToolResult(name: name);
+              reply.tools.add(tool);
+            }
+            tool
+              ..pending = false
+              ..isError = isError
+              ..output = output;
             notifyListeners();
           case DoneEvent(reply: final fullReply):
             if (reply.text.isEmpty) reply.text = fullReply;
@@ -63,7 +90,6 @@ class AssistantController extends ChangeNotifier {
           case AgentErrorEvent(:final message):
             if (reply.text.isEmpty) reply.text = 'Sorry — $message';
             finish();
-          case ToolResultEvent():
           case UnknownEvent():
             break;
         }
@@ -78,14 +104,6 @@ class AssistantController extends ChangeNotifier {
         if (sending) finish();
       },
     );
-  }
-
-  String _humanizeTool(String name) {
-    final words = name
-        .split(RegExp(r'[_\s]+'))
-        .where((w) => w.isNotEmpty)
-        .join(' ');
-    return 'Using $words…';
   }
 
   @override

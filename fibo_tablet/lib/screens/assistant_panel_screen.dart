@@ -3,6 +3,7 @@ import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'package:fibo_core/theme/space_tokens.dart';
 
 import '../state/assistant_controller.dart';
+import '../widgets/tool_result_card.dart';
 
 /// The Assistant pane: a big-screen chat with the Claude home agent, streamed
 /// from claude_agent_client.
@@ -142,19 +143,7 @@ class _Bubble extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            for (final note in message.toolNotes)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 6),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Icon(Icons.bolt_rounded,
-                        size: 14, color: SpaceColors.accentStart),
-                    const SizedBox(width: 6),
-                    Text(note, style: SpaceTextStyles.pillMeta),
-                  ],
-                ),
-              ),
+            for (final tool in message.tools) ToolResultCard(tool: tool),
             if (message.text.isNotEmpty)
               SelectableText(
                 message.text,
@@ -165,7 +154,7 @@ class _Bubble extends StatelessWidget {
                   color: SpaceColors.textPrimary,
                 ),
               )
-            else if (message.streaming && message.toolNotes.isEmpty)
+            else if (message.streaming && message.tools.isEmpty)
               const SizedBox(
                 width: 18,
                 height: 18,
