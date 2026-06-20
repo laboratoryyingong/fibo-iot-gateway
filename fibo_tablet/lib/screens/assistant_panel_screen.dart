@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'package:fibo_core/theme/space_tokens.dart';
 
 import '../state/assistant_controller.dart';
@@ -180,11 +181,72 @@ class _Bubble extends StatelessWidget {
   }
 }
 
-class _Composer extends StatelessWidget {
+class _Composer extends StatefulWidget {
   const _Composer({required this.controller, required this.onSend});
 
   final TextEditingController controller;
   final VoidCallback onSend;
+
+  @override
+  State<_Composer> createState() => _ComposerState();
+}
+
+class _ComposerState extends State<_Composer> {
+  final stt.SpeechToText _speech = stt.SpeechToText();
+  bool _ready = false;
+  bool _listening = false;
+  String _base = '';
+
+  @override
+  void dispose() {
+    if (_listening) _speech.cancel();
+    super.dispose();
+  }
+
+  Future<void> _toggleListen() async {
+    if (_listening) {
+      await _speech.stop();
+      if (mounted) setState(() => _listening = false);
+      return;
+    }
+    if (!_ready) {
+      _ready = await _speech.initialize(
+        onStatus: (s) {
+          if (mounted && (s == 'done' || s == 'notListening')) {
+            setState(() => _listening = false);
+          }
+        },
+        onError: (_) {
+          if (mounted) setState(() => _listening = false);
+        },
+      );
+      if (!_ready) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text('Voice input is unavailable on this device.'),
+          ));
+        }
+        return;
+      }
+    }
+    _base = widget.controller.text.trim();
+    setState(() => _listening = true);
+    await _speech.listen(
+      onResult: (result) {
+        final words = result.recognizedWords;
+        final next = _base.isEmpty ? words : '$_base $words';
+        widget.controller.value = TextEditingValue(
+          text: next,
+          selection: TextSelection.collapsed(offset: next.length),
+        );
+      },
+      listenOptions: stt.SpeechListenOptions(
+        partialResults: true,
+        listenFor: const Duration(seconds: 30),
+        pauseFor: const Duration(seconds: 3),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -193,23 +255,25 @@ class _Composer extends StatelessWidget {
       decoration: BoxDecoration(
         color: SpaceColors.bgSurface,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: SpaceColors.stroke),
+        border: Border.all(
+          color: _listening ? SpaceColors.accentStart : SpaceColors.stroke,
+        ),
       ),
       child: Row(
         children: [
           Expanded(
             child: TextField(
-              controller: controller,
-              onSubmitted: (_) => onSend(),
+              controller: widget.controller,
+              onSubmitted: (_) => widget.onSend(),
               textInputAction: TextInputAction.send,
               style: const TextStyle(
                 fontFamily: 'Manrope',
                 fontSize: 15,
                 color: SpaceColors.textPrimary,
               ),
-              decoration: const InputDecoration(
-                hintText: 'Message your home…',
-                hintStyle: TextStyle(
+              decoration: InputDecoration(
+                hintText: _listening ? 'Listening…' : 'Message your home…',
+                hintStyle: const TextStyle(
                   fontFamily: 'Manrope',
                   color: SpaceColors.textMuted,
                 ),
@@ -217,9 +281,15 @@ class _Composer extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(width: 8),
           IconButton(
-            onPressed: onSend,
+            onPressed: _toggleListen,
+            icon: Icon(
+              _listening ? Icons.mic : Icons.mic_none_rounded,
+              color: _listening ? SpaceColors.accentStart : SpaceColors.textMuted,
+            ),
+          ),
+          IconButton(
+            onPressed: widget.onSend,
             icon: const Icon(Icons.send_rounded, color: SpaceColors.accentStart),
           ),
         ],
