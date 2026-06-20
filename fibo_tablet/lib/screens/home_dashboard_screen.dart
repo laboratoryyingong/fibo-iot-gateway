@@ -98,13 +98,21 @@ class _RoomSection extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 14),
-        Wrap(
-          spacing: 14,
-          runSpacing: 14,
-          children: [
-            for (final d in room.devices)
-              DeviceControlCard(controller: controller, device: d),
-          ],
+        // Fixed-height grid so every device tile has the same height,
+        // regardless of how many controls its profile shows.
+        GridView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          padding: EdgeInsets.zero,
+          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+            maxCrossAxisExtent: 340,
+            mainAxisExtent: 308,
+            crossAxisSpacing: 14,
+            mainAxisSpacing: 14,
+          ),
+          itemCount: room.devices.length,
+          itemBuilder: (_, i) =>
+              DeviceControlCard(controller: controller, device: room.devices[i]),
         ),
       ],
     );

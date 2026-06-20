@@ -25,7 +25,6 @@ class DeviceControlCard extends StatelessWidget {
     return Opacity(
       opacity: view.online ? 1 : 0.5,
       child: Container(
-        width: 300,
         padding: const EdgeInsets.fromLTRB(18, 20, 18, 18),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(24),
