@@ -13,7 +13,7 @@ void main() {
 
     await tester.pumpWidget(const MaterialApp(home: LoginScreen()));
 
-    expect(find.text('Fibo Control'), findsOneWidget);
+    expect(find.text('FIBO Control'), findsOneWidget);
     expect(find.text('Sign In'), findsOneWidget);
     expect(find.byType(TextField), findsNWidgets(2));
 
