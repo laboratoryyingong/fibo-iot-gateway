@@ -8,6 +8,7 @@ import '../screens/assistant_panel_screen.dart';
 import '../screens/login_screen.dart';
 import '../screens/standby_screen.dart';
 import '../state/home_controller.dart';
+import '../widgets/connection_icon.dart';
 
 /// Landscape control-hub shell, phone-styled: a greeting header, two swipeable
 /// pages (Home / Scenes), and a floating orb into the assistant.
@@ -228,6 +229,8 @@ class _Header extends StatelessWidget {
   }
 }
 
+/// Connection state shown as a wifi icon (green when the shadow stream is up,
+/// muted wifi-off otherwise) — consistent across all pages.
 class _ConnectionPill extends StatelessWidget {
   const _ConnectionPill({required this.home});
 
@@ -237,29 +240,7 @@ class _ConnectionPill extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListenableBuilder(
       listenable: home,
-      builder: (context, _) {
-        final connected = home.shadowsConnected;
-        return Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              width: 8,
-              height: 8,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: connected
-                    ? const Color(0xFF34D399)
-                    : SpaceColors.textMuted,
-              ),
-            ),
-            const SizedBox(width: 8),
-            Text(
-              connected ? 'Connected' : 'Connecting…',
-              style: SpaceTextStyles.pillMeta,
-            ),
-          ],
-        );
-      },
+      builder: (context, _) => ConnectionIcon(connected: home.shadowsConnected),
     );
   }
 }

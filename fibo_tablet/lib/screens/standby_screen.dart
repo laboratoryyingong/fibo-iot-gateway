@@ -5,6 +5,7 @@ import 'package:fibo_core/services/home_graph.dart';
 import 'package:fibo_core/theme/space_tokens.dart';
 
 import '../state/home_controller.dart';
+import '../widgets/connection_icon.dart';
 
 /// Ambient "glance" page shown before Home: a large live clock, date, an
 /// at-a-glance temperature + device summary, connection state, a mic shortcut
@@ -78,7 +79,7 @@ class _StandbyScreenState extends State<StandbyScreen>
                   ),
                 ),
                 Positioned(
-                  right: 6,
+                  right: 18,
                   top: 0,
                   bottom: 0,
                   child: Center(child: _swipeHint()),
@@ -129,13 +130,7 @@ class _StandbyScreenState extends State<StandbyScreen>
             ],
           ),
         ),
-        Icon(
-          widget.controller.shadowsConnected
-              ? Icons.wifi_rounded
-              : Icons.wifi_off_rounded,
-          color: SpaceColors.textMuted,
-          size: 24,
-        ),
+        ConnectionIcon(connected: widget.controller.shadowsConnected),
         const SizedBox(width: 18),
         InkWell(
           onTap: widget.onAssistant,
@@ -163,13 +158,11 @@ class _StandbyScreenState extends State<StandbyScreen>
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          children: [
-            const Icon(Icons.chevron_right_rounded,
+          children: const [
+            Icon(Icons.chevron_right_rounded,
                 color: SpaceColors.textMuted, size: 40),
-            Text(
-              'Home',
-              style: SpaceTextStyles.pillMeta.copyWith(letterSpacing: 0.5),
-            ),
+            Icon(Icons.dashboard_rounded,
+                color: SpaceColors.textMuted, size: 24),
           ],
         ),
       ),
