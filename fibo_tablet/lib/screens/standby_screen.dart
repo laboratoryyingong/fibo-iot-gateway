@@ -629,17 +629,22 @@ class _ShortcutTile extends StatelessWidget {
     required this.onEnterEdit,
     required this.onExitEdit,
     required this.onRemove,
+    this.control,
     this.active = false,
   });
 
   final Widget icon;
   final String label;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
   final bool editing;
   final Animation<double> jiggle;
   final VoidCallback onEnterEdit;
   final VoidCallback onExitEdit;
   final VoidCallback onRemove;
+
+  /// Optional control (e.g. a power switch) shown below the label, matching the
+  /// Home device tiles.
+  final Widget? control;
   final bool active;
 
   @override
@@ -651,7 +656,11 @@ class _ShortcutTile extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12),
         decoration: BoxDecoration(
-          color: SpaceColors.bgSurface,
+          gradient: const LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [SpaceColors.bgElevated, SpaceColors.bgSurface],
+          ),
           borderRadius: BorderRadius.circular(18),
           border: Border.all(
             color: active ? SpaceColors.accentStart : SpaceColors.stroke,
@@ -674,6 +683,10 @@ class _ShortcutTile extends StatelessWidget {
                 color: SpaceColors.textPrimary,
               ),
             ),
+            if (control != null) ...[
+              const SizedBox(height: 10),
+              control!,
+            ],
           ],
         ),
       ),
@@ -747,12 +760,18 @@ class _DeviceShortcut extends StatelessWidget {
       onEnterEdit: onEnterEdit,
       onExitEdit: onExitEdit,
       onRemove: onRemove,
-      onTap: () => controller.toggle(device),
+      // The switch handles toggling; the card body has no tap action.
+      onTap: null,
       label: device.displayName,
       icon: Icon(
         iconForProfile(device.profile),
         size: 34,
         color: on ? SpaceColors.accentStart : SpaceColors.textPrimary,
+      ),
+      control: Switch.adaptive(
+        value: on,
+        activeThumbColor: SpaceColors.accentStart,
+        onChanged: editing ? null : (_) => controller.toggle(device),
       ),
     );
   }
