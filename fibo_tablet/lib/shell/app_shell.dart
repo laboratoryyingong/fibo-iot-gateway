@@ -60,6 +60,7 @@ class _AppShellState extends State<AppShell> {
               selectedIndex: _index,
               onSelect: (i) => setState(() => _index = i),
               onSignOut: _signOut,
+              home: _home,
             ),
             Expanded(
               child: IndexedStack(
@@ -84,12 +85,14 @@ class _Sidebar extends StatelessWidget {
     required this.selectedIndex,
     required this.onSelect,
     required this.onSignOut,
+    required this.home,
   });
 
   final List<_Destination> destinations;
   final int selectedIndex;
   final ValueChanged<int> onSelect;
   final VoidCallback onSignOut;
+  final HomeController home;
 
   @override
   Widget build(BuildContext context) {
@@ -112,7 +115,7 @@ class _Sidebar extends StatelessWidget {
               onTap: () => onSelect(i),
             ),
           const Spacer(),
-          const _GatewayStatus(),
+          _GatewayStatus(home: home),
           _SignOutButton(onTap: onSignOut),
         ],
       ),
@@ -256,39 +259,48 @@ class _NavItem extends StatelessWidget {
   }
 }
 
-/// Placeholder gateway status footer — wired to real gateway state in a later
-/// phase. For now it reads as a neutral, truthful "not connected yet".
+/// Live connection footer — reflects whether the IoT shadow stream is up.
 class _GatewayStatus extends StatelessWidget {
-  const _GatewayStatus();
+  const _GatewayStatus({required this.home});
+
+  final HomeController home;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 12, 20, 20),
-      child: Row(
-        children: [
-          Container(
-            width: 8,
-            height: 8,
-            decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-              color: SpaceColors.textMuted,
-            ),
-          ),
-          const SizedBox(width: 10),
-          const Expanded(
-            child: Text(
-              'Gateway offline',
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                fontFamily: 'Manrope',
-                fontSize: 13,
-                color: SpaceColors.textMuted,
+    return ListenableBuilder(
+      listenable: home,
+      builder: (context, _) {
+        final connected = home.shadowsConnected;
+        return Padding(
+          padding: const EdgeInsets.fromLTRB(20, 12, 20, 20),
+          child: Row(
+            children: [
+              Container(
+                width: 8,
+                height: 8,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: connected
+                      ? const Color(0xFF34D399)
+                      : SpaceColors.textMuted,
+                ),
               ),
-            ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Text(
+                  connected ? 'Connected' : 'Connecting…',
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontFamily: 'Manrope',
+                    fontSize: 13,
+                    color: SpaceColors.textMuted,
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

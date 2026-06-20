@@ -65,15 +65,17 @@ class HomeDashboardScreen extends StatelessWidget {
           padding: const EdgeInsets.only(bottom: 28),
           itemCount: rooms.length,
           separatorBuilder: (_, _) => const SizedBox(height: 28),
-          itemBuilder: (_, i) => _RoomSection(room: rooms[i]),
+          itemBuilder: (_, i) =>
+              _RoomSection(controller: controller, room: rooms[i]),
         );
     }
   }
 }
 
 class _RoomSection extends StatelessWidget {
-  const _RoomSection({required this.room});
+  const _RoomSection({required this.controller, required this.room});
 
+  final HomeController controller;
   final RoomGroup room;
 
   @override
@@ -100,7 +102,8 @@ class _RoomSection extends StatelessWidget {
           spacing: 14,
           runSpacing: 14,
           children: [
-            for (final d in room.devices) _DeviceCard(device: d),
+            for (final d in room.devices)
+              _DeviceCard(controller: controller, device: d),
           ],
         ),
       ],
@@ -109,32 +112,50 @@ class _RoomSection extends StatelessWidget {
 }
 
 class _DeviceCard extends StatelessWidget {
-  const _DeviceCard({required this.device});
+  const _DeviceCard({required this.controller, required this.device});
 
+  final HomeController controller;
   final HomeDevice device;
 
   @override
   Widget build(BuildContext context) {
-    final meta = _ProfileMeta.of(device.profile);
-    return Container(
-      width: 184,
+    final view = controller.viewFor(device);
+    final accent = view.isOn && view.kind != DeviceKind.sensor;
+    final card = Container(
+      width: 200,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: SpaceColors.bgSurface,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: SpaceColors.stroke),
+        border: Border.all(
+          color: accent ? SpaceColors.accentStart : SpaceColors.stroke,
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-              color: SpaceColors.bgElevated,
-              borderRadius: BorderRadius.circular(11),
-            ),
-            child: Icon(meta.icon, color: SpaceColors.textPrimary, size: 20),
+          Row(
+            children: [
+              Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: accent
+                      ? SpaceColors.accentStart.withValues(alpha: 0.18)
+                      : SpaceColors.bgElevated,
+                  borderRadius: BorderRadius.circular(11),
+                ),
+                child: Icon(
+                  _iconForProfile(device.profile),
+                  color: accent
+                      ? SpaceColors.accentStart
+                      : SpaceColors.textPrimary,
+                  size: 20,
+                ),
+              ),
+              const Spacer(),
+              _control(view),
+            ],
           ),
           const SizedBox(height: 14),
           Text(
@@ -145,53 +166,96 @@ class _DeviceCard extends StatelessWidget {
           ),
           const SizedBox(height: 2),
           Text(
-            meta.label,
+            view.online ? (view.valueLabel ?? _label(view.kind)) : 'Offline',
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: SpaceTextStyles.pillMeta,
           ),
+          if (view.hasSlider && (view.isOn || view.kind == DeviceKind.curtain))
+            _slider(view),
         ],
       ),
     );
+    return Opacity(opacity: view.online ? 1 : 0.5, child: card);
+  }
+
+  /// Trailing control: a switch for toggleable devices and locks; nothing for
+  /// read-only sensors.
+  Widget _control(DeviceView view) {
+    if (view.kind == DeviceKind.sensor) return const SizedBox.shrink();
+    return Switch.adaptive(
+      value: view.isOn,
+      activeThumbColor: SpaceColors.accentStart,
+      onChanged: view.online ? (_) => controller.toggle(device) : null,
+    );
+  }
+
+  Widget _slider(DeviceView view) {
+    final pct = (view.levelPercent ?? 0).toDouble();
+    return SliderTheme(
+      data: SliderThemeData(
+        trackHeight: 3,
+        activeTrackColor: SpaceColors.accentStart,
+        inactiveTrackColor: SpaceColors.bgElevated,
+        thumbColor: SpaceColors.accentStart,
+        overlayShape: SliderComponentShape.noOverlay,
+        thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 7),
+      ),
+      child: Slider(
+        value: pct.clamp(0, 100),
+        max: 100,
+        onChanged: view.online
+            ? (v) => controller.setPercent(device, v.round())
+            : null,
+      ),
+    );
+  }
+
+  String _label(DeviceKind kind) {
+    switch (kind) {
+      case DeviceKind.light:
+      case DeviceKind.dimmableLight:
+        return 'Light';
+      case DeviceKind.onoff:
+        return 'Switch';
+      case DeviceKind.curtain:
+        return 'Curtain';
+      case DeviceKind.lock:
+        return 'Lock';
+      case DeviceKind.siren:
+        return 'Siren';
+      case DeviceKind.sensor:
+        return 'Sensor';
+    }
   }
 }
 
-/// Maps a device profile to a display icon + human label.
-class _ProfileMeta {
-  const _ProfileMeta(this.icon, this.label);
-
-  final IconData icon;
-  final String label;
-
-  static _ProfileMeta of(String profile) {
-    switch (profile) {
-      case 'color_light':
-      case 'dimmable_light':
-        return const _ProfileMeta(Icons.lightbulb_outline, 'Light');
-      case 'onoff_actuator':
-        return const _ProfileMeta(Icons.toggle_on_outlined, 'Switch');
-      case 'curtain':
-        return const _ProfileMeta(Icons.blinds_outlined, 'Curtain');
-      case 'door_lock':
-        return const _ProfileMeta(Icons.lock_outline, 'Lock');
-      case 'motion_sensor':
-        return const _ProfileMeta(Icons.sensors_outlined, 'Motion sensor');
-      case 'contact_sensor':
-        return const _ProfileMeta(Icons.door_front_door_outlined, 'Contact sensor');
-      case 'temperature_sensor':
-        return const _ProfileMeta(Icons.thermostat_outlined, 'Temperature');
-      default:
-        return _ProfileMeta(Icons.devices_other_outlined, _humanize(profile));
-    }
-  }
-
-  static String _humanize(String profile) {
-    if (profile.isEmpty || profile == 'unknown') return 'Device';
-    return profile
-        .split('_')
-        .where((w) => w.isNotEmpty)
-        .map((w) => '${w[0].toUpperCase()}${w.substring(1)}')
-        .join(' ');
+/// Maps a device profile to a display icon (mirrors the phone app).
+IconData _iconForProfile(String profile) {
+  switch (profile) {
+    case 'color_light':
+    case 'dimmable_light':
+      return Icons.lightbulb_outline;
+    case 'onoff_actuator':
+      return Icons.toggle_on_outlined;
+    case 'curtain':
+      return Icons.blinds_outlined;
+    case 'door_lock':
+      return Icons.lock_outline;
+    case 'siren_actuator':
+      return Icons.notifications_active_outlined;
+    case 'smoke_alarm':
+      return Icons.local_fire_department_outlined;
+    case 'ias_sensor':
+      return Icons.directions_walk_outlined;
+    case 'mmwave_sensor':
+      return Icons.sensors_outlined;
+    case 'multi_sensor':
+      return Icons.thermostat_outlined;
+    case 'button_remote':
+      return Icons.radio_button_checked;
+    default:
+      return Icons.devices_other_outlined;
   }
 }
 
