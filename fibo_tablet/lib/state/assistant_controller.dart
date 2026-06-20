@@ -106,6 +106,26 @@ class AssistantController extends ChangeNotifier {
     );
   }
 
+  /// Stops an in-flight reply, keeping whatever has streamed so far.
+  void cancel() {
+    _sub?.cancel();
+    _sub = null;
+    if (messages.isNotEmpty && !messages.last.fromUser) {
+      messages.last.streaming = false;
+    }
+    sending = false;
+    notifyListeners();
+  }
+
+  /// Clears the conversation to start fresh.
+  void newChat() {
+    if (sending) return;
+    _sub?.cancel();
+    _sub = null;
+    messages.clear();
+    notifyListeners();
+  }
+
   @override
   void dispose() {
     _sub?.cancel();
