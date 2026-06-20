@@ -47,19 +47,7 @@ class _StandbyScreenState extends State<StandbyScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            Color(0xFF12325C),
-            Color(0xFF334B85),
-            Color(0xFF8A5B6E),
-            Color(0xFFC56A3C),
-          ],
-          stops: [0.0, 0.4, 0.72, 1.0],
-        ),
-      ),
+      color: SpaceColors.bgBase,
       child: SafeArea(
         child: ListenableBuilder(
           listenable: widget.controller,
@@ -95,7 +83,7 @@ class _StandbyScreenState extends State<StandbyScreen> {
               Row(
                 children: [
                   const Icon(Icons.thermostat_rounded,
-                      color: Colors.white, size: 24),
+                      color: SpaceColors.textPrimary, size: 24),
                   const SizedBox(width: 8),
                   Text(
                     temp ?? '—',
@@ -103,7 +91,7 @@ class _StandbyScreenState extends State<StandbyScreen> {
                       fontFamily: 'Manrope',
                       fontSize: 24,
                       fontWeight: FontWeight.w700,
-                      color: Colors.white,
+                      color: SpaceColors.textPrimary,
                     ),
                   ),
                 ],
@@ -111,11 +99,11 @@ class _StandbyScreenState extends State<StandbyScreen> {
               const SizedBox(height: 6),
               Text(
                 _formatDate(_now),
-                style: TextStyle(
+                style: const TextStyle(
                   fontFamily: 'Manrope',
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
-                  color: Colors.white.withValues(alpha: 0.9),
+                  color: SpaceColors.textMuted,
                 ),
               ),
             ],
@@ -125,7 +113,7 @@ class _StandbyScreenState extends State<StandbyScreen> {
           widget.controller.shadowsConnected
               ? Icons.wifi_rounded
               : Icons.wifi_off_rounded,
-          color: Colors.white.withValues(alpha: 0.9),
+          color: SpaceColors.textMuted,
           size: 24,
         ),
         const SizedBox(width: 18),
@@ -134,7 +122,8 @@ class _StandbyScreenState extends State<StandbyScreen> {
           customBorder: const CircleBorder(),
           child: const Padding(
             padding: EdgeInsets.all(4),
-            child: Icon(Icons.mic_none_rounded, color: Colors.white, size: 24),
+            child: Icon(Icons.mic_none_rounded,
+                color: SpaceColors.textPrimary, size: 24),
           ),
         ),
       ],
@@ -152,7 +141,7 @@ class _StandbyScreenState extends State<StandbyScreen> {
             fontFamily: 'Manrope',
             fontSize: 116,
             fontWeight: FontWeight.w700,
-            color: Colors.white,
+            color: SpaceColors.textPrimary,
             height: 1.0,
           ),
         ),
@@ -165,7 +154,7 @@ class _StandbyScreenState extends State<StandbyScreen> {
               fontFamily: 'Manrope',
               fontSize: 24,
               fontWeight: FontWeight.w700,
-              color: Colors.white,
+              color: SpaceColors.textPrimary,
             ),
           ),
         ),
@@ -174,10 +163,10 @@ class _StandbyScreenState extends State<StandbyScreen> {
           padding: const EdgeInsets.only(bottom: 22),
           child: Text(
             _deviceSummary(),
-            style: TextStyle(
+            style: const TextStyle(
               fontFamily: 'Manrope',
               fontSize: 15,
-              color: Colors.white.withValues(alpha: 0.85),
+              color: SpaceColors.textMuted,
             ),
           ),
         ),
@@ -300,9 +289,9 @@ class _SceneTile extends StatelessWidget {
         height: 96,
         padding: const EdgeInsets.symmetric(horizontal: 18),
         decoration: BoxDecoration(
-          color: Colors.white.withValues(alpha: 0.14),
+          color: SpaceColors.bgSurface,
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: Colors.white.withValues(alpha: 0.18)),
+          border: Border.all(color: SpaceColors.stroke),
         ),
         child: Row(
           children: [
@@ -317,11 +306,12 @@ class _SceneTile extends StatelessWidget {
                   fontFamily: 'Manrope',
                   fontSize: 17,
                   fontWeight: FontWeight.w600,
-                  color: Colors.white,
+                  color: SpaceColors.textPrimary,
                 ),
               ),
             ),
-            const Icon(Icons.play_arrow_rounded, color: Colors.white, size: 26),
+            const Icon(Icons.play_arrow_rounded,
+                color: SpaceColors.accentStart, size: 26),
           ],
         ),
       ),
