@@ -6,6 +6,7 @@ import 'package:fibo_core/theme/space_tokens.dart';
 
 import 'screens/login_screen.dart';
 import 'shell/app_shell.dart';
+import 'widgets/idle_screensaver.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,6 +42,9 @@ class FiboTabletApp extends StatelessWidget {
           brightness: Brightness.dark,
         ),
       ),
+      // Overlay a flip-clock screensaver after 3 minutes of no touch.
+      builder: (context, child) =>
+          IdleScreensaver(child: child ?? const SizedBox.shrink()),
       home: const AuthGate(),
     );
   }
