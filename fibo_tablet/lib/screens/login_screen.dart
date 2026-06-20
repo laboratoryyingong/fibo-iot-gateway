@@ -95,7 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(width: 14),
                       Expanded(
                         child: Text(
-                          'Fibo Control',
+                          'FIBO Control',
                           overflow: TextOverflow.ellipsis,
                           style: SpaceTextStyles.navTitle,
                         ),

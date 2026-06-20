@@ -181,17 +181,19 @@ class _Brand extends StatelessWidget {
                 colors: [SpaceColors.accentStart, SpaceColors.accentEnd],
               ),
             ),
+            // Placeholder logo mark — swap for the final brand asset later.
             child: const Icon(Icons.hub_rounded, color: Colors.white, size: 20),
           ),
           const SizedBox(width: 12),
           const Expanded(
             child: Text(
-              'Fibo',
+              'FIBO',
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 fontFamily: 'Manrope',
-                fontSize: 22,
-                fontWeight: FontWeight.w700,
+                fontSize: 24,
+                fontWeight: FontWeight.w800,
+                letterSpacing: 1.0,
                 color: SpaceColors.textPrimary,
               ),
             ),
