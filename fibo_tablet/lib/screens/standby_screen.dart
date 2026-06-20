@@ -130,15 +130,56 @@ class _StandbyScreenState extends State<StandbyScreen>
             ],
           ),
         ),
-        ConnectionIcon(connected: widget.controller.shadowsConnected),
-        const SizedBox(width: 18),
-        InkWell(
-          onTap: widget.onAssistant,
-          customBorder: const CircleBorder(),
-          child: const Padding(
-            padding: EdgeInsets.all(4),
-            child: Icon(Icons.mic_none_rounded,
-                color: SpaceColors.textPrimary, size: 24),
+        _brand(),
+        Expanded(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              ConnectionIcon(connected: widget.controller.shadowsConnected),
+              const SizedBox(width: 18),
+              InkWell(
+                onTap: widget.onAssistant,
+                customBorder: const CircleBorder(),
+                child: const Padding(
+                  padding: EdgeInsets.all(4),
+                  child: Icon(Icons.mic_none_rounded,
+                      color: SpaceColors.textPrimary, size: 24),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  /// FIBO logo + wordmark (placeholder logo mark pending the final asset).
+  Widget _brand() {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          width: 34,
+          height: 34,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            gradient: const LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [SpaceColors.accentStart, SpaceColors.accentEnd],
+            ),
+          ),
+          child: const Icon(Icons.hub_rounded, color: Colors.white, size: 19),
+        ),
+        const SizedBox(width: 10),
+        const Text(
+          'FIBO',
+          style: TextStyle(
+            fontFamily: 'Manrope',
+            fontSize: 22,
+            fontWeight: FontWeight.w800,
+            letterSpacing: 1.0,
+            color: SpaceColors.textPrimary,
           ),
         ),
       ],

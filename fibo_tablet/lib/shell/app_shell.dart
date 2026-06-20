@@ -22,9 +22,9 @@ class AppShell extends StatefulWidget {
 class _AppShellState extends State<AppShell> {
   final _home = HomeController();
   // Page 0 is the ambient standby/glance screen; 1 = Home, 2 = Scenes. Launch
-  // on Home; standby is a swipe to the right.
-  final _pageController = PageController(initialPage: 1);
-  int _page = 1;
+  // on the standby screen.
+  final _pageController = PageController(initialPage: 0);
+  int _page = 0;
   String _greetingName = '';
   String _initials = '';
 
