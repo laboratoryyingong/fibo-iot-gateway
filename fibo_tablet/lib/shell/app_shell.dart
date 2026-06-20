@@ -67,7 +67,7 @@ class _AppShellState extends State<AppShell> {
                 index: _index,
                 children: [
                   HomeDashboardScreen(controller: _home),
-                  const ScenesScreen(),
+                  ScenesScreen(controller: _home),
                   const AssistantPanelScreen(),
                 ],
               ),

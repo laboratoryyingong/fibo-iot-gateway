@@ -60,6 +60,16 @@ class HomeController extends ChangeNotifier {
   /// Whether the live IoT shadow connection is up (device state is flowing).
   bool get shadowsConnected => _iot.isConnected;
 
+  /// Scenes defined for this home.
+  List<HomeScene> get scenes => graph?.scenes ?? const [];
+
+  /// Triggers a scene by id. Throws on failure so callers can surface it.
+  Future<void> runScene(String sceneId) async {
+    final g = graph;
+    if (g == null) throw Exception('Home not loaded');
+    await requestExecuteScene(g.homeId, sceneId);
+  }
+
   Future<void> load() async {
     state = HomeLoadState.loading;
     error = null;
