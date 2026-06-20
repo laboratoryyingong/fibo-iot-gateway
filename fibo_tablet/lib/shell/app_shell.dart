@@ -6,6 +6,7 @@ import '../screens/home_dashboard_screen.dart';
 import '../screens/scenes_screen.dart';
 import '../screens/assistant_panel_screen.dart';
 import '../screens/login_screen.dart';
+import '../screens/standby_screen.dart';
 import '../state/home_controller.dart';
 
 /// Landscape control-hub shell, phone-styled: a greeting header, two swipeable
@@ -19,8 +20,10 @@ class AppShell extends StatefulWidget {
 
 class _AppShellState extends State<AppShell> {
   final _home = HomeController();
-  final _pageController = PageController();
-  int _page = 0;
+  // Page 0 is the ambient standby/glance screen; 1 = Home, 2 = Scenes. Launch
+  // on Home; standby is a swipe to the right.
+  final _pageController = PageController(initialPage: 1);
+  int _page = 1;
   String _greetingName = '';
   String _initials = '';
 
@@ -85,8 +88,9 @@ class _AppShellState extends State<AppShell> {
   }
 
   void _selectTab(int i) {
+    // Tabs map to pages 1 (Home) and 2 (Scenes); page 0 is the standby screen.
     _pageController.animateToPage(
-      i,
+      i + 1,
       duration: const Duration(milliseconds: 260),
       curve: Curves.easeOut,
     );
@@ -102,29 +106,36 @@ class _AppShellState extends State<AppShell> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: SpaceColors.bgBase,
-      floatingActionButton: _AssistantFab(onTap: _openAssistant),
-      body: SafeArea(
-        child: Column(
-          children: [
-            _Header(
-              greeting: _greetingName,
-              initials: _initials,
-              home: _home,
-              onSignOut: _signOut,
-            ),
-            _TabStrip(tabs: _tabs, index: _page, onTap: _selectTab),
-            Expanded(
-              child: PageView(
-                controller: _pageController,
-                onPageChanged: (i) => setState(() => _page = i),
-                children: [
-                  HomeDashboardScreen(controller: _home),
-                  ScenesScreen(controller: _home),
-                ],
-              ),
-            ),
-          ],
-        ),
+      // The standby screen has its own mic shortcut, so hide the orb there.
+      floatingActionButton:
+          _page == 0 ? null : _AssistantFab(onTap: _openAssistant),
+      body: PageView(
+        controller: _pageController,
+        onPageChanged: (i) => setState(() => _page = i),
+        children: [
+          StandbyScreen(controller: _home, onAssistant: _openAssistant),
+          _mainPage(HomeDashboardScreen(controller: _home)),
+          _mainPage(ScenesScreen(controller: _home)),
+        ],
+      ),
+    );
+  }
+
+  /// Home/Scenes pages share the greeting header + tab strip.
+  Widget _mainPage(Widget content) {
+    final tabIndex = (_page - 1).clamp(0, _tabs.length - 1);
+    return SafeArea(
+      child: Column(
+        children: [
+          _Header(
+            greeting: _greetingName,
+            initials: _initials,
+            home: _home,
+            onSignOut: _signOut,
+          ),
+          _TabStrip(tabs: _tabs, index: tabIndex, onTap: _selectTab),
+          Expanded(child: content),
+        ],
       ),
     );
   }
