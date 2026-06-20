@@ -80,30 +80,126 @@ class DeviceControlCard extends StatelessWidget {
     );
   }
 
+  /// Per-profile controls, mirroring the phone's device control surfaces.
   List<Widget> _controls(DeviceView view) {
     if (!view.online) return const [];
-    final widgets = <Widget>[];
+    final pct = view.levelPercent ?? 0;
+    switch (view.kind) {
+      case DeviceKind.light:
+      case DeviceKind.dimmableLight:
+        return [
+          const SizedBox(height: 14),
+          _ToggleRow(
+            label: 'Power',
+            value: view.isOn,
+            onChanged: (_) => controller.toggle(device),
+          ),
+          if (view.isOn) ...[
+            const SizedBox(height: 10),
+            _SliderRow(
+              label: 'Brightness',
+              percent: pct,
+              onChanged: (p) => controller.setPercent(device, p),
+            ),
+          ],
+        ];
+      case DeviceKind.onoff:
+      case DeviceKind.siren:
+        return [
+          const SizedBox(height: 14),
+          _ToggleRow(
+            label: 'Power',
+            value: view.isOn,
+            onChanged: (_) => controller.toggle(device),
+          ),
+        ];
+      case DeviceKind.curtain:
+        return [
+          const SizedBox(height: 14),
+          Row(
+            children: [
+              Expanded(
+                child: _WideButton(
+                  label: 'Close',
+                  icon: Icons.keyboard_arrow_down,
+                  onTap: () => controller.setPercent(device, 0),
+                ),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: _WideButton(
+                  label: 'Open',
+                  icon: Icons.keyboard_arrow_up,
+                  onTap: () => controller.setPercent(device, 100),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          _SliderRow(
+            label: 'Position',
+            percent: pct,
+            onChanged: (p) => controller.setPercent(device, p),
+          ),
+        ];
+      case DeviceKind.lock:
+        return [
+          const SizedBox(height: 14),
+          _WideButton(
+            label: view.isOn ? 'Unlock' : 'Lock',
+            icon: view.isOn ? Icons.lock_open : Icons.lock,
+            filled: true,
+            onTap: () => controller.toggle(device),
+          ),
+        ];
+      case DeviceKind.sensor:
+        return const [];
+    }
+  }
+}
 
-    if (view.isToggle || view.isLock) {
-      widgets.add(const SizedBox(height: 14));
-      widgets.add(_ToggleRow(
-        label: view.isLock ? 'Locked' : 'Power',
-        value: view.isOn,
-        onChanged: (_) => controller.toggle(device),
-      ));
-    }
-    if (view.hasSlider) {
-      final isCurtain = view.kind == DeviceKind.curtain;
-      if (isCurtain || view.isOn) {
-        widgets.add(const SizedBox(height: 10));
-        widgets.add(_SliderRow(
-          label: isCurtain ? 'Position' : 'Brightness',
-          percent: view.levelPercent ?? 0,
-          onChanged: (p) => controller.setPercent(device, p),
-        ));
-      }
-    }
-    return widgets;
+/// Wide action button mirroring the phone's curtain/lock controls.
+class _WideButton extends StatelessWidget {
+  const _WideButton({
+    required this.label,
+    required this.icon,
+    required this.onTap,
+    this.filled = false,
+  });
+
+  final String label;
+  final IconData icon;
+  final VoidCallback onTap;
+  final bool filled;
+
+  @override
+  Widget build(BuildContext context) {
+    final fg = filled ? SpaceColors.bgBase : SpaceColors.textPrimary;
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(12),
+      child: Container(
+        height: 46,
+        decoration: BoxDecoration(
+          color: filled ? SpaceColors.accentStart : SpaceColors.bgBase,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: filled ? SpaceColors.accentStart : SpaceColors.stroke,
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, color: fg, size: 18),
+            const SizedBox(width: 6),
+            Text(
+              label,
+              style: SpaceTextStyles.pillTitle.copyWith(color: fg),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 
