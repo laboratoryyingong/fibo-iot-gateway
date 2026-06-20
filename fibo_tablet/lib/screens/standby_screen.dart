@@ -33,12 +33,17 @@ class StandbyScreen extends StatefulWidget {
 }
 
 class _StandbyScreenState extends State<StandbyScreen>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   late DateTime _now = DateTime.now();
   Timer? _timer;
+  bool _editing = false;
   late final AnimationController _nudge = AnimationController(
     vsync: this,
     duration: const Duration(milliseconds: 900),
+  )..repeat(reverse: true);
+  late final AnimationController _jiggle = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 220),
   )..repeat(reverse: true);
 
   @override
@@ -56,7 +61,16 @@ class _StandbyScreenState extends State<StandbyScreen>
   void dispose() {
     _timer?.cancel();
     _nudge.dispose();
+    _jiggle.dispose();
     super.dispose();
+  }
+
+  void _enterEdit() {
+    if (!_editing) setState(() => _editing = true);
+  }
+
+  void _exitEdit() {
+    if (_editing) setState(() => _editing = false);
   }
 
   @override
@@ -67,7 +81,10 @@ class _StandbyScreenState extends State<StandbyScreen>
         child: ListenableBuilder(
           listenable: Listenable.merge([widget.controller, widget.shortcuts]),
           builder: (context, _) {
-            return Stack(
+            return GestureDetector(
+              behavior: HitTestBehavior.translucent,
+              onTap: _editing ? _exitEdit : null,
+              child: Stack(
               children: [
                 Padding(
                   padding: const EdgeInsets.fromLTRB(28, 22, 28, 24),
@@ -89,6 +106,7 @@ class _StandbyScreenState extends State<StandbyScreen>
                   child: Center(child: _swipeHint()),
                 ),
               ],
+              ),
             );
           },
         ),
@@ -264,7 +282,19 @@ class _StandbyScreenState extends State<StandbyScreen>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _rowTitle('Devices'),
+        Row(
+          children: [
+            _rowTitle('Devices'),
+            const Spacer(),
+            if (_editing)
+              TextButton(
+                onPressed: _exitEdit,
+                child: Text('Done',
+                    style: SpaceTextStyles.cardTitle
+                        .copyWith(color: SpaceColors.accentStart, fontSize: 16)),
+              ),
+          ],
+        ),
         const SizedBox(height: 12),
         Expanded(child: _shortcutRow(_deviceShortcuts(), _pickDevice)),
         const SizedBox(height: 22),
@@ -307,7 +337,11 @@ class _StandbyScreenState extends State<StandbyScreen>
       out.add(_DeviceShortcut(
         controller: widget.controller,
         device: device,
-        onRemove: () => _removeDevice(device),
+        editing: _editing,
+        jiggle: _jiggle,
+        onEnterEdit: _enterEdit,
+        onExitEdit: _exitEdit,
+        onRemove: () => _confirmRemoveDevice(device),
       ));
     }
     return out;
@@ -321,8 +355,12 @@ class _StandbyScreenState extends State<StandbyScreen>
       if (scene == null) continue;
       out.add(_SceneShortcut(
         scene: scene,
+        editing: _editing,
+        jiggle: _jiggle,
+        onEnterEdit: _enterEdit,
+        onExitEdit: _exitEdit,
         onTap: () => _runScene(scene),
-        onRemove: () => _removeScene(scene),
+        onRemove: () => _confirmRemoveScene(scene),
       ));
     }
     return out;
@@ -330,16 +368,63 @@ class _StandbyScreenState extends State<StandbyScreen>
 
   // --- Add / remove --------------------------------------------------------
 
-  void _removeDevice(HomeDevice device) {
-    widget.shortcuts.removeDevice(device.shadowName);
-    _snack('Removed ${device.displayName}',
-        onUndo: () => widget.shortcuts.addDevice(device.shadowName));
+  Future<void> _confirmRemoveDevice(HomeDevice device) async {
+    if (await _confirmRemove(device.displayName)) {
+      widget.shortcuts.removeDevice(device.shadowName);
+      _snack('Removed ${device.displayName}',
+          onUndo: () => widget.shortcuts.addDevice(device.shadowName));
+    }
   }
 
-  void _removeScene(HomeScene scene) {
-    widget.shortcuts.removeScene(scene.sceneId);
-    _snack('Removed ${scene.name}',
-        onUndo: () => widget.shortcuts.addScene(scene.sceneId));
+  Future<void> _confirmRemoveScene(HomeScene scene) async {
+    if (await _confirmRemove(scene.name)) {
+      widget.shortcuts.removeScene(scene.sceneId);
+      _snack('Removed ${scene.name}',
+          onUndo: () => widget.shortcuts.addScene(scene.sceneId));
+    }
+  }
+
+  Future<bool> _confirmRemove(String name) async {
+    final ok = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => Dialog(
+        backgroundColor: SpaceColors.bgSurface,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Remove shortcut?', style: SpaceTextStyles.cardTitle),
+              const SizedBox(height: 8),
+              Text('Remove “$name” from your shortcuts?',
+                  style: SpaceTextStyles.cardMeta),
+              const SizedBox(height: 24),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton(
+                    onPressed: () => Navigator.of(ctx).pop(false),
+                    child: Text('Cancel',
+                        style: SpaceTextStyles.pillTitle
+                            .copyWith(color: SpaceColors.textMuted)),
+                  ),
+                  const SizedBox(width: 8),
+                  TextButton(
+                    onPressed: () => Navigator.of(ctx).pop(true),
+                    child: Text('Remove',
+                        style: SpaceTextStyles.pillTitle
+                            .copyWith(color: const Color(0xFFEF6F6F))),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+    return ok ?? false;
   }
 
   Future<void> _pickDevice() async {
@@ -532,28 +617,37 @@ class _StandbyScreenState extends State<StandbyScreen>
   }
 }
 
-/// Shared compact shortcut tile: a centered icon area + label.
+/// Shared compact shortcut tile. In edit mode it jiggles and shows a circled
+/// "−" badge that triggers removal.
 class _ShortcutTile extends StatelessWidget {
   const _ShortcutTile({
     required this.icon,
     required this.label,
     required this.onTap,
-    this.onLongPress,
+    required this.editing,
+    required this.jiggle,
+    required this.onEnterEdit,
+    required this.onExitEdit,
+    required this.onRemove,
     this.active = false,
   });
 
   final Widget icon;
   final String label;
   final VoidCallback onTap;
-  final VoidCallback? onLongPress;
+  final bool editing;
+  final Animation<double> jiggle;
+  final VoidCallback onEnterEdit;
+  final VoidCallback onExitEdit;
+  final VoidCallback onRemove;
   final bool active;
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    final tile = InkWell(
       borderRadius: BorderRadius.circular(18),
-      onTap: onTap,
-      onLongPress: onLongPress,
+      onTap: editing ? onExitEdit : onTap,
+      onLongPress: onEnterEdit,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12),
         decoration: BoxDecoration(
@@ -584,6 +678,41 @@ class _ShortcutTile extends StatelessWidget {
         ),
       ),
     );
+
+    if (!editing) return tile;
+
+    final withBadge = Stack(
+      clipBehavior: Clip.none,
+      children: [
+        tile,
+        Positioned(
+          top: 8,
+          right: 8,
+          child: GestureDetector(
+            onTap: onRemove,
+            child: Container(
+              width: 26,
+              height: 26,
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                color: Color(0xFFEAECEF),
+              ),
+              child: const Icon(Icons.remove,
+                  size: 18, color: SpaceColors.bgBase),
+            ),
+          ),
+        ),
+      ],
+    );
+
+    return AnimatedBuilder(
+      animation: jiggle,
+      builder: (_, child) => Transform.rotate(
+        angle: (jiggle.value - 0.5) * 0.06,
+        child: child,
+      ),
+      child: withBadge,
+    );
   }
 }
 
@@ -591,11 +720,19 @@ class _DeviceShortcut extends StatelessWidget {
   const _DeviceShortcut({
     required this.controller,
     required this.device,
+    required this.editing,
+    required this.jiggle,
+    required this.onEnterEdit,
+    required this.onExitEdit,
     required this.onRemove,
   });
 
   final HomeController controller;
   final HomeDevice device;
+  final bool editing;
+  final Animation<double> jiggle;
+  final VoidCallback onEnterEdit;
+  final VoidCallback onExitEdit;
   final VoidCallback onRemove;
 
   @override
@@ -604,8 +741,12 @@ class _DeviceShortcut extends StatelessWidget {
     final on = v.isOn && v.kind != DeviceKind.sensor;
     return _ShortcutTile(
       active: on,
+      editing: editing,
+      jiggle: jiggle,
+      onEnterEdit: onEnterEdit,
+      onExitEdit: onExitEdit,
+      onRemove: onRemove,
       onTap: () => controller.toggle(device),
-      onLongPress: onRemove,
       label: device.displayName,
       icon: Icon(
         iconForProfile(device.profile),
@@ -620,18 +761,30 @@ class _SceneShortcut extends StatelessWidget {
   const _SceneShortcut({
     required this.scene,
     required this.onTap,
+    required this.editing,
+    required this.jiggle,
+    required this.onEnterEdit,
+    required this.onExitEdit,
     required this.onRemove,
   });
 
   final HomeScene scene;
   final VoidCallback onTap;
+  final bool editing;
+  final Animation<double> jiggle;
+  final VoidCallback onEnterEdit;
+  final VoidCallback onExitEdit;
   final VoidCallback onRemove;
 
   @override
   Widget build(BuildContext context) {
     return _ShortcutTile(
+      editing: editing,
+      jiggle: jiggle,
+      onEnterEdit: onEnterEdit,
+      onExitEdit: onExitEdit,
+      onRemove: onRemove,
       onTap: onTap,
-      onLongPress: onRemove,
       label: scene.name,
       icon: Text(scene.icon, style: const TextStyle(fontSize: 32)),
     );
