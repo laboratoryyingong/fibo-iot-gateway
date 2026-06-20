@@ -7,7 +7,7 @@
 // chat UI never blocks on missing mappings.
 
 import '../screens/space_models.dart';
-import 'agent_events.dart';
+import 'package:fibo_core/services/agent_events.dart';
 
 class _AgentDeviceMapping {
   const _AgentDeviceMapping({required this.roomName, required this.deviceName});

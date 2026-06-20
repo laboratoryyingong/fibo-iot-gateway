@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../services/home_graph.dart';
-import '../services/mock_room_photo_catalog.dart';
+import 'package:fibo_core/services/home_graph.dart';
+import 'package:fibo_core/services/mock_room_photo_catalog.dart';
 import 'space_models.dart';
 
 @immutable

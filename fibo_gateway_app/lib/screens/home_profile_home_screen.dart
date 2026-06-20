@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../services/gateway_linking_service.dart';
-import '../theme/space_tokens.dart';
+import 'package:fibo_core/services/gateway_linking_service.dart';
+import 'package:fibo_core/theme/space_tokens.dart';
 import '../widgets/space_bottom_bar.dart';
 import 'home_profile_models.dart';
 import 'scenes_list_screen.dart';

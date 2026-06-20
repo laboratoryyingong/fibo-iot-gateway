@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../theme/app_colors.dart';
-import '../theme/app_decorations.dart';
+import 'package:fibo_core/theme/app_colors.dart';
+import 'package:fibo_core/theme/app_decorations.dart';
 
 class HeaderActionButton extends StatelessWidget {
   const HeaderActionButton({

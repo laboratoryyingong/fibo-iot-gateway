@@ -4,7 +4,7 @@ import '../screens/assistant_screen.dart';
 import '../screens/home_profile_home_screen.dart';
 import '../screens/scenes_list_screen.dart';
 import '../screens/spaces_overview_screen.dart';
-import '../theme/space_tokens.dart';
+import 'package:fibo_core/theme/space_tokens.dart';
 
 enum SpaceTab { home, scenes, spaces, assistant }
 

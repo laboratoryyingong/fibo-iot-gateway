@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../theme/assistant_tokens.dart';
+import 'package:fibo_core/theme/assistant_tokens.dart';
 
 /// Lightweight Markdown renderer for assistant replies. Handles the constructs
 /// the agent actually emits — section headings, **bold** inline spans, bullet

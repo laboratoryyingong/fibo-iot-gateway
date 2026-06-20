@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 
-import '../theme/app_decorations.dart';
-import '../theme/pairing_tokens.dart';
+import 'package:fibo_core/theme/app_decorations.dart';
+import 'package:fibo_core/theme/pairing_tokens.dart';
 import '../widgets/gateway_dark_header.dart';
 import '../widgets/pairing_action_button.dart';
 import '../widgets/pairing_gradient_panel.dart';

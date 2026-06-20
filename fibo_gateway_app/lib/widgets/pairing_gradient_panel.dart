@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../theme/pairing_tokens.dart';
+import 'package:fibo_core/theme/pairing_tokens.dart';
 
 class PairingGradientPanel extends StatelessWidget {
   const PairingGradientPanel({

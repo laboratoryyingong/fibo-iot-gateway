@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../theme/space_tokens.dart';
+import 'package:fibo_core/theme/space_tokens.dart';
 import '../widgets/room_image_cover.dart';
 import '../widgets/space_bottom_bar.dart';
 import 'space_models.dart';
@@ -64,6 +64,9 @@ class SpacesOverviewScreen extends StatelessWidget {
           onAction: embedded
               ? null
               : () => Navigator.of(context).pushNamed('/spaces/rooms'),
+          actionIcon: Icons.add,
+          onActionIcon: () =>
+              Navigator.of(context).pushNamed('/spaces/new-room'),
         ),
         const SizedBox(height: 14),
         SizedBox(
@@ -89,6 +92,9 @@ class SpacesOverviewScreen extends StatelessWidget {
           onAction: embedded
               ? null
               : () => Navigator.of(context).pushNamed('/spaces/devices'),
+          actionIcon: Icons.add,
+          onActionIcon: () =>
+              Navigator.of(context).pushNamed('/pairing/start'),
         ),
         const SizedBox(height: 14),
         SizedBox(
@@ -227,12 +233,16 @@ class _SectionHeader extends StatelessWidget {
     required this.count,
     this.actionLabel,
     this.onAction,
+    this.actionIcon,
+    this.onActionIcon,
   });
 
   final String title;
   final int count;
   final String? actionLabel;
   final VoidCallback? onAction;
+  final IconData? actionIcon;
+  final VoidCallback? onActionIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -259,7 +269,37 @@ class _SectionHeader extends StatelessWidget {
               ),
             ),
           ),
+        if (actionIcon != null && onActionIcon != null) ...[
+          if (actionLabel != null && onAction != null)
+            const SizedBox(width: 12),
+          _SectionActionIconButton(icon: actionIcon!, onTap: onActionIcon!),
+        ],
       ],
+    );
+  }
+}
+
+class _SectionActionIconButton extends StatelessWidget {
+  const _SectionActionIconButton({required this.icon, required this.onTap});
+
+  final IconData icon;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      borderRadius: BorderRadius.circular(12),
+      onTap: onTap,
+      child: Container(
+        width: 34,
+        height: 34,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          color: SpaceColors.bgSurface,
+          border: Border.all(color: SpaceColors.stroke),
+        ),
+        child: Icon(icon, color: SpaceColors.textPrimary, size: 18),
+      ),
     );
   }
 }
@@ -272,6 +312,7 @@ class _RoomCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final devices = room.devices.take(4).toList(growable: false);
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(16),
@@ -314,10 +355,9 @@ class _RoomCard extends StatelessWidget {
                   const SizedBox(height: 8),
                   Row(
                     children: [
-                      for (final entry
-                          in room.devices.take(4).toList().asMap().entries) ...[
-                        _DeviceDot(active: entry.value.isOn),
-                        if (entry.key != room.devices.take(4).length - 1)
+                      for (final entry in devices.asMap().entries) ...[
+                        _DeviceIconChip(device: entry.value),
+                        if (entry.key != devices.length - 1)
                           const SizedBox(width: 6),
                       ],
                     ],
@@ -332,10 +372,10 @@ class _RoomCard extends StatelessWidget {
   }
 }
 
-class _DeviceDot extends StatelessWidget {
-  const _DeviceDot({required this.active});
+class _DeviceIconChip extends StatelessWidget {
+  const _DeviceIconChip({required this.device});
 
-  final bool active;
+  final SpaceDeviceState device;
 
   @override
   Widget build(BuildContext context) {
@@ -344,10 +384,15 @@ class _DeviceDot extends StatelessWidget {
       height: 24,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: active ? SpaceColors.textPrimary : Colors.transparent,
+        color: device.isOn ? SpaceColors.textPrimary : Colors.transparent,
         border: Border.all(
-          color: active ? SpaceColors.textPrimary : SpaceColors.stroke,
+          color: device.isOn ? SpaceColors.textPrimary : SpaceColors.stroke,
         ),
+      ),
+      child: Icon(
+        device.icon,
+        size: 13,
+        color: device.isOn ? SpaceColors.bgBase : SpaceColors.textMuted,
       ),
     );
   }

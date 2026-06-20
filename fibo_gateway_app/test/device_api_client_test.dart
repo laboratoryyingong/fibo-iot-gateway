@@ -4,8 +4,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
 
-import 'package:fibo_gateway_app/services/device_api_client.dart';
-import 'package:fibo_gateway_app/services/device_api_models.dart';
+import 'package:fibo_core/services/device_api_client.dart';
+import 'package:fibo_core/services/device_api_models.dart';
 
 http.Response _json(Object body, [int status = 200]) =>
     http.Response(jsonEncode(body), status,

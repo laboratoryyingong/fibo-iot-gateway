@@ -1,4 +1,4 @@
-import 'package:fibo_gateway_app/services/mock_shadow_repository.dart';
+import 'package:fibo_core/services/mock_shadow_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

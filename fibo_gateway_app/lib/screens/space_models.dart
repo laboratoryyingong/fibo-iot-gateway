@@ -2,17 +2,17 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import '../services/agent_config.dart';
-import '../services/app_prefs.dart';
-import '../services/aws_iot_session.dart';
-import '../services/cognito_credentials_provider.dart';
-import '../services/device_api_client.dart';
-import '../services/device_api_models.dart';
-import '../services/home_graph.dart';
-import '../services/iot_config.dart';
-import '../services/iot_shadow_client.dart';
-import '../services/mock_shadow_repository.dart';
-import '../services/mock_room_photo_catalog.dart';
+import 'package:fibo_core/services/agent_config.dart';
+import 'package:fibo_core/services/app_prefs.dart';
+import 'package:fibo_core/services/aws_iot_session.dart';
+import 'package:fibo_core/services/cognito_credentials_provider.dart';
+import 'package:fibo_core/services/device_api_client.dart';
+import 'package:fibo_core/services/device_api_models.dart';
+import 'package:fibo_core/services/home_graph.dart';
+import 'package:fibo_core/services/iot_config.dart';
+import 'package:fibo_core/services/iot_shadow_client.dart';
+import 'package:fibo_core/services/mock_shadow_repository.dart';
+import 'package:fibo_core/services/mock_room_photo_catalog.dart';
 import 'space_device_types.dart';
 
 class SpaceRoom {

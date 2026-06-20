@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../theme/space_tokens.dart';
+import 'package:fibo_core/theme/space_tokens.dart';
 
 /// Static support / contact page. Uses the clipboard to copy details (no
 /// external launcher dependency).

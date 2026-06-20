@@ -20,7 +20,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
-import '../theme/assistant_tokens.dart';
+import 'package:fibo_core/theme/assistant_tokens.dart';
 import '../widgets/assistant_composer.dart';
 import '../widgets/assistant_message_bubble.dart';
 import '../widgets/space_bottom_bar.dart';

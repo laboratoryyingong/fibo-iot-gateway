@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../services/app_prefs.dart';
-import '../theme/space_tokens.dart';
+import 'package:fibo_core/services/app_prefs.dart';
+import 'package:fibo_core/theme/space_tokens.dart';
 import 'space_models.dart';
 
 /// App settings: notification + temperature-unit preferences (persisted on the

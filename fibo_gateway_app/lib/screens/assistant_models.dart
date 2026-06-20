@@ -5,10 +5,10 @@ import 'package:flutter/foundation.dart';
 import 'package:uuid/uuid.dart';
 
 import '../services/agent_device_map.dart';
-import '../services/agent_events.dart';
-import '../services/claude_agent_client.dart';
-import '../services/device_api_client.dart';
-import '../services/device_api_models.dart';
+import 'package:fibo_core/services/agent_events.dart';
+import 'package:fibo_core/services/claude_agent_client.dart';
+import 'package:fibo_core/services/device_api_client.dart';
+import 'package:fibo_core/services/device_api_models.dart';
 
 enum ChatRole { user, assistant, system }
 

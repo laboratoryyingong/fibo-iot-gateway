@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 
-import '../theme/app_colors.dart';
-import '../theme/auth_tokens.dart';
+import 'package:fibo_core/theme/app_colors.dart';
+import 'package:fibo_core/theme/auth_tokens.dart';
 
 class AuthPanelIconBadge extends StatelessWidget {
   const AuthPanelIconBadge({

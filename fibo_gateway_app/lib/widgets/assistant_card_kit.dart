@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../theme/assistant_tokens.dart';
+import 'package:fibo_core/theme/assistant_tokens.dart';
 
 /// Shared primitives for the in-chat device control cards
 /// (design/fibo_claude_agent.pen device screens). Keeps the per-device cards

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../services/gateway_linking_service.dart';
-import '../theme/app_colors.dart';
-import '../theme/app_text_styles.dart';
-import '../theme/app_decorations.dart';
+import 'package:fibo_core/services/gateway_linking_service.dart';
+import 'package:fibo_core/theme/app_colors.dart';
+import 'package:fibo_core/theme/app_text_styles.dart';
+import 'package:fibo_core/theme/app_decorations.dart';
 
 class AppMenuButton extends StatefulWidget {
   const AppMenuButton({

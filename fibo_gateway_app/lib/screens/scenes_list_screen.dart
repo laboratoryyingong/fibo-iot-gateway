@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../theme/scenes_tokens.dart';
-import '../theme/space_tokens.dart';
+import 'package:fibo_core/theme/scenes_tokens.dart';
+import 'package:fibo_core/theme/space_tokens.dart';
 import '../widgets/space_bottom_bar.dart';
 import 'scenes_models.dart';
 import 'space_models.dart';
@@ -145,11 +145,17 @@ class _EmbeddedScenesHeader extends StatelessWidget {
         ),
         const Spacer(),
         InkWell(
+          borderRadius: BorderRadius.circular(12),
           onTap: onCreate,
-          borderRadius: BorderRadius.circular(20),
-          child: const Padding(
-            padding: EdgeInsets.only(bottom: 4),
-            child: Icon(Icons.add, color: SpaceColors.textPrimary, size: 22),
+          child: Container(
+            width: 34,
+            height: 34,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12),
+              color: SpaceColors.bgSurface,
+              border: Border.all(color: SpaceColors.stroke),
+            ),
+            child: const Icon(Icons.add, color: SpaceColors.textPrimary, size: 18),
           ),
         ),
       ],

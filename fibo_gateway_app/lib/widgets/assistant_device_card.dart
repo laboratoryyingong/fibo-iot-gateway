@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../screens/assistant_models.dart';
-import '../services/device_api_models.dart';
+import 'package:fibo_core/services/device_api_models.dart';
 import 'assistant_curtain_card.dart';
 import 'assistant_light_card.dart';
 import 'assistant_lock_card.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../theme/space_tokens.dart';
+import 'package:fibo_core/theme/space_tokens.dart';
 import 'space_models.dart';
 
 class SpacesNewRoomScreen extends StatefulWidget {

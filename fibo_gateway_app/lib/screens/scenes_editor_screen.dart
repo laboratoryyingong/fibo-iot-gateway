@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../services/home_graph.dart';
-import '../services/scenes_service.dart';
-import '../theme/scenes_tokens.dart';
+import 'package:fibo_core/services/home_graph.dart';
+import 'package:fibo_core/services/scenes_service.dart';
+import 'package:fibo_core/theme/scenes_tokens.dart';
 import 'space_models.dart';
 
 /// Real Parse-backed scene editor: name + emoji + a list of device actions

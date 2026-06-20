@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 
-import '../theme/assistant_tokens.dart';
+import 'package:fibo_core/theme/assistant_tokens.dart';
 
 /// Pill composer for the Fibo AI chat agent.
 ///

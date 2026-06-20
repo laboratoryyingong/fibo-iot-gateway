@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../services/device_api_models.dart';
-import '../theme/assistant_tokens.dart';
+import 'package:fibo_core/services/device_api_models.dart';
+import 'package:fibo_core/theme/assistant_tokens.dart';
 
 /// Rich "My Home" card rendered from a `get_devices` tool result, mirroring
 /// design/fibo_claude_agent.pen › "44. Devices Dashboard".

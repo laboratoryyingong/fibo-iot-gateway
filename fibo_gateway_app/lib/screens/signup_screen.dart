@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 
-import '../services/user_role_resolver.dart';
-import '../theme/app_colors.dart';
-import '../theme/app_theme.dart';
-import '../theme/auth_tokens.dart';
+import 'package:fibo_core/services/user_role_resolver.dart';
+import 'package:fibo_core/theme/app_colors.dart';
+import 'package:fibo_core/theme/app_theme.dart';
+import 'package:fibo_core/theme/auth_tokens.dart';
 import '../widgets/auth_background_image.dart';
 import '../widgets/auth_gradient_button.dart';
 import '../widgets/auth_input_field.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../theme/pairing_tokens.dart';
+import 'package:fibo_core/theme/pairing_tokens.dart';
 import '../widgets/pairing_action_button.dart';
 
 class PairingSuccessScreen extends StatelessWidget {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 
-import '../theme/space_tokens.dart';
+import 'package:fibo_core/theme/space_tokens.dart';
 
 /// Account security: sends a password-reset link to the signed-in user's email
 /// (uses the standard Parse reset flow — no current password handling here).

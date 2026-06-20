@@ -108,13 +108,13 @@ unlinked_spec.ds
 coverage/
 
 # Local-only Parse Server config
-fibo_gateway_app/lib/services/parse_config.local.dart
+packages/fibo_core/lib/services/parse_config.local.dart
 Parse/.env
 Parse/.env.*
 !Parse/.env.example
 
 # Local-only Claude agent config
-fibo_gateway_app/lib/services/agent_config.local.dart
+packages/fibo_core/lib/services/agent_config.local.dart
 
 # Symbols
 app.*.symbols

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 
-import '../services/gateway_linking_service.dart';
-import '../theme/app_theme.dart';
+import 'package:fibo_core/services/gateway_linking_service.dart';
+import 'package:fibo_core/theme/app_theme.dart';
 import '../widgets/auth_background_image.dart';
 
 /// Decides where to send the user on launch (login vs. home). No branded

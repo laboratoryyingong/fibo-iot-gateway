@@ -39,8 +39,8 @@ import 'screens/spaces_all_rooms_screen.dart';
 import 'screens/spaces_device_control_screen.dart';
 import 'screens/spaces_new_room_screen.dart';
 import 'screens/spaces_room_detail_screen.dart';
-import 'services/parse_config.dart';
-import 'theme/app_theme.dart';
+import 'package:fibo_core/services/parse_config.dart';
+import 'package:fibo_core/theme/app_theme.dart';
 import 'widgets/space_bottom_bar.dart';
 
 Future<void> main() async {

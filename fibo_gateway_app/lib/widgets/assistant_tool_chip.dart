@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../screens/assistant_models.dart';
-import '../theme/assistant_tokens.dart';
+import 'package:fibo_core/theme/assistant_tokens.dart';
 
 class AssistantToolChip extends StatelessWidget {
   const AssistantToolChip({super.key, required this.chip});

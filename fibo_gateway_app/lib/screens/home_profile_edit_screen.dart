@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../services/home_graph.dart';
-import '../theme/space_tokens.dart';
+import 'package:fibo_core/services/home_graph.dart';
+import 'package:fibo_core/theme/space_tokens.dart';
 import 'home_profile_models.dart';
 import 'space_models.dart';
 

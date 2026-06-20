@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 
-import '../services/gateway_linking_service.dart';
-import '../services/user_role_resolver.dart';
-import '../theme/pairing_tokens.dart';
+import 'package:fibo_core/services/gateway_linking_service.dart';
+import 'package:fibo_core/services/user_role_resolver.dart';
+import 'package:fibo_core/theme/pairing_tokens.dart';
 import '../widgets/gateway_dark_header.dart';
 import '../widgets/gateway_info_card.dart';
 import '../widgets/pairing_action_button.dart';

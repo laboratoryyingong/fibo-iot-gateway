@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../services/device_api_models.dart';
-import '../theme/assistant_tokens.dart';
+import 'package:fibo_core/services/device_api_models.dart';
+import 'package:fibo_core/theme/assistant_tokens.dart';
 import 'assistant_card_kit.dart';
 
 /// Smoke alarm card, mirroring

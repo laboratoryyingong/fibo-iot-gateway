@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../theme/scenes_tokens.dart';
+import 'package:fibo_core/theme/scenes_tokens.dart';
 import 'scenes_models.dart';
 
 class ScenesDetailScreen extends StatefulWidget {

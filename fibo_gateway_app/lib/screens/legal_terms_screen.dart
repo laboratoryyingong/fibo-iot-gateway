@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../theme/space_tokens.dart';
+import 'package:fibo_core/theme/space_tokens.dart';
 
 /// Static Terms of use page.
 class LegalTermsScreen extends StatelessWidget {

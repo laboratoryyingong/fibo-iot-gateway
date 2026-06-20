@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../theme/space_tokens.dart';
+import 'package:fibo_core/theme/space_tokens.dart';
 import '../widgets/space_bottom_bar.dart';
 import 'assistant_screen.dart';
 import 'home_profile_home_screen.dart';
