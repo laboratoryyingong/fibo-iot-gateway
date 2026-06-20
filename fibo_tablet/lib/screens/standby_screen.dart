@@ -74,8 +74,8 @@ class _StandbyScreenState extends State<StandbyScreen>
                       _topRow(),
                       const SizedBox(height: 28),
                       _clock(),
-                      const Spacer(),
-                      _shortcuts(),
+                      const SizedBox(height: 28),
+                      Expanded(child: _shortcuts()),
                     ],
                   ),
                 ),
@@ -255,21 +255,30 @@ class _StandbyScreenState extends State<StandbyScreen>
     );
   }
 
-  /// Two rows of quick shortcuts: devices, then scenes — each four wide, with
-  /// empty slots shown as "+" tiles.
+  /// Two titled rows of quick shortcuts (devices, then scenes) that fill the
+  /// space; each is four wide with empty slots shown as "+" tiles.
   Widget _shortcuts() {
     return Column(
-      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _shortcutRow(_deviceShortcuts()),
-        const SizedBox(height: 14),
-        _shortcutRow(_sceneShortcuts()),
+        _rowTitle('Devices'),
+        const SizedBox(height: 12),
+        Expanded(child: _shortcutRow(_deviceShortcuts())),
+        const SizedBox(height: 22),
+        _rowTitle('Scenes'),
+        const SizedBox(height: 12),
+        Expanded(child: _shortcutRow(_sceneShortcuts())),
       ],
     );
   }
 
+  Widget _rowTitle(String text) {
+    return Text(text, style: SpaceTextStyles.cardTitle);
+  }
+
   Widget _shortcutRow(List<Widget> tiles) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         for (var i = 0; i < 4; i++) ...[
           Expanded(child: i < tiles.length ? tiles[i] : const _AddTile()),
@@ -403,7 +412,6 @@ class _ShortcutTile extends StatelessWidget {
       borderRadius: BorderRadius.circular(18),
       onTap: onTap,
       child: Container(
-        height: 96,
         padding: const EdgeInsets.symmetric(horizontal: 12),
         decoration: BoxDecoration(
           color: SpaceColors.bgSurface,
@@ -452,7 +460,7 @@ class _DeviceShortcut extends StatelessWidget {
       label: device.displayName,
       icon: Icon(
         iconForProfile(device.profile),
-        size: 26,
+        size: 34,
         color: on ? SpaceColors.accentStart : SpaceColors.textPrimary,
       ),
     );
@@ -470,7 +478,7 @@ class _SceneShortcut extends StatelessWidget {
     return _ShortcutTile(
       onTap: onTap,
       label: scene.name,
-      icon: Text(scene.icon, style: const TextStyle(fontSize: 26)),
+      icon: Text(scene.icon, style: const TextStyle(fontSize: 32)),
     );
   }
 }
@@ -482,13 +490,12 @@ class _AddTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 96,
       decoration: BoxDecoration(
         color: SpaceColors.bgSurface.withValues(alpha: 0.4),
         borderRadius: BorderRadius.circular(18),
         border: Border.all(color: SpaceColors.stroke),
       ),
-      child: const Icon(Icons.add_rounded, color: SpaceColors.textMuted, size: 28),
+      child: const Icon(Icons.add_rounded, color: SpaceColors.textMuted, size: 30),
     );
   }
 }
