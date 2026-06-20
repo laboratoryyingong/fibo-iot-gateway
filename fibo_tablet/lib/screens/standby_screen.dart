@@ -5,6 +5,7 @@ import 'package:fibo_core/services/home_graph.dart';
 import 'package:fibo_core/theme/space_tokens.dart';
 
 import '../state/home_controller.dart';
+import '../state/shortcuts_controller.dart';
 import '../widgets/connection_icon.dart';
 import '../widgets/device_icons.dart';
 
@@ -15,11 +16,13 @@ class StandbyScreen extends StatefulWidget {
   const StandbyScreen({
     super.key,
     required this.controller,
+    required this.shortcuts,
     required this.onAssistant,
     this.onNext,
   });
 
   final HomeController controller;
+  final ShortcutsController shortcuts;
   final VoidCallback onAssistant;
 
   /// Advances to the Home page (wired by the shell); also drives the swipe hint.
@@ -62,7 +65,7 @@ class _StandbyScreenState extends State<StandbyScreen>
       color: SpaceColors.bgBase,
       child: SafeArea(
         child: ListenableBuilder(
-          listenable: widget.controller,
+          listenable: Listenable.merge([widget.controller, widget.shortcuts]),
           builder: (context, _) {
             return Stack(
               children: [
@@ -263,11 +266,11 @@ class _StandbyScreenState extends State<StandbyScreen>
       children: [
         _rowTitle('Devices'),
         const SizedBox(height: 12),
-        Expanded(child: _shortcutRow(_deviceShortcuts())),
+        Expanded(child: _shortcutRow(_deviceShortcuts(), _pickDevice)),
         const SizedBox(height: 22),
         _rowTitle('Scenes'),
         const SizedBox(height: 12),
-        Expanded(child: _shortcutRow(_sceneShortcuts())),
+        Expanded(child: _shortcutRow(_sceneShortcuts(), _pickScene)),
       ],
     );
   }
@@ -276,38 +279,175 @@ class _StandbyScreenState extends State<StandbyScreen>
     return Text(text, style: SpaceTextStyles.cardTitle);
   }
 
-  Widget _shortcutRow(List<Widget> tiles) {
+  Widget _shortcutRow(List<Widget> tiles, VoidCallback onAdd) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         for (var i = 0; i < 4; i++) ...[
-          Expanded(child: i < tiles.length ? tiles[i] : const _AddTile()),
+          Expanded(
+            child: i < tiles.length ? tiles[i] : _AddTile(onTap: onAdd),
+          ),
           if (i < 3) const SizedBox(width: 14),
         ],
       ],
     );
   }
 
+  /// Pinned device shortcuts, resolved from saved keys against the live graph.
   List<Widget> _deviceShortcuts() {
+    final graph = widget.controller.graph;
+    if (graph == null) return const [];
     final out = <Widget>[];
-    for (final room in widget.controller.rooms) {
-      for (final device in room.devices) {
-        final v = widget.controller.viewFor(device);
-        if (v.isToggle || v.isLock) {
-          out.add(_DeviceShortcut(
-              controller: widget.controller, device: device));
-          if (out.length == 4) return out;
-        }
-      }
+    for (final key in widget.shortcuts.deviceKeys) {
+      final device = graph.devices
+          .where((d) => d.shadowName == key)
+          .cast<HomeDevice?>()
+          .firstWhere((d) => true, orElse: () => null);
+      if (device == null) continue;
+      out.add(_DeviceShortcut(
+        controller: widget.controller,
+        device: device,
+        onRemove: () => _removeDevice(device),
+      ));
     }
     return out;
   }
 
   List<Widget> _sceneShortcuts() {
-    return [
-      for (final s in widget.controller.scenes.take(4))
-        _SceneShortcut(scene: s, onTap: () => _runScene(s)),
+    final byId = {for (final s in widget.controller.scenes) s.sceneId: s};
+    final out = <Widget>[];
+    for (final id in widget.shortcuts.sceneIds) {
+      final scene = byId[id];
+      if (scene == null) continue;
+      out.add(_SceneShortcut(
+        scene: scene,
+        onTap: () => _runScene(scene),
+        onRemove: () => _removeScene(scene),
+      ));
+    }
+    return out;
+  }
+
+  // --- Add / remove --------------------------------------------------------
+
+  void _removeDevice(HomeDevice device) {
+    widget.shortcuts.removeDevice(device.shadowName);
+    _snack('Removed ${device.displayName}',
+        onUndo: () => widget.shortcuts.addDevice(device.shadowName));
+  }
+
+  void _removeScene(HomeScene scene) {
+    widget.shortcuts.removeScene(scene.sceneId);
+    _snack('Removed ${scene.name}',
+        onUndo: () => widget.shortcuts.addScene(scene.sceneId));
+  }
+
+  Future<void> _pickDevice() async {
+    final graph = widget.controller.graph;
+    if (graph == null) return;
+    final pinned = widget.shortcuts.deviceKeys.toSet();
+    final options = [
+      for (final room in widget.controller.rooms)
+        for (final d in room.devices)
+          if (() {
+                final v = widget.controller.viewFor(d);
+                return (v.isToggle || v.isLock) && !pinned.contains(d.shadowName);
+              }())
+            d,
     ];
+    final picked = await _showPicker<HomeDevice>(
+      title: 'Add a device',
+      options: options,
+      iconBuilder: (d) => Icon(iconForProfile(d.profile),
+          color: SpaceColors.textPrimary, size: 22),
+      labelBuilder: (d) => d.displayName,
+    );
+    if (picked != null) widget.shortcuts.addDevice(picked.shadowName);
+  }
+
+  Future<void> _pickScene() async {
+    final pinned = widget.shortcuts.sceneIds.toSet();
+    final options = [
+      for (final s in widget.controller.scenes)
+        if (!pinned.contains(s.sceneId)) s,
+    ];
+    final picked = await _showPicker<HomeScene>(
+      title: 'Add a scene',
+      options: options,
+      iconBuilder: (s) => Text(s.icon, style: const TextStyle(fontSize: 22)),
+      labelBuilder: (s) => s.name,
+    );
+    if (picked != null) widget.shortcuts.addScene(picked.sceneId);
+  }
+
+  Future<T?> _showPicker<T>({
+    required String title,
+    required List<T> options,
+    required Widget Function(T) iconBuilder,
+    required String Function(T) labelBuilder,
+  }) {
+    return showDialog<T>(
+      context: context,
+      builder: (ctx) => Dialog(
+        backgroundColor: SpaceColors.bgSurface,
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 420, maxHeight: 520),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(24, 20, 24, 12),
+                child: Text(title, style: SpaceTextStyles.cardTitle),
+              ),
+              if (options.isEmpty)
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
+                  child: Text('Nothing left to add.',
+                      style: SpaceTextStyles.cardMeta),
+                )
+              else
+                Flexible(
+                  child: ListView(
+                    shrinkWrap: true,
+                    padding: const EdgeInsets.only(bottom: 12),
+                    children: [
+                      for (final o in options)
+                        ListTile(
+                          leading: iconBuilder(o),
+                          title: Text(labelBuilder(o),
+                              style: SpaceTextStyles.pillTitle),
+                          onTap: () => Navigator.of(ctx).pop(o),
+                        ),
+                    ],
+                  ),
+                ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _snack(String message, {VoidCallback? onUndo}) {
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: SpaceColors.bgElevated,
+        content: Text(message,
+            style: const TextStyle(fontFamily: 'Manrope', color: Colors.white)),
+        action: onUndo == null
+            ? null
+            : SnackBarAction(
+                label: 'Undo',
+                textColor: SpaceColors.accentStart,
+                onPressed: onUndo,
+              ),
+      ),
+    );
   }
 
   Future<void> _runScene(HomeScene scene) async {
@@ -398,12 +538,14 @@ class _ShortcutTile extends StatelessWidget {
     required this.icon,
     required this.label,
     required this.onTap,
+    this.onLongPress,
     this.active = false,
   });
 
   final Widget icon;
   final String label;
   final VoidCallback onTap;
+  final VoidCallback? onLongPress;
   final bool active;
 
   @override
@@ -411,6 +553,7 @@ class _ShortcutTile extends StatelessWidget {
     return InkWell(
       borderRadius: BorderRadius.circular(18),
       onTap: onTap,
+      onLongPress: onLongPress,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12),
         decoration: BoxDecoration(
@@ -445,10 +588,15 @@ class _ShortcutTile extends StatelessWidget {
 }
 
 class _DeviceShortcut extends StatelessWidget {
-  const _DeviceShortcut({required this.controller, required this.device});
+  const _DeviceShortcut({
+    required this.controller,
+    required this.device,
+    required this.onRemove,
+  });
 
   final HomeController controller;
   final HomeDevice device;
+  final VoidCallback onRemove;
 
   @override
   Widget build(BuildContext context) {
@@ -457,6 +605,7 @@ class _DeviceShortcut extends StatelessWidget {
     return _ShortcutTile(
       active: on,
       onTap: () => controller.toggle(device),
+      onLongPress: onRemove,
       label: device.displayName,
       icon: Icon(
         iconForProfile(device.profile),
@@ -468,34 +617,47 @@ class _DeviceShortcut extends StatelessWidget {
 }
 
 class _SceneShortcut extends StatelessWidget {
-  const _SceneShortcut({required this.scene, required this.onTap});
+  const _SceneShortcut({
+    required this.scene,
+    required this.onTap,
+    required this.onRemove,
+  });
 
   final HomeScene scene;
   final VoidCallback onTap;
+  final VoidCallback onRemove;
 
   @override
   Widget build(BuildContext context) {
     return _ShortcutTile(
       onTap: onTap,
+      onLongPress: onRemove,
       label: scene.name,
       icon: Text(scene.icon, style: const TextStyle(fontSize: 32)),
     );
   }
 }
 
-/// Empty shortcut slot shown as a "+" (matches the reference layout).
+/// Empty shortcut slot shown as a tappable "+" that opens the add picker.
 class _AddTile extends StatelessWidget {
-  const _AddTile();
+  const _AddTile({required this.onTap});
+
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: SpaceColors.bgSurface.withValues(alpha: 0.4),
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: SpaceColors.stroke),
+    return InkWell(
+      borderRadius: BorderRadius.circular(18),
+      onTap: onTap,
+      child: Container(
+        decoration: BoxDecoration(
+          color: SpaceColors.bgSurface.withValues(alpha: 0.4),
+          borderRadius: BorderRadius.circular(18),
+          border: Border.all(color: SpaceColors.stroke),
+        ),
+        child: const Icon(Icons.add_rounded,
+            color: SpaceColors.textMuted, size: 30),
       ),
-      child: const Icon(Icons.add_rounded, color: SpaceColors.textMuted, size: 30),
     );
   }
 }

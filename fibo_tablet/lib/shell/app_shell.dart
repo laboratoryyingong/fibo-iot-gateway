@@ -8,6 +8,7 @@ import '../screens/assistant_panel_screen.dart';
 import '../screens/login_screen.dart';
 import '../screens/standby_screen.dart';
 import '../state/home_controller.dart';
+import '../state/shortcuts_controller.dart';
 import '../widgets/connection_icon.dart';
 
 /// Landscape control-hub shell, phone-styled: a greeting header, two swipeable
@@ -21,6 +22,7 @@ class AppShell extends StatefulWidget {
 
 class _AppShellState extends State<AppShell> {
   final _home = HomeController();
+  final _shortcuts = ShortcutsController();
   // Page 0 is the ambient standby/glance screen; 1 = Home, 2 = Scenes. Launch
   // on the standby screen.
   final _pageController = PageController(initialPage: 0);
@@ -34,7 +36,31 @@ class _AppShellState extends State<AppShell> {
   void initState() {
     super.initState();
     _home.load();
+    _shortcuts.load();
+    _home.addListener(_maybeSeedShortcuts);
+    _shortcuts.addListener(_maybeSeedShortcuts);
     _loadUser();
+  }
+
+  /// Seed the standby shortcuts once, from the first controllable devices and
+  /// all scenes, after both the home graph and the saved pins have loaded.
+  void _maybeSeedShortcuts() {
+    if (!_shortcuts.needsSeed || _home.graph == null) return;
+    final devices = <String>[];
+    for (final room in _home.rooms) {
+      for (final d in room.devices) {
+        final v = _home.viewFor(d);
+        if (v.isToggle || v.isLock) {
+          devices.add(d.shadowName);
+          if (devices.length == ShortcutsController.max) break;
+        }
+      }
+      if (devices.length == ShortcutsController.max) break;
+    }
+    _shortcuts.seedIfNeeded(
+      devices: devices,
+      scenes: _home.scenes.map((s) => s.sceneId).toList(),
+    );
   }
 
   Future<void> _loadUser() async {
@@ -74,7 +100,10 @@ class _AppShellState extends State<AppShell> {
 
   @override
   void dispose() {
+    _home.removeListener(_maybeSeedShortcuts);
+    _shortcuts.removeListener(_maybeSeedShortcuts);
     _home.dispose();
+    _shortcuts.dispose();
     _pageController.dispose();
     super.dispose();
   }
@@ -116,6 +145,7 @@ class _AppShellState extends State<AppShell> {
         children: [
           StandbyScreen(
             controller: _home,
+            shortcuts: _shortcuts,
             onAssistant: _openAssistant,
             onNext: () => _pageController.animateToPage(
               1,
