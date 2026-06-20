@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:fibo_core/services/home_graph.dart';
 import 'package:fibo_core/theme/space_tokens.dart';
 
 import '../state/home_controller.dart';
-import '../widgets/device_icons.dart';
-import '../widgets/device_detail_dialog.dart';
+import '../widgets/device_control_card.dart';
 
 /// The Home pane: live rooms + device grid from the home graph. Device on/off
 /// state and quick-control land in the next phase.
@@ -105,70 +103,10 @@ class _RoomSection extends StatelessWidget {
           runSpacing: 14,
           children: [
             for (final d in room.devices)
-              _DeviceCard(controller: controller, device: d),
+              DeviceControlCard(controller: controller, device: d),
           ],
         ),
       ],
-    );
-  }
-}
-
-/// Read-only device tile in the phone's grid style: a vertical gradient card
-/// with a centered icon, name and live state. Tapping opens the detail panel
-/// for full control.
-class _DeviceCard extends StatelessWidget {
-  const _DeviceCard({required this.controller, required this.device});
-
-  final HomeController controller;
-  final HomeDevice device;
-
-  @override
-  Widget build(BuildContext context) {
-    final view = controller.viewFor(device);
-    final on = view.isOn && view.kind != DeviceKind.sensor;
-    final accent = on ? SpaceColors.accentStart : SpaceColors.textPrimary;
-    return Opacity(
-      opacity: view.online ? 1 : 0.5,
-      child: InkWell(
-        borderRadius: BorderRadius.circular(24),
-        onTap: () => showDeviceDetail(context, controller, device),
-        child: Container(
-          width: 168,
-          padding: const EdgeInsets.fromLTRB(16, 18, 16, 16),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(24),
-            gradient: const LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [SpaceColors.bgElevated, SpaceColors.bgSurface],
-            ),
-            border: Border.all(
-              color: on ? SpaceColors.accentStart : SpaceColors.stroke,
-            ),
-          ),
-          child: Column(
-            children: [
-              Icon(iconForProfile(device.profile), color: accent, size: 30),
-              const SizedBox(height: 14),
-              Text(
-                device.displayName,
-                textAlign: TextAlign.center,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: SpaceTextStyles.pillTitle,
-              ),
-              const SizedBox(height: 4),
-              Text(
-                view.online ? (view.valueLabel ?? (on ? 'On' : 'Off')) : 'Offline',
-                textAlign: TextAlign.center,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: SpaceTextStyles.pillMeta,
-              ),
-            ],
-          ),
-        ),
-      ),
     );
   }
 }
