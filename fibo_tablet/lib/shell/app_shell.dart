@@ -113,7 +113,15 @@ class _AppShellState extends State<AppShell> {
         controller: _pageController,
         onPageChanged: (i) => setState(() => _page = i),
         children: [
-          StandbyScreen(controller: _home, onAssistant: _openAssistant),
+          StandbyScreen(
+            controller: _home,
+            onAssistant: _openAssistant,
+            onNext: () => _pageController.animateToPage(
+              1,
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeOut,
+            ),
+          ),
           _mainPage(HomeDashboardScreen(controller: _home)),
           _mainPage(ScenesScreen(controller: _home)),
         ],

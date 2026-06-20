@@ -14,18 +14,27 @@ class StandbyScreen extends StatefulWidget {
     super.key,
     required this.controller,
     required this.onAssistant,
+    this.onNext,
   });
 
   final HomeController controller;
   final VoidCallback onAssistant;
 
+  /// Advances to the Home page (wired by the shell); also drives the swipe hint.
+  final VoidCallback? onNext;
+
   @override
   State<StandbyScreen> createState() => _StandbyScreenState();
 }
 
-class _StandbyScreenState extends State<StandbyScreen> {
+class _StandbyScreenState extends State<StandbyScreen>
+    with SingleTickerProviderStateMixin {
   late DateTime _now = DateTime.now();
   Timer? _timer;
+  late final AnimationController _nudge = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 900),
+  )..repeat(reverse: true);
 
   @override
   void initState() {
@@ -41,6 +50,7 @@ class _StandbyScreenState extends State<StandbyScreen> {
   @override
   void dispose() {
     _timer?.cancel();
+    _nudge.dispose();
     super.dispose();
   }
 
@@ -52,18 +62,28 @@ class _StandbyScreenState extends State<StandbyScreen> {
         child: ListenableBuilder(
           listenable: widget.controller,
           builder: (context, _) {
-            return Padding(
-              padding: const EdgeInsets.fromLTRB(28, 22, 28, 24),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _topRow(),
-                  const SizedBox(height: 28),
-                  _clock(),
-                  const Spacer(),
-                  _sceneTiles(),
-                ],
-              ),
+            return Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(28, 22, 28, 24),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _topRow(),
+                      const SizedBox(height: 28),
+                      _clock(),
+                      const Spacer(),
+                      _sceneTiles(),
+                    ],
+                  ),
+                ),
+                Positioned(
+                  right: 6,
+                  top: 0,
+                  bottom: 0,
+                  child: Center(child: _swipeHint()),
+                ),
+              ],
             );
           },
         ),
@@ -127,6 +147,32 @@ class _StandbyScreenState extends State<StandbyScreen> {
           ),
         ),
       ],
+    );
+  }
+
+  /// A gently nudging "swipe to Home" chevron on the right edge; also tappable.
+  Widget _swipeHint() {
+    return InkWell(
+      onTap: widget.onNext,
+      borderRadius: BorderRadius.circular(40),
+      child: AnimatedBuilder(
+        animation: _nudge,
+        builder: (context, child) => Transform.translate(
+          offset: Offset(_nudge.value * 6, 0),
+          child: child,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(Icons.chevron_right_rounded,
+                color: SpaceColors.textMuted, size: 40),
+            Text(
+              'Home',
+              style: SpaceTextStyles.pillMeta.copyWith(letterSpacing: 0.5),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
