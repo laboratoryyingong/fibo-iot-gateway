@@ -49,15 +49,8 @@ class _ScenesScreenState extends State<ScenesScreen> {
       listenable: widget.controller,
       builder: (context, _) {
         return Padding(
-          padding: const EdgeInsets.fromLTRB(32, 28, 32, 0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Scenes', style: SpaceTextStyles.sectionTitle),
-              const SizedBox(height: 20),
-              Expanded(child: _body()),
-            ],
-          ),
+          padding: const EdgeInsets.fromLTRB(28, 8, 28, 0),
+          child: _body(),
         );
       },
     );

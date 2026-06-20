@@ -17,29 +17,8 @@ class HomeDashboardScreen extends StatelessWidget {
       listenable: controller,
       builder: (context, _) {
         return Padding(
-          padding: const EdgeInsets.fromLTRB(32, 28, 32, 0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text('Home', style: SpaceTextStyles.sectionTitle),
-                  const SizedBox(width: 12),
-                  if (controller.graph != null)
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 8),
-                      child: Text(
-                        controller.graph!.homeName,
-                        style: SpaceTextStyles.sectionCount,
-                      ),
-                    ),
-                ],
-              ),
-              const SizedBox(height: 20),
-              Expanded(child: _body(context)),
-            ],
-          ),
+          padding: const EdgeInsets.fromLTRB(28, 8, 28, 0),
+          child: _body(context),
         );
       },
     );

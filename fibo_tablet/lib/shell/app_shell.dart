@@ -8,8 +8,8 @@ import '../screens/assistant_panel_screen.dart';
 import '../screens/login_screen.dart';
 import '../state/home_controller.dart';
 
-/// Persistent landscape layout for the control hub: a fixed left sidebar with
-/// the primary destinations, and a content pane that swaps between them.
+/// Landscape control-hub shell, phone-styled: a greeting header, two swipeable
+/// pages (Home / Scenes), and a floating orb into the assistant.
 class AppShell extends StatefulWidget {
   const AppShell({super.key});
 
@@ -18,26 +18,60 @@ class AppShell extends StatefulWidget {
 }
 
 class _AppShellState extends State<AppShell> {
-  int _index = 0;
   final _home = HomeController();
+  final _pageController = PageController();
+  int _page = 0;
+  String _greetingName = '';
+  String _initials = '';
 
-  static const _assistantIndex = 2;
-
-  // Assistant is reached via the floating orb, not a sidebar tab.
-  static const _destinations = <_Destination>[
-    _Destination('Home', Icons.dashboard_rounded, Icons.dashboard_outlined),
-    _Destination('Scenes', Icons.auto_awesome_rounded, Icons.auto_awesome_outlined),
-  ];
+  static const _tabs = ['Home', 'Scenes'];
 
   @override
   void initState() {
     super.initState();
     _home.load();
+    _loadUser();
+  }
+
+  Future<void> _loadUser() async {
+    final user = await ParseUser.currentUser() as ParseUser?;
+    if (user == null || !mounted) return;
+    final name = user.get<String>('fullName') ??
+        user.get<String>('name') ??
+        user.username ??
+        user.emailAddress ??
+        '';
+    setState(() {
+      _greetingName = _friendlyFirstName(name);
+      _initials = _initialsOf(name);
+    });
+  }
+
+  /// A short, friendly first name from a full name, username or email.
+  static String _friendlyFirstName(String raw) {
+    var s = raw.trim();
+    final at = s.indexOf('@');
+    if (at > 0) s = s.substring(0, at); // drop email domain
+    final first = s.split(RegExp(r'[._\s]+')).firstWhere(
+          (p) => p.isNotEmpty,
+          orElse: () => '',
+        );
+    if (first.isEmpty) return '';
+    return first[0].toUpperCase() + first.substring(1);
+  }
+
+  static String _initialsOf(String name) {
+    final parts = name.trim().split(RegExp(r'\s+'));
+    if (parts.isEmpty || parts.first.isEmpty) return 'H';
+    if (parts.length == 1) return parts.first.substring(0, 1).toUpperCase();
+    return '${parts.first.substring(0, 1)}${parts.last.substring(0, 1)}'
+        .toUpperCase();
   }
 
   @override
   void dispose() {
     _home.dispose();
+    _pageController.dispose();
     super.dispose();
   }
 
@@ -50,31 +84,42 @@ class _AppShellState extends State<AppShell> {
     );
   }
 
+  void _selectTab(int i) {
+    _pageController.animateToPage(
+      i,
+      duration: const Duration(milliseconds: 260),
+      curve: Curves.easeOut,
+    );
+  }
+
+  void _openAssistant() {
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (_) => const _AssistantRoute()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: SpaceColors.bgBase,
-      // Siri-style floating shortcut into the assistant (hidden while there).
-      floatingActionButton: _index == _assistantIndex
-          ? null
-          : _AssistantFab(onTap: () => setState(() => _index = _assistantIndex)),
+      floatingActionButton: _AssistantFab(onTap: _openAssistant),
       body: SafeArea(
-        child: Row(
+        child: Column(
           children: [
-            _Sidebar(
-              destinations: _destinations,
-              selectedIndex: _index,
-              onSelect: (i) => setState(() => _index = i),
-              onSignOut: _signOut,
+            _Header(
+              greeting: _greetingName,
+              initials: _initials,
               home: _home,
+              onSignOut: _signOut,
             ),
+            _TabStrip(tabs: _tabs, index: _page, onTap: _selectTab),
             Expanded(
-              child: IndexedStack(
-                index: _index,
+              child: PageView(
+                controller: _pageController,
+                onPageChanged: (i) => setState(() => _page = i),
                 children: [
                   HomeDashboardScreen(controller: _home),
                   ScenesScreen(controller: _home),
-                  const AssistantPanelScreen(),
                 ],
               ),
             ),
@@ -85,122 +130,76 @@ class _AppShellState extends State<AppShell> {
   }
 }
 
-class _Sidebar extends StatelessWidget {
-  const _Sidebar({
-    required this.destinations,
-    required this.selectedIndex,
-    required this.onSelect,
-    required this.onSignOut,
+class _Header extends StatelessWidget {
+  const _Header({
+    required this.greeting,
+    required this.initials,
     required this.home,
+    required this.onSignOut,
   });
 
-  final List<_Destination> destinations;
-  final int selectedIndex;
-  final ValueChanged<int> onSelect;
-  final VoidCallback onSignOut;
+  final String greeting;
+  final String initials;
   final HomeController home;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 232,
-      decoration: const BoxDecoration(
-        color: SpaceColors.bgSurface,
-        border: Border(right: BorderSide(color: SpaceColors.stroke)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          const _Brand(),
-          const SizedBox(height: 8),
-          for (var i = 0; i < destinations.length; i++)
-            _NavItem(
-              key: ValueKey('nav-${destinations[i].label}'),
-              destination: destinations[i],
-              selected: i == selectedIndex,
-              onTap: () => onSelect(i),
-            ),
-          const Spacer(),
-          _GatewayStatus(home: home),
-          _SignOutButton(onTap: onSignOut),
-        ],
-      ),
-    );
-  }
-}
-
-class _SignOutButton extends StatelessWidget {
-  const _SignOutButton({required this.onTap});
-
-  final VoidCallback onTap;
+  final VoidCallback onSignOut;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(12, 0, 12, 16),
-      child: Material(
-        color: Colors.transparent,
-        borderRadius: BorderRadius.circular(12),
-        child: InkWell(
-          borderRadius: BorderRadius.circular(12),
-          onTap: onTap,
-          child: const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-            child: Row(
-              children: [
-                Icon(Icons.logout_rounded,
-                    size: 20, color: SpaceColors.textMuted),
-                SizedBox(width: 14),
-                Text(
-                  'Sign out',
-                  style: TextStyle(
-                    fontFamily: 'Manrope',
-                    fontSize: 15,
-                    fontWeight: FontWeight.w500,
-                    color: SpaceColors.textMuted,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _Brand extends StatelessWidget {
-  const _Brand();
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 24, 20, 16),
+      padding: const EdgeInsets.fromLTRB(28, 16, 24, 8),
       child: Row(
         children: [
-          Container(
-            width: 36,
-            height: 36,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              gradient: const LinearGradient(
-                colors: [SpaceColors.accentStart, SpaceColors.accentEnd],
-              ),
-            ),
-            // Placeholder logo mark — swap for the final brand asset later.
-            child: const Icon(Icons.hub_rounded, color: Colors.white, size: 20),
-          ),
-          const SizedBox(width: 12),
-          const Expanded(
+          Expanded(
             child: Text(
-              'FIBO',
+              greeting.isEmpty ? 'Welcome' : 'Mornin’ $greeting!',
+              maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                fontFamily: 'Manrope',
-                fontSize: 24,
-                fontWeight: FontWeight.w800,
-                letterSpacing: 1.0,
-                color: SpaceColors.textPrimary,
+              style: SpaceTextStyles.sectionTitle.copyWith(fontSize: 32),
+            ),
+          ),
+          const SizedBox(width: 16),
+          _ConnectionPill(home: home),
+          const SizedBox(width: 14),
+          PopupMenuButton<String>(
+            color: SpaceColors.bgElevated,
+            offset: const Offset(0, 52),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(14),
+            ),
+            onSelected: (v) {
+              if (v == 'sign-out') onSignOut();
+            },
+            itemBuilder: (_) => [
+              PopupMenuItem<String>(
+                value: 'sign-out',
+                child: Row(
+                  children: [
+                    const Icon(Icons.logout_rounded,
+                        size: 18, color: SpaceColors.textMuted),
+                    const SizedBox(width: 10),
+                    Text('Sign out',
+                        style: SpaceTextStyles.pillTitle
+                            .copyWith(fontWeight: FontWeight.w500)),
+                  ],
+                ),
+              ),
+            ],
+            child: Container(
+              width: 44,
+              height: 44,
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [SpaceColors.accentStart, SpaceColors.accentEnd],
+                ),
+              ),
+              alignment: Alignment.center,
+              child: Text(
+                initials.isEmpty ? 'H' : initials,
+                style: SpaceTextStyles.pillTitle
+                    .copyWith(color: Colors.white, fontSize: 16),
               ),
             ),
           ),
@@ -210,66 +209,8 @@ class _Brand extends StatelessWidget {
   }
 }
 
-class _NavItem extends StatelessWidget {
-  const _NavItem({
-    super.key,
-    required this.destination,
-    required this.selected,
-    required this.onTap,
-  });
-
-  final _Destination destination;
-  final bool selected;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-      child: Material(
-        color: selected ? SpaceColors.bgElevated : Colors.transparent,
-        borderRadius: BorderRadius.circular(12),
-        child: InkWell(
-          borderRadius: BorderRadius.circular(12),
-          onTap: onTap,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
-            child: Row(
-              children: [
-                Icon(
-                  selected ? destination.activeIcon : destination.icon,
-                  size: 22,
-                  color: selected
-                      ? SpaceColors.accentStart
-                      : SpaceColors.textMuted,
-                ),
-                const SizedBox(width: 14),
-                Expanded(
-                  child: Text(
-                    destination.label,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontFamily: 'Manrope',
-                      fontSize: 16,
-                      fontWeight: selected ? FontWeight.w600 : FontWeight.w500,
-                      color: selected
-                          ? SpaceColors.textPrimary
-                          : SpaceColors.textMuted,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-/// Live connection footer — reflects whether the IoT shadow stream is up.
-class _GatewayStatus extends StatelessWidget {
-  const _GatewayStatus({required this.home});
+class _ConnectionPill extends StatelessWidget {
+  const _ConnectionPill({required this.home});
 
   final HomeController home;
 
@@ -279,41 +220,131 @@ class _GatewayStatus extends StatelessWidget {
       listenable: home,
       builder: (context, _) {
         final connected = home.shadowsConnected;
-        return Padding(
-          padding: const EdgeInsets.fromLTRB(20, 12, 20, 20),
-          child: Row(
-            children: [
-              Container(
-                width: 8,
-                height: 8,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: connected
-                      ? const Color(0xFF34D399)
-                      : SpaceColors.textMuted,
-                ),
+        return Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 8,
+              height: 8,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: connected
+                    ? const Color(0xFF34D399)
+                    : SpaceColors.textMuted,
               ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Text(
-                  connected ? 'Connected' : 'Connecting…',
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    fontFamily: 'Manrope',
-                    fontSize: 13,
-                    color: SpaceColors.textMuted,
-                  ),
-                ),
-              ),
-            ],
-          ),
+            ),
+            const SizedBox(width: 8),
+            Text(
+              connected ? 'Connected' : 'Connecting…',
+              style: SpaceTextStyles.pillMeta,
+            ),
+          ],
         );
       },
     );
   }
 }
 
-/// Siri-style floating orb that jumps to the assistant: a glowing circular
+class _TabStrip extends StatelessWidget {
+  const _TabStrip({required this.tabs, required this.index, required this.onTap});
+
+  final List<String> tabs;
+  final int index;
+  final ValueChanged<int> onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(28, 4, 28, 8),
+      child: Row(
+        children: [
+          for (var i = 0; i < tabs.length; i++) ...[
+            _TabButton(
+              label: tabs[i],
+              selected: i == index,
+              onTap: () => onTap(i),
+            ),
+            const SizedBox(width: 8),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class _TabButton extends StatelessWidget {
+  const _TabButton({
+    required this.label,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final String label;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: selected ? SpaceColors.bgSurface : Colors.transparent,
+      borderRadius: BorderRadius.circular(100),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(100),
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 10),
+          child: Text(
+            label,
+            style: SpaceTextStyles.pillTitle.copyWith(
+              fontSize: 16,
+              color: selected ? SpaceColors.textPrimary : SpaceColors.textMuted,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Full-screen assistant opened from the floating orb.
+class _AssistantRoute extends StatelessWidget {
+  const _AssistantRoute();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: SpaceColors.bgBase,
+      body: SafeArea(
+        child: Stack(
+          children: [
+            const AssistantPanelScreen(),
+            Positioned(
+              top: 16,
+              left: 24,
+              child: InkWell(
+                onTap: () => Navigator.of(context).pop(),
+                customBorder: const CircleBorder(),
+                child: Container(
+                  width: 48,
+                  height: 48,
+                  decoration: BoxDecoration(
+                    color: SpaceColors.bgSurface,
+                    shape: BoxShape.circle,
+                    border: Border.all(color: SpaceColors.stroke),
+                  ),
+                  child: const Icon(Icons.arrow_back_rounded,
+                      size: 22, color: SpaceColors.textPrimary),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Siri-style floating orb that opens the assistant: a glowing circular
 /// gradient button with the assistant sparkle.
 class _AssistantFab extends StatelessWidget {
   const _AssistantFab({required this.onTap});
@@ -351,12 +382,4 @@ class _AssistantFab extends StatelessWidget {
       ),
     );
   }
-}
-
-class _Destination {
-  const _Destination(this.label, this.activeIcon, this.icon);
-
-  final String label;
-  final IconData activeIcon;
-  final IconData icon;
 }
