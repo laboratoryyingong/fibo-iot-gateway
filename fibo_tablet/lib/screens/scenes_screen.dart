@@ -116,58 +116,70 @@ class _SceneCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      borderRadius: BorderRadius.circular(16),
+      borderRadius: BorderRadius.circular(20),
       onTap: onTap,
       child: Container(
-        width: 220,
-        padding: const EdgeInsets.all(18),
+        width: 340,
+        padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: SpaceColors.bgSurface,
-          borderRadius: BorderRadius.circular(16),
+          gradient: const LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [SpaceColors.bgElevated, SpaceColors.bgSurface],
+          ),
+          borderRadius: BorderRadius.circular(20),
           border: Border.all(color: SpaceColors.stroke),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Row(
           children: [
-            Row(
-              children: [
-                Container(
-                  width: 44,
-                  height: 44,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: SpaceColors.bgElevated,
-                    borderRadius: BorderRadius.circular(12),
+            SizedBox(
+              width: 48,
+              height: 48,
+              child: Center(
+                child: Text(scene.icon,
+                    style: const TextStyle(fontSize: 34, height: 1.2)),
+              ),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    scene.name,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: SpaceTextStyles.cardTitle,
                   ),
-                  child: Text(scene.icon, style: const TextStyle(fontSize: 22)),
+                  const SizedBox(height: 2),
+                  Text(
+                    '${scene.actionCount} ${scene.actionCount == 1 ? 'action' : 'actions'}',
+                    style: SpaceTextStyles.pillMeta,
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 12),
+            if (running)
+              const SizedBox(
+                width: 22,
+                height: 22,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2.4,
+                  color: SpaceColors.accentStart,
                 ),
-                const Spacer(),
-                if (running)
-                  const SizedBox(
-                    width: 18,
-                    height: 18,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2.2,
-                      color: SpaceColors.accentStart,
-                    ),
-                  )
-                else
-                  const Icon(Icons.play_arrow_rounded,
-                      color: SpaceColors.accentStart, size: 24),
-              ],
-            ),
-            const SizedBox(height: 16),
-            Text(
-              scene.name,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: SpaceTextStyles.cardTitle,
-            ),
-            const SizedBox(height: 2),
-            Text(
-              '${scene.actionCount} ${scene.actionCount == 1 ? 'action' : 'actions'}',
-              style: SpaceTextStyles.pillMeta,
-            ),
+              )
+            else
+              Container(
+                width: 40,
+                height: 40,
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: SpaceColors.bgBase,
+                ),
+                child: const Icon(Icons.play_arrow_rounded,
+                    color: SpaceColors.accentStart, size: 24),
+              ),
           ],
         ),
       ),

@@ -3,6 +3,8 @@ import 'package:fibo_core/services/home_graph.dart';
 import 'package:fibo_core/theme/space_tokens.dart';
 
 import '../state/home_controller.dart';
+import '../widgets/device_icons.dart';
+import '../widgets/device_detail_dialog.dart';
 
 /// The Home pane: live rooms + device grid from the home graph. Device on/off
 /// state and quick-control land in the next phase.
@@ -111,6 +113,9 @@ class _RoomSection extends StatelessWidget {
   }
 }
 
+/// Read-only device tile in the phone's grid style: a vertical gradient card
+/// with a centered icon, name and live state. Tapping opens the detail panel
+/// for full control.
 class _DeviceCard extends StatelessWidget {
   const _DeviceCard({required this.controller, required this.device});
 
@@ -120,142 +125,51 @@ class _DeviceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final view = controller.viewFor(device);
-    final accent = view.isOn && view.kind != DeviceKind.sensor;
-    final card = Container(
-      width: 200,
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: SpaceColors.bgSurface,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: accent ? SpaceColors.accentStart : SpaceColors.stroke,
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
+    final on = view.isOn && view.kind != DeviceKind.sensor;
+    final accent = on ? SpaceColors.accentStart : SpaceColors.textPrimary;
+    return Opacity(
+      opacity: view.online ? 1 : 0.5,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(24),
+        onTap: () => showDeviceDetail(context, controller, device),
+        child: Container(
+          width: 168,
+          padding: const EdgeInsets.fromLTRB(16, 18, 16, 16),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(24),
+            gradient: const LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [SpaceColors.bgElevated, SpaceColors.bgSurface],
+            ),
+            border: Border.all(
+              color: on ? SpaceColors.accentStart : SpaceColors.stroke,
+            ),
+          ),
+          child: Column(
             children: [
-              Container(
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(
-                  color: accent
-                      ? SpaceColors.accentStart.withValues(alpha: 0.18)
-                      : SpaceColors.bgElevated,
-                  borderRadius: BorderRadius.circular(11),
-                ),
-                child: Icon(
-                  _iconForProfile(device.profile),
-                  color: accent
-                      ? SpaceColors.accentStart
-                      : SpaceColors.textPrimary,
-                  size: 20,
-                ),
+              Icon(iconForProfile(device.profile), color: accent, size: 30),
+              const SizedBox(height: 14),
+              Text(
+                device.displayName,
+                textAlign: TextAlign.center,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: SpaceTextStyles.pillTitle,
               ),
-              const Spacer(),
-              _control(view),
+              const SizedBox(height: 4),
+              Text(
+                view.online ? (view.valueLabel ?? (on ? 'On' : 'Off')) : 'Offline',
+                textAlign: TextAlign.center,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: SpaceTextStyles.pillMeta,
+              ),
             ],
           ),
-          const SizedBox(height: 14),
-          Text(
-            device.displayName,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: SpaceTextStyles.pillTitle,
-          ),
-          const SizedBox(height: 2),
-          Text(
-            view.online ? (view.valueLabel ?? _label(view.kind)) : 'Offline',
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: SpaceTextStyles.pillMeta,
-          ),
-          if (view.hasSlider && (view.isOn || view.kind == DeviceKind.curtain))
-            _slider(view),
-        ],
+        ),
       ),
     );
-    return Opacity(opacity: view.online ? 1 : 0.5, child: card);
-  }
-
-  /// Trailing control: a switch for toggleable devices and locks; nothing for
-  /// read-only sensors.
-  Widget _control(DeviceView view) {
-    if (view.kind == DeviceKind.sensor) return const SizedBox.shrink();
-    return Switch.adaptive(
-      value: view.isOn,
-      activeThumbColor: SpaceColors.accentStart,
-      onChanged: view.online ? (_) => controller.toggle(device) : null,
-    );
-  }
-
-  Widget _slider(DeviceView view) {
-    final pct = (view.levelPercent ?? 0).toDouble();
-    return SliderTheme(
-      data: SliderThemeData(
-        trackHeight: 3,
-        activeTrackColor: SpaceColors.accentStart,
-        inactiveTrackColor: SpaceColors.bgElevated,
-        thumbColor: SpaceColors.accentStart,
-        overlayShape: SliderComponentShape.noOverlay,
-        thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 7),
-      ),
-      child: Slider(
-        value: pct.clamp(0, 100),
-        max: 100,
-        onChanged: view.online
-            ? (v) => controller.setPercent(device, v.round())
-            : null,
-      ),
-    );
-  }
-
-  String _label(DeviceKind kind) {
-    switch (kind) {
-      case DeviceKind.light:
-      case DeviceKind.dimmableLight:
-        return 'Light';
-      case DeviceKind.onoff:
-        return 'Switch';
-      case DeviceKind.curtain:
-        return 'Curtain';
-      case DeviceKind.lock:
-        return 'Lock';
-      case DeviceKind.siren:
-        return 'Siren';
-      case DeviceKind.sensor:
-        return 'Sensor';
-    }
-  }
-}
-
-/// Maps a device profile to a display icon (mirrors the phone app).
-IconData _iconForProfile(String profile) {
-  switch (profile) {
-    case 'color_light':
-    case 'dimmable_light':
-      return Icons.lightbulb_outline;
-    case 'onoff_actuator':
-      return Icons.toggle_on_outlined;
-    case 'curtain':
-      return Icons.blinds_outlined;
-    case 'door_lock':
-      return Icons.lock_outline;
-    case 'siren_actuator':
-      return Icons.notifications_active_outlined;
-    case 'smoke_alarm':
-      return Icons.local_fire_department_outlined;
-    case 'ias_sensor':
-      return Icons.directions_walk_outlined;
-    case 'mmwave_sensor':
-      return Icons.sensors_outlined;
-    case 'multi_sensor':
-      return Icons.thermostat_outlined;
-    case 'button_remote':
-      return Icons.radio_button_checked;
-    default:
-      return Icons.devices_other_outlined;
   }
 }
 
