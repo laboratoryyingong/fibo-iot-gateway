@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../screens/assistant_models.dart';
+import '../assistant_models.dart';
 import 'package:fibo_core/theme/assistant_tokens.dart';
 import 'assistant_device_card.dart';
 import 'assistant_device_dashboard.dart';

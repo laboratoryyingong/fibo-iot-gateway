@@ -21,10 +21,10 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 import 'package:fibo_core/theme/assistant_tokens.dart';
-import '../widgets/assistant_composer.dart';
-import '../widgets/assistant_message_bubble.dart';
+import 'package:fibo_core/widgets/assistant_composer.dart';
+import 'package:fibo_core/widgets/assistant_message_bubble.dart';
+import 'package:fibo_core/assistant_models.dart';
 import '../widgets/space_bottom_bar.dart';
-import 'assistant_models.dart';
 
 class AssistantScreen extends StatelessWidget {
   const AssistantScreen({super.key, this.showBottomBar = true});

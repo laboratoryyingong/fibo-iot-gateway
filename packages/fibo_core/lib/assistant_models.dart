@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:uuid/uuid.dart';
 
-import '../services/agent_device_map.dart';
 import 'package:fibo_core/services/agent_events.dart';
 import 'package:fibo_core/services/claude_agent_client.dart';
 import 'package:fibo_core/services/device_api_client.dart';
@@ -113,6 +112,12 @@ class AssistantStore extends ChangeNotifier {
             DeviceApiClient(timeout: const Duration(seconds: 8));
 
   static final AssistantStore instance = AssistantStore._();
+
+  /// Optional hook invoked for every tool result so an app can mirror agent
+  /// actions into its own local store (the phone syncs to SpaceMockStore). Apps
+  /// that read live state another way (e.g. the tablet via IoT shadows) leave
+  /// this null.
+  static void Function(ToolResultEvent event)? onToolResult;
 
   final ClaudeAgentClient _client;
   final DeviceApiClient _devices;
@@ -332,7 +337,7 @@ class AssistantStore extends ChangeNotifier {
             isError: e.isError,
           ));
         }
-        AgentDeviceSync.applyToolResult(e);
+        onToolResult?.call(e);
         _maybeLoadDeviceControl(msg, e);
       case DoneEvent _:
         msg.isStreaming = false;

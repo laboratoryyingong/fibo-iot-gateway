@@ -39,8 +39,10 @@ import 'screens/spaces_all_rooms_screen.dart';
 import 'screens/spaces_device_control_screen.dart';
 import 'screens/spaces_new_room_screen.dart';
 import 'screens/spaces_room_detail_screen.dart';
+import 'package:fibo_core/assistant_models.dart';
 import 'package:fibo_core/services/parse_config.dart';
 import 'package:fibo_core/theme/app_theme.dart';
+import 'services/agent_device_map.dart';
 import 'widgets/space_bottom_bar.dart';
 
 Future<void> main() async {
@@ -52,6 +54,8 @@ Future<void> main() async {
     autoSendSessionId: true,
     debug: false,
   );
+  // Mirror agent tool actions into the local Spaces store (phone only).
+  AssistantStore.onToolResult = AgentDeviceSync.applyToolResult;
   runApp(const FiboGatewayApp());
 }
 
