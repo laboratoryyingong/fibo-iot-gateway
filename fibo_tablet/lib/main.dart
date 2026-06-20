@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fibo_core/theme/app_colors.dart';
+import 'package:fibo_core/theme/space_tokens.dart';
+
+import 'shell/app_shell.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,44 +24,14 @@ class FiboTabletApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         useMaterial3: true,
-        scaffoldBackgroundColor: AppColors.background,
-        colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primary),
-      ),
-      home: const HomeShellScreen(),
-    );
-  }
-}
-
-/// Placeholder shell for the landscape control hub. Phase 1 replaces the body
-/// with the persistent sidebar (Home / Scenes / Assistant) + content pane.
-class HomeShellScreen extends StatelessWidget {
-  const HomeShellScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Icon(Icons.hub_outlined, size: 64, color: AppColors.primary),
-            const SizedBox(height: 16),
-            const Text(
-              'Fibo Control',
-              style: TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.w600,
-                color: AppColors.foreground,
-              ),
-            ),
-            const SizedBox(height: 8),
-            const Text(
-              'Tablet control hub — foundation ready',
-              style: TextStyle(fontSize: 15, color: AppColors.mutedForeground),
-            ),
-          ],
+        fontFamily: 'Manrope',
+        scaffoldBackgroundColor: SpaceColors.bgBase,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: SpaceColors.accentStart,
+          brightness: Brightness.dark,
         ),
       ),
+      home: const AppShell(),
     );
   }
 }
