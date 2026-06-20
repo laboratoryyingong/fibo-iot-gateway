@@ -6,6 +6,7 @@ import 'package:fibo_core/theme/space_tokens.dart';
 
 import '../state/home_controller.dart';
 import '../widgets/connection_icon.dart';
+import '../widgets/device_icons.dart';
 
 /// Ambient "glance" page shown before Home: a large live clock, date, an
 /// at-a-glance temperature + device summary, connection state, a mic shortcut
@@ -74,7 +75,7 @@ class _StandbyScreenState extends State<StandbyScreen>
                       const SizedBox(height: 28),
                       _clock(),
                       const Spacer(),
-                      _sceneTiles(),
+                      _shortcuts(),
                     ],
                   ),
                 ),
@@ -254,22 +255,50 @@ class _StandbyScreenState extends State<StandbyScreen>
     );
   }
 
-  Widget _sceneTiles() {
-    final scenes = widget.controller.scenes.take(4).toList();
-    if (scenes.isEmpty) return const SizedBox.shrink();
+  /// Two rows of quick shortcuts: devices, then scenes — each four wide, with
+  /// empty slots shown as "+" tiles.
+  Widget _shortcuts() {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        _shortcutRow(_deviceShortcuts()),
+        const SizedBox(height: 14),
+        _shortcutRow(_sceneShortcuts()),
+      ],
+    );
+  }
+
+  Widget _shortcutRow(List<Widget> tiles) {
     return Row(
       children: [
-        for (final s in scenes) ...[
-          Expanded(child: _SceneTile(scene: s, onTap: () => _runScene(s))),
-          const SizedBox(width: 14),
-        ],
-        // Balance the row when there are fewer than 4 scenes.
-        for (var i = scenes.length; i < 2; i++) ...[
-          const Expanded(child: SizedBox()),
-          const SizedBox(width: 14),
+        for (var i = 0; i < 4; i++) ...[
+          Expanded(child: i < tiles.length ? tiles[i] : const _AddTile()),
+          if (i < 3) const SizedBox(width: 14),
         ],
       ],
     );
+  }
+
+  List<Widget> _deviceShortcuts() {
+    final out = <Widget>[];
+    for (final room in widget.controller.rooms) {
+      for (final device in room.devices) {
+        final v = widget.controller.viewFor(device);
+        if (v.isToggle || v.isLock) {
+          out.add(_DeviceShortcut(
+              controller: widget.controller, device: device));
+          if (out.length == 4) return out;
+        }
+      }
+    }
+    return out;
+  }
+
+  List<Widget> _sceneShortcuts() {
+    return [
+      for (final s in widget.controller.scenes.take(4))
+        _SceneShortcut(scene: s, onTap: () => _runScene(s)),
+    ];
   }
 
   Future<void> _runScene(HomeScene scene) async {
@@ -354,47 +383,112 @@ class _StandbyScreenState extends State<StandbyScreen>
   }
 }
 
-class _SceneTile extends StatelessWidget {
-  const _SceneTile({required this.scene, required this.onTap});
+/// Shared compact shortcut tile: a centered icon area + label.
+class _ShortcutTile extends StatelessWidget {
+  const _ShortcutTile({
+    required this.icon,
+    required this.label,
+    required this.onTap,
+    this.active = false,
+  });
+
+  final Widget icon;
+  final String label;
+  final VoidCallback onTap;
+  final bool active;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      borderRadius: BorderRadius.circular(18),
+      onTap: onTap,
+      child: Container(
+        height: 96,
+        padding: const EdgeInsets.symmetric(horizontal: 12),
+        decoration: BoxDecoration(
+          color: SpaceColors.bgSurface,
+          borderRadius: BorderRadius.circular(18),
+          border: Border.all(
+            color: active ? SpaceColors.accentStart : SpaceColors.stroke,
+          ),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            icon,
+            const SizedBox(height: 8),
+            Text(
+              label,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontFamily: 'Manrope',
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+                color: SpaceColors.textPrimary,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _DeviceShortcut extends StatelessWidget {
+  const _DeviceShortcut({required this.controller, required this.device});
+
+  final HomeController controller;
+  final HomeDevice device;
+
+  @override
+  Widget build(BuildContext context) {
+    final v = controller.viewFor(device);
+    final on = v.isOn && v.kind != DeviceKind.sensor;
+    return _ShortcutTile(
+      active: on,
+      onTap: () => controller.toggle(device),
+      label: device.displayName,
+      icon: Icon(
+        iconForProfile(device.profile),
+        size: 26,
+        color: on ? SpaceColors.accentStart : SpaceColors.textPrimary,
+      ),
+    );
+  }
+}
+
+class _SceneShortcut extends StatelessWidget {
+  const _SceneShortcut({required this.scene, required this.onTap});
 
   final HomeScene scene;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      borderRadius: BorderRadius.circular(20),
+    return _ShortcutTile(
       onTap: onTap,
-      child: Container(
-        height: 96,
-        padding: const EdgeInsets.symmetric(horizontal: 18),
-        decoration: BoxDecoration(
-          color: SpaceColors.bgSurface,
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: SpaceColors.stroke),
-        ),
-        child: Row(
-          children: [
-            Text(scene.icon, style: const TextStyle(fontSize: 30)),
-            const SizedBox(width: 14),
-            Expanded(
-              child: Text(
-                scene.name,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  fontFamily: 'Manrope',
-                  fontSize: 17,
-                  fontWeight: FontWeight.w600,
-                  color: SpaceColors.textPrimary,
-                ),
-              ),
-            ),
-            const Icon(Icons.play_arrow_rounded,
-                color: SpaceColors.accentStart, size: 26),
-          ],
-        ),
+      label: scene.name,
+      icon: Text(scene.icon, style: const TextStyle(fontSize: 26)),
+    );
+  }
+}
+
+/// Empty shortcut slot shown as a "+" (matches the reference layout).
+class _AddTile extends StatelessWidget {
+  const _AddTile();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 96,
+      decoration: BoxDecoration(
+        color: SpaceColors.bgSurface.withValues(alpha: 0.4),
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: SpaceColors.stroke),
       ),
+      child: const Icon(Icons.add_rounded, color: SpaceColors.textMuted, size: 28),
     );
   }
 }
