@@ -682,6 +682,7 @@ class _ShortcutTile extends StatelessWidget {
     if (!editing) return tile;
 
     final withBadge = Stack(
+      fit: StackFit.expand,
       clipBehavior: Clip.none,
       children: [
         tile,
