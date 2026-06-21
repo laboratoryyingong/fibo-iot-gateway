@@ -105,35 +105,78 @@ class _FlipClockState extends State<_FlipClock> {
 
     return Material(
       color: const Color(0xFF05070A),
-      child: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 6, bottom: 12),
-              child: Text(
-                ampm,
-                style: const TextStyle(
-                  fontFamily: 'Manrope',
-                  fontSize: 26,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.white,
-                  letterSpacing: 1,
-                ),
-              ),
-            ),
-            Row(
+      child: Stack(
+        children: [
+          const Positioned(top: 28, left: 28, child: _Brand()),
+          Center(
+            child: Column(
               mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _FlipCard(text: hh),
-                const SizedBox(width: 22),
-                _FlipCard(text: mm),
+                Padding(
+                  padding: const EdgeInsets.only(left: 6, bottom: 12),
+                  child: Text(
+                    ampm,
+                    style: const TextStyle(
+                      fontFamily: 'Manrope',
+                      fontSize: 26,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white,
+                      letterSpacing: 1,
+                    ),
+                  ),
+                ),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    _FlipCard(text: hh),
+                    const SizedBox(width: 22),
+                    _FlipCard(text: mm),
+                  ],
+                ),
               ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
+    );
+  }
+}
+
+/// FIBO logo + wordmark shown on the screensaver (placeholder logo mark).
+class _Brand extends StatelessWidget {
+  const _Brand();
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          width: 34,
+          height: 34,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            gradient: const LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [SpaceColors.accentStart, SpaceColors.accentEnd],
+            ),
+          ),
+          child: const Icon(Icons.hub_rounded, color: Colors.white, size: 19),
+        ),
+        const SizedBox(width: 10),
+        const Text(
+          'FIBO',
+          style: TextStyle(
+            fontFamily: 'Manrope',
+            fontSize: 22,
+            fontWeight: FontWeight.w800,
+            letterSpacing: 1.0,
+            color: Colors.white,
+          ),
+        ),
+      ],
     );
   }
 }
