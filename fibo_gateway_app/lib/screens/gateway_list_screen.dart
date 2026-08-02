@@ -5,7 +5,6 @@ import 'package:fibo_core/services/gateway_linking_service.dart';
 import 'package:fibo_core/theme/pairing_tokens.dart';
 import '../widgets/gateway_dark_header.dart';
 import '../widgets/gateway_info_card.dart';
-import 'gateway_discovery_screen.dart';
 import 'space_models.dart';
 
 class GatewayListScreen extends StatefulWidget {
@@ -67,10 +66,7 @@ class _GatewayListScreenState extends State<GatewayListScreen> {
   }
 
   Future<void> _addGateway() async {
-    await Navigator.of(context).pushNamed(
-      '/gateway/discovery',
-      arguments: const GatewayDiscoveryScreenArgs(),
-    );
+    await Navigator.of(context).pushNamed('/gateway/qr-scan');
     await _load();
   }
 

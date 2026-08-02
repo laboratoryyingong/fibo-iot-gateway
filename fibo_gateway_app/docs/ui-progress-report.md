@@ -8,7 +8,17 @@ Codebase Audited: `fibo_gateway_app/lib`
 
 The project has been refactored to match the updated design package, including the new `Gateway Onboarding` module before the device-centric home flow.
 
-Latest refresh completed:
+Latest refresh completed (2026-07-19):
+- Replaced the mock gateway discovery/binding flow with real BLE provisioning
+  against the FIBO hub firmware (`docs/firmware/` protocol): QR label scan
+  (`/gateway/qr-scan`), BLE connect + protocomm security1 session
+  (`/gateway/discovery`), network configuration incl. static IP and backup
+  WiFi (`/gateway/network`), and claim + Parse binding (`/gateway/binding`).
+  Protocol layer lives in `packages/fibo_core/lib/services/hub_provisioning/`
+  with unit tests against a simulated hub; claim tokens are locally generated
+  until the cloud claim API exists.
+
+Previous refresh:
 - Added gateway onboarding and management screens from the latest `fibo-gateway-app.pen` refresh.
 - Updated splash/login entry logic to check for a linked gateway before routing into the app.
 - Added a gateway state layer on top of Parse user fields so onboarding and gateway selection can be exercised end-to-end.

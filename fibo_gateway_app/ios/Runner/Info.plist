@@ -46,7 +46,9 @@
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>Allow camera access to capture your profile photo.</string>
+	<string>Allow camera access to capture your profile photo and scan the QR label on your FIBO hub.</string>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>Allow Bluetooth access to set up and configure your FIBO hub nearby.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Allow photo library access to choose your profile photo.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>

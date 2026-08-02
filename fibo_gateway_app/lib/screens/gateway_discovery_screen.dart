@@ -1,26 +1,21 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 
-import 'package:fibo_core/services/gateway_linking_service.dart';
+import 'package:fibo_core/services/hub_provisioning/hub_provisioning.dart';
 import 'package:fibo_core/theme/app_colors.dart';
 import 'package:fibo_core/theme/app_decorations.dart';
 import 'package:fibo_core/theme/pairing_tokens.dart';
+import '../services/ble_hub_transport.dart';
 import '../widgets/gateway_dark_header.dart';
-import '../widgets/gateway_info_card.dart';
 import '../widgets/pairing_action_button.dart';
-import 'gateway_binding_screen.dart';
+import 'gateway_provisioning_flow.dart';
 
-enum GatewayDiscoveryMode { autoScan, enterCode }
+enum _DiscoveryStep { scanning, connecting, securing, reading }
 
-class GatewayDiscoveryScreenArgs {
-  const GatewayDiscoveryScreenArgs({
-    this.initialMode = GatewayDiscoveryMode.autoScan,
-  });
+enum _DiscoveryError { notFound, wrongPop, connectFailed, serialMismatch }
 
-  final GatewayDiscoveryMode initialMode;
-}
-
+/// Finds the hub over BLE and establishes the encrypted provisioning session
+/// (ble-provisioning-protocol.md §7.1 steps 3–4), then hands the live session
+/// to the network screen.
 class GatewayDiscoveryScreen extends StatefulWidget {
   const GatewayDiscoveryScreen({super.key});
 
@@ -29,68 +24,164 @@ class GatewayDiscoveryScreen extends StatefulWidget {
 }
 
 class _GatewayDiscoveryScreenState extends State<GatewayDiscoveryScreen> {
-  final _codeController = TextEditingController(text: 'A1B2C3');
-
-  Timer? _scanTimer;
-  final List<GatewayProfile> _candidates =
-      GatewayLinkingService.mockDiscoveryCandidates();
-  GatewayDiscoveryMode _mode = GatewayDiscoveryMode.autoScan;
-  GatewayProfile? _discoveredGateway;
-  bool _initialArgsApplied = false;
-  int _scanIndex = 0;
+  HubProvisioningFlow? _flow;
+  _DiscoveryStep _step = _DiscoveryStep.scanning;
+  _DiscoveryError? _error;
+  String? _errorDetail;
+  int _attempt = 0;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (_initialArgsApplied) return;
-    _initialArgsApplied = true;
-    final args =
-        ModalRoute.of(context)?.settings.arguments
-            as GatewayDiscoveryScreenArgs?;
-    _mode = args?.initialMode ?? GatewayDiscoveryMode.autoScan;
-    if (_mode == GatewayDiscoveryMode.autoScan) {
-      _startAutoScan();
+    if (_flow != null) return;
+    final args = ModalRoute.of(context)?.settings.arguments;
+    if (args is HubProvisioningFlow) {
+      _flow = args;
+      _run();
+    }
+  }
+
+  Future<void> _run() async {
+    final flow = _flow!;
+    final attempt = ++_attempt;
+    setState(() {
+      _step = _DiscoveryStep.scanning;
+      _error = null;
+      _errorDetail = null;
+    });
+
+    HubProvisioningSession? session;
+    try {
+      final device = await BleHubTransport.scanForHub(
+        bleName: flow.label.bleName,
+      );
+      if (!mounted || attempt != _attempt) return;
+      if (device == null) {
+        setState(() => _error = _DiscoveryError.notFound);
+        return;
+      }
+
+      setState(() => _step = _DiscoveryStep.connecting);
+      final transport = await BleHubTransport.connect(device);
+      session = HubProvisioningSession(transport);
+      if (!mounted || attempt != _attempt) {
+        await session.close();
+        return;
+      }
+
+      setState(() => _step = _DiscoveryStep.securing);
+      await session.establish(flow.label.pop);
+      if (!mounted || attempt != _attempt) {
+        await session.close();
+        return;
+      }
+
+      setState(() => _step = _DiscoveryStep.reading);
+      final info = await session.readInfo();
+      if (!mounted || attempt != _attempt) {
+        await session.close();
+        return;
+      }
+
+      // Verify serial == sn from the QR (§6.2). Dev boards may have an empty
+      // serial on either side; only a real mismatch is fatal.
+      if (flow.label.serial.isNotEmpty &&
+          info.serial.isNotEmpty &&
+          flow.label.serial != info.serial) {
+        await session.close();
+        setState(() => _error = _DiscoveryError.serialMismatch);
+        return;
+      }
+
+      flow.session = session;
+      flow.info = info;
+      await Navigator.of(context).pushReplacementNamed(
+        '/gateway/network',
+        arguments: flow,
+      );
+    } on Security1Exception {
+      await session?.close();
+      if (!mounted || attempt != _attempt) return;
+      setState(() => _error = _DiscoveryError.wrongPop);
+    } on BleHubException catch (e) {
+      await session?.close();
+      if (!mounted || attempt != _attempt) return;
+      setState(() {
+        _error = _DiscoveryError.connectFailed;
+        _errorDetail = e.message;
+      });
+    } catch (e) {
+      await session?.close();
+      if (!mounted || attempt != _attempt) return;
+      setState(() {
+        _error = _DiscoveryError.connectFailed;
+        _errorDetail = '$e';
+      });
     }
   }
 
   @override
   void dispose() {
-    _scanTimer?.cancel();
-    _codeController.dispose();
+    // Invalidate any in-flight attempt; sessions created after this point are
+    // closed by the attempt guard above.
+    _attempt++;
     super.dispose();
   }
 
-  void _startAutoScan() {
-    _scanTimer?.cancel();
-    setState(() => _discoveredGateway = null);
-    _scanTimer = Timer(const Duration(milliseconds: 900), () {
-      if (!mounted) return;
-      final gateway = _candidates[_scanIndex % _candidates.length];
-      _scanIndex += 1;
-      setState(() => _discoveredGateway = gateway);
-    });
-  }
-
-  void _switchMode(GatewayDiscoveryMode mode) {
-    if (_mode == mode) return;
-    setState(() => _mode = mode);
-    if (mode == GatewayDiscoveryMode.autoScan) {
-      _startAutoScan();
-    } else {
-      _scanTimer?.cancel();
+  (String, String) _statusCopy() {
+    final flow = _flow;
+    final error = _error;
+    if (error != null) {
+      switch (error) {
+        case _DiscoveryError.notFound:
+          return (
+            'Hub Not Found',
+            flow != null && flow.reconfigure
+                ? 'Hold the BOOT button for 3 s until the LED blinks fast, '
+                      'then try again.'
+                : 'Check that the hub is powered. A fast-blinking LED means '
+                      'it is ready to connect.',
+          );
+        case _DiscoveryError.wrongPop:
+          return (
+            'Secure Pairing Failed',
+            'The PoP code did not match. Re-scan the QR code on the device '
+                'label.',
+          );
+        case _DiscoveryError.serialMismatch:
+          return (
+            'Wrong Hub',
+            'The connected hub reports a different serial than the QR label. '
+                'Move closer to your hub and try again.',
+          );
+        case _DiscoveryError.connectFailed:
+          return (
+            'Connection Failed',
+            'Another phone may be connected (the hub accepts one connection). '
+                'Wait a few seconds and retry.\n${_errorDetail ?? ''}',
+          );
+      }
     }
-  }
-
-  void _goToBinding(GatewayProfile gateway) {
-    Navigator.of(context).pushNamed(
-      '/gateway/binding',
-      arguments: GatewayBindingScreenArgs(gateway: gateway),
-    );
+    switch (_step) {
+      case _DiscoveryStep.scanning:
+        return (
+          'Searching...',
+          'Looking for ${_flow?.label.bleName ?? 'your hub'} nearby',
+        );
+      case _DiscoveryStep.connecting:
+        return ('Connecting...', 'Establishing the Bluetooth link');
+      case _DiscoveryStep.securing:
+        return ('Securing...', 'Verifying the device with your QR code');
+      case _DiscoveryStep.reading:
+        return ('Almost There...', 'Reading hub status');
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final isAutoMode = _mode == GatewayDiscoveryMode.autoScan;
+    final (title, caption) = _statusCopy();
+    final hasError = _error != null;
+
     return Scaffold(
       backgroundColor: PairingTokens.bgBase,
       body: SafeArea(
@@ -98,7 +189,7 @@ class _GatewayDiscoveryScreenState extends State<GatewayDiscoveryScreen> {
         child: Column(
           children: [
             GatewayDarkHeader(
-              title: 'Find Gateway',
+              title: 'Find Hub',
               onLeadingTap: () => Navigator.of(context).pop(),
             ),
             Expanded(
@@ -106,50 +197,25 @@ class _GatewayDiscoveryScreenState extends State<GatewayDiscoveryScreen> {
                 padding: const EdgeInsets.fromLTRB(24, 36, 24, 24),
                 child: Column(
                   children: [
-                    _ModeTabs(activeMode: _mode, onChanged: _switchMode),
-                    const SizedBox(height: 36),
-                    const _DiscoveryIllustration(),
+                    _DiscoveryIllustration(error: hasError),
                     const SizedBox(height: 34),
-                    if (isAutoMode) ...[
-                      Text(
-                        'Scanning...',
-                        style: PairingTextStyles.headline.copyWith(
-                          fontSize: 22,
-                          fontWeight: FontWeight.w600,
-                        ),
+                    Text(
+                      title,
+                      style: PairingTextStyles.headline.copyWith(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w600,
                       ),
-                      const SizedBox(height: 12),
-                      Text(
-                        'Choose Auto Scan to find your gateway',
-                        textAlign: TextAlign.center,
-                        style: PairingTextStyles.caption.copyWith(
-                          color: PairingTokens.textMuted,
-                        ),
+                    ),
+                    const SizedBox(height: 12),
+                    Text(
+                      caption,
+                      textAlign: TextAlign.center,
+                      style: PairingTextStyles.caption.copyWith(
+                        color: PairingTokens.textMuted,
                       ),
-                      const SizedBox(height: 22),
-                      const _ScanProgressCard(),
-                      const SizedBox(height: 20),
-                      if (_discoveredGateway != null)
-                        GatewayInfoCard(gateway: _discoveredGateway!),
-                    ] else ...[
-                      Text(
-                        'Enter Gateway Code',
-                        style: PairingTextStyles.headline.copyWith(
-                          fontSize: 22,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-                      Text(
-                        'Use the 6-character code on your gateway label',
-                        textAlign: TextAlign.center,
-                        style: PairingTextStyles.caption.copyWith(
-                          color: PairingTokens.textMuted,
-                        ),
-                      ),
-                      const SizedBox(height: 22),
-                      _ManualCodeCard(controller: _codeController),
-                    ],
+                    ),
+                    const SizedBox(height: 22),
+                    if (!hasError) _ProgressCard(step: _step),
                   ],
                 ),
               ),
@@ -158,29 +224,13 @@ class _GatewayDiscoveryScreenState extends State<GatewayDiscoveryScreen> {
               padding: const EdgeInsets.fromLTRB(24, 8, 24, 24),
               child: Column(
                 children: [
+                  if (hasError)
+                    PairingActionButton(text: 'Try Again', onPressed: _run),
+                  if (hasError) const SizedBox(height: 12),
                   PairingActionButton(
-                    text: isAutoMode
-                        ? (_discoveredGateway == null
-                              ? 'Scanning...'
-                              : 'Claim Gateway')
-                        : 'Continue',
-                    onPressed: isAutoMode
-                        ? (_discoveredGateway == null
-                              ? () {}
-                              : () => _goToBinding(_discoveredGateway!))
-                        : () => _goToBinding(
-                            GatewayLinkingService.gatewayFromCode(
-                              _codeController.text,
-                            ),
-                          ),
-                  ),
-                  const SizedBox(height: 12),
-                  PairingActionButton(
-                    text: isAutoMode ? 'Scan Again' : 'Use Auto Scan',
+                    text: 'Back to Scan',
                     variant: PairingActionButtonVariant.neutral,
-                    onPressed: isAutoMode
-                        ? _startAutoScan
-                        : () => _switchMode(GatewayDiscoveryMode.autoScan),
+                    onPressed: () => Navigator.of(context).pop(),
                   ),
                 ],
               ),
@@ -192,80 +242,10 @@ class _GatewayDiscoveryScreenState extends State<GatewayDiscoveryScreen> {
   }
 }
 
-class _ModeTabs extends StatelessWidget {
-  const _ModeTabs({required this.activeMode, required this.onChanged});
-
-  final GatewayDiscoveryMode activeMode;
-  final ValueChanged<GatewayDiscoveryMode> onChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 48,
-      padding: const EdgeInsets.all(4),
-      decoration: BoxDecoration(
-        color: AppColors.secondary,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Row(
-        children: [
-          _ModeTab(
-            label: 'Auto Scan',
-            active: activeMode == GatewayDiscoveryMode.autoScan,
-            onTap: () => onChanged(GatewayDiscoveryMode.autoScan),
-          ),
-          const SizedBox(width: 4),
-          _ModeTab(
-            label: 'Enter Code',
-            active: activeMode == GatewayDiscoveryMode.enterCode,
-            onTap: () => onChanged(GatewayDiscoveryMode.enterCode),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _ModeTab extends StatelessWidget {
-  const _ModeTab({
-    required this.label,
-    required this.active,
-    required this.onTap,
-  });
-
-  final String label;
-  final bool active;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(10),
-        child: Container(
-          decoration: BoxDecoration(
-            color: active ? PairingTokens.accentPrimary : AppColors.secondary,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          alignment: Alignment.center,
-          child: Text(
-            label,
-            style: PairingTextStyles.small.copyWith(
-              color: active
-                  ? PairingTokens.textPrimary
-                  : PairingTokens.textMuted,
-              fontWeight: active ? FontWeight.w700 : FontWeight.w500,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
 class _DiscoveryIllustration extends StatelessWidget {
-  const _DiscoveryIllustration();
+  const _DiscoveryIllustration({required this.error});
+
+  final bool error;
 
   @override
   Widget build(BuildContext context) {
@@ -300,8 +280,8 @@ class _DiscoveryIllustration extends StatelessWidget {
                   shape: BoxShape.circle,
                   color: PairingTokens.accentPrimary,
                 ),
-                child: const Icon(
-                  Icons.router_outlined,
+                child: Icon(
+                  error ? Icons.bluetooth_disabled : Icons.router_outlined,
                   size: 28,
                   color: PairingTokens.textPrimary,
                 ),
@@ -314,11 +294,19 @@ class _DiscoveryIllustration extends StatelessWidget {
   }
 }
 
-class _ScanProgressCard extends StatelessWidget {
-  const _ScanProgressCard();
+class _ProgressCard extends StatelessWidget {
+  const _ProgressCard({required this.step});
+
+  final _DiscoveryStep step;
 
   @override
   Widget build(BuildContext context) {
+    final progress = switch (step) {
+      _DiscoveryStep.scanning => 1,
+      _DiscoveryStep.connecting => 2,
+      _DiscoveryStep.securing => 3,
+      _DiscoveryStep.reading => 4,
+    };
     return Container(
       width: 260,
       padding: const EdgeInsets.all(20),
@@ -330,7 +318,7 @@ class _ScanProgressCard extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            'Auto scan mode',
+            'Bluetooth setup',
             style: PairingTextStyles.caption.copyWith(
               color: PairingTokens.textMuted,
             ),
@@ -344,81 +332,17 @@ class _ScanProgressCard extends StatelessWidget {
               child: Row(
                 children: [
                   Expanded(
-                    flex: 3,
+                    flex: progress,
                     child: Container(color: PairingTokens.accentPrimary),
                   ),
-                  const Expanded(flex: 1, child: SizedBox()),
+                  Expanded(flex: 5 - progress, child: const SizedBox()),
                 ],
               ),
             ),
           ),
           const SizedBox(height: 12),
           Text(
-            'Usually under 60s',
-            style: PairingTextStyles.small.copyWith(
-              color: PairingTokens.textMuted,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _ManualCodeCard extends StatelessWidget {
-  const _ManualCodeCard({required this.controller});
-
-  final TextEditingController controller;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 260,
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: PairingTokens.bgSurface,
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: AppDecorations.softCardShadow,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Gateway Code',
-            style: PairingTextStyles.caption.copyWith(
-              color: PairingTokens.textMuted,
-            ),
-          ),
-          const SizedBox(height: 12),
-          TextField(
-            controller: controller,
-            style: PairingTextStyles.body.copyWith(letterSpacing: 1.2),
-            textCapitalization: TextCapitalization.characters,
-            decoration: InputDecoration(
-              filled: true,
-              fillColor: Colors.white.withValues(alpha: 0.08),
-              hintText: 'A1B2C3',
-              hintStyle: PairingTextStyles.body.copyWith(
-                color: PairingTokens.textMuted,
-              ),
-              suffixIcon: const Icon(
-                Icons.qr_code_2_outlined,
-                color: PairingTokens.textMuted,
-                size: 18,
-              ),
-              contentPadding: const EdgeInsets.symmetric(
-                horizontal: 14,
-                vertical: 12,
-              ),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide.none,
-              ),
-            ),
-          ),
-          const SizedBox(height: 10),
-          Text(
-            'Letters and numbers only',
+            'Encrypted with your QR label',
             style: PairingTextStyles.small.copyWith(
               color: PairingTokens.textMuted,
             ),

@@ -5,6 +5,7 @@ import 'package:fibo_core/services/gateway_linking_service.dart';
 import 'package:fibo_core/theme/app_colors.dart';
 import 'package:fibo_core/theme/pairing_tokens.dart';
 import '../widgets/gateway_dark_header.dart';
+import 'gateway_qr_scan_screen.dart';
 import 'space_models.dart';
 
 class GatewayDetailScreen extends StatefulWidget {
@@ -116,6 +117,13 @@ class _GatewayDetailScreenState extends State<GatewayDetailScreen> {
                                 ),
                             onFirmwareUpdate: _firmwareUpdate,
                             onRestart: _restartGateway,
+                            onBleConfigure: () =>
+                                Navigator.of(context).pushNamed(
+                                  '/gateway/qr-scan',
+                                  arguments: const GatewayQrScanScreenArgs(
+                                    reconfigure: true,
+                                  ),
+                                ),
                           ),
                         ],
                       ),
@@ -506,11 +514,13 @@ class _SettingsCard extends StatelessWidget {
     required this.onDiagnostics,
     required this.onFirmwareUpdate,
     required this.onRestart,
+    required this.onBleConfigure,
   });
 
   final VoidCallback onDiagnostics;
   final VoidCallback onFirmwareUpdate;
   final VoidCallback onRestart;
+  final VoidCallback onBleConfigure;
 
   @override
   Widget build(BuildContext context) {
@@ -541,6 +551,13 @@ class _SettingsCard extends StatelessWidget {
             label: 'Restart Gateway',
             subtitle: 'Queue a remote restart for the device',
             onTap: onRestart,
+            showDivider: true,
+          ),
+          _ActionRow(
+            icon: Icons.bluetooth_outlined,
+            label: 'Configure via Bluetooth',
+            subtitle: 'Change network settings or factory reset nearby',
+            onTap: onBleConfigure,
           ),
         ],
       ),

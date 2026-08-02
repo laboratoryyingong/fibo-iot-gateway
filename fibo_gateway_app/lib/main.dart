@@ -5,7 +5,9 @@ import 'screens/gateway_binding_screen.dart';
 import 'screens/gateway_detail_screen.dart';
 import 'screens/gateway_discovery_screen.dart';
 import 'screens/gateway_list_screen.dart';
+import 'screens/gateway_network_screen.dart';
 import 'screens/gateway_onboarding_entry_screen.dart';
+import 'screens/gateway_qr_scan_screen.dart';
 import 'screens/gateway_status_screen.dart';
 import 'screens/home_profile_edit_screen.dart';
 import 'screens/home_profile_members_screen.dart';
@@ -76,7 +78,9 @@ class FiboGatewayApp extends StatelessWidget {
         '/forgot-password': (context) => const ForgotPasswordScreen(),
         '/gateway/onboarding': (context) =>
             const GatewayOnboardingEntryScreen(),
+        '/gateway/qr-scan': (context) => const GatewayQrScanScreen(),
         '/gateway/discovery': (context) => const GatewayDiscoveryScreen(),
+        '/gateway/network': (context) => const GatewayNetworkScreen(),
         '/gateway/binding': (context) => const GatewayBindingScreen(),
         '/gateway/list': (context) => const GatewayListScreen(),
         '/gateway/detail': (context) => const GatewayDetailScreen(),

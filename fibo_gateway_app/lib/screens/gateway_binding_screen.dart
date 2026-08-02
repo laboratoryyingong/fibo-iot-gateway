@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
+import 'package:uuid/uuid.dart';
 
 import 'package:fibo_core/services/gateway_linking_service.dart';
+import 'package:fibo_core/services/hub_provisioning/hub_provisioning.dart';
 import 'package:fibo_core/services/user_role_resolver.dart';
 import 'package:fibo_core/theme/pairing_tokens.dart';
 import '../widgets/gateway_dark_header.dart';
 import '../widgets/gateway_info_card.dart';
 import '../widgets/pairing_action_button.dart';
+import 'gateway_provisioning_flow.dart';
 
-class GatewayBindingScreenArgs {
-  const GatewayBindingScreenArgs({required this.gateway});
-
-  final GatewayProfile gateway;
-}
-
+/// Final provisioning step: stores the claim token on the hub (`hub-claim`)
+/// and links it to the signed-in account.
+///
+/// The cloud-side claim API is a separate work stream (protocol doc §10) —
+/// until it exists, the app issues a locally generated one-time token (the
+/// hub treats it as opaque) and records the binding through the existing
+/// Parse flow, keyed by the hub serial (= AWS IoT thing name).
 class GatewayBindingScreen extends StatefulWidget {
   const GatewayBindingScreen({super.key});
 
@@ -22,26 +26,22 @@ class GatewayBindingScreen extends StatefulWidget {
 }
 
 class _GatewayBindingScreenState extends State<GatewayBindingScreen> {
-  final _gatewayNameController = TextEditingController();
+  final _gatewayNameController = TextEditingController(text: 'My FIBO Hub');
   final _locationController = TextEditingController(text: 'Home / Living Room');
 
-  GatewayProfile? _gateway;
+  HubProvisioningFlow? _flow;
   ParseUser? _currentUser;
-  bool _initialized = false;
   bool _saving = false;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (_initialized) return;
-    _initialized = true;
-
-    final args =
-        ModalRoute.of(context)?.settings.arguments as GatewayBindingScreenArgs?;
-    _gateway = args?.gateway ?? GatewayLinkingService.suggestedGateway();
-    _gatewayNameController.text = _gateway!.name;
-    _locationController.text = _gateway!.location ?? 'Home / Living Room';
-    _loadUser();
+    if (_flow != null) return;
+    final args = ModalRoute.of(context)?.settings.arguments;
+    if (args is HubProvisioningFlow) {
+      _flow = args;
+      _loadUser();
+    }
   }
 
   @override
@@ -57,38 +57,90 @@ class _GatewayBindingScreenState extends State<GatewayBindingScreen> {
     setState(() => _currentUser = user);
   }
 
-  Future<void> _bindGateway() async {
-    final gateway = _gateway;
-    final user = _currentUser;
-    if (gateway == null || user == null || _saving) return;
-
-    setState(() => _saving = true);
-    final hadGatewayBefore = await GatewayLinkingService.hasLinkedGateway(user);
-    final success = await GatewayLinkingService.bindGateway(
-      user: user,
-      gateway: gateway,
-      gatewayName: _gatewayNameController.text,
-      location: _locationController.text,
+  GatewayProfile _profileFromHub(HubQrLabel label, HubInfo info) {
+    final serial = info.serial.isNotEmpty ? info.serial : label.bleName;
+    return GatewayProfile(
+      id: 'hub-${serial.toLowerCase()}',
+      name: _gatewayNameController.text.trim(),
+      model: 'FIBO Hub',
+      serialNumber: serial,
+      firmwareVersion: info.firmwareVersion,
+      connectionState: GatewayConnectionState.online,
+      location: _locationController.text.trim(),
+      lastSeenLabel: 'Just now',
     );
-    if (!mounted) return;
-    setState(() => _saving = false);
+  }
 
-    if (!success) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Unable to bind gateway right now.')),
-      );
+  Future<void> _claimAndBind() async {
+    final flow = _flow;
+    final session = flow?.session;
+    final user = _currentUser;
+    if (flow == null || session == null || _saving) return;
+    if (user == null) {
+      _showError('You need to be signed in to claim a hub.');
       return;
     }
 
-    final nextRoute = hadGatewayBefore
-        ? GatewayLinkingService.listRoute
-        : resolveHomeRoute(user);
-    Navigator.of(context).pushNamedAndRemoveUntil(nextRoute, (route) => false);
+    setState(() => _saving = true);
+    try {
+      // Re-check the uplink right before claiming — a claimed hub that cannot
+      // reach the cloud helps nobody (§6 of the app guide).
+      final info = await session.readInfo();
+      flow.info = info;
+      if (!info.isOnline) {
+        _showError('The hub lost its network link — go back and fix it '
+            'before claiming.');
+        return;
+      }
+
+      // TODO(cloud): replace with a backend-issued one-time claim token and
+      // poll the binding-status API once that work stream lands.
+      final token = 'fibo-app-${const Uuid().v4()}';
+      await session.claim(token);
+
+      final hadGatewayBefore = await GatewayLinkingService.hasLinkedGateway(
+        user,
+      );
+      final profile = _profileFromHub(flow.label, info);
+      final success = await GatewayLinkingService.bindGateway(
+        user: user,
+        gateway: profile,
+        gatewayName: _gatewayNameController.text,
+        location: _locationController.text,
+      );
+      if (!success) {
+        _showError('The hub was claimed, but saving to your account failed. '
+            'Please try again.');
+        return;
+      }
+
+      flow.completed = true;
+      await flow.close();
+      if (!mounted) return;
+      final nextRoute = hadGatewayBefore
+          ? GatewayLinkingService.listRoute
+          : resolveHomeRoute(user);
+      Navigator.of(context).pushNamedAndRemoveUntil(nextRoute, (route) => false);
+    } on HubEndpointException catch (e) {
+      _showError('The hub rejected the claim (${e.status}).');
+    } catch (e) {
+      _showError('Claim failed: $e');
+    } finally {
+      if (mounted) setState(() => _saving = false);
+    }
+  }
+
+  void _showError(String message) {
+    if (!mounted) return;
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(message)));
   }
 
   @override
   Widget build(BuildContext context) {
-    final gateway = _gateway ?? GatewayLinkingService.suggestedGateway();
+    final flow = _flow;
+    final info = flow?.info;
     final accountLabel = _resolveAccountLabel();
 
     return Scaffold(
@@ -98,7 +150,7 @@ class _GatewayBindingScreenState extends State<GatewayBindingScreen> {
         child: Column(
           children: [
             GatewayDarkHeader(
-              title: 'Bind Gateway',
+              title: 'Claim Hub',
               onLeadingTap: () => Navigator.of(context).pop(),
             ),
             Expanded(
@@ -111,7 +163,8 @@ class _GatewayBindingScreenState extends State<GatewayBindingScreen> {
                       child: SizedBox(
                         width: 295,
                         child: Text(
-                          'Link gateway to your account and assign basic info',
+                          'Link this hub to your account and assign basic '
+                          'info',
                           textAlign: TextAlign.center,
                           style: PairingTextStyles.caption.copyWith(
                             color: PairingTokens.textPrimary,
@@ -120,7 +173,18 @@ class _GatewayBindingScreenState extends State<GatewayBindingScreen> {
                       ),
                     ),
                     const SizedBox(height: 22),
-                    GatewayInfoCard(gateway: gateway),
+                    if (flow != null && info != null)
+                      GatewayInfoCard(gateway: _profileFromHub(flow.label, info)),
+                    if (info != null && info.claimed) ...[
+                      const SizedBox(height: 10),
+                      Text(
+                        'This hub was claimed before — continuing will '
+                        're-claim it for this account.',
+                        style: PairingTextStyles.small.copyWith(
+                          color: const Color(0xFFFFB74D),
+                        ),
+                      ),
+                    ],
                     const SizedBox(height: 18),
                     Text(
                       'Linked Account',
@@ -155,9 +219,9 @@ class _GatewayBindingScreenState extends State<GatewayBindingScreen> {
                     ),
                     const SizedBox(height: 26),
                     _InputSection(
-                      label: 'Gateway Name',
+                      label: 'Hub Name',
                       controller: _gatewayNameController,
-                      hint: 'My FIBO Gateway',
+                      hint: 'My FIBO Hub',
                     ),
                     const SizedBox(height: 18),
                     _InputSection(
@@ -173,8 +237,8 @@ class _GatewayBindingScreenState extends State<GatewayBindingScreen> {
             Padding(
               padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
               child: PairingActionButton(
-                text: _saving ? 'Binding...' : 'Bind & Continue',
-                onPressed: _bindGateway,
+                text: _saving ? 'Claiming...' : 'Claim & Bind',
+                onPressed: _claimAndBind,
               ),
             ),
           ],

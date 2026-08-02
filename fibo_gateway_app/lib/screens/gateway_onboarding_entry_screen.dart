@@ -6,7 +6,7 @@ import 'package:fibo_core/theme/pairing_tokens.dart';
 import '../widgets/gateway_dark_header.dart';
 import '../widgets/pairing_action_button.dart';
 import '../widgets/pairing_gradient_panel.dart';
-import 'gateway_discovery_screen.dart';
+import 'gateway_qr_scan_screen.dart';
 
 class GatewayOnboardingEntryScreen extends StatelessWidget {
   const GatewayOnboardingEntryScreen({super.key});
@@ -86,14 +86,14 @@ class GatewayOnboardingEntryScreen extends StatelessWidget {
                   PairingActionButton(
                     text: 'Set Up',
                     onPressed: () =>
-                        Navigator.of(context).pushNamed('/gateway/discovery'),
+                        Navigator.of(context).pushNamed('/gateway/qr-scan'),
                   ),
                   const SizedBox(height: 12),
                   GestureDetector(
                     onTap: () => Navigator.of(context).pushNamed(
-                      '/gateway/discovery',
-                      arguments: const GatewayDiscoveryScreenArgs(
-                        initialMode: GatewayDiscoveryMode.enterCode,
+                      '/gateway/qr-scan',
+                      arguments: const GatewayQrScanScreenArgs(
+                        initialManual: true,
                       ),
                     ),
                     child: Padding(
